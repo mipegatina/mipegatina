@@ -6,7 +6,7 @@
 <title>Estado de tu pedido — Mi Pegatina®</title>
 <link rel="preconnect" href="https://fonts.googleapis.com/">
 <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
-<link rel="stylesheet" href="./Estado de tu pedido — Mi Pegatina®_files/css2">
+<link rel="stylesheet" href="./tracker-pedidos_files/css2">
 <style>
   :root {
     --bg: #f4f4f5;
@@ -162,6 +162,24 @@
     white-space: nowrap; flex-shrink: 0; box-shadow: 0 0 12px rgba(0,194,100,.1);
   }
   .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); animation: pulse-dot 1.5s infinite; }
+
+  /* ENTREGADO */
+  .order-header.entregado {
+    background: linear-gradient(135deg, rgba(0,194,100,.07) 0%, rgba(0,194,100,.03) 100%);
+    border-color: rgba(0,194,100,.4);
+    box-shadow: 0 0 32px rgba(0,194,100,.12), 0 2px 16px rgba(0,194,100,.08);
+  }
+  .entregado-emoji { font-size: 2.4rem; animation: entregado-bounce .8s ease infinite alternate; display: block; margin-bottom: 6px; }
+  .entregado-title { font-size: 1.1rem; font-weight: 800; color: var(--white); letter-spacing: -.4px; margin-bottom: 2px; }
+  .entregado-sub { font-size: .78rem; color: var(--gray2); }
+  .status-pill.entregado-pill {
+    background: rgba(0,194,100,.12);
+    border-color: rgba(0,194,100,.5);
+    color: var(--green2);
+    box-shadow: 0 0 18px rgba(0,194,100,.25);
+  }
+  .status-dot.entregado-dot { background: var(--green); box-shadow: 0 0 10px var(--green); animation: pulse-dot 2s infinite; }
+  @keyframes entregado-bounce { from { transform: translateY(0) rotate(-5deg); } to { transform: translateY(-6px) rotate(5deg); } }
 
   /* STEPS */
   .steps-card { background: #fff; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-bottom: 12px; }
@@ -537,13 +555,12 @@
   const PIPELINE = [
     { id: '69b1a9055ee4f69d490df4bf', label: 'Pedido recibido',         icon: '📋' },
     { id: '67c713e9016a2f43f857412a', label: 'Preparando tu archivo',   icon: '🎨' },
-    { id: '67c713e898b309459983e0fa', label: 'En impresión',            icon: '🖨️' },
-    { id: '69bab1d26f1a754f8bb90872', label: 'En impresión',            icon: '🖨️' },
+    { id: '67c713e898b309459983e0fa', ids: ['67c713e898b309459983e0fa','69bab1d26f1a754f8bb90872'], label: 'En impresión', icon: '🖨️' },
     { id: '67c713e929a6f163c54be58f', label: 'En corte',                icon: '✂️' },
     { id: '69b4509616a149146e76a793', label: 'Terminaciones / armado',  icon: '🔧' },
     { id: '69b16beb28ca67d308ecac0f', label: 'Empaquetando',            icon: '📦' },
     { id: '69bd31974beeb773e457fbe9', label: 'Listo para despacho',     icon: '✅' },
-    { id: '69b1705a4e9154a7c137c993', label: 'Despachado al correo',    icon: '🚚' },
+    { id: '69b1705a4e9154a7c137c993', label: 'Despachado',    icon: '🚚' },
   ];
 
   function show(el) { el.classList.add('visible'); }
@@ -574,9 +591,32 @@
       const data = await resp.json();
 
       if (!data.found) {
-        errorEl.textContent = 'No encontramos el pedido #' + num + '. Verificá el número o usá el formulario de contacto.';
-        show(errorEl);
+        // Pedido archivado = entregado
+        document.getElementById('orderNum').innerHTML = '<span class="entregado-emoji">🚗</span>';
+        document.getElementById('orderName').innerHTML = '<div class="entregado-title">¡Tu pedido fue entregado!</div><div class="entregado-sub">Pedido ' + num + ' · Gracias por elegirnos 💚</div>';
+        document.getElementById('statusLabel').textContent = 'Entregado';
         document.getElementById('formPedido').value = String(num);
+
+        const pill = document.getElementById('statusPill');
+        pill.classList.add('entregado-pill');
+        const dot = pill.querySelector('.status-dot');
+        dot.classList.add('entregado-dot');
+        document.getElementById('result').querySelector('.order-header').classList.add('entregado');
+
+        const container = document.getElementById('stepsContainer');
+        container.innerHTML = '';
+        PIPELINE.forEach((step) => {
+          const div = document.createElement('div');
+          div.className = 'step done';
+          div.innerHTML =
+            '<div class="step-icon">' + step.icon + '</div>' +
+            '<div class="step-body"><div class="step-name">' + step.label + '</div>' +
+            '<span class="step-badge badge-done">Completado</span></div>' +
+            '<div class="step-check">✓</div>';
+          container.appendChild(div);
+        });
+
+        show(document.getElementById('result'));
         hide(loadingEl);
         btn.disabled = false;
         return;
@@ -596,7 +636,7 @@
   function renderResult(card, num) {
     const currentListId  = card.idList;
     const cleanName      = card.name.replace(/^#\d+\s*[-–]?\s*/i, '').trim() || ('Pedido #' + num);
-    const currentIndex   = PIPELINE.findIndex(s => s.id === currentListId);
+    const currentIndex   = PIPELINE.findIndex(s => s.id === currentListId || (s.ids && s.ids.includes(currentListId)));
     const currentStep    = PIPELINE[currentIndex];
 
     document.getElementById('orderNum').textContent   = 'Pedido #' + num;
