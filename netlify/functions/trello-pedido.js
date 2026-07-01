@@ -1,52 +1,57 @@
-const TRELLO_KEY   = process.env.TRELLO_API_KEY;
-const TRELLO_TOKEN = process.env.TRELLO_TOKEN;
-const BOARD_ID     = 'PIP4m6QY';
+exports.handler = async function(event) {
+  const API_KEY   = process.env.TRELLO_API_KEY;
+  const API_TOKEN = process.env.TRELLO_TOKEN;
+  const BOARD_ID  = 'PIP4m6QY';
 
-exports.handler = async (event) => {
-  const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Content-Type': 'application/json'
-  };
-
-  if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers, body: '' };
+  if (!API_KEY || !API_TOKEN) {
+    return { statusCode: 500, body: JSON.stringify({ error: 'Configuración incompleta' }) };
   }
 
-  const params = event.queryStringParameters || {};
-  const idShort = params.id;
-
-  if (!idShort) {
-    return { statusCode: 400, headers, body: JSON.stringify({ error: 'ID requerido' }) };
+  const num = parseInt((event.queryStringParameters || {}).pedido, 10);
+  if (!num || isNaN(num)) {
+    return { statusCode: 400, body: JSON.stringify({ error: 'Número de pedido inválido' }) };
   }
+
+  const headers = { 'Content-Type': 'application/json' };
 
   try {
-    const url = `https://api.trello.com/1/boards/${BOARD_ID}/cards?key=${TRELLO_KEY}&token=${TRELLO_TOKEN}&fields=idShort,name,idList,dateLastActivity&customFieldItems=true`;
-    const res   = await fetch(url);
-    const cards = await res.json();
+    // 1) Buscar en cards activas
+    const activeResp = await fetch(`https://api.trello.com/1/boards/${BOARD_ID}/cards?fields=idShort,name,idList,shortUrl&key=${API_KEY}&token=${API_TOKEN}`);
+    if (!activeResp.ok) throw new Error('Trello error ' + activeResp.status);
+    const activeCards = await activeResp.json();
+    const activeCard = activeCards.find(c => c.idShort === num);
 
-    const card = cards.find(c => c.idShort === parseInt(idShort));
-    if (!card) {
-      return { statusCode: 404, headers, body: JSON.stringify({ error: 'Pedido no encontrado' }) };
+    if (activeCard) {
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify({ found: true, archived: false, card: activeCard })
+      };
     }
 
-    // Traer listas
-    const listRes = await fetch(`https://api.trello.com/1/boards/${BOARD_ID}/lists?key=${TRELLO_KEY}&token=${TRELLO_TOKEN}`);
-    const lists   = await listRes.json();
-    const lista   = lists.find(l => l.id === card.idList);
+    // 2) No estaba activa — buscar en archivadas
+    const archivedResp = await fetch(`https://api.trello.com/1/boards/${BOARD_ID}/cards/closed?fields=idShort,name,idList,shortUrl&key=${API_KEY}&token=${API_TOKEN}`);
+    if (!archivedResp.ok) throw new Error('Trello error ' + archivedResp.status);
+    const archivedCards = await archivedResp.json();
+    const archivedCard = archivedCards.find(c => c.idShort === num);
 
+    if (archivedCard) {
+      // Existe pero archivada = entregado
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify({ found: true, archived: true, card: archivedCard })
+      };
+    }
+
+    // 3) No existe en ningún lado
     return {
-      statusCode: 200,
+      statusCode: 404,
       headers,
-      body: JSON.stringify({
-        ok: true,
-        id: card.idShort,
-        nombre: card.name,
-        lista: lista ? lista.name : '',
-        idList: card.idList,
-        fecha: card.dateLastActivity
-      })
+      body: JSON.stringify({ found: false, archived: false })
     };
+
   } catch (err) {
-    return { statusCode: 500, headers, body: JSON.stringify({ error: err.message }) };
+    return { statusCode: 502, body: JSON.stringify({ error: 'Error de conexión con Trello' }) };
   }
 };
