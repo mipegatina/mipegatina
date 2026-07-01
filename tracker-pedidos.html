@@ -6,7 +6,7 @@
 <title>Estado de tu pedido — Mi Pegatina®</title>
 <link rel="preconnect" href="https://fonts.googleapis.com/">
 <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
-<link rel="stylesheet" href="./tracker-pedidos_files/css2">
+<link rel="stylesheet" href="./Estado de tu pedido — Mi Pegatina®_files/css2">
 <style>
   :root {
     --bg: #f4f4f5;
@@ -591,6 +591,15 @@
       const data = await resp.json();
 
       if (!data.found) {
+        // Número inexistente — mostrar error
+        errorEl.textContent = 'No encontramos el pedido #' + num + '. Verificá el número e intentá de nuevo.';
+        show(errorEl);
+        hide(loadingEl);
+        btn.disabled = false;
+        return;
+      }
+
+      if (data.archived) {
         // Pedido archivado = entregado
         document.getElementById('orderNum').innerHTML = '<span class="entregado-emoji">🚗</span>';
         document.getElementById('orderName').innerHTML = '<div class="entregado-title">¡Tu pedido fue entregado!</div><div class="entregado-sub">Pedido ' + num + ' · Gracias por elegirnos 💚</div>';
