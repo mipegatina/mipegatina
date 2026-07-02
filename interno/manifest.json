@@ -1,0 +1,20 @@
+{
+  "name": "Lista de Precios Mi Pegatina",
+  "short_name": "Lista MP",
+  "start_url": "/interno/lista-precios.html",
+  "display": "standalone",
+  "background_color": "#f4f4f5",
+  "theme_color": "#00c264",
+  "icons": [
+    {
+      "src": "/img/mi_pegatina_logo_r.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/img/mi_pegatina_logo_r.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
