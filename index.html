@@ -506,7 +506,7 @@ else { pvShowToast && pvShowToast('No pudimos enviar. Probá de nuevo o escribin
 }).catch(()=>{ pvShowToast && pvShowToast('Error de conexión. Probá de nuevo.'); })
 .finally(()=>{ if(btn){ btn.disabled=false; btn.textContent='Enviar consulta →'; } });
 }
-const COTIZACION = 1550;
+const COTIZACION = 1600;
 const materialesSuelto = {
 blancoPremium: {
 label:"Vinilo Blanco Premium", baseUsdM2:35.7,
@@ -2821,7 +2821,7 @@ const MPC = {
   get precios(){
     // Lee dinámicamente desde las mismas variables del cotizador
     const r5 = n => Math.ceil(n/5)*5;
-    const COTI = typeof COTIZACION !== 'undefined' ? COTIZACION : 1550;
+    const COTI = typeof COTIZACION !== 'undefined' ? COTIZACION : 1600;
     // Sueltos
     const sueltos = {};
     if(typeof M2_STICKER !== 'undefined'){
