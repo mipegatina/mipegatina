@@ -69,8 +69,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:300;background:rgba(255,255,255,
 .lp-h1{font-size:clamp(2.2rem,5vw,3.8rem);font-weight:800;line-height:1.05;letter-spacing:-1.5px;margin-bottom:20px;color:#0a0a0a}
 .lp-hero-sub{font-size:1rem;color:rgba(10,10,10,.7);max-width:460px;margin:0 0 36px;line-height:1.65}
 .lp-hero-actions{display:flex;gap:12px;flex-wrap:wrap}
-.lp-hero-img{background:var(--bg3);border-radius:20px;min-height:360px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);overflow:hidden;position:relative}
-.lp-hero-img img{width:100%;height:100%;object-fit:cover;border-radius:20px}
+.lp-hero-img{border-radius:20px;min-height:380px;max-height:460px;overflow:hidden;position:relative;box-shadow:0 8px 40px rgba(0,0,0,.12)}
+.lp-hero-img img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;border-radius:20px;transition:transform .4s ease}
+.lp-hero-img:hover img{transform:scale(1.03)}
 
 /* Stats bar */
 .stats-bar{display:grid;grid-template-columns:repeat(4,1fr);background:#fff;border-bottom:1px solid var(--border)}
@@ -220,7 +221,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:300;background:rgba(255,255,255,
         </div>
       </div>
       <div class="lp-hero-img">
-        <img src="/img/img-35.jpg" alt="Plancha de stickers personalizada — Mi Pegatina" loading="eager">
+        <img src="/img/img-27.jpg" alt="Plancha de stickers personalizada — Mi Pegatina Buenos Aires" loading="eager">
       </div>
     </div>
   </div>
