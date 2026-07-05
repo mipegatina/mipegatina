@@ -121,6 +121,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:300;background:rgba(255,255,255,
 .faq-item.open .faq-ico{transform:rotate(45deg);color:var(--green2);background:var(--green3)}
 .faq-a{display:none;padding:0 20px 20px;font-size:.86rem;color:rgba(10,10,10,.65);line-height:1.7}
 .faq-item.open .faq-a{display:block}
+.faq-layout{display:grid;grid-template-columns:1fr 2fr;gap:64px;align-items:start}
 
 /* Breadcrumb */
 .breadcrumb{padding:16px 0;font-family:var(--mono);font-size:.7rem;color:rgba(10,10,10,.5)}
@@ -161,6 +162,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:300;background:rgba(255,255,255,
   .lp-section{padding:56px 0}
   .mobile-cta-bar{display:block}
   .cta-banner{padding:32px 24px}
+  .faq-layout{grid-template-columns:1fr;gap:32px}
 }
 @media(max-width:560px){
   .stats-bar{grid-template-columns:1fr 1fr}
@@ -292,7 +294,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:300;background:rgba(255,255,255,
 
 <section class="lp-section">
   <div class="wrap">
-    <div style="display:grid;grid-template-columns:1fr 2fr;gap:64px;align-items:start">
+    <div class="faq-layout">
       <div>
         <span class="eyebrow reveal">FAQ</span>
         <h2 style="font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;color:#0a0a0a;letter-spacing:-1px;line-height:1.1;margin-bottom:12px" class="reveal">Preguntas frecuentes sobre B2B</h2>
