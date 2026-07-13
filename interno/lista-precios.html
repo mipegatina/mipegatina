@@ -136,10 +136,6 @@ details[open] summary::before{transform:rotate(90deg)}
       <input type="number" id="rate" class="rate-input" value="1600" min="1" step="10" oninput="recalc()">
       <span class="rate-currency" style="font-size:.8rem;">/ USD</span>
     </div>
-    <div style="display:flex;flex-direction:column;gap:4px;margin-left:auto;font-family:var(--mono);font-size:.74rem;color:var(--gray3);">
-      <span>Costo m²: <strong style="color:var(--green2);">USD <span id="hint-costoM2">5</span></strong></span>
-      <span>Costo pliego 50×50: <strong style="color:var(--green2);">$<span id="hint-costoPliego">1.938</span></strong></span>
-    </div>
   </div>
 
   <!-- MENU DE PRODUCTOS -->
@@ -524,8 +520,7 @@ function recalc(){
   // actualizar hint costo
   const rate=getRate();
   const costoPliego=COSTO_M2_USD*AREA_PLIEGO*rate;
-  document.getElementById('hint-costoM2').textContent=COSTO_M2_USD;
-// hint-costoPliego eliminado
+// hints de costo eliminados
 
   recalcPl(); recalcAc();
 
