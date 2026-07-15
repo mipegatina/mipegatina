@@ -3218,9 +3218,13 @@ function mpcStepSize(material){
   mpcState.material = material;
   mpcPush('Medida', ()=>mpcStepSize(material)); mpcShowBack();
   const sizes = Object.keys(MPC.precios[mpcState.producto][material]);
+  const SIZE_LABEL_SUELTO = {
+    '5x5':'5 cm','6x6':'6 cm','8x8':'8 cm','9x9':'9 cm'
+  };
+  const esSuelto = mpcState.producto === 'sueltos';
   mpcTyping(()=>{
-    mpcMsg('¿Qué medida?');
-    mpcOpts(sizes.map(s=>({ label: s+' cm', action:()=>mpcStepQty(s) })));
+    mpcMsg(esSuelto ? '¿Qué medida? (lado más largo del diseño)' : '¿Qué medida de plancha?');
+    mpcOpts(sizes.map(s=>({ label: esSuelto ? (SIZE_LABEL_SUELTO[s]||s+' cm') : s+' cm', action:()=>mpcStepQty(s) })));
   });
 }
 
@@ -3317,9 +3321,10 @@ function mpcStepAcrilSize(prod){
   mpcState.material = prod;
   mpcPush('Medida', ()=>mpcStepAcrilSize(prod)); mpcShowBack();
   const sizes = Object.keys(MPC.precios.acrilicos[prod]);
+  const SIZE_LABEL_AC = {'3x3':'3 cm','5x5':'5 cm','6x6':'6 cm'};
   mpcTyping(()=>{
-    mpcMsg('¿Qué medida?');
-    mpcOpts(sizes.map(s=>({ label: s+' cm', action:()=>mpcStepAcrilQty(s) })));
+    mpcMsg('¿Qué medida? (lado más largo del diseño)');
+    mpcOpts(sizes.map(s=>({ label: (SIZE_LABEL_AC[s]||s+' cm'), action:()=>mpcStepAcrilQty(s) })));
   });
 }
 
