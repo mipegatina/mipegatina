@@ -2335,6 +2335,11 @@ status.style.color='var(--green)';
 status.textContent='Enviando…';
 const _fileInput = document.getElementById('pm-file');
 const _file = _fileInput && _fileInput.files[0] ? _fileInput.files[0] : null;
+if(_file && _file.size > 50 * 1024 * 1024){
+status.style.color='#ff6b6b';
+status.textContent='⚠ El archivo no puede superar 50 MB.';
+return;
+}
 const fd = new FormData();
 fd.append('_subject','Nuevo pedido de '+(nombre||'cliente')+' ('+totalItems+(totalItems===1?' item':' items')+')');
 fd.append('_replyto', email);
