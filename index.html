@@ -2347,7 +2347,7 @@ fd.append('envio', _envioTxt);
 fd.append('factura', factura?'Si - Factura A/B (mas 21% IVA)':'No');
 fd.append('link_disenos', link||'(no adjunto link - enviara por mail)');
 fd.append('comentarios', notes||'(sin comentarios)');
-if(_file) fd.append('archivo', _file, _file.name);
+if(_file) fd.append('file', _file, _file.name);
 fetch('https://formspree.io/f/'+FORMSPREE_ID,{
 method:'POST', headers:{'Accept':'application/json'},
 body: fd
