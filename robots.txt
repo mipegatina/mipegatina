@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /center/
 
 Sitemap: https://mipegatina.club/sitemap.xml
