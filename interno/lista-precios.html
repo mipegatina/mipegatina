@@ -715,13 +715,19 @@ const ACRILICOS = {
   dije:    { label:'Dije',    sub:'Sin accesorio, solo acrílico', baseUsdM2:438.9, fijoUSD:0,
     sizes:{'3x3':0.00108,'5x5':0.0025,'6x6':0.0036},
     breaks:[{qty:30,discount:0},{qty:100,discount:0},{qty:300,discount:5}] },
+  premio:  { label:'Premio | QR', sub:'Acrílico macizo 10mm · 15x21 incluye base · 50+ mayorista', baseUsdM2:0, fijoUSD:0,
+    sizes:{'10x10':0.01,'15x21':0.0315},
+    pricesUSD:{'10x10':30,'15x21':65},
+    breaks:[{qty:1,discount:0},{qty:5,discount:0},{qty:10,discount:5},{qty:25,discount:10}] },
 };
 
 let stAc = { prodKey:'llavero', size:'5x5', qty:30 };
 
 function unitAcrilico(prodKey, sz, rate, discount=0){
   const p = ACRILICOS[prodKey]; if(!p||!p.sizes[sz]) return null;
-  const uU = p.baseUsdM2 * (1 - discount/100) * p.sizes[sz] + (p.fijoUSD||0);
+  const uU = (p.pricesUSD && p.pricesUSD[sz]!=null)
+    ? p.pricesUSD[sz] * (1 - discount/100)
+    : p.baseUsdM2 * (1 - discount/100) * p.sizes[sz] + (p.fijoUSD||0);
   return round5up(uU * rate);
 }
 
@@ -735,6 +741,8 @@ function buildProductoAc(){
       stAc.prodKey=k;
       const sizes=Object.keys(ACRILICOS[k].sizes);
       if(!sizes.includes(stAc.size)) stAc.size=sizes[0];
+      const qs=ACRILICOS[k].breaks.map(b=>b.qty);
+      if(!qs.includes(stAc.qty)) stAc.qty=qs[0];
       buildProductoAc(); buildMedidaAc(); buildQtyAc(); recalcAc();
     };
     c.appendChild(b);
