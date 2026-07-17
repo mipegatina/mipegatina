@@ -695,6 +695,11 @@ dije: {
 label:"Dije", sub:"Sin accesorio, solo acrílico", baseUsdM2:438.9, fijoUSD:0,
 sizes:{ "3x3":{area:.00108,discount:0},"5x5":{area:.0025,discount:0},"6x6":{area:.0036,discount:0} },
 qtyGroups:[{sizes:["5x5","6x6"], breaks:[{qty:30,discount:0},{qty:100,discount:0},{qty:300,discount:5}]},{sizes:["3x3"], breaks:[{qty:100,discount:0},{qty:300,discount:5}]}]
+},
+premio: {
+label:"Premio | QR", sub:"Acrílico macizo con impresión UV directa. 15x21 incluye base acrílica", baseUsdM2:0, fijoUSD:0,
+sizes:{ "10x10":{area:.01,discount:0,priceUSD:30},"15x21":{area:.0315,discount:0,priceUSD:65} },
+qtyGroups:[{sizes:["10x10","15x21"], breaks:[{qty:1,discount:0},{qty:5,discount:0},{qty:10,discount:5},{qty:25,discount:10},{qty:50,discount:10}]}]
 }
 };
 const materialesPlancha = {
@@ -734,6 +739,7 @@ return m.qtyGroups[0].breaks;
 }
 function getMinQty(sz){ return getBreaks(sz)[0].qty; }
 function getMaxQty(sz){ const b = getBreaks(sz); return b[b.length-1].qty; }
+function acrilSizeLabel(sz, matKey){ const p = sz.split('x').map(Number); if(matKey==='premio' || p[0]!==p[1]) return p.join(' × ')+' cm'; return Math.max(...p)+' cm'; }
 function onCatSelect(cat){
 document.querySelectorAll('.cat-card').forEach(c=>c.classList.remove('selected'));
 document.getElementById('cat-'+cat).classList.add('selected');
@@ -791,11 +797,12 @@ document.querySelectorAll('#prod-cards .opt-card').forEach(b=>b.classList.remove
 if(btn) btn.classList.add('selected');
 cot.materialKey=val; cot.size=null; cot.qty=null;
 const m=cotEC[val];
+const szSub=document.getElementById('lbl-size-sub'); if(szSub){ szSub.textContent=(val==='premio')?'10 mm de espesor · Acrílico macizo 100% virgen, pulido a máquina · 100% brilloso':'Lado más largo del diseño'; szSub.style.display=''; }
 // poblar medidas en step3
 const sp=document.getElementById('size-pills'); sp.innerHTML='';
 Object.keys(m.sizes).forEach(sz=>{
 const b=document.createElement('button'); b.className='opt-pill';
-b.textContent=Math.max(...sz.split('x').map(Number))+' cm';
+b.textContent=acrilSizeLabel(sz, val);
 b.onclick=()=>{
 document.querySelectorAll('#size-pills .opt-pill').forEach(e=>e.classList.remove('selected'));
 b.classList.add('selected'); cot.size=sz; cot.qty=null;
@@ -884,9 +891,11 @@ if(badgeMat) badgeMat.style.display='none';
 }
 const sizePill = document.getElementById('r-size');
 if(cot.size){
-const sizeDisplay = (cot.cat==='acrilicos' || (cot.cat==='stickers' && cot.producto==='suelto'))
-  ? (Math.max(...cot.size.split('x').map(Number))+' cm')
-  : (cot.size+' cm');
+const sizeDisplay = (cot.cat==='acrilicos')
+  ? acrilSizeLabel(cot.size, cot.materialKey)
+  : ((cot.cat==='stickers' && cot.producto==='suelto')
+    ? (Math.max(...cot.size.split('x').map(Number))+' cm')
+    : (cot.size+' cm'));
 if(sizePill){ sizePill.style.display=''; sizePill.textContent = sizeDisplay; }
 } else {
 if(sizePill) sizePill.style.display='none';
@@ -1120,9 +1129,11 @@ Object.keys(cotEC[val].sizes).forEach(sz=>{
 const btn=document.createElement('button');
 btn.className='opt-pill';
 // Para sueltos y acrílicos mostrar solo el lado mayor; planchas mantienen formato NxN
-const pillLabel = (cot.cat==='acrilicos' || (cot.cat==='stickers' && cot.producto==='suelto'))
-  ? (Math.max(...sz.split('x').map(Number))+' cm')
-  : (sz+' cm');
+const pillLabel = (cot.cat==='acrilicos')
+  ? acrilSizeLabel(sz, cot.materialKey)
+  : ((cot.cat==='stickers' && cot.producto==='suelto')
+    ? (Math.max(...sz.split('x').map(Number))+' cm')
+    : (sz+' cm'));
 btn.textContent=pillLabel;
 btn.onclick=()=>{
 document.querySelectorAll('#size-pills .opt-pill').forEach(b=>b.classList.remove('selected'));
@@ -1348,6 +1359,7 @@ const QTY_ACRIL_CONTACTO = {
   llavero: {'3x3':600,'5x5':500,'6x6':500},
   iman:    {'5x5':500,'6x6':500},
   dije:    {'3x3':600,'5x5':500,'6x6':500},
+  premio:  {'10x10':50,'15x21':50},
 };
 // Cantidades extra por producto/medida
 const QTY_ACRIL_EXTRA = {
@@ -1423,7 +1435,7 @@ function calcPrice(sz, qty){
   const totD = totDpct/100;
   const eff  = m.baseUsdM2*(1-totD);
   const fijo = (cot.cat==='acrilicos' && m.fijoUSD) ? m.fijoUSD : 0;
-  const uU   = eff*(sd ? sd.area : 0) + fijo;
+  const uU   = (sd && sd.priceUSD != null) ? sd.priceUSD*(1-totD) : eff*(sd ? sd.area : 0) + fijo;
   const uA   = round5up(uU*COTIZACION);
   return { sD, qD, totD:totDpct, uU, uA, tA:uA*qty };
 }
@@ -2998,11 +3010,12 @@ const MPC = {
     // Acrílicos
     const acrilicos = {};
     if(typeof materialesAcrilico !== 'undefined'){
-      ['llavero','iman','dije'].forEach(prod=>{
+      ['llavero','iman','dije','premio'].forEach(prod=>{
         acrilicos[prod] = {};
         const m = materialesAcrilico[prod]; if(!m) return;
         Object.keys(m.sizes||{}).forEach(sz=>{
-          acrilicos[prod][sz] = r5((m.baseUsdM2*m.sizes[sz].area+(m.fijoUSD||0))*COTI);
+          const sd = m.sizes[sz];
+          acrilicos[prod][sz] = r5(((sd.priceUSD != null ? sd.priceUSD : (m.baseUsdM2*sd.area+(m.fijoUSD||0))))*COTI);
         });
       });
     }
@@ -3321,6 +3334,7 @@ function mpcStepAcril(){
       {label:'Llavero (con cadena)', action:()=>mpcStepAcrilSize('llavero')},
       {label:'Imán', action:()=>mpcStepAcrilSize('iman')},
       {label:'Dije (sin accesorio)', action:()=>mpcStepAcrilSize('dije')},
+      {label:'Premio | QR', action:()=>mpcStepAcrilSize('premio')},
     ]);
   });
 }
@@ -3329,9 +3343,9 @@ function mpcStepAcrilSize(prod){
   mpcState.material = prod;
   mpcPush('Medida', ()=>mpcStepAcrilSize(prod)); mpcShowBack();
   const sizes = Object.keys(MPC.precios.acrilicos[prod]);
-  const SIZE_LABEL_AC = {'3x3':'3 cm','5x5':'5 cm','6x6':'6 cm'};
+  const SIZE_LABEL_AC = {'3x3':'3 cm','5x5':'5 cm','6x6':'6 cm','10x10':'10 × 10 cm','15x21':'15 × 21 cm'};
   mpcTyping(()=>{
-    mpcMsg('¿Qué medida? (lado más largo del diseño)');
+    mpcMsg(prod==='premio' ? '¿Qué medida?<br><span style="font-size:.75rem;opacity:.65;">10 mm de espesor · Acrílico macizo 100% virgen, pulido a máquina · 100% brilloso</span>' : '¿Qué medida? (lado más largo del diseño)');
     mpcOpts(sizes.map(s=>({ label: (SIZE_LABEL_AC[s]||s+' cm'), action:()=>mpcStepAcrilQty(s) })));
   });
 }
@@ -3340,10 +3354,11 @@ function mpcStepAcrilQty(size){
   mpcState.size = size;
   mpcPush('Cantidad', ()=>mpcStepAcrilQty(size)); mpcShowBack();
   const prod = mpcState.material;
-  const limContacto = {llavero:{'3x3':600,'5x5':500,'6x6':500},iman:{'5x5':500,'6x6':500},dije:{'3x3':600,'5x5':500,'6x6':500}};
-  const lim = limContacto[prod][size];
-  const qtysBase = [30,100,300];
-  if(lim) qtysBase.push(lim);
+  const limContacto = {llavero:{'3x3':600,'5x5':500,'6x6':500},iman:{'5x5':500,'6x6':500},dije:{'3x3':600,'5x5':500,'6x6':500},premio:{'10x10':50,'15x21':50}};
+  const lim = (limContacto[prod]||{})[size];
+  const QTY_BASE_AC = {premio:[1,5,10,25,50]};
+  const qtysBase = (QTY_BASE_AC[prod] || [30,100,300]).slice();
+  if(lim && !qtysBase.includes(lim)) qtysBase.push(lim);
   mpcTyping(()=>{
     mpcMsg('¿Cuántas unidades?');
     mpcOpts(qtysBase.map(q=>({ label: q.toLocaleString('es-AR')+' u', action:()=>mpcResultadoAcril(q) })));
@@ -3353,36 +3368,39 @@ function mpcStepAcrilQty(size){
 function mpcResultadoAcril(qty){
   mpcState.qty = qty;
   const { material, size } = mpcState;
-  const limContacto = {llavero:{'3x3':600,'5x5':500,'6x6':500},iman:{'5x5':500,'6x6':500},dije:{'3x3':600,'5x5':500,'6x6':500}};
+  const limContacto = {llavero:{'3x3':600,'5x5':500,'6x6':500},iman:{'5x5':500,'6x6':500},dije:{'3x3':600,'5x5':500,'6x6':500},premio:{'10x10':50,'15x21':50}};
   const lim = limContacto[material] && limContacto[material][size];
   if(lim && qty >= lim){ mpcMayorista(); return; }
 
   const uBase = MPC.precios.acrilicos[material][size];
-  const br = MPC.descAcril.slice().reverse().find(b=>qty>=b.qty)||MPC.descAcril[0];
+  const descTable = material==='premio' ? [{qty:1,d:0},{qty:5,d:0},{qty:10,d:5},{qty:25,d:10}] : MPC.descAcril;
+  const br = descTable.slice().reverse().find(b=>qty>=b.qty)||descTable[0];
   const uARS = Math.round(uBase * (1 - br.d/100));
   const total = uARS * qty;
-  const prodLabel = {llavero:'Llavero',iman:'Imán',dije:'Dije'}[material];
+  const prodLabel = {llavero:'Llavero',iman:'Imán',dije:'Dije',premio:'Premio | QR'}[material];
+  const acrIcon = material==='premio' ? '🏆' : '💎';
+  const szLabel = acrilSizeLabel(size, material);
   const descTxt = br.d > 0 ? ` <span style="color:var(--green2);font-size:.75rem;">(-${br.d}%)</span>` : '';
 
   mpcTyping(()=>{
-    mpcMsg(`💎 <strong>${prodLabel}</strong><br>${size} cm · ${qty.toLocaleString('es-AR')} unidades`);
+    mpcMsg(`${acrIcon} <strong>${prodLabel}</strong><br>${szLabel} · ${qty.toLocaleString('es-AR')} unidades`);
     mpcTyping(()=>{
       mpcMsg(`<strong style="font-size:1.05rem;">$${uARS.toLocaleString('es-AR')} / u</strong>${descTxt}<br><span style="color:rgba(10,10,10,.6);font-size:.78rem;">Total: $${Math.round(total).toLocaleString('es-AR')}</span>`);
       mpcTyping(()=>{
         mpcMsg('Agregué este item a tu cotización.');
-        const prodLabel = {llavero:'Llavero',iman:'Imán',dije:'Dije'}[material];
+        const prodLabel = {llavero:'Llavero',iman:'Imán',dije:'Dije',premio:'Premio | QR'}[material];
         const descTxt2 = br.d > 0 ? ' (-'+br.d+'%)' : '';
         const cartItem = {
           cat: 'acrilicos',
           producto: prodLabel,
-          medida: size + ' cm',
+          medida: szLabel,
           cantidad: qty.toLocaleString('es-AR'),
           material: prodLabel,
           subtotal: '$' + Math.round(uARS * qty).toLocaleString('es-AR'),
           total: '$' + Math.round(uARS * qty).toLocaleString('es-AR'),
           unitario: '$' + uARS.toLocaleString('es-AR') + descTxt2,
         };
-        mpcAgregarItem(prodLabel + ' ' + size + ' · ' + qty.toLocaleString('es-AR') + 'u', uARS, qty, uARS * qty, cartItem);
+        mpcAgregarItem(prodLabel + ' ' + szLabel + ' · ' + qty.toLocaleString('es-AR') + 'u', uARS, qty, uARS * qty, cartItem);
         mpcAccionesCarrito();
         mpcOpts([]);
       }, 400);
@@ -3466,7 +3484,7 @@ function mpcMenuCotizar(){
     mpcOpts([
       {label:'Stickers sueltos', action:()=>mpcStepMaterial('sueltos')},
       {label:'Planchas de stickers', action:()=>mpcStepMaterial('planchas')},
-      {label:'Acrílicos (llavero/imán/dije)', action:()=>mpcStepAcril()},
+      {label:'Acrílicos (llavero/imán/dije/premio)', action:()=>mpcStepAcril()},
     ]);
   });
 }
