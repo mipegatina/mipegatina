@@ -96,7 +96,8 @@
   .trust-in .ck{color:var(--red);margin-right:7px;font-weight:700}
 
   /* SECTION */
-  section{padding:72px 0;position:relative}
+  section{padding:72px 0;position:relative;scroll-margin-top:80px}
+  header{scroll-margin-top:80px}
   .sec-eyebrow{font-size:12px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:2.5px;margin-bottom:14px}
   .sec-title{font-size:clamp(28px,7vw,50px);font-weight:900;letter-spacing:-1.5px;line-height:1.08;margin-bottom:16px}
   .sec-desc{color:var(--dim);max-width:560px;font-size:16px}
@@ -124,6 +125,9 @@
   .price-out .was{color:var(--dimmer);text-decoration:line-through;font-size:15px;font-weight:500}
   .price-out .now{font-size:36px;font-weight:900;color:var(--ink);letter-spacing:-1.5px}
   .price-out .tag{font-size:11px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:1.5px;display:block;margin-top:3px}
+  /* NOTA IVA */
+  .iva-note{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:18px;padding:14px 16px;background:rgba(224,34,74,.05);border:1px solid var(--line);border-radius:12px;font-size:13.5px;color:var(--dim);line-height:1.5;text-align:center;flex-wrap:wrap}
+  .iva-badge{flex-shrink:0;font-size:11px;font-weight:800;letter-spacing:.5px;color:#fff;background:linear-gradient(120deg,var(--red),var(--magenta));padding:4px 11px;border-radius:100px;text-transform:uppercase}
   /* CART — con presencia */
   .cart{margin-top:28px;background:linear-gradient(160deg,var(--wine) 0%,var(--panel-2) 70%,var(--bg) 100%);border:1px solid var(--line);border-radius:20px;padding:24px 20px;box-shadow:0 30px 70px -30px rgba(224,34,74,.4)}
   .cart-head{font-size:13px;font-weight:800;color:var(--ink);text-transform:uppercase;letter-spacing:2px;margin-bottom:18px;display:flex;align-items:center;gap:9px}
@@ -194,9 +198,21 @@
   .pm-res-total{border-top:1px solid var(--line);margin-top:4px;padding-top:12px;display:flex;justify-content:space-between;align-items:center}
   .pm-res-total .pl{font-size:13px;font-weight:600;color:var(--ink)}
   .pm-res-total .pr{font-size:22px;font-weight:900;background:linear-gradient(120deg,var(--red),var(--magenta));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .pm-res-iva{font-size:11.5px;color:var(--dimmer);text-align:center;margin-top:4px;font-weight:500}
   .pm-card textarea{width:100%;background:var(--bg);border:1px solid var(--line-soft);color:var(--ink);font-family:inherit;font-size:15px;padding:14px;border-radius:12px;resize:vertical}
   .pm-card input:focus,.pm-card textarea:focus{outline:none;border-color:var(--red)}
   .pm-card input::placeholder,.pm-card textarea::placeholder{color:var(--dimmer)}
+  /* ÉXITO VISUAL (check grande + degradé) */
+  .success-box{display:none;flex-direction:column;align-items:center;text-align:center;padding:32px 20px;animation:successIn .5s cubic-bezier(.2,.8,.3,1)}
+  .success-box.show{display:flex}
+  @keyframes successIn{from{opacity:0;transform:translateY(12px) scale(.96)}to{opacity:1;transform:none}}
+  .success-check{width:88px;height:88px;border-radius:50%;background:linear-gradient(140deg,var(--red),var(--magenta));display:flex;align-items:center;justify-content:center;margin-bottom:22px;box-shadow:0 20px 50px -12px rgba(224,34,74,.7);position:relative}
+  .success-check::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid rgba(224,34,74,.3);animation:ring 1.6s ease-out infinite}
+  @keyframes ring{0%{transform:scale(.9);opacity:.8}100%{transform:scale(1.3);opacity:0}}
+  .success-check svg{width:44px;height:44px;stroke:#fff;stroke-width:3.5;fill:none;stroke-dasharray:48;stroke-dashoffset:48;animation:draw .5s .25s ease forwards}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  .success-title{font-size:24px;font-weight:900;letter-spacing:-1px;margin-bottom:8px}
+  .success-msg{font-size:15px;color:var(--dim);max-width:340px}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
   /* ===== SCALE-UP ===== */
@@ -313,11 +329,16 @@
         <button class="btn btn-primary" id="q-add" type="button">+ Agregar a la cotización</button>
       </div>
 
+      <div class="iva-note">
+        <span class="iva-badge">Facturamos A / B</span>
+        <span>Los precios no incluyen IVA.</span>
+      </div>
+
       <div class="cart" id="cart" style="display:none">
         <div class="cart-head">Tu cotización</div>
         <div id="cart-items"></div>
         <div class="cart-total">
-          <div class="cart-total-lbl">Total expositor <span class="cart-total-off">(15% OFF aplicado)</span></div>
+          <div class="cart-total-lbl">Total expositor <span class="cart-total-off">(15% OFF · sin IVA)</span></div>
           <div class="cart-total-nums"><span class="cart-was" id="cart-was">$ 0</span><span class="cart-now" id="cart-now">$ 0</span></div>
         </div>
         <a href="#" class="btn btn-primary" id="cart-send">Pedir esta cotización →</a>
@@ -387,8 +408,12 @@
       </div>
       <div class="q-field" style="margin-top:16px"><label>Mensaje</label><textarea name="mensaje" rows="4" required placeholder="Contanos qué necesitás producir para tu stand"></textarea></div>
       <button type="submit" class="btn btn-primary" id="cf-submit" style="margin-top:18px;width:100%">Enviar mensaje →</button>
-      <div class="cf-status" id="cf-status"></div>
     </form>
+    <div class="success-box" id="cf-success">
+      <div class="success-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="success-title">¡Mensaje enviado!</div>
+      <div class="success-msg">Recibimos tu consulta. Te respondemos a la brevedad al mail que dejaste.</div>
+    </div>
   </div>
 </section>
 
@@ -410,6 +435,11 @@
       <button type="submit" class="btn btn-primary" id="pm-send" style="width:100%;margin-top:18px">Enviar cotización →</button>
       <div class="cf-status" id="pm-status"></div>
     </form>
+    <div class="success-box" id="pm-success">
+      <div class="success-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="success-title">¡Cotización enviada!</div>
+      <div class="success-msg">La recibimos con todos tus productos. Te contactamos pronto con el precio final para expositores.</div>
+    </div>
   </div>
 </div>
 
@@ -594,14 +624,12 @@ if(cform){
     try{
       const res = await fetch(ENDPOINT, { method:'POST', body:new FormData(cform), headers:{'Accept':'application/json'} });
       if(res.ok){
-        cform.reset();
-        cstatus.className = 'cf-status ok';
-        cstatus.textContent = '¡Listo! Recibimos tu mensaje, te respondemos a la brevedad.';
-        btn.textContent = 'Enviar mensaje →';
+        cform.style.display = 'none';
+        document.getElementById('cf-success').classList.add('show');
       } else { throw new Error(); }
     } catch(err){
       cstatus.className = 'cf-status err';
-      cstatus.textContent = 'Hubo un problema. Escribinos directamente por mail.';
+      cstatus.textContent = 'Hubo un problema. Escribinos a mail@mipegatina.club';
       btn.textContent = 'Enviar mensaje →';
     }
     btn.disabled = false;
@@ -624,6 +652,7 @@ function openPedidoModal(){
   });
   const totEko = carrito.reduce((a,i)=>a+i.eko,0);
   html += '<div class="pm-res-total"><span class="pl">Total expositor (15% OFF)</span><span class="pr">'+money(totEko)+'</span></div>';
+  html += '<div class="pm-res-iva">Precios sin IVA · Facturamos A / B</div>';
   $pmResumen.innerHTML = html;
   $pmOverlay.classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -661,11 +690,17 @@ if($pmForm){
     try{
       const res = await fetch(ENDPOINT, { method:'POST', body:fd, headers:{'Accept':'application/json'} });
       if(res.ok){
-        $pmStatus.className = 'cf-status ok';
-        $pmStatus.textContent = '¡Cotización enviada! Te contactamos pronto ✓';
-        $pmForm.reset();
+        $pmForm.style.display = 'none';
+        $pmResumen.style.display = 'none';
+        document.getElementById('pm-success').classList.add('show');
         carrito = [];
-        setTimeout(()=>{ closePedidoModal(); renderCart(); $pmStatus.textContent=''; $pmStatus.className='cf-status'; btn.textContent='Enviar cotización →'; btn.disabled=false; }, 2200);
+        setTimeout(()=>{
+          closePedidoModal();
+          renderCart();
+          $pmForm.reset(); $pmForm.style.display=''; $pmResumen.style.display='';
+          document.getElementById('pm-success').classList.remove('show');
+          btn.textContent='Enviar cotización →'; btn.disabled=false;
+        }, 3000);
       } else { throw new Error(); }
     } catch(err){
       $pmStatus.className = 'cf-status err';
