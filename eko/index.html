@@ -206,12 +206,9 @@
   .success-box{display:none;flex-direction:column;align-items:center;text-align:center;padding:32px 20px;animation:successIn .5s cubic-bezier(.2,.8,.3,1)}
   .success-box.show{display:flex}
   @keyframes successIn{from{opacity:0;transform:translateY(12px) scale(.96)}to{opacity:1;transform:none}}
-  .success-check{width:88px;height:88px;border-radius:50%;background:linear-gradient(140deg,var(--red),var(--magenta));display:flex;align-items:center;justify-content:center;margin-bottom:22px;box-shadow:0 20px 50px -12px rgba(224,34,74,.7);position:relative}
+  .success-check{width:88px;height:88px;border-radius:50%;background:linear-gradient(140deg,var(--red),var(--magenta));display:flex;align-items:center;justify-content:center;margin-bottom:22px;box-shadow:0 20px 50px -12px rgba(224,34,74,.7);position:relative;color:#fff;font-size:46px;line-height:1;font-weight:700}
   .success-check::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid rgba(224,34,74,.3);animation:ring 1.6s ease-out infinite}
   @keyframes ring{0%{transform:scale(.9);opacity:.8}100%{transform:scale(1.3);opacity:0}}
-  .success-check svg{width:44px;height:44px;stroke:#fff;stroke-width:3.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
-  .success-box.show .success-check svg{stroke-dasharray:48;stroke-dashoffset:48;animation:draw .5s .25s ease forwards}
-  @keyframes draw{to{stroke-dashoffset:0}}
   .success-title{font-size:24px;font-weight:900;letter-spacing:-1px;margin-bottom:8px}
   .success-msg{font-size:15px;color:var(--dim);max-width:340px}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
@@ -411,7 +408,7 @@
       <button type="submit" class="btn btn-primary" id="cf-submit" style="margin-top:18px;width:100%">Enviar mensaje →</button>
     </form>
     <div class="success-box" id="cf-success">
-      <div class="success-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="success-check">&#10003;</div>
       <div class="success-title">¡Mensaje enviado!</div>
       <div class="success-msg">Recibimos tu consulta. Te respondemos a la brevedad al mail que dejaste.</div>
     </div>
@@ -437,7 +434,7 @@
       <div class="cf-status" id="pm-status"></div>
     </form>
     <div class="success-box" id="pm-success">
-      <div class="success-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="success-check">&#10003;</div>
       <div class="success-title">¡Cotización enviada!</div>
       <div class="success-msg">La recibimos con todos tus productos. Te contactamos pronto con el precio final para expositores.</div>
     </div>
