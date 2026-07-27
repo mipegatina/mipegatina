@@ -128,6 +128,11 @@
   /* NOTA IVA */
   .iva-note{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:18px;padding:14px 16px;background:rgba(224,34,74,.05);border:1px solid var(--line);border-radius:12px;font-size:13.5px;color:var(--dim);line-height:1.5;text-align:center;flex-wrap:wrap}
   .iva-badge{flex-shrink:0;font-size:11px;font-weight:800;letter-spacing:.5px;color:#fff;background:linear-gradient(120deg,var(--red),var(--magenta));padding:4px 11px;border-radius:100px;text-transform:uppercase}
+  /* NOTA ENVÍO */
+  .ship-note{margin-top:12px;padding:14px 16px;background:rgba(125,43,140,.06);border:1px solid var(--line-soft);border-radius:12px;display:flex;flex-direction:column;gap:9px}
+  .ship-row{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--dim);line-height:1.5}
+  .ship-row b{color:var(--ink);font-weight:700}
+  .ship-ico{flex-shrink:0;color:var(--red);font-size:15px;line-height:1.3}
   /* CART — con presencia */
   .cart{margin-top:28px;background:linear-gradient(160deg,var(--wine) 0%,var(--panel-2) 70%,var(--bg) 100%);border:1px solid var(--line);border-radius:20px;padding:24px 20px;box-shadow:0 30px 70px -30px rgba(224,34,74,.4)}
   .cart-head{font-size:13px;font-weight:800;color:var(--ink);text-transform:uppercase;letter-spacing:2px;margin-bottom:18px;display:flex;align-items:center;gap:9px}
@@ -199,6 +204,15 @@
   .pm-res-total .pl{font-size:13px;font-weight:600;color:var(--ink)}
   .pm-res-total .pr{font-size:22px;font-weight:900;background:linear-gradient(120deg,var(--red),var(--magenta));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
   .pm-res-iva{font-size:11.5px;color:var(--dimmer);text-align:center;margin-top:4px;font-weight:500}
+  /* SELECTOR ENVÍO MODAL */
+  .pm-envio{margin-bottom:20px}
+  .pm-envio-lbl{font-size:12px;font-weight:600;color:var(--dim);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:10px}
+  .pm-envio-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .pm-envio-opt{display:flex;flex-direction:column;gap:3px;align-items:flex-start;text-align:left;background:var(--bg);border:1.5px solid var(--line-soft);border-radius:12px;padding:13px 14px;cursor:pointer;transition:.15s;color:var(--ink);font-family:inherit}
+  .pm-envio-opt:hover{border-color:var(--line)}
+  .pm-envio-opt.sel{border-color:var(--red);background:rgba(224,34,74,.08)}
+  .pm-envio-t{font-size:14px;font-weight:700}
+  .pm-envio-s{font-size:11.5px;color:var(--dim)}
   .pm-card textarea{width:100%;background:var(--bg);border:1px solid var(--line-soft);color:var(--ink);font-family:inherit;font-size:15px;padding:14px;border-radius:12px;resize:vertical}
   .pm-card input:focus,.pm-card textarea:focus{outline:none;border-color:var(--red)}
   .pm-card input::placeholder,.pm-card textarea::placeholder{color:var(--dimmer)}
@@ -331,6 +345,10 @@
         <span class="iva-badge">Facturamos A / B</span>
         <span>Los precios no incluyen IVA.</span>
       </div>
+      <div class="ship-note">
+        <div class="ship-row"><span class="ship-ico">⛟</span><span><b>Envío CABA</b> — $18.000, a coordinar con mensajería privada (se suma al total).</span></div>
+        <div class="ship-row"><span class="ship-ico">☒</span><span><b>Resto del país</b> — por Correo Andreani, a coordinar (los tiempos dependen del correo).</span></div>
+      </div>
 
       <div class="cart" id="cart" style="display:none">
         <div class="cart-head">Tu cotización</div>
@@ -425,6 +443,19 @@
     <h3 class="pm-title">Casi listo 🔥</h3>
     <p class="pm-sub">Revisá tu cotización y dejanos tus datos. Te confirmamos a la brevedad con el precio final para expositores.</p>
     <div class="pm-resumen" id="pm-resumen"></div>
+    <div class="pm-envio">
+      <label class="pm-envio-lbl">Envío</label>
+      <div class="pm-envio-opts">
+        <button type="button" class="pm-envio-opt" id="envio-caba" data-envio="caba">
+          <span class="pm-envio-t">CABA</span>
+          <span class="pm-envio-s">+$18.000 · mensajería</span>
+        </button>
+        <button type="button" class="pm-envio-opt" id="envio-andreani" data-envio="andreani">
+          <span class="pm-envio-t">Resto del país</span>
+          <span class="pm-envio-s">Andreani · a coordinar</span>
+        </button>
+      </div>
+    </div>
     <form id="pm-form">
       <div class="q-field"><label>Tu nombre o empresa *</label><input type="text" id="pm-nombre" required placeholder="Nombre o empresa"></div>
       <div class="q-field" style="margin-top:14px"><label>Tu mail *</label><input type="email" id="pm-email" required placeholder="tucorreo@ejemplo.com"></div>
@@ -454,7 +485,8 @@ const COT = 1600, EKO = 0.15;
 const PRODUCTOS = {
   stickers: {
     label: "Stickers sueltos",
-    packs: [250, 500, 1000],
+    packs: [500, 1000, 1500, 2000],
+    packsPorMaterial: { "Vinilo Blanco Premium": [1000, 1500, 2000], "Vinilo Transparente Premium": [1000, 1500, 2000] },
     materiales: {
       "Vinilo Blanco Premium": 35.7,
       "Vinilo Transparente Premium": 42.5,
@@ -473,7 +505,7 @@ const PRODUCTOS = {
       "Vinilo Holográfico": 68,
       "Vinilo Holográfico Gold": 68
     },
-    sizes: { "10x7":[0.0070,0], "10x15":[0.015,0], "15x21":[0.0315,0] },
+    sizes: { "10x15":[0.015,0], "15x21":[0.0315,0] },
     calc(base, area, disc){ return area*base*COT*(1-disc/100); }
   },
   llaveros: {
@@ -481,7 +513,7 @@ const PRODUCTOS = {
     packs: [100, 250, 500],
     materiales: { "Acrílico impreso": 438.9 },
     fijo: 0.143,
-    sizes: { "3x3":[0.00108,0], "5x5":[0.0025,0], "6x6":[0.0036,0] },
+    sizes: { "5x5":[0.0025,0], "6x6":[0.0036,0] },
     calc(base, area, disc){ return (area*base + this.fijo)*COT; }
   },
   imanes: {
@@ -540,8 +572,9 @@ function fillMedidas(){
 }
 function fillPacks(){
   const p = PRODUCTOS[$prod.value];
+  const packs = (p.packsPorMaterial && p.packsPorMaterial[$mat.value]) || p.packs;
   $cant.innerHTML = '';
-  p.packs.forEach(q=>{
+  packs.forEach(q=>{
     const o = document.createElement('option');
     o.value = q; o.textContent = q.toLocaleString('es-AR') + ' unidades';
     $cant.appendChild(o);
@@ -601,7 +634,7 @@ function addToCart(){
 }
 
 $prod.addEventListener('change', ()=>{ fillMateriales(); fillMedidas(); fillPacks(); recalc(); });
-$mat.addEventListener('change', recalc);
+$mat.addEventListener('change', ()=>{ fillPacks(); recalc(); });
 $med.addEventListener('change', recalc);
 $cant.addEventListener('change', recalc);
 $add.addEventListener('click', addToCart);
@@ -641,17 +674,31 @@ const $pmResumen = document.getElementById('pm-resumen');
 const $pmForm = document.getElementById('pm-form');
 const $pmStatus = document.getElementById('pm-status');
 
-function openPedidoModal(){
-  if(carrito.length === 0) return;
-  // armar resumen visual
+const ENVIO_CABA = 18000;
+let envioSel = null; // 'caba' | 'andreani' | null
+
+function renderResumen(){
   let html = '';
   carrito.forEach(it=>{
     html += '<div class="pm-res-item"><span class="pl">'+it.prodLabel+' · '+it.matLabel+' · '+sizeLabel(it.size)+' · '+it.qty+'u</span><span class="pr">'+money(it.eko)+'</span></div>';
   });
   const totEko = carrito.reduce((a,i)=>a+i.eko,0);
-  html += '<div class="pm-res-total"><span class="pl">Total expositor (15% OFF)</span><span class="pr">'+money(totEko)+'</span></div>';
-  html += '<div class="pm-res-iva">Precios sin IVA · Facturamos A / B</div>';
+  if(envioSel === 'caba'){
+    html += '<div class="pm-res-item"><span class="pl">Envío CABA (mensajería)</span><span class="pr">'+money(ENVIO_CABA)+'</span></div>';
+  }
+  const totFinal = totEko + (envioSel === 'caba' ? ENVIO_CABA : 0);
+  html += '<div class="pm-res-total"><span class="pl">Total expositor (15% OFF)</span><span class="pr">'+money(totFinal)+'</span></div>';
+  let ivaLine = 'Precios sin IVA · Facturamos A / B';
+  if(envioSel === 'andreani') ivaLine += ' · Envío Andreani a coordinar';
+  html += '<div class="pm-res-iva">'+ivaLine+'</div>';
   $pmResumen.innerHTML = html;
+}
+
+function openPedidoModal(){
+  if(carrito.length === 0) return;
+  envioSel = null;
+  document.querySelectorAll('.pm-envio-opt').forEach(b=>b.classList.remove('sel'));
+  renderResumen();
   $pmOverlay.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -665,9 +712,23 @@ if($cartSend){
 document.getElementById('pm-close').addEventListener('click', closePedidoModal);
 $pmOverlay.addEventListener('click', (e)=>{ if(e.target === $pmOverlay) closePedidoModal(); });
 
+document.querySelectorAll('.pm-envio-opt').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.pm-envio-opt').forEach(b=>b.classList.remove('sel'));
+    btn.classList.add('sel');
+    envioSel = btn.dataset.envio;
+    renderResumen();
+  });
+});
+
 if($pmForm){
   $pmForm.addEventListener('submit', async (e)=>{
     e.preventDefault();
+    if(!envioSel){
+      $pmStatus.className = 'cf-status err';
+      $pmStatus.textContent = 'Elegí una opción de envío para continuar.';
+      return;
+    }
     const btn = document.getElementById('pm-send');
     btn.textContent = 'Enviando...'; btn.disabled = true;
     let detalle = carrito.map((it,i)=>{
@@ -675,6 +736,8 @@ if($pmForm){
     }).join('\n');
     const totNormal = carrito.reduce((a,i)=>a+i.normal,0);
     const totEko = carrito.reduce((a,i)=>a+i.eko,0);
+    const envioTxt = envioSel === 'caba' ? ('CABA — ' + money(ENVIO_CABA) + ' (mensajería privada)') : 'Resto del país — Andreani (a coordinar)';
+    const totFinal = totEko + (envioSel === 'caba' ? ENVIO_CABA : 0);
     const fd = new FormData();
     fd.append('_origen', 'Web Ekoparty — Cotización');
     fd.append('_subject', 'Nueva cotización desde la web de Ekoparty');
@@ -683,8 +746,9 @@ if($pmForm){
     fd.append('link_disenos', document.getElementById('pm-link').value || '—');
     fd.append('comentarios', document.getElementById('pm-notes').value || '—');
     fd.append('productos', detalle);
-    fd.append('total_normal', money(totNormal));
-    fd.append('total_ekoparty', money(totEko) + ' (15% OFF)');
+    fd.append('envio', envioTxt);
+    fd.append('total_productos', money(totEko) + ' (15% OFF, sin IVA)');
+    fd.append('total_final', money(totFinal) + (envioSel==='caba' ? ' (incluye envío CABA)' : ' (+ envío Andreani a coordinar)'));
     try{
       const res = await fetch(ENDPOINT, { method:'POST', body:fd, headers:{'Accept':'application/json'} });
       if(res.ok){
