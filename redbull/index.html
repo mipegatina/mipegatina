@@ -492,48 +492,92 @@
 <script>
 /* ===== COTIZADOR RED BULL ===== */
 const COT = 1600, RECARGO = 0.15, IVA = 0.21;
+function round5up(n){ return Math.ceil(n/5)*5; }
+// Mapeo de materiales visibles -> columna de la lista oficial
+const MAT_COL = {
+  "Vinilo Blanco Premium": "blancoPremium",
+  "Blanco Premium con Laca": "especial",
+  "Vinilo Transparente Premium": "transparente",
+  "Vinilo Holográfico": "especial",
+  "Vinilo Holográfico Gold": "especial"
+};
+// USD/m² por material y medida (lista oficial julio 2026)
+const M2_STICKER = {
+  blancoPremium: { "5x5":55, "6x6":45, "8x8":40, "9x9":35 },
+  transparente:  { "5x5":60, "6x6":50, "8x8":45, "9x9":40 },
+  especial:      { "5x5":80, "6x6":70, "8x8":50, "9x9":50 }
+};
+const M2_PLANCHA = {
+  "10x15": { blancoPremium:37, transparente:42, especial:60 },
+  "15x21": { blancoPremium:37, transparente:42, especial:60 }
+};
+const AREA_STICKER = { "5x5":0.0025, "6x6":0.0036, "8x8":0.0064, "9x9":0.0081 };
+const AREA_PLANCHA = { "10x15":0.015, "15x21":0.0315 };
+// Descuentos por cantidad
+function discSuelto(qty){ return qty>=2000?0.10:qty>=1000?0.05:0; }
+function discPlancha(qty, sz){ const max={"10x15":600,"15x21":600}, mid={"10x15":300,"15x21":300}; return qty>=(max[sz]||600)?0.10:qty>=(mid[sz]||300)?0.05:0; }
+function discAcril(qty){ return qty>=300?5:0; } // en %
+
 const PRODUCTOS = {
   stickers: {
     label: "Stickers sueltos",
     packsPorMedida: { "5x5":[200,300,500,1000,2000], "6x6":[200,300,500,1000,2000], "8x8":[100,200,500,1000,2000], "9x9":[100,200,500,1000,2000] },
     materiales: {
-      "Vinilo Blanco Premium": 35.7,
-      "Blanco Premium con Laca": 68,
-      "Vinilo Transparente Premium": 42.5,
-      "Vinilo Holográfico": 68,
-      "Vinilo Holográfico Gold": 68
+      "Vinilo Blanco Premium": 1,
+      "Blanco Premium con Laca": 1,
+      "Vinilo Transparente Premium": 1,
+      "Vinilo Holográfico": 1,
+      "Vinilo Holográfico Gold": 1
     },
-    sizes: { "5x5":[0.0025,0], "6x6":[0.0036,10], "8x8":[0.0064,20], "9x9":[0.0081,22] },
-    calc(base, area, disc){ return area*base*COT*(1-disc/100); }
+    sizes: { "5x5":1, "6x6":1, "8x8":1, "9x9":1 },
+    unit(mat, sz, qty){
+      const col = MAT_COL[mat];
+      const uBase = round5up(M2_STICKER[col][sz] * AREA_STICKER[sz] * COT);
+      const d = discSuelto(qty);
+      return d>0 ? round5up(uBase*(1-d)) : uBase;
+    }
   },
   plancha: {
     label: "Plancha de stickers",
     packsPorMedida: { "10x15":[75,150,300,600], "15x21":[75,150,300,600] },
     materiales: {
-      "Vinilo Blanco Premium": 35.7,
-      "Blanco Premium con Laca": 68,
-      "Vinilo Transparente Premium": 42.5,
-      "Vinilo Holográfico": 68,
-      "Vinilo Holográfico Gold": 68
+      "Vinilo Blanco Premium": 1,
+      "Blanco Premium con Laca": 1,
+      "Vinilo Transparente Premium": 1,
+      "Vinilo Holográfico": 1,
+      "Vinilo Holográfico Gold": 1
     },
-    sizes: { "10x15":[0.015,0], "15x21":[0.0315,0] },
-    calc(base, area, disc){ return area*base*COT*(1-disc/100); }
+    sizes: { "10x15":1, "15x21":1 },
+    unit(mat, sz, qty){
+      const col = MAT_COL[mat];
+      const uBase = round5up(M2_PLANCHA[sz][col] * AREA_PLANCHA[sz] * COT);
+      const d = discPlancha(qty, sz);
+      return d>0 ? round5up(uBase*(1-d)) : uBase;
+    }
   },
   llaveros: {
     label: "Llaveros",
     packsPorMedida: { "5x5":[30,100,300], "6x6":[30,100,300] },
     materiales: { "Acrílico impreso": 438.9 },
     fijo: 0.143,
-    sizes: { "5x5":[0.0025,0], "6x6":[0.0036,0] },
-    calc(base, area, disc){ return (area*base + this.fijo)*COT; }
+    sizes: { "5x5":0.0025, "6x6":0.0036 },
+    unit(mat, sz, qty){
+      const disc = discAcril(qty);
+      const uU = 438.9 * (1-disc/100) * this.sizes[sz] + this.fijo;
+      return round5up(uU * COT);
+    }
   },
   imanes: {
     label: "Imanes",
     packsPorMedida: { "5x5":[30,100,300], "6x6":[30,100,300] },
     materiales: { "Acrílico impreso": 438.9 },
     fijo: 0.11,
-    sizes: { "5x5":[0.0025,0], "6x6":[0.0036,0] },
-    calc(base, area, disc){ return (area*base + this.fijo)*COT; }
+    sizes: { "5x5":0.0025, "6x6":0.0036 },
+    unit(mat, sz, qty){
+      const disc = discAcril(qty);
+      const uU = 438.9 * (1-disc/100) * this.sizes[sz] + this.fijo;
+      return round5up(uU * COT);
+    }
   }
 };
 
@@ -593,12 +637,10 @@ function fillPacks(){
 }
 function currentPrice(){
   const p = PRODUCTOS[$prod.value];
-  const base = p.materiales[$mat.value];
-  const [area, disc] = p.sizes[$med.value];
   const qty = parseInt($cant.value, 10);
-  const unit = p.calc(base, area, disc);
-  const baseTotal = unit * qty;
-  // Red Bull: precio base +15% de recargo, +21% IVA = precio final facturado
+  const unitBase = p.unit($mat.value, $med.value, qty);
+  const baseTotal = unitBase * qty;
+  // Red Bull: precio de lista +15% de recargo, +21% IVA = precio final facturado
   const final = baseTotal * (1 + RECARGO) * (1 + IVA);
   return { normal: final, eko: final };
 }
