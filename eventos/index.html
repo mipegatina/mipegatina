@@ -111,6 +111,29 @@
   .perk b{color:var(--white);font-weight:700}
   .perk-ico{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:var(--green3);display:flex;align-items:center;justify-content:center;color:var(--green2)}
   .perk-ico svg{width:16px;height:16px;stroke:currentColor;stroke-width:1.9;fill:none}
+
+  /* ===== DEMO ANIMADA DEL COTIZADOR ===== */
+  .sec-demo{background:#fff}
+  .demo-device{max-width:440px;margin:0 auto;background:#fff;border:1px solid var(--border);border-radius:20px;box-shadow:0 40px 90px -40px rgba(255,106,61,.4),0 4px 12px rgba(0,0,0,.04);overflow:hidden}
+  .demo-bar{display:flex;gap:7px;padding:14px 18px;border-bottom:1px solid var(--border);background:var(--bg2)}
+  .demo-bar span{width:11px;height:11px;border-radius:50%;background:#d4d4d8}
+  .demo-bar span:first-child{background:#ff6a3d;opacity:.6}
+  .demo-screen{padding:24px;position:relative}
+  .demo-field{margin-bottom:16px}
+  .demo-field label{display:block;font-family:var(--mono);font-size:.62rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray3);margin-bottom:7px}
+  .demo-select{background:var(--bg2);border:1.5px solid var(--border);border-radius:11px;padding:13px 15px;font-size:.92rem;font-weight:600;color:var(--white);transition:border-color .2s,background .2s,color .2s}
+  .demo-select.active{border-color:#ff6a3d;background:rgba(255,106,61,.06);box-shadow:0 0 0 3px rgba(255,106,61,.1)}
+  .demo-select.changing{color:#ff6a3d}
+  .demo-price{margin-top:20px;padding:18px;background:linear-gradient(150deg,rgba(255,106,61,.08),transparent);border:1px solid rgba(255,106,61,.2);border-radius:13px;display:flex;align-items:center;justify-content:space-between;opacity:0;transform:translateY(8px);transition:.32s}
+  .demo-price.show{opacity:1;transform:none}
+  .demo-was{font-size:.85rem;color:var(--gray3);text-decoration:line-through}
+  .demo-now{text-align:right}
+  .demo-now span{font-size:1.5rem;font-weight:900;color:var(--white);letter-spacing:-1px;display:block}
+  .demo-now small{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#e0552a}
+  .demo-cursor{position:absolute;width:22px;height:22px;left:50%;top:40%;pointer-events:none;z-index:5;transition:left .56s cubic-bezier(.5,0,.2,1),top .56s cubic-bezier(.5,0,.2,1);filter:drop-shadow(0 2px 4px rgba(0,0,0,.3))}
+  .demo-cursor::before{content:"";position:absolute;inset:0;background:#0a0a0a;-webkit-clip-path:polygon(0 0,0 75%,20% 58%,32% 88%,46% 82%,34% 52%,60% 52%);clip-path:polygon(0 0,0 75%,20% 58%,32% 88%,46% 82%,34% 52%,60% 52%)}
+  .demo-cursor.tap{animation:demoTap .3s ease}
+  @keyframes demoTap{50%{transform:scale(.82)}}
   @media(min-width:760px){
     .perks{flex-direction:row}
     .perk{flex:1}
@@ -164,7 +187,7 @@
 
 <nav>
   <div class="nav-in">
-    <a href="https://mipegatina.club/" class="brand"><img src="../mi_pegatina_logo_r.png" alt="Mi Pegatina®"></a>
+    <a href="https://mipegatina.club/" class="brand"><img src="https://mipegatina.club/mi_pegatina_logo_r.png" alt="Mi Pegatina®"></a>
     <a href="https://mipegatina.club/" class="nav-back">← Volver a la web</a>
   </div>
 </nav>
@@ -201,6 +224,30 @@
       <div class="cs-tag">Próximamente</div>
       <h4>¿El próximo caso es tu evento?</h4>
       <p>Sumá tu conferencia, feria o expo. Armamos algo a la medida de tu marca.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec-demo">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Así de fácil</span>
+      <h2 class="sec-title">Cotizar toma dos minutos.</h2>
+      <p class="sec-desc">Mirá cómo un expositor arma su pedido en la web de tu evento.</p>
+    </div>
+    <div class="demo-device">
+      <div class="demo-bar"><span></span><span></span><span></span></div>
+      <div class="demo-screen">
+        <div class="demo-cursor" id="demoCursor"></div>
+        <div class="demo-field"><label>Producto</label><div class="demo-select" id="d-prod">Stickers sueltos</div></div>
+        <div class="demo-field"><label>Material</label><div class="demo-select" id="d-mat">Vinilo Blanco Premium</div></div>
+        <div class="demo-field"><label>Medida</label><div class="demo-select" id="d-med">5 × 5 cm</div></div>
+        <div class="demo-field"><label>Cantidad</label><div class="demo-select" id="d-cant">1.000 unidades</div></div>
+        <div class="demo-price" id="d-price">
+          <div class="demo-was" id="d-was">$ 0</div>
+          <div class="demo-now"><span id="d-now">$ 0</span><small>Precio Ekoparty · 15% OFF</small></div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -253,7 +300,7 @@
 
 <footer>
   <div class="wrap">
-    <img src="../mi_pegatina_logo_r.png" alt="Mi Pegatina®" class="ft-logo-img">
+    <img src="https://mipegatina.club/mi_pegatina_logo_r.png" alt="Mi Pegatina®" class="ft-logo-img">
     <div>Producción oficial para eventos · Buenos Aires, Argentina</div>
   </div>
 </footer>
@@ -287,6 +334,76 @@
       const b=document.getElementById('evt-submit'); b.style.display=''; b.textContent='Hablemos de tu evento →'; b.disabled=false;
     });
   }
+</script>
+<script>
+/* ===== DEMO ANIMADA DEL COTIZADOR ===== */
+(function(){
+  const cursor = document.getElementById('demoCursor');
+  if(!cursor) return;
+  const screen = cursor.closest('.demo-screen');
+  const price = document.getElementById('d-price');
+  const wasEl = document.getElementById('d-was');
+  const nowEl = document.getElementById('d-now');
+
+  // secuencia: [id del campo, valor a mostrar]
+  const seq = [
+    ['d-prod', 'Stickers sueltos'],
+    ['d-mat',  'Vinilo Holográfico'],
+    ['d-med',  '8 × 8 cm'],
+    ['d-cant', '2.000 unidades']
+  ];
+  const wait = ms => new Promise(r=>setTimeout(r,ms));
+
+  function moveCursorTo(el){
+    const sr = screen.getBoundingClientRect();
+    const er = el.getBoundingClientRect();
+    const x = er.left - sr.left + er.width*0.5;
+    const y = er.top - sr.top + er.height*0.5;
+    cursor.style.left = x + 'px';
+    cursor.style.top = y + 'px';
+  }
+
+  async function run(){
+    // reset
+    price.classList.remove('show');
+    seq.forEach(([id])=>{const e=document.getElementById(id);e.classList.remove('active');});
+    document.getElementById('d-prod').textContent='Stickers sueltos';
+    document.getElementById('d-mat').textContent='Vinilo Blanco Premium';
+    document.getElementById('d-med').textContent='5 × 5 cm';
+    document.getElementById('d-cant').textContent='1.000 unidades';
+    cursor.style.left='50%'; cursor.style.top='115%';
+    await wait(720);
+
+    for(const [id, val] of seq){
+      const el = document.getElementById(id);
+      moveCursorTo(el);
+      await wait(600);
+      cursor.classList.add('tap');
+      await wait(120);
+      cursor.classList.remove('tap');
+      el.classList.add('active','changing');
+      el.textContent = val;
+      await wait(200);
+      el.classList.remove('changing');
+      await wait(400);
+    }
+    // mostrar precio (holográfico 8x8 x2000)
+    // unit = 0.0064 * 68 * 1600 = 696.32 ; x2000 = 1.392.640 ; -15% = 1.183.744
+    await wait(240);
+    wasEl.textContent = '$ 1.392.640';
+    nowEl.textContent = '$ 1.183.744';
+    price.classList.add('show');
+    seq.forEach(([id])=>document.getElementById(id).classList.remove('active'));
+    await wait(3040);
+    run();
+  }
+
+  // arrancar cuando la sección entra en viewport
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ io.disconnect(); run(); } });
+  }, {threshold:.4});
+  io.observe(document.querySelector('.demo-device'));
+})();
 </script>
 </body>
 </html>
