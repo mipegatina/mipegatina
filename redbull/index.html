@@ -450,7 +450,7 @@
         <div class="pm-dir-opts">
           <button type="button" class="pm-dir-opt sel" id="dir-hq" data-dir="hq">
             <span class="pm-dir-t">Headquarter Red Bull</span>
-            <span class="pm-dir-s">Av. del Libertador 7208, CABA</span>
+            <span class="pm-dir-s">Av. del Libertador 7208, Piso 21, CABA</span>
           </button>
           <button type="button" class="pm-dir-opt" id="dir-otra" data-dir="otra">
             <span class="pm-dir-t">Otra dirección</span>
@@ -641,7 +641,7 @@ function currentPrice(){
   const unitBase = p.unit($mat.value, $med.value, qty);
   const baseTotal = unitBase * qty;
   // Red Bull: precio de lista +15% de recargo, +21% IVA = precio final facturado
-  const final = baseTotal * (1 + RECARGO) * (1 + IVA);
+  const final = Math.ceil(baseTotal * (1 + RECARGO) * (1 + IVA) / 100) * 100;
   return { normal: final, eko: final };
 }
 function recalc(){
@@ -777,7 +777,7 @@ if($pmForm){
     // validar dirección
     let entregaTxt = '';
     if(dirSel === 'hq'){
-      entregaTxt = 'Headquarter Red Bull — Av. del Libertador 7208, C1429 CABA';
+      entregaTxt = 'Headquarter Red Bull — Av. del Libertador 7208, Piso 21, C1429 CABA';
     } else {
       const dir = document.getElementById('pm-dir-direccion').value.trim();
       const rec = document.getElementById('pm-dir-recibe').value.trim();
