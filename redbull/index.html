@@ -1,1 +1,826 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Red Bull · Portal de merch del equipo — Mi Pegatina</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#00142a;            /* azul marino Red Bull profundo */
+    --bg-grad-1:#001e3c;     /* azul marino característico */
+    --bg-grad-2:#002a52;
+    --panel:#04203f;
+    --panel-2:#062a4f;
+    --wine:#0a2f56;
+    --wine-soft:#12457a;
+    --red:#e10600;           /* rojo Red Bull */
+    --magenta:#ffc900;       /* amarillo Red Bull (acento) */
+    --purple:#1a4b8c;        /* azul medio */
+    --ink:#eef3f9;           /* casi blanco frío */
+    --dim:#9fb4cc;
+    --dimmer:#617a99;
+    --line:rgba(225,6,0,.18);
+    --line-soft:rgba(255,255,255,.07);
+    --font:'Inter',system-ui,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth;background:var(--bg)}
+  body{
+    background:
+      radial-gradient(ellipse 80% 50% at 100% 0%, rgba(225,6,0,.13) 0%, transparent 55%),
+      radial-gradient(ellipse 90% 60% at 0% 12%, rgba(26,75,140,.14) 0%, transparent 55%),
+      linear-gradient(180deg, var(--bg-grad-1) 0%, var(--bg) 22%, var(--bg) 100%);
+    background-attachment:fixed;
+    color:var(--ink);font-family:var(--font);line-height:1.55;overflow-x:hidden;
+    min-height:100vh;
+  }
+  ::selection{background:var(--red);color:var(--ink)}
+  a{text-decoration:none;color:inherit}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 20px}
 
+  /* ===== NAV ===== */
+  nav{position:fixed;top:0;left:0;right:0;z-index:60;background:rgba(7,2,9,.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--line-soft)}
+  .nav-in{max-width:1160px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+  .brand{font-weight:800;font-size:15px;letter-spacing:-.4px;display:flex;align-items:center;gap:7px}
+  .brand .x{color:var(--red);font-weight:600}
+  .nav-links{display:none;gap:26px;font-size:14px;color:var(--dim);font-weight:500}
+  .nav-links a:hover{color:var(--ink)}
+  .nav-cta{background:var(--red);color:var(--ink);padding:10px 18px;border-radius:100px;font-weight:600;font-size:13px;transition:.18s;white-space:nowrap;box-shadow:0 8px 24px -8px rgba(225,6,0,.7)}
+  .nav-cta:hover{background:var(--magenta)}
+
+  /* ===== HERO ===== */
+  header{position:relative;padding:130px 0 76px;overflow:hidden}
+  .hero-in{position:relative;z-index:2;text-align:center}
+  .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:12px;font-weight:600;color:var(--magenta);letter-spacing:.4px;border:1px solid var(--line);border-radius:100px;padding:8px 16px;margin-bottom:26px;background:rgba(225,6,0,.07);line-height:1.3}
+  .eyebrow .d{width:6px;height:6px;border-radius:50%;background:var(--red);box-shadow:0 0 10px var(--red);animation:blink 1.5s infinite;flex-shrink:0}
+  @keyframes blink{50%{opacity:.3}}
+  h1{font-size:clamp(38px,10vw,76px);font-weight:900;line-height:1.02;letter-spacing:-2px;margin-bottom:20px}
+  h1 .hl{background:linear-gradient(120deg,var(--red),var(--magenta));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .merch-anim{display:inline-block;white-space:nowrap}
+  .hero-sub{font-size:clamp(16px,4.2vw,20px);color:var(--dim);max-width:620px;margin:0 auto 40px}
+
+  /* COUNTDOWN — grande y premium */
+  .countdown-card{
+    display:block;position:relative;
+    background:linear-gradient(155deg, var(--panel-2) 0%, var(--wine) 130%);
+    border:1px solid var(--line);border-radius:22px;
+    padding:30px 14px;margin-bottom:40px;overflow:hidden;
+    box-shadow:0 40px 90px -30px rgba(225,6,0,.5), inset 0 1px 0 rgba(255,255,255,.05);
+  }
+  .countdown-card::before{content:"";position:absolute;top:-60%;right:-20%;width:70%;height:180%;background:radial-gradient(ellipse at center,rgba(255,201,0,.22) 0%,transparent 60%);pointer-events:none}
+  .cd-label{position:relative;font-size:11px;font-weight:700;color:var(--dimmer);text-transform:uppercase;letter-spacing:2px;margin-bottom:20px;display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap}
+  .cd-label b{color:var(--red)}
+  .clock{position:relative;display:flex;gap:4px;align-items:flex-start;justify-content:center}
+  .unit{display:flex;flex-direction:column;align-items:center;min-width:0;flex:1}
+  .unit .num{font-size:clamp(38px,12.5vw,84px);font-weight:900;line-height:.95;color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:-2px;text-shadow:0 4px 30px rgba(0,0,0,.5)}
+  .unit .num.pulse{background:linear-gradient(160deg,var(--red),var(--magenta));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .unit .lbl{font-size:10px;font-weight:700;color:var(--dimmer);text-transform:uppercase;letter-spacing:1.5px;margin-top:12px}
+  .colon{font-size:clamp(34px,10vw,64px);font-weight:800;color:var(--wine-soft);line-height:1;padding-top:4px}
+
+  .cta-row{display:flex;flex-direction:column;gap:12px;align-items:stretch}
+  .btn{font-weight:600;font-size:15px;padding:16px 30px;border-radius:100px;cursor:pointer;transition:.18s;display:inline-block;border:1px solid transparent;text-align:center}
+  .btn-primary{background:linear-gradient(120deg,var(--red),var(--magenta));color:var(--ink);box-shadow:0 14px 34px -12px rgba(225,6,0,.7)}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 18px 40px -12px rgba(255,201,0,.8)}
+  .btn-ghost{border-color:var(--line-soft);color:var(--ink)}
+  .btn-ghost:hover{border-color:var(--red)}
+
+  .closed{display:none}
+  .closed h2{font-size:clamp(28px,8vw,48px);font-weight:900;background:linear-gradient(120deg,var(--red),var(--magenta));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px;letter-spacing:-1px}
+
+  /* TRUST STRIP */
+  .trust{border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);background:rgba(20,7,22,.5);padding:26px 0}
+  .trust-in{display:flex;flex-direction:column;align-items:center;gap:14px;font-size:14px;color:var(--dim);font-weight:500;text-align:center}
+  .trust-in b{color:var(--ink)}
+  .trust-in .ck{color:var(--red);margin-right:7px;font-weight:700}
+
+  /* SECTION */
+  section{padding:72px 0;position:relative;scroll-margin-top:80px}
+  header{scroll-margin-top:80px}
+  .sec-eyebrow{font-size:12px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:2.5px;margin-bottom:14px}
+  .sec-title{font-size:clamp(28px,7vw,50px);font-weight:900;letter-spacing:-1.5px;line-height:1.08;margin-bottom:16px}
+  .sec-desc{color:var(--dim);max-width:560px;font-size:16px}
+  .sec-link{display:inline-block;margin-top:20px;font-size:15px;font-weight:600;color:var(--red);transition:.18s}
+  .sec-link:hover{color:var(--magenta);transform:translateX(3px)}
+  .sec-head{margin-bottom:42px}
+
+  /* STEPS */
+  .steps{display:grid;grid-template-columns:1fr;gap:16px}
+  .step{background:linear-gradient(160deg,var(--panel),var(--bg));border:1px solid var(--line-soft);border-radius:18px;padding:30px;transition:.2s;position:relative;overflow:hidden}
+  .step::before{content:"";position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,var(--red),transparent);opacity:0;transition:.2s}
+  .step:hover{border-color:var(--line)}
+  .step:hover::before{opacity:1}
+  .step .n{font-size:14px;font-weight:900;color:var(--red);margin-bottom:18px;letter-spacing:1px}
+  .step h3{font-size:19px;font-weight:700;margin-bottom:9px}
+  .step p{color:var(--dim);font-size:14.5px}
+
+  /* COTIZADOR */
+  .quoter-wrap{background:linear-gradient(160deg,var(--panel-2),var(--bg));border:1px solid var(--line);border-radius:22px;padding:26px 22px;position:relative;box-shadow:0 40px 90px -40px rgba(26,75,140,.4)}
+  .q-grid{display:grid;grid-template-columns:1fr;gap:16px}
+  .q-field label{font-size:12px;font-weight:600;color:var(--dim);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:8px}
+  .q-field select,.q-field input{width:100%;background:var(--bg);border:1px solid var(--line-soft);color:var(--ink);font-family:inherit;font-size:15px;padding:15px;border-radius:12px}
+  .q-field select:focus,.q-field input:focus{outline:none;border-color:var(--red)}
+  .price-out{margin-top:24px;padding:24px;background:linear-gradient(150deg,var(--wine),var(--bg));border:1px solid var(--line);border-radius:16px;display:flex;flex-direction:column;align-items:stretch;gap:16px;text-align:center}
+  .price-out .was{color:var(--dimmer);text-decoration:line-through;font-size:15px;font-weight:500}
+  .price-out .now{font-size:36px;font-weight:900;color:var(--ink);letter-spacing:-1.5px}
+  .price-out .tag{font-size:11px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:1.5px;display:block;margin-top:3px}
+  /* NOTA IVA */
+  .iva-note{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:18px;padding:14px 16px;background:rgba(225,6,0,.05);border:1px solid var(--line);border-radius:12px;font-size:13.5px;color:var(--dim);line-height:1.5;text-align:center;flex-wrap:wrap}
+  .iva-badge{flex-shrink:0;font-size:11px;font-weight:800;letter-spacing:.5px;color:#fff;background:linear-gradient(120deg,var(--red),var(--magenta));padding:4px 11px;border-radius:100px;text-transform:uppercase}
+  /* NOTA ENVÍO */
+  .ship-note{margin-top:12px;padding:14px 16px;background:rgba(26,75,140,.06);border:1px solid var(--line-soft);border-radius:12px;display:flex;flex-direction:column;gap:9px}
+  .ship-row{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--dim);line-height:1.5}
+  .ship-row b{color:var(--ink);font-weight:700}
+  .ship-ico{flex-shrink:0;color:var(--red);font-size:15px;line-height:1.3}
+  /* CART — con presencia */
+  .cart{margin-top:28px;background:linear-gradient(160deg,var(--wine) 0%,var(--panel-2) 70%,var(--bg) 100%);border:1px solid var(--line);border-radius:20px;padding:24px 20px;box-shadow:0 30px 70px -30px rgba(225,6,0,.4)}
+  .cart-head{font-size:13px;font-weight:800;color:var(--ink);text-transform:uppercase;letter-spacing:2px;margin-bottom:18px;display:flex;align-items:center;gap:9px}
+  .cart-head::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 10px var(--red)}
+  .cart-item{display:flex;align-items:center;gap:12px;padding:15px 16px;background:rgba(7,2,9,.5);border:1px solid var(--line-soft);border-radius:13px;margin-bottom:11px}
+  .cart-item-body{flex:1;min-width:0}
+  .cart-item-title{font-size:15.5px;font-weight:700;margin-bottom:3px}
+  .cart-item-meta{font-size:12.5px;color:var(--dim)}
+  .cart-item-price{font-size:16px;font-weight:800;color:var(--ink);white-space:nowrap;text-align:right}
+  .cart-item-price .cinorm{display:block;font-size:11px;color:var(--dimmer);text-decoration:line-through;font-weight:500}
+  .cart-item-del{flex-shrink:0;width:30px;height:30px;border-radius:9px;border:1px solid var(--line-soft);background:transparent;color:var(--dim);cursor:pointer;font-size:17px;line-height:1;transition:.15s}
+  .cart-item-del:hover{border-color:var(--red);color:var(--red);background:rgba(225,6,0,.08)}
+  .cart-total{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:20px 18px;background:var(--bg);border:1px solid var(--line);border-radius:15px;margin:16px 0;flex-wrap:wrap}
+  .cart-total-lbl{font-size:15px;font-weight:700;color:var(--ink)}
+  .cart-total-off{display:block;color:var(--red);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-top:3px}
+  .cart-total-nums{text-align:right}
+  .cart-was{display:block;font-size:15px;color:var(--dimmer);text-decoration:line-through;font-weight:500}
+  .cart-now{font-size:34px;font-weight:900;background:linear-gradient(120deg,var(--red),var(--magenta));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-1.5px;line-height:1}
+
+  /* ===== EXPO — lista elegante con íconos de línea ===== */
+  .expo-list{border-top:1px solid var(--line-soft)}
+  .expo-row{display:flex;align-items:center;gap:18px;padding:26px 4px;border-bottom:1px solid var(--line-soft);transition:.2s;cursor:pointer;color:inherit;text-decoration:none}
+  .expo-row:hover{padding-left:12px}
+  .expo-row:hover .row-ico{border-color:var(--red);color:var(--magenta)}
+  .expo-row:hover .row-consult{color:var(--magenta)}
+  .row-ico{flex-shrink:0;width:52px;height:52px;border-radius:14px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--red);transition:.2s;background:rgba(225,6,0,.04)}
+  .row-ico svg{width:24px;height:24px;stroke:currentColor;stroke-width:1.5;fill:none}
+  .row-body{flex:1;min-width:0}
+  .row-body h3{font-size:18px;font-weight:700;margin-bottom:3px}
+  .row-body p{color:var(--dim);font-size:13.5px}
+  .row-consult{flex-shrink:0;font-size:13px;font-weight:600;color:var(--red);transition:.2s;white-space:nowrap;display:flex;align-items:center;gap:5px}
+
+  /* B2B */
+  .b2b{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--wine) 0%,var(--bg-grad-2) 60%,var(--bg) 100%);border:1px solid var(--line);border-radius:26px;padding:44px 26px;text-align:center;box-shadow:0 40px 100px -40px rgba(225,6,0,.4)}
+  .b2b::before{content:"";position:absolute;top:-40%;left:-10%;width:60%;height:160%;background:radial-gradient(ellipse at center,rgba(255,201,0,.18) 0%,transparent 60%);pointer-events:none}
+  .b2b>*{position:relative}
+  .b2b h2{font-size:clamp(26px,7vw,44px);font-weight:900;letter-spacing:-1px;margin-bottom:14px}
+  .b2b p{color:var(--dim);max-width:520px;margin:0 auto 28px}
+
+  footer{background:#fff;border-top:1px solid #e5e5e5;padding:40px 0;text-align:center;color:#8a8a8a;font-size:13px;line-height:1.7}
+  footer b{color:#1a1a1a}
+  footer b{color:var(--red)}
+  /* CONTACT FORM */
+  .contact-form{background:linear-gradient(160deg,var(--panel-2),var(--bg));border:1px solid var(--line);border-radius:20px;padding:26px 20px;box-shadow:0 40px 90px -40px rgba(26,75,140,.4)}
+  .cf-grid{display:grid;grid-template-columns:1fr;gap:16px}
+  .contact-form textarea{width:100%;background:var(--bg);border:1px solid var(--line-soft);color:var(--ink);font-family:inherit;font-size:15px;padding:15px;border-radius:12px;resize:vertical}
+  .contact-form textarea:focus,.contact-form input:focus{outline:none;border-color:var(--red)}
+  .contact-form input::placeholder,.contact-form textarea::placeholder{color:var(--dimmer)}
+  .cf-status{margin-top:14px;font-size:14px;text-align:center;font-weight:500;display:none}
+  .cf-status.ok{display:block;color:var(--red)}
+  .cf-status.err{display:block;color:var(--magenta)}
+  .contact-mail{display:inline-block;margin-top:18px;font-size:16px;font-weight:600;color:var(--red);transition:.18s}
+  .contact-mail:hover{color:var(--magenta)}
+  /* MODAL PEDIDO */
+  .pm-overlay{display:none;position:fixed;inset:0;z-index:4000;background:rgba(5,2,6,.82);backdrop-filter:blur(6px);overflow-y:auto;padding:20px}
+  .pm-overlay.open{display:block}
+  .pm-card{max-width:520px;margin:32px auto;background:linear-gradient(160deg,var(--panel-2),var(--bg));border:1px solid var(--line);border-radius:22px;padding:28px;position:relative;box-shadow:0 50px 120px -30px rgba(225,6,0,.5)}
+  .pm-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+  .pm-tag{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--red)}
+  .pm-dot{width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 10px var(--red);animation:blink 1.5s infinite}
+  .pm-close{background:transparent;border:1px solid var(--line-soft);border-radius:9px;width:32px;height:32px;color:var(--dim);font-size:15px;cursor:pointer;transition:.15s}
+  .pm-close:hover{border-color:var(--red);color:var(--red)}
+  .pm-title{font-size:24px;font-weight:900;letter-spacing:-1px;margin-bottom:6px}
+  .pm-sub{font-size:14px;color:var(--dim);margin-bottom:20px}
+  .pm-resumen{background:var(--bg);border:1px solid var(--line-soft);border-radius:14px;padding:16px;margin-bottom:20px;display:flex;flex-direction:column;gap:10px}
+  .pm-res-item{display:flex;justify-content:space-between;gap:12px;font-size:13.5px}
+  .pm-res-item .pl{color:var(--dim);min-width:0}
+  .pm-res-item .pr{color:var(--ink);font-weight:700;white-space:nowrap;text-align:right}
+  .pm-res-total{border-top:1px solid var(--line);margin-top:4px;padding-top:12px;display:flex;justify-content:space-between;align-items:center}
+  .pm-res-total .pl{font-size:13px;font-weight:600;color:var(--ink)}
+  .pm-res-total .pr{font-size:22px;font-weight:900;background:linear-gradient(120deg,var(--red),var(--magenta));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .pm-res-iva{font-size:11.5px;color:var(--dimmer);text-align:center;margin-top:4px;font-weight:500}
+  /* SELECTOR ENVÍO MODAL */
+  .pm-envio-legacy{display:none}
+  /* FRANJA PACKING full-width (cierre de la web) */
+  .packing-strip{width:100%;background:#fff;position:relative;line-height:0;overflow:hidden}
+  .packing-strip img{width:100%;height:auto;display:block}
+  .packing-strip::before{content:"";position:absolute;top:0;left:0;right:0;height:280px;background:linear-gradient(to bottom,var(--bg) 0%,rgba(0,20,42,.85) 22%,rgba(0,20,42,.5) 48%,rgba(0,20,42,.2) 72%,transparent 100%);pointer-events:none;z-index:2}
+  /* CAMPO EVENTO/ACCIÓN destacado */
+  .pm-accion{background:linear-gradient(135deg,rgba(225,6,0,.08),rgba(255,201,0,.05));border:1px solid rgba(225,6,0,.2);border-radius:13px;padding:16px;margin-bottom:16px}
+  .pm-accion label{display:block;font-size:13px;font-weight:700;color:var(--ink);margin-bottom:9px}
+  .pm-accion input{width:100%;background:var(--bg);border:1.5px solid var(--line-soft);border-radius:10px;padding:12px 14px;font-size:14px;color:var(--ink);font-family:inherit;outline:none;transition:.15s;box-sizing:border-box}
+  .pm-accion input:focus{border-color:var(--red)}
+  .pm-accion input::placeholder{color:var(--dimmer)}
+  /* ENTREGA */
+  .pm-entrega{margin-top:18px}
+  .pm-entrega-lbl{display:block;font-size:13px;font-weight:600;color:var(--dim);margin-bottom:10px}
+  .pm-dir-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .pm-dir-opt{display:flex;flex-direction:column;gap:3px;align-items:flex-start;text-align:left;background:var(--bg);border:1.5px solid var(--line-soft);border-radius:12px;padding:13px 14px;cursor:pointer;transition:.15s;color:var(--ink);font-family:inherit}
+  .pm-dir-opt:hover{border-color:var(--line)}
+  .pm-dir-opt.sel{border-color:var(--red);background:rgba(225,6,0,.08)}
+  .pm-dir-t{font-size:13.5px;font-weight:700}
+  .pm-dir-s{font-size:11px;color:var(--dim);line-height:1.3}
+  .pm-dir-campos{display:none}
+  .pm-dir-campos.show{display:block}
+  .pm-check{display:flex;align-items:center;gap:9px;margin-top:14px;font-size:13px;color:var(--dim);cursor:pointer}
+  .pm-check input{width:17px;height:17px;accent-color:var(--red);cursor:pointer}
+  .pm-card textarea{width:100%;background:var(--bg);border:1px solid var(--line-soft);color:var(--ink);font-family:inherit;font-size:15px;padding:14px;border-radius:12px;resize:vertical}
+  .pm-card input:focus,.pm-card textarea:focus{outline:none;border-color:var(--red)}
+  .pm-card input::placeholder,.pm-card textarea::placeholder{color:var(--dimmer)}
+  /* ÉXITO VISUAL (check grande + degradé) */
+  .success-box{display:none;flex-direction:column;align-items:center;text-align:center;padding:32px 20px;animation:successIn .5s cubic-bezier(.2,.8,.3,1)}
+  .success-box.show{display:flex}
+  @keyframes successIn{from{opacity:0;transform:translateY(12px) scale(.96)}to{opacity:1;transform:none}}
+  .success-check{width:88px;height:88px;border-radius:50%;background:linear-gradient(140deg,var(--red),var(--magenta));display:flex;align-items:center;justify-content:center;margin-bottom:22px;box-shadow:0 20px 50px -12px rgba(225,6,0,.7);position:relative;color:#fff;font-size:46px;line-height:1;font-weight:700}
+  .success-check::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid rgba(225,6,0,.3);animation:ring 1.6s ease-out infinite}
+  @keyframes ring{0%{transform:scale(.9);opacity:.8}100%{transform:scale(1.3);opacity:0}}
+  .success-title{font-size:24px;font-weight:900;letter-spacing:-1px;margin-bottom:8px}
+  .success-msg{font-size:15px;color:var(--dim);max-width:340px}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+  /* ===== SCALE-UP ===== */
+  @media(min-width:640px){
+    .wrap{padding:0 24px}
+    .cta-row{flex-direction:row;justify-content:center}
+    .btn{padding:16px 34px}
+    .trust-in{flex-direction:row;justify-content:center;gap:36px;flex-wrap:wrap}
+    .countdown-card{padding:38px 44px;display:inline-block}
+    .clock{gap:16px}
+    .unit{min-width:88px;flex:none}
+    .q-grid{grid-template-columns:1fr 1fr}
+    .cf-grid{grid-template-columns:1fr 1fr}
+    .price-out{flex-direction:row;align-items:center;justify-content:space-between;text-align:left}
+    .b2b{padding:60px}
+  }
+  @media(min-width:900px){
+    header{padding:160px 0 100px}
+    section{padding:110px 0}
+    .nav-links{display:flex}
+    .sec-head{margin-bottom:56px}
+    .steps{grid-template-columns:repeat(3,1fr);gap:22px}
+    .quoter-wrap{padding:40px}
+    .expo-row{padding:30px 4px}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-in">
+    <div class="brand"><span>Red Bull</span><span class="x">×</span><span>Mi Pegatina</span></div>
+    <div class="nav-links">
+      <a href="#proceso">Cómo funciona</a>
+      <a href="#cotizador">Cotizador</a>
+      <a href="#expo">Productos</a>
+      <a href="#b2b">B2B</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+    <a href="#cotizador" class="nav-cta">Cotizar</a>
+  </div>
+</nav>
+
+<header>
+  <div class="wrap hero-in">
+    <div id="live">
+      <div class="eyebrow"><span class="d"></span>Portal de merch · Equipo Red Bull</div>
+      <h1>Red Bull te da alas,<br>Mi Pegatina el <span class="hl merch-anim" id="merchAnim">merch</span>.</h1>
+      <p class="hero-sub">Bienvenido al portal exclusivo de Red Bull. Pedí stickers, planchas, llaveros e imanes con la calidad de siempre y condiciones especiales para el equipo.</p>
+
+      <div class="cta-row">
+        <a href="#cotizador" class="btn btn-primary">Armar mi pedido →</a>
+        <a href="#expo" class="btn btn-ghost">Ver productos</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<section id="proceso">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Cómo funciona</div>
+      <h2 class="sec-title">Cotizás, confirmás, recibís.</h2>
+      <p class="sec-desc">El mismo proceso simple de siempre, con condiciones especiales para el equipo Red Bull.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="n">01</div><h3>Armá tu pedido</h3><p>Elegí producto, material, medida y cantidad. El precio final aparece al instante, con IVA incluido.</p></div>
+      <div class="step"><div class="n">02</div><h3>Confirmamos el arte</h3><p>Revisamos tu diseño por mail y coordinamos detalles antes de imprimir. Sin sorpresas.</p></div>
+      <div class="step"><div class="n">03</div><h3>Producimos y entregamos</h3><p>3 a 5 días hábiles. Entrega en CABA, con facturación a 60 días.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="cotizador" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Portal de pedidos</div>
+      <h2 class="sec-title">Tu precio, en segundos.</h2>
+      <p class="sec-desc">Elegí producto, material, medida y cantidad. El precio final aparece al instante, con IVA incluido y pago a 60 días.</p>
+    </div>
+    <div class="quoter-wrap">
+      <div class="q-grid">
+        <div class="q-field"><label>Producto</label><select id="q-producto"></select></div>
+        <div class="q-field"><label>Material</label><select id="q-material"></select></div>
+        <div class="q-field"><label>Medida</label><select id="q-medida"></select></div>
+        <div class="q-field"><label>Cantidad</label><select id="q-cantidad"></select></div>
+      </div>
+      <div class="price-out">
+        <div><span class="now" id="q-now">$ 0</span><span class="tag">Precio final · IVA incluido</span></div>
+        <button class="btn btn-primary" id="q-add" type="button">+ Agregar a la cotización</button>
+      </div>
+
+      <div class="iva-note">
+        <span class="iva-badge">Pago a 60 días</span>
+        <span>Precios finales con IVA incluido · Facturación a 60 días.</span>
+      </div>
+      <div class="ship-note">
+        <div class="ship-row"><span class="ship-ico">⛟</span><span><b>Envío CABA</b> — $24.200 Final, se suma al total.</span></div>
+      </div>
+
+      <div class="cart" id="cart" style="display:none">
+        <div class="cart-head">Tu cotización</div>
+        <div id="cart-items"></div>
+        <div class="cart-total">
+          <div class="cart-total-lbl">Total <span class="cart-total-off">(IVA incluido)</span></div>
+          <div class="cart-total-nums"><span class="cart-now" id="cart-now">$ 0</span></div>
+        </div>
+        <a href="#" class="btn btn-primary" id="cart-send">Pedir esta cotización →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="expo" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Ideales para regalar</div>
+      <h2 class="sec-title">El merch del equipo Red Bull.</h2>
+      <p class="sec-desc">Los 4 productos que hacemos, listos para llevar la marca a todos lados.</p>
+      <a href="#cotizador" class="sec-link">Cotizá tu producto →</a>
+    </div>
+    <div class="expo-list">
+      <a href="#cotizador" class="expo-row">
+        <div class="row-ico"><svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><circle cx="7" cy="7" r="1.2"/></svg></div>
+        <div class="row-body"><h3>Stickers sueltos</h3><p>El clásico que todos se llevan. La marca pegada en cada notebook, botella y notebook del equipo.</p></div>
+        <div class="row-consult">Cotizar →</div>
+      </a>
+      <a href="#cotizador" class="expo-row">
+        <div class="row-ico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg></div>
+        <div class="row-body"><h3>Plancha de stickers</h3><p>Varios diseños en una. Ideal para armar packs y kits para el equipo o eventos.</p></div>
+        <div class="row-consult">Cotizar →</div>
+      </a>
+      <a href="#cotizador" class="expo-row">
+        <div class="row-ico"><svg viewBox="0 0 24 24"><circle cx="8" cy="8" r="5"/><path d="M11.5 11.5L20 20M17 17l3-1-1 3"/></svg></div>
+        <div class="row-body"><h3>Llaveros</h3><p>Un regalo que queda. Acrílico premium que se usa todos los días.</p></div>
+        <div class="row-consult">Cotizar →</div>
+      </a>
+      <a href="#cotizador" class="expo-row">
+        <div class="row-ico"><svg viewBox="0 0 24 24"><path d="M6 3v7a6 6 0 0 0 12 0V3M6 3H3M6 3h3M18 3h3M18 3h-3M9 21h6"/></svg></div>
+        <div class="row-body"><h3>Imanes</h3><p>Van directo a la heladera. La marca visible en el día a día.</p></div>
+        <div class="row-consult">Cotizar →</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="b2b" style="padding-top:0">
+  <div class="wrap">
+    <div class="b2b">
+      <div class="sec-eyebrow" style="color:var(--magenta)">Proveedor oficial</div>
+      <h2>¿Necesitás algo especial?<br>Hablemos.</h2>
+      <p>Somos el proveedor de producción del equipo Red Bull: condiciones especiales, prioridad en la cola de producción y un contacto directo para todo lo que necesites imprimir.</p>
+      <a href="#cotizador" class="btn btn-primary">Empezar mi cotización →</a>
+    </div>
+  </div>
+</section>
+
+<section id="contacto" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Contacto</div>
+      <h2 class="sec-title">¿Tenés una duda?</h2>
+      <p class="sec-desc">Escribinos y te respondemos a la brevedad. Si ya sabés qué querés, armá tu cotización arriba y mandala directo.</p>
+      <a href="mailto:mail@mipegatina.club" class="contact-mail">✉ mail@mipegatina.club</a>
+    </div>
+    <form class="contact-form" id="contact-form" action="https://formspree.io/f/xnjewwdd" method="POST">
+      <input type="hidden" name="_origen" value="Web Red Bull — Contacto">
+      <input type="hidden" name="_subject" value="Nuevo contacto desde la web de Red Bull">
+      <div class="cf-grid">
+        <div class="q-field"><label>Nombre</label><input type="text" name="nombre" required placeholder="Tu nombre o el de tu empresa"></div>
+        <div class="q-field"><label>Email</label><input type="email" name="email" required placeholder="tu@email.com"></div>
+      </div>
+      <div class="q-field" style="margin-top:16px"><label>Mensaje</label><textarea name="mensaje" rows="4" required placeholder="Contanos qué necesitás producir"></textarea></div>
+      <button type="submit" class="btn btn-primary" id="cf-submit" style="margin-top:18px;width:100%">Enviar mensaje →</button>
+    </form>
+    <div class="success-box" id="cf-success">
+      <div class="success-check">&#10003;</div>
+      <div class="success-title">¡Mensaje enviado!</div>
+      <div class="success-msg">Recibimos tu consulta. Te respondemos a la brevedad al mail que dejaste.</div>
+    </div>
+  </div>
+</section>
+
+<!-- MODAL DE PEDIDO -->
+<div class="pm-overlay" id="pm-overlay">
+  <div class="pm-card">
+    <div class="pm-top">
+      <div class="pm-tag"><span class="pm-dot"></span>Finalizar cotización</div>
+      <button class="pm-close" id="pm-close" type="button">✕</button>
+    </div>
+    <h3 class="pm-title">Casi listo 🔥</h3>
+    <p class="pm-sub">Revisá tu pedido y dejanos tus datos. Te confirmamos a la brevedad con el detalle final.</p>
+    <div class="pm-resumen" id="pm-resumen"></div>
+    <form id="pm-form">
+      <div class="pm-accion">
+        <label>¿Para qué evento o acción es este pedido? *</label>
+        <input type="text" id="pm-accion-input" required placeholder="Ej: Lollapalooza 2026, activación universidades, kit bienvenida...">
+      </div>
+      <div class="q-field"><label>Tu nombre o empresa *</label><input type="text" id="pm-nombre" required placeholder="Nombre o empresa"></div>
+      <div class="q-field" style="margin-top:14px"><label>Tu mail *</label><input type="email" id="pm-email" required placeholder="tucorreo@ejemplo.com"></div>
+
+      <div class="pm-entrega">
+        <label class="pm-entrega-lbl">Dirección de entrega *</label>
+        <div class="pm-dir-opts">
+          <button type="button" class="pm-dir-opt sel" id="dir-hq" data-dir="hq">
+            <span class="pm-dir-t">Headquarter Red Bull</span>
+            <span class="pm-dir-s">Av. del Libertador 7208, CABA</span>
+          </button>
+          <button type="button" class="pm-dir-opt" id="dir-otra" data-dir="otra">
+            <span class="pm-dir-t">Otra dirección</span>
+            <span class="pm-dir-s">Indicá los datos de entrega</span>
+          </button>
+        </div>
+        <div class="pm-dir-campos" id="pm-dir-campos">
+          <div class="q-field" style="margin-top:14px"><label>Dirección *</label><input type="text" id="pm-dir-direccion" placeholder="Calle, número, piso/depto, CABA"></div>
+          <div class="q-field" style="margin-top:14px"><label>Nombre de quien recibe *</label><input type="text" id="pm-dir-recibe" placeholder="Nombre y apellido"></div>
+          <div class="q-field" style="margin-top:14px"><label>Rango horario *</label><input type="text" id="pm-dir-horario" placeholder="Ej: de 9 a 18 hs"></div>
+          <label class="pm-check"><input type="checkbox" id="pm-dir-guardia"> <span>Se puede dejar en guardia / recepción</span></label>
+        </div>
+      </div>
+
+      <div class="q-field" style="margin-top:14px"><label>Link de tus diseños <span style="opacity:.5">(opcional)</span></label><input type="url" id="pm-link" placeholder="Drive, WeTransfer, Dropbox..."></div>
+      <div class="q-field" style="margin-top:14px"><label>Comentarios <span style="opacity:.5">(opcional)</span></label><textarea id="pm-notes" rows="2" placeholder="Algo que tengamos que saber..."></textarea></div>
+      <button type="submit" class="btn btn-primary" id="pm-send" style="width:100%;margin-top:18px">Enviar cotización →</button>
+      <div class="cf-status" id="pm-status"></div>
+    </form>
+    <div class="success-box" id="pm-success">
+      <div class="success-check">&#10003;</div>
+      <div class="success-title">¡Cotización enviada!</div>
+      <div class="success-msg">Recibimos tu pedido con todos los productos. Te contactamos pronto para coordinar.</div>
+    </div>
+  </div>
+</div>
+
+<div class="packing-strip">
+  <img src="packing-mipegatina.jpg" alt="Mi Pegatina — cada pedido, listo para volar" loading="lazy">
+</div>
+
+<footer>
+  <div class="wrap">
+    <b>Red Bull</b> × Mi Pegatina · Portal de merch del equipo · Con el respaldo de Mi Pegatina SRL<br>
+    <span style="opacity:.6">Buenos Aires, Argentina</span>
+  </div>
+</footer>
+
+<script>
+/* ===== COTIZADOR RED BULL ===== */
+const COT = 1600, RECARGO = 0.15, IVA = 0.21;
+const PRODUCTOS = {
+  stickers: {
+    label: "Stickers sueltos",
+    packsPorMedida: { "5x5":[200,300,500,1000,2000], "6x6":[200,300,500,1000,2000], "8x8":[100,200,500,1000,2000], "9x9":[100,200,500,1000,2000] },
+    materiales: {
+      "Vinilo Blanco Premium": 35.7,
+      "Blanco Premium con Laca": 68,
+      "Vinilo Transparente Premium": 42.5,
+      "Vinilo Holográfico": 68,
+      "Vinilo Holográfico Gold": 68
+    },
+    sizes: { "5x5":[0.0025,0], "6x6":[0.0036,10], "8x8":[0.0064,20], "9x9":[0.0081,22] },
+    calc(base, area, disc){ return area*base*COT*(1-disc/100); }
+  },
+  plancha: {
+    label: "Plancha de stickers",
+    packsPorMedida: { "10x15":[75,150,300,600], "15x21":[75,150,300,600] },
+    materiales: {
+      "Vinilo Blanco Premium": 35.7,
+      "Blanco Premium con Laca": 68,
+      "Vinilo Transparente Premium": 42.5,
+      "Vinilo Holográfico": 68,
+      "Vinilo Holográfico Gold": 68
+    },
+    sizes: { "10x15":[0.015,0], "15x21":[0.0315,0] },
+    calc(base, area, disc){ return area*base*COT*(1-disc/100); }
+  },
+  llaveros: {
+    label: "Llaveros",
+    packsPorMedida: { "5x5":[30,100,300], "6x6":[30,100,300] },
+    materiales: { "Acrílico impreso": 438.9 },
+    fijo: 0.143,
+    sizes: { "5x5":[0.0025,0], "6x6":[0.0036,0] },
+    calc(base, area, disc){ return (area*base + this.fijo)*COT; }
+  },
+  imanes: {
+    label: "Imanes",
+    packsPorMedida: { "5x5":[30,100,300], "6x6":[30,100,300] },
+    materiales: { "Acrílico impreso": 438.9 },
+    fijo: 0.11,
+    sizes: { "5x5":[0.0025,0], "6x6":[0.0036,0] },
+    calc(base, area, disc){ return (area*base + this.fijo)*COT; }
+  }
+};
+
+const $prod = document.getElementById('q-producto');
+const $mat  = document.getElementById('q-material');
+const $med  = document.getElementById('q-medida');
+const $cant = document.getElementById('q-cantidad');
+const $was  = document.getElementById('q-was');
+const $now  = document.getElementById('q-now');
+const $add  = document.getElementById('q-add');
+const $cart = document.getElementById('cart');
+const $cartItems = document.getElementById('cart-items');
+const $cartWas = document.getElementById('cart-was');
+const $cartNow = document.getElementById('cart-now');
+
+let carrito = [];
+
+function money(n){ return "$ " + Math.round(n).toLocaleString('es-AR'); }
+function sizeLabel(sz){ return sz.replace('x',' × ') + ' cm'; }
+
+function fillProductos(){
+  $prod.innerHTML = '';
+  for(const k in PRODUCTOS){
+    const o = document.createElement('option');
+    o.value = k; o.textContent = PRODUCTOS[k].label;
+    $prod.appendChild(o);
+  }
+}
+function fillMateriales(){
+  const p = PRODUCTOS[$prod.value];
+  $mat.innerHTML = '';
+  for(const m in p.materiales){
+    const o = document.createElement('option');
+    o.value = m; o.textContent = m;
+    $mat.appendChild(o);
+  }
+  $mat.disabled = Object.keys(p.materiales).length <= 1;
+}
+function fillMedidas(){
+  const p = PRODUCTOS[$prod.value];
+  $med.innerHTML = '';
+  for(const sz in p.sizes){
+    const o = document.createElement('option');
+    o.value = sz; o.textContent = sizeLabel(sz);
+    $med.appendChild(o);
+  }
+}
+function fillPacks(){
+  const p = PRODUCTOS[$prod.value];
+  const packs = (p.packsPorMedida && p.packsPorMedida[$med.value]) || p.packs || [];
+  $cant.innerHTML = '';
+  packs.forEach(q=>{
+    const o = document.createElement('option');
+    o.value = q; o.textContent = q.toLocaleString('es-AR') + ' unidades';
+    $cant.appendChild(o);
+  });
+}
+function currentPrice(){
+  const p = PRODUCTOS[$prod.value];
+  const base = p.materiales[$mat.value];
+  const [area, disc] = p.sizes[$med.value];
+  const qty = parseInt($cant.value, 10);
+  const unit = p.calc(base, area, disc);
+  const baseTotal = unit * qty;
+  // Red Bull: precio base +15% de recargo, +21% IVA = precio final facturado
+  const final = baseTotal * (1 + RECARGO) * (1 + IVA);
+  return { normal: final, eko: final };
+}
+function recalc(){
+  const pr = currentPrice();
+  $now.textContent = money(pr.eko);
+}
+function renderCart(){
+  if(carrito.length === 0){ $cart.style.display = 'none'; return; }
+  $cart.style.display = '';
+  $cartItems.innerHTML = '';
+  let totNormal = 0, totEko = 0;
+  carrito.forEach((it, i)=>{
+    totNormal += it.normal; totEko += it.eko;
+    const row = document.createElement('div');
+    row.className = 'cart-item';
+    row.innerHTML =
+      '<div class="cart-item-body">'
+      + '<div class="cart-item-title">'+it.prodLabel+' — '+it.matLabel+'</div>'
+      + '<div class="cart-item-meta">'+sizeLabel(it.size)+' · '+it.qty.toLocaleString('es-AR')+' u</div>'
+      + '</div>'
+      + '<div class="cart-item-price">'+money(it.eko)+'</div>'
+      + '<button class="cart-item-del" data-i="'+i+'" title="Quitar">×</button>';
+    $cartItems.appendChild(row);
+  });
+  $cartNow.textContent = money(totEko);
+  $cartItems.querySelectorAll('.cart-item-del').forEach(b=>{
+    b.addEventListener('click', ()=>{ carrito.splice(parseInt(b.dataset.i,10),1); renderCart(); });
+  });
+}
+function addToCart(){
+  const p = PRODUCTOS[$prod.value];
+  const pr = currentPrice();
+  carrito.push({
+    prodLabel: p.label,
+    matLabel: $mat.value,
+    size: $med.value,
+    qty: parseInt($cant.value,10),
+    normal: pr.normal,
+    eko: pr.eko
+  });
+  renderCart();
+  document.getElementById('cotizador').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+$prod.addEventListener('change', ()=>{ fillMateriales(); fillMedidas(); fillPacks(); recalc(); });
+$mat.addEventListener('change', ()=>{ fillPacks(); recalc(); });
+$med.addEventListener('change', ()=>{ fillPacks(); recalc(); });
+$cant.addEventListener('change', recalc);
+$add.addEventListener('click', addToCart);
+
+fillProductos(); fillMateriales(); fillMedidas(); fillPacks(); recalc();
+
+/* ===== ENVÍO FORMSPREE ===== */
+const ENDPOINT = "https://formspree.io/f/xnjewwdd";
+
+// --- Formulario de contacto ---
+const cform = document.getElementById('contact-form');
+const cstatus = document.getElementById('cf-status');
+if(cform){
+  cform.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const btn = document.getElementById('cf-submit');
+    btn.textContent = 'Enviando...'; btn.disabled = true;
+    try{
+      const res = await fetch(ENDPOINT, { method:'POST', body:new FormData(cform), headers:{'Accept':'application/json'} });
+      if(res.ok){
+        cform.style.display = 'none';
+        document.getElementById('cf-success').classList.add('show');
+      } else { throw new Error(); }
+    } catch(err){
+      cstatus.className = 'cf-status err';
+      cstatus.textContent = 'Hubo un problema. Escribinos a mail@mipegatina.club';
+      btn.textContent = 'Enviar mensaje →';
+    }
+    btn.disabled = false;
+  });
+}
+
+// --- Botón "Pedir esta cotización" → abre el modal ---
+const $cartSend = document.getElementById('cart-send');
+const $pmOverlay = document.getElementById('pm-overlay');
+const $pmResumen = document.getElementById('pm-resumen');
+const $pmForm = document.getElementById('pm-form');
+const $pmStatus = document.getElementById('pm-status');
+
+const ENVIO_CABA = 24200; // $20.000 + IVA
+let carrito_placeholder_removed = null;
+
+function renderResumen(){
+  let html = '';
+  carrito.forEach(it=>{
+    html += '<div class="pm-res-item"><span class="pl">'+it.prodLabel+' · '+it.matLabel+' · '+sizeLabel(it.size)+' · '+it.qty+'u</span><span class="pr">'+money(it.eko)+'</span></div>';
+  });
+  const totEko = carrito.reduce((a,i)=>a+i.eko,0);
+  html += '<div class="pm-res-item"><span class="pl">Envío CABA</span><span class="pr">'+money(ENVIO_CABA)+'</span></div>';
+  const totFinal = totEko + ENVIO_CABA;
+  html += '<div class="pm-res-total"><span class="pl">Total (IVA incluido)</span><span class="pr">'+money(totFinal)+'</span></div>';
+  html += '<div class="pm-res-iva">Precios finales con IVA · Pago a 60 días · Envío CABA incluido</div>';
+  $pmResumen.innerHTML = html;
+}
+
+function openPedidoModal(){
+  if(carrito.length === 0) return;
+  renderResumen();
+  $pmOverlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closePedidoModal(){
+  $pmOverlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+if($cartSend){
+  $cartSend.addEventListener('click', (e)=>{ e.preventDefault(); openPedidoModal(); });
+}
+document.getElementById('pm-close').addEventListener('click', closePedidoModal);
+$pmOverlay.addEventListener('click', (e)=>{ if(e.target === $pmOverlay) closePedidoModal(); });
+
+// selección de dirección de entrega
+let dirSel = 'hq';
+const dirCampos = document.getElementById('pm-dir-campos');
+document.querySelectorAll('.pm-dir-opt').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.pm-dir-opt').forEach(b=>b.classList.remove('sel'));
+    btn.classList.add('sel');
+    dirSel = btn.dataset.dir;
+    dirCampos.classList.toggle('show', dirSel === 'otra');
+  });
+});
+
+if($pmForm){
+  $pmForm.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    // validar dirección
+    let entregaTxt = '';
+    if(dirSel === 'hq'){
+      entregaTxt = 'Headquarter Red Bull — Av. del Libertador 7208, C1429 CABA';
+    } else {
+      const dir = document.getElementById('pm-dir-direccion').value.trim();
+      const rec = document.getElementById('pm-dir-recibe').value.trim();
+      const hor = document.getElementById('pm-dir-horario').value.trim();
+      if(!dir || !rec || !hor){
+        $pmStatus.className = 'cf-status err';
+        $pmStatus.textContent = 'Completá dirección, quién recibe y rango horario.';
+        return;
+      }
+      const guardia = document.getElementById('pm-dir-guardia').checked ? 'Sí' : 'No';
+      entregaTxt = `Otra dirección — ${dir} · Recibe: ${rec} · Horario: ${hor} · Dejar en guardia: ${guardia}`;
+    }
+    const btn = document.getElementById('pm-send');
+    btn.textContent = 'Enviando...'; btn.disabled = true;
+    const accion = document.getElementById('pm-accion-input').value.trim();
+    let detalle = carrito.map((it,i)=>{
+      return `${i+1}) ${it.prodLabel} — ${it.matLabel} · ${sizeLabel(it.size)} · ${it.qty} u  →  ${money(it.eko)}`;
+    }).join('\n');
+    const totEko = carrito.reduce((a,i)=>a+i.eko,0);
+    const totFinal = totEko + ENVIO_CABA;
+    const fd = new FormData();
+    fd.append('_origen', 'Web Red Bull — Pedido de merch');
+    fd.append('_subject', 'Nuevo pedido desde la web de Red Bull');
+    fd.append('evento_accion', accion);
+    fd.append('nombre', document.getElementById('pm-nombre').value);
+    fd.append('email', document.getElementById('pm-email').value);
+    fd.append('entrega', entregaTxt);
+    fd.append('link_disenos', document.getElementById('pm-link').value || '—');
+    fd.append('comentarios', document.getElementById('pm-notes').value || '—');
+    fd.append('productos', detalle);
+    fd.append('envio', 'CABA — ' + money(ENVIO_CABA));
+    fd.append('total_productos', money(totEko) + ' (IVA incluido)');
+    fd.append('total_final', money(totFinal) + ' (incluye envío CABA, IVA incluido, pago a 60 días)');
+    try{
+      const res = await fetch(ENDPOINT, { method:'POST', body:fd, headers:{'Accept':'application/json'} });
+      if(res.ok){
+        $pmForm.style.display = 'none';
+        $pmResumen.style.display = 'none';
+        document.getElementById('pm-success').classList.add('show');
+        carrito = [];
+        setTimeout(()=>{
+          closePedidoModal();
+          renderCart();
+          $pmForm.reset(); $pmForm.style.display=''; $pmResumen.style.display='';
+          dirSel='hq'; document.querySelectorAll('.pm-dir-opt').forEach(b=>b.classList.toggle('sel',b.dataset.dir==='hq')); dirCampos.classList.remove('show');
+          document.getElementById('pm-success').classList.remove('show');
+          btn.textContent='Enviar cotización →'; btn.disabled=false;
+        }, 3000);
+      } else { throw new Error(); }
+    } catch(err){
+      $pmStatus.className = 'cf-status err';
+      $pmStatus.textContent = 'Hubo un problema. Escribinos a mail@mipegatina.club';
+      btn.textContent = 'Enviar cotización →'; btn.disabled = false;
+    }
+  });
+}
+</script>
+<script>
+/* ===== ANIMACIÓN "meeeeerch" ===== */
+(function(){
+  const el = document.getElementById('merchAnim');
+  if(!el) return;
+  const wait = ms => new Promise(r=>setTimeout(r,ms));
+  async function loop(){
+    while(true){
+      // estira: de "merch" a "meeeeeeerch"
+      for(let n=1; n<=8; n++){
+        el.textContent = 'm' + 'e'.repeat(n) + 'rch';
+        await wait(90);
+      }
+      await wait(1400);          // se queda estirado
+      // vuelve a "merch"
+      for(let n=8; n>=1; n--){
+        el.textContent = 'm' + 'e'.repeat(n) + 'rch';
+        await wait(55);
+      }
+      await wait(2200);          // pausa en corto antes de repetir
+    }
+  }
+  // arranca cuando el hero es visible
+  const io = new IntersectionObserver((ents)=>{
+    ents.forEach(e=>{ if(e.isIntersecting){ io.disconnect(); loop(); } });
+  }, {threshold:.5});
+  io.observe(el);
+})();
+</script>
+</body>
+</html>
