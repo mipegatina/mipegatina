@@ -628,8 +628,9 @@ function currentPrice(){
   const p = PRODUCTOS[$prod.value];
   const qty = parseInt($cant.value, 10);
   const unitBase = p.unit($mat.value, $med.value, qty);
-  const normal = unitBase * qty;              // precio de lista (sin IVA)
-  return { normal, eko: normal*(1-EKO) };     // Ekoparty: -15%, sin IVA
+  const r100 = n => Math.ceil(n/100)*100;
+  const normal = r100(unitBase * qty);          // precio de lista redondeado a 100
+  return { normal, eko: r100(unitBase*qty*(1-EKO)) };  // Ekoparty: -15%, sin IVA, redondeado a 100
 }
 function recalc(){
   const pr = currentPrice();
