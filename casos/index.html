@@ -26,7 +26,7 @@
   nav{position:sticky;top:0;z-index:50;background:rgba(244,244,245,.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
   .nav-in{max-width:1120px;margin:0 auto;padding:16px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px}
   .brand{display:flex;align-items:center}
-  .brand img{height:32px;width:auto;display:block}
+  .brand img{height:32px;width:auto;display:block;filter:brightness(0);opacity:.9}
   .nav-back{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--gray2);transition:.15s}
   .nav-back:hover{color:var(--green2)}
 
@@ -124,10 +124,30 @@
   .btn-white{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#00a855;font-family:var(--sans);font-weight:700;font-size:.95rem;padding:14px 30px;border-radius:12px;transition:.18s;box-shadow:0 14px 34px -12px rgba(0,0,0,.3)}
   .btn-white::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--green)}
   .btn-white:hover{transform:translateY(-2px)}
+  /* FORM DE EVENTO sobre el CTA verde */
+  .evt-form{max-width:520px;margin:0 auto;text-align:left}
+  .evt-row{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:12px}
+  .evt-form input,.evt-form textarea{width:100%;background:#fff;border:1px solid rgba(255,255,255,.4);border-radius:12px;padding:14px 16px;font-size:16px;font-family:var(--sans);color:#0a0a0a;outline:none;transition:.15s;box-sizing:border-box}
+  .evt-form input::placeholder,.evt-form textarea::placeholder{color:#9a9a9a}
+  .evt-form input:focus,.evt-form textarea:focus{border-color:#0a0a0a;box-shadow:0 0 0 3px rgba(0,0,0,.08)}
+  .evt-form textarea{resize:vertical;margin-bottom:16px}
+  .evt-form .btn-white{width:100%;justify-content:center;border:none;cursor:pointer;font-size:1rem}
+  .evt-success{display:none;flex-direction:column;align-items:center;text-align:center;padding:14px 0}
+  .evt-success.show{display:flex}
+  .evt-check{width:66px;height:66px;border-radius:50%;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;margin-bottom:18px;box-shadow:0 0 0 6px rgba(255,255,255,.06);animation:evtPulse 2.4s infinite}
+  .evt-check::after{content:"✓";color:#fff;font-size:2rem;line-height:1}
+  @keyframes evtPulse{0%,100%{box-shadow:0 0 0 6px rgba(255,255,255,.06)}50%{box-shadow:0 0 0 10px rgba(255,255,255,.03)}}
+  .evt-eyebrow{font-family:var(--mono);font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.85);font-weight:700;margin-bottom:12px}
+  .evt-gracias{font-family:var(--sans);font-size:1.5rem;font-weight:800;letter-spacing:-.5px;color:#fff;margin-bottom:12px}
+  .evt-msg{font-size:.9rem;color:rgba(255,255,255,.82);margin:0 auto 24px;max-width:360px;line-height:1.55}
+  .evt-msg strong{color:#fff}
+  .evt-again{background:#fff;color:#00a855;font-family:var(--sans);font-size:.9rem;font-weight:700;padding:13px 26px;border:none;border-radius:12px;cursor:pointer;transition:.15s}
+  .evt-again:hover{transform:translateY(-2px)}
+  @media(min-width:560px){.evt-row{grid-template-columns:1fr 1fr}}
 
   footer{border-top:1px solid var(--border);padding:36px 0;text-align:center;color:var(--gray3);font-size:.8rem;line-height:1.7;font-family:var(--mono)}
   footer b{color:var(--green2)}
-  .ft-logo-img{height:30px;width:auto;margin-bottom:14px;opacity:.85}
+  .ft-logo-img{height:30px;width:auto;margin-bottom:14px;filter:brightness(0);opacity:.75}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
   @media(min-width:760px){
@@ -210,7 +230,23 @@
     <div class="cta-final">
       <h2>¿Organizás un evento?</h2>
       <p>Si tenés una conferencia, feria o expo con expositores, armamos algo a medida que le sume valor a tu propuesta y te genere un ingreso extra.</p>
-      <a href="mailto:mail@mipegatina.club" class="btn-white">Hablemos de tu evento →</a>
+      <form class="evt-form" id="evt-form" action="https://formspree.io/f/mykqgkbe" method="POST">
+        <input type="hidden" name="_origen" value="Casos de éxito — Consulta de evento">
+        <input type="hidden" name="_subject" value="Nueva consulta de evento (casos de éxito)">
+        <div class="evt-row">
+          <input type="text" name="nombre" required placeholder="Tu nombre o evento">
+          <input type="email" name="email" required placeholder="Tu email">
+        </div>
+        <textarea name="mensaje" rows="3" required placeholder="Contanos sobre tu evento: cuándo es, cuántos expositores, qué necesitás..."></textarea>
+        <button type="submit" class="btn-white" id="evt-submit">Hablemos de tu evento →</button>
+        <div class="evt-success" id="evt-success">
+          <div class="evt-check"></div>
+          <div class="evt-eyebrow">Consulta enviada</div>
+          <div class="evt-gracias" id="evt-gracias">¡Gracias!</div>
+          <p class="evt-msg">Recibimos tu consulta. Te respondemos a <strong id="evt-email-echo"></strong> a la brevedad con una propuesta para tu evento.</p>
+          <button type="button" class="evt-again" id="evt-again">Enviar otra consulta</button>
+        </div>
+      </form>
     </div>
   </div>
 </section>
@@ -222,5 +258,35 @@
   </div>
 </footer>
 
+<script>
+  const evtForm = document.getElementById('evt-form');
+  if(evtForm){
+    evtForm.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const btn = document.getElementById('evt-submit');
+      const nombre = evtForm.querySelector('[name="nombre"]').value.trim().split(' ')[0];
+      const email = evtForm.querySelector('[name="email"]').value.trim();
+      btn.textContent = 'Enviando...'; btn.disabled = true;
+      try{
+        const res = await fetch(evtForm.action, { method:'POST', body:new FormData(evtForm), headers:{'Accept':'application/json'} });
+        if(res.ok){
+          document.getElementById('evt-gracias').textContent = nombre ? ('¡Gracias, '+nombre+'!') : '¡Gracias!';
+          document.getElementById('evt-email-echo').textContent = email;
+          evtForm.querySelectorAll('input:not([type=hidden]),textarea,#evt-submit').forEach(el=>el.style.display='none');
+          document.getElementById('evt-success').classList.add('show');
+        } else { throw new Error(); }
+      } catch(err){
+        btn.textContent = 'Hubo un error — probá de nuevo';
+        btn.disabled = false;
+      }
+    });
+    document.getElementById('evt-again').addEventListener('click', ()=>{
+      evtForm.reset();
+      document.getElementById('evt-success').classList.remove('show');
+      evtForm.querySelectorAll('input:not([type=hidden]),textarea').forEach(el=>el.style.display='');
+      const b=document.getElementById('evt-submit'); b.style.display=''; b.textContent='Hablemos de tu evento →'; b.disabled=false;
+    });
+  }
+</script>
 </body>
 </html>
