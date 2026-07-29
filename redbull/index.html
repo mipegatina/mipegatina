@@ -212,6 +212,7 @@
   .packing-strip{width:100%;background:#fff;position:relative;line-height:0;overflow:hidden}
   .packing-strip img{width:100%;height:auto;display:block}
   .packing-strip::before{content:"";position:absolute;top:0;left:0;right:0;height:280px;background:linear-gradient(to bottom,var(--bg) 0%,rgba(0,20,42,.85) 22%,rgba(0,20,42,.5) 48%,rgba(0,20,42,.2) 72%,transparent 100%);pointer-events:none;z-index:2}
+  @media(max-width:640px){ .packing-strip::before{height:110px} }
   /* CAMPO EVENTO/ACCIÓN destacado */
   .pm-accion{background:linear-gradient(135deg,rgba(225,6,0,.08),rgba(255,201,0,.05));border:1px solid rgba(225,6,0,.2);border-radius:13px;padding:16px;margin-bottom:16px}
   .pm-accion label{display:block;font-size:13px;font-weight:700;color:var(--ink);margin-bottom:9px}
