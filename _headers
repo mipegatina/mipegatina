@@ -3,6 +3,3 @@
 
 /robots.txt
   Content-Type: text/plain; charset=utf-8
-
-/redbull/*
-  Basic-Auth: redbull:redbull2026
