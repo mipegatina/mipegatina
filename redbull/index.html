@@ -150,6 +150,11 @@
   .cart-total-lbl{font-size:15px;font-weight:700;color:var(--ink)}
   .cart-total-off{display:block;color:var(--red);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-top:3px}
   .cart-total-nums{text-align:right}
+  .cart-actions{display:flex;gap:10px;flex-wrap:wrap}
+  .cart-actions .btn{flex:1 1 0;text-align:center;min-width:0;line-height:1.3}
+  .cart-add-more{background:rgba(225,6,0,.12) !important;color:var(--ink) !important;border:1.5px solid var(--red) !important;box-shadow:0 0 18px rgba(225,6,0,.15) !important}
+  .cart-add-more:hover{background:rgba(225,6,0,.2) !important}
+  @media(max-width:520px){ .cart-actions .btn{flex:1 1 100%} }
   .cart-was{display:block;font-size:15px;color:var(--dimmer);text-decoration:line-through;font-weight:500}
   .cart-now{font-size:34px;font-weight:900;background:linear-gradient(120deg,var(--red),var(--magenta));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-1.5px;line-height:1}
 
@@ -352,7 +357,10 @@
           <div class="cart-total-lbl">Total <span class="cart-total-off">(IVA incluido)</span></div>
           <div class="cart-total-nums"><span class="cart-now" id="cart-now">$ 0</span></div>
         </div>
-        <a href="#" class="btn btn-primary" id="cart-send">Pedir esta cotización →</a>
+        <div class="cart-actions">
+          <a href="#cotizador" class="btn cart-add-more" id="cart-add-more">+ Agregar otro producto</a>
+          <a href="#" class="btn btn-primary" id="cart-send">Pedir esta cotización →</a>
+        </div>
       </div>
     </div>
   </div>
@@ -684,7 +692,7 @@ function addToCart(){
     eko: pr.eko
   });
   renderCart();
-  document.getElementById('cotizador').scrollIntoView({behavior:'smooth', block:'start'});
+  document.getElementById('cart').scrollIntoView({behavior:'smooth', block:'center'});
 }
 
 $prod.addEventListener('change', ()=>{ fillMateriales(); fillMedidas(); fillPacks(); recalc(); });
