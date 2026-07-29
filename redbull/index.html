@@ -120,7 +120,10 @@
   .quoter-wrap{background:linear-gradient(160deg,var(--panel-2),var(--bg));border:1px solid var(--line);border-radius:22px;padding:26px 22px;position:relative;box-shadow:0 40px 90px -40px rgba(26,75,140,.4)}
   .q-grid{display:grid;grid-template-columns:1fr;gap:16px}
   .q-field label{font-size:12px;font-weight:600;color:var(--dim);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:8px}
-  .q-field select,.q-field input{width:100%;background:var(--bg);border:1px solid var(--line-soft);color:var(--ink);font-family:inherit;font-size:15px;padding:15px;border-radius:12px}
+  .q-field select,.q-field input,.q-field textarea,.q-field select{width:100%;background:var(--bg);border:1px solid var(--line-soft);color:var(--ink);font-family:inherit;font-size:15px;padding:15px;border-radius:12px;box-sizing:border-box}
+.q-field textarea{resize:vertical;line-height:1.5}
+.q-field input:focus,.q-field textarea:focus{outline:none;border-color:var(--red)}
+.q-field input::placeholder,.q-field textarea::placeholder{color:var(--dimmer)}
   .q-field select:focus,.q-field input:focus{outline:none;border-color:var(--red)}
   .price-out{margin-top:24px;padding:24px;background:linear-gradient(150deg,var(--wine),var(--bg));border:1px solid var(--line);border-radius:16px;display:flex;flex-direction:column;align-items:stretch;gap:16px;text-align:center}
   .price-out .was{color:var(--dimmer);text-decoration:line-through;font-size:15px;font-weight:500}
@@ -213,6 +216,35 @@
   .pm-res-iva{font-size:11.5px;color:var(--dimmer);text-align:center;margin-top:4px;font-weight:500}
   /* SELECTOR ENVÍO MODAL */
   .pm-envio-legacy{display:none}
+  /* RESEÑAS */
+  .rev-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin-bottom:36px}
+  .rev-card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:26px;display:flex;flex-direction:column;gap:14px}
+  .rev-stars{color:#ffc900;font-size:1.05rem;letter-spacing:2px}
+  .rev-text{color:var(--ink);font-size:1rem;line-height:1.55;margin:0;flex:1}
+  .rev-author{display:flex;align-items:center;gap:12px}
+  .rev-avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:1.1rem;flex-shrink:0;overflow:hidden}
+  .rev-avatar img{width:100%;height:100%;object-fit:cover}
+  .rev-author b{display:block;color:var(--ink);font-size:.95rem}
+  .rev-author span{display:block;color:var(--dim);font-size:.8rem}
+  .rev-cta-wrap{text-align:center}
+  .rev-empty{grid-column:1/-1;text-align:center;padding:48px 24px;background:var(--panel);border:1px dashed var(--line);border-radius:18px}
+  .rev-empty-ico{font-size:2.4rem;color:#ffc900;opacity:.55;margin-bottom:12px}
+  .rev-empty-t{color:var(--ink);font-weight:700;font-size:1.1rem;margin:0 0 6px}
+  .rev-empty-s{color:var(--dim);font-size:.92rem;margin:0}
+  .rev-overlay{display:none;position:fixed;inset:0;background:rgba(0,8,20,.82);backdrop-filter:blur(6px);z-index:200;padding:20px;overflow-y:auto}
+  .rev-overlay.show{display:flex;align-items:flex-start;justify-content:center}
+  .rev-modal{background:linear-gradient(160deg,var(--panel-2),var(--bg));border:1px solid var(--line);border-radius:22px;padding:28px;max-width:480px;width:100%;margin:32px auto;position:relative;box-shadow:0 50px 120px -30px rgba(225,6,0,.5)}
+  .rev-modal-title{font-size:1.4rem;font-weight:800;color:var(--ink);margin:0 0 6px}
+  .rev-modal-sub{color:var(--dim);font-size:.9rem;margin:0 0 20px;line-height:1.5}
+  .rev-label{display:block;font-size:13px;font-weight:600;color:var(--dim);margin-bottom:8px}
+  .rev-star-pick{display:flex;gap:6px;font-size:2rem;color:var(--line);cursor:pointer;width:max-content}
+  .rev-star-pick span{transition:.15s;color:var(--line)}
+  .rev-star-pick span.on{color:#ffc900}
+  .rev-file{width:100%;background:var(--bg);border:1.5px dashed var(--line);border-radius:10px;padding:12px;font-size:13px;color:var(--dim);cursor:pointer;font-family:inherit}
+  .rev-success{display:none;padding:20px 0 6px}
+  .rev-success.show{display:block}
+  .evt-check{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#e10600,#0a7cff);position:relative}
+  .evt-check::after{content:"";position:absolute;left:19px;top:11px;width:10px;height:20px;border:solid #fff;border-width:0 3px 3px 0;transform:rotate(45deg)}
   /* FRANJA PACKING full-width (cierre de la web) */
   .packing-strip{width:100%;background:#fff;position:relative;line-height:0;overflow:hidden}
   .packing-strip img{width:100%;height:auto;display:block}
@@ -484,6 +516,53 @@
       <div class="success-title">¡Cotización enviada!</div>
       <div class="success-msg">Recibimos tu pedido con todos los productos. Te contactamos pronto para coordinar.</div>
     </div>
+  </div>
+</div>
+
+<section id="resenas" style="padding:80px 0;border-top:1px solid var(--line-soft)">
+  <div class="wrap">
+    <div class="sec-eyebrow" style="text-align:center">La voz del equipo</div>
+    <h2 class="sec-title" style="text-align:center">Lo que dice el equipo <span style="white-space:nowrap">Red Bull</span>.</h2>
+    <p class="sec-desc" style="text-align:center;margin:0 auto 44px">Reseñas reales de quienes ya pidieron su merch.</p>
+
+    <div class="rev-grid" id="rev-grid">
+      <div class="rev-empty">
+        <div class="rev-empty-ico">★</div>
+        <p class="rev-empty-t">Todavía no hay reseñas</p>
+        <p class="rev-empty-s">Sé la primera persona del equipo en contar su experiencia.</p>
+      </div>
+    </div>
+
+    <div class="rev-cta-wrap">
+      <button class="btn btn-primary" id="rev-open" type="button">★ Dejá tu reseña</button>
+    </div>
+  </div>
+</section>
+
+<div class="rev-overlay" id="rev-overlay">
+  <div class="rev-modal">
+    <button class="pm-close" id="rev-close" type="button">×</button>
+    <h3 class="rev-modal-title">Contanos tu experiencia</h3>
+    <p class="rev-modal-sub">Tu reseña se publica después de una breve revisión. ¡Gracias por sumar!</p>
+    <form id="rev-form" action="https://formspree.io/f/xnjewwdd" method="POST" enctype="multipart/form-data">
+      <input type="hidden" name="_origen" value="Web Red Bull — Reseña del equipo">
+      <input type="hidden" name="_subject" value="Nueva reseña para aprobar (Red Bull)">
+      <input type="hidden" name="calificacion" id="rev-rating-input" value="5">
+      <label class="rev-label">Tu calificación</label>
+      <div class="rev-star-pick" id="rev-star-pick">
+        <span data-v="1">★</span><span data-v="2">★</span><span data-v="3">★</span><span data-v="4">★</span><span data-v="5">★</span>
+      </div>
+      <div class="q-field" style="margin-top:16px"><label>Tu reseña *</label><textarea name="resena" rows="3" required placeholder="Contanos cómo fue tu experiencia con el pedido..."></textarea></div>
+      <div class="q-field" style="margin-top:14px"><label>Tu nombre *</label><input type="text" name="nombre" required placeholder="Nombre"></div>
+      <div class="q-field" style="margin-top:14px"><label>Área o rol <span style="opacity:.5">(opcional)</span></label><input type="text" name="area" placeholder="Ej: Trade Marketing"></div>
+      <div class="q-field" style="margin-top:14px"><label>Foto <span style="opacity:.5">(opcional)</span></label><input type="file" name="foto" accept="image/png, image/jpeg" class="rev-file"></div>
+      <button type="submit" class="btn btn-primary" id="rev-send" style="width:100%;margin-top:18px">Enviar reseña →</button>
+      <div class="rev-success" id="rev-success">
+        <div class="evt-check" style="margin:0 auto 14px"></div>
+        <div style="font-weight:800;font-size:1.2rem;color:var(--ink);text-align:center">¡Gracias por tu reseña!</div>
+        <p style="color:var(--dim);font-size:.9rem;text-align:center;margin-top:8px">La revisamos y la publicamos en breve.</p>
+      </div>
+    </form>
   </div>
 </div>
 
@@ -871,6 +950,56 @@ if($pmForm){
     ents.forEach(e=>{ if(e.isIntersecting){ io.disconnect(); loop(); } });
   }, {threshold:.5});
   io.observe(el);
+})();
+</script>
+<script>
+/* ===== RESEÑAS ===== */
+(function(){
+  const overlay = document.getElementById('rev-overlay');
+  const openBtn = document.getElementById('rev-open');
+  const closeBtn = document.getElementById('rev-close');
+  const form = document.getElementById('rev-form');
+  if(!overlay || !openBtn) return;
+  const stars = document.querySelectorAll('#rev-star-pick span');
+  const ratingInput = document.getElementById('rev-rating-input');
+  const successBox = document.getElementById('rev-success');
+  const sendBtn = document.getElementById('rev-send');
+
+  function paint(v){ stars.forEach(s=>s.classList.toggle('on', parseInt(s.dataset.v,10)<=v)); }
+  paint(5);
+  stars.forEach(s=>{
+    s.addEventListener('click', ()=>{ const v=parseInt(s.dataset.v,10); ratingInput.value=v; paint(v); });
+    s.addEventListener('mouseenter', ()=>paint(parseInt(s.dataset.v,10)));
+  });
+  document.getElementById('rev-star-pick').addEventListener('mouseleave', ()=>paint(parseInt(ratingInput.value,10)));
+
+  function open(){ overlay.classList.add('show'); document.body.style.overflow='hidden'; }
+  function close(){ overlay.classList.remove('show'); document.body.style.overflow=''; }
+  openBtn.addEventListener('click', open);
+  closeBtn.addEventListener('click', close);
+  overlay.addEventListener('click', e=>{ if(e.target===overlay) close(); });
+
+  form.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    sendBtn.textContent='Enviando...'; sendBtn.disabled=true;
+    try{
+      const res = await fetch(form.action, { method:'POST', body:new FormData(form), headers:{'Accept':'application/json'} });
+      if(res.ok){
+        form.querySelectorAll('.q-field, .rev-label, #rev-star-pick, #rev-send').forEach(el=>el.style.display='none');
+        successBox.classList.add('show');
+        setTimeout(()=>{
+          close();
+          form.reset(); ratingInput.value=5; paint(5);
+          form.querySelectorAll('.q-field, .rev-label, #rev-star-pick, #rev-send').forEach(el=>el.style.display='');
+          successBox.classList.remove('show');
+          sendBtn.textContent='Enviar reseña →'; sendBtn.disabled=false;
+        }, 3200);
+      } else { throw new Error(); }
+    } catch(err){
+      sendBtn.textContent='Enviar reseña →'; sendBtn.disabled=false;
+      alert('Hubo un problema al enviar. Probá de nuevo o escribinos a mail@mipegatina.club');
+    }
+  });
 })();
 </script>
 </body>
