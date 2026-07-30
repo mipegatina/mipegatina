@@ -112,6 +112,21 @@
   .perk-ico{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:var(--green3);display:flex;align-items:center;justify-content:center;color:var(--green2)}
   .perk-ico svg{width:16px;height:16px;stroke:currentColor;stroke-width:1.9;fill:none}
 
+  /* GALERÍA / CARRUSEL */
+  .sec-gallery{background:#fff}
+  .gallery-track{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;padding:8px 4px 20px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .gallery-track::-webkit-scrollbar{display:none}
+  .gallery-slide{flex:0 0 auto;width:min(85vw,460px);scroll-snap-align:center}
+  .gallery-frame{background:#00142a;border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 30px 60px -30px rgba(10,124,255,.4)}
+  .gallery-bar{display:flex;gap:6px;padding:11px 14px;background:#001528;border-bottom:1px solid rgba(255,255,255,.08)}
+  .gallery-bar span{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.15)}
+  .gallery-bar span:first-child{background:#e10600;opacity:.7}
+  .gallery-frame img{width:100%;display:block;aspect-ratio:2.24/1;object-fit:cover}
+  .gallery-cap{margin:12px 2px 0;font-size:.85rem;color:var(--gray3);text-align:center}
+  .gallery-dots{display:flex;justify-content:center;gap:7px;margin-top:4px}
+  .gallery-dots span{width:7px;height:7px;border-radius:50%;background:var(--border);transition:.25s}
+  .gallery-dots span.on{background:#0a7cff;width:20px;border-radius:4px}
+
   @media(min-width:760px){
     .perks{flex-direction:row}
     .perk{flex:1}
@@ -205,6 +220,54 @@
   </div>
 </section>
 
+<section class="sec-gallery">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Así se ve en la práctica</span>
+      <h2 class="sec-title">Un vistazo al portal de Red Bull.</h2>
+      <p class="sec-desc">Recorré algunas de las pantallas de su portal exclusivo.</p>
+    </div>
+    <div class="gallery-track" id="galleryTrack">
+      <div class="gallery-slide">
+        <div class="gallery-frame">
+          <div class="gallery-bar"><span></span><span></span><span></span></div>
+          <img src="gallery/hero.jpg" alt="Hero del portal Red Bull" loading="lazy">
+        </div>
+        <p class="gallery-cap">Hero con la identidad Red Bull</p>
+      </div>
+      <div class="gallery-slide">
+        <div class="gallery-frame">
+          <div class="gallery-bar"><span></span><span></span><span></span></div>
+          <img src="gallery/como-funciona.jpg" alt="Sección Cómo funciona del portal Red Bull" loading="lazy">
+        </div>
+        <p class="gallery-cap">Cómo funciona: cotizás, confirmás, recibís</p>
+      </div>
+      <div class="gallery-slide">
+        <div class="gallery-frame">
+          <div class="gallery-bar"><span></span><span></span><span></span></div>
+          <img src="gallery/carrito.jpg" alt="Cotización con precios corporativos" loading="lazy">
+        </div>
+        <p class="gallery-cap">Cotizador con precios corporativos</p>
+      </div>
+      <div class="gallery-slide">
+        <div class="gallery-frame">
+          <div class="gallery-bar"><span></span><span></span><span></span></div>
+          <img src="gallery/modal-pedido.jpg" alt="Modal de pedido con evento y entrega" loading="lazy">
+        </div>
+        <p class="gallery-cap">Pedido con evento/acción y entrega</p>
+      </div>
+      <div class="gallery-slide">
+        <div class="gallery-frame">
+          <div class="gallery-bar"><span></span><span></span><span></span></div>
+          <img src="gallery/resenas.jpg" alt="Sección de reseñas del equipo" loading="lazy">
+        </div>
+        <p class="gallery-cap">Reseñas del equipo</p>
+      </div>
+    </div>
+    <div class="gallery-dots" id="galleryDots"></div>
+  </div>
+</section>
+
 <section class="sec-howto">
   <div class="wrap">
     <div class="sec-head">
@@ -287,6 +350,32 @@
       const b=document.getElementById('evt-submit'); b.style.display=''; b.textContent='Hablemos de tu empresa →'; b.disabled=false;
     });
   }
+</script>
+<script>
+/* ===== GALERÍA / CARRUSEL ===== */
+(function(){
+  const track = document.getElementById('galleryTrack');
+  const dotsWrap = document.getElementById('galleryDots');
+  if(!track || !dotsWrap) return;
+  const slides = [...track.children];
+  slides.forEach((_,i)=>{
+    const d = document.createElement('span');
+    if(i===0) d.classList.add('on');
+    d.addEventListener('click', ()=> slides[i].scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'}));
+    dotsWrap.appendChild(d);
+  });
+  const dots = [...dotsWrap.children];
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const idx = slides.indexOf(e.target);
+        dots.forEach(d=>d.classList.remove('on'));
+        if(dots[idx]) dots[idx].classList.add('on');
+      }
+    });
+  }, {root:track, threshold:.6});
+  slides.forEach(s=>io.observe(s));
+})();
 </script>
 
 
