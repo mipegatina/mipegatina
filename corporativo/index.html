@@ -126,6 +126,13 @@
   .gallery-dots{display:flex;justify-content:center;gap:7px;margin-top:4px}
   .gallery-dots span{width:7px;height:7px;border-radius:50%;background:var(--border);transition:.25s}
   .gallery-dots span.on{background:#0a7cff;width:20px;border-radius:4px}
+  .gallery-wrap{position:relative}
+  .gallery-arrow{position:absolute;top:44%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:#fff;border:1px solid var(--border);box-shadow:0 10px 26px -8px rgba(0,0,0,.25);font-size:1.5rem;line-height:1;color:#00142a;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:3;transition:.18s}
+  .gallery-arrow:hover{background:#0a7cff;color:#fff;box-shadow:0 12px 30px -8px rgba(10,124,255,.5)}
+  .gallery-prev{left:-4px}
+  .gallery-next{right:-4px}
+  @media(min-width:900px){ .gallery-prev{left:-22px} .gallery-next{right:-22px} }
+  @media(max-width:640px){ .gallery-arrow{display:none} }
 
   @media(min-width:760px){
     .perks{flex-direction:row}
@@ -227,7 +234,9 @@
       <h2 class="sec-title">Un vistazo al portal de Red Bull.</h2>
       <p class="sec-desc">Recorré algunas de las pantallas de su portal exclusivo.</p>
     </div>
-    <div class="gallery-track" id="galleryTrack">
+    <div class="gallery-wrap">
+      <button class="gallery-arrow gallery-prev" id="galleryPrev" type="button" aria-label="Anterior">‹</button>
+      <div class="gallery-track" id="galleryTrack">
       <div class="gallery-slide">
         <div class="gallery-frame">
           <div class="gallery-bar"><span></span><span></span><span></span></div>
@@ -263,6 +272,8 @@
         </div>
         <p class="gallery-cap">Reseñas del equipo</p>
       </div>
+    </div>
+      <button class="gallery-arrow gallery-next" id="galleryNext" type="button" aria-label="Siguiente">›</button>
     </div>
     <div class="gallery-dots" id="galleryDots"></div>
   </div>
@@ -374,6 +385,25 @@
       }
     });
   }, {root:track, threshold:.6});
+
+  const prevBtn = document.getElementById('galleryPrev');
+  const nextBtn = document.getElementById('galleryNext');
+  function currentIndex(){
+    const trackRect = track.getBoundingClientRect();
+    let closest = 0, best = Infinity;
+    slides.forEach((s,i)=>{
+      const r = s.getBoundingClientRect();
+      const d = Math.abs((r.left+r.right)/2 - (trackRect.left+trackRect.right)/2);
+      if(d<best){ best=d; closest=i; }
+    });
+    return closest;
+  }
+  function goTo(i){
+    i = Math.max(0, Math.min(slides.length-1, i));
+    slides[i].scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});
+  }
+  if(prevBtn) prevBtn.addEventListener('click', ()=> goTo(currentIndex()-1));
+  if(nextBtn) nextBtn.addEventListener('click', ()=> goTo(currentIndex()+1));
   slides.forEach(s=>io.observe(s));
 })();
 </script>
