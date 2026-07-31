@@ -56,7 +56,9 @@
       linear-gradient(165deg,#001528 0%,#000a14 55%,#001020 100%);
     overflow:hidden;position:relative;
   }
-  .sec-howto::after{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(10,124,255,.5),transparent);pointer-events:none}
+  .sec-howto::before{content:"";position:absolute;top:0;left:0;right:0;height:340px;background:linear-gradient(to bottom,#f4f4f5 0%,rgba(244,244,245,.7) 25%,rgba(244,244,245,.35) 50%,rgba(244,244,245,.12) 75%,transparent 100%);pointer-events:none;z-index:1}
+  @media(min-width:760px){ .sec-howto::before{height:560px} }
+  .sec-howto>*{position:relative;z-index:2}
   .sec-howto .eyebrow{color:#4da3ff}
   .sec-howto .eyebrow::before{background:#4da3ff;box-shadow:0 0 12px rgba(10,124,255,.8)}
   .sec-howto .sec-title{color:#fff}
@@ -92,10 +94,12 @@
   .case-link:hover{transform:translateY(-2px);box-shadow:0 18px 40px -12px rgba(77,163,255,.7)}
 
   /* PRÓXIMO CASO */
-  .case-soon{margin-top:16px;border:1.5px dashed var(--border2);border-radius:24px;padding:32px 28px;text-align:center;background:linear-gradient(160deg,rgba(10,124,255,.04),transparent)}
-  .case-soon .cs-tag{font-family:var(--mono);font-size:.68rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray3);margin-bottom:10px}
-  .case-soon h4{font-size:1.25rem;font-weight:700;color:var(--white);margin-bottom:8px}
-  .case-soon p{color:var(--gray3);font-size:.9rem}
+  .case-soon{margin-top:16px;border:1px solid rgba(10,124,255,.3);border-radius:24px;padding:36px 28px;text-align:center;background:linear-gradient(135deg,rgba(10,124,255,.14),rgba(77,163,255,.05) 60%,transparent);position:relative;overflow:hidden}
+  .case-soon::before{content:"";position:absolute;top:-40%;right:-10%;width:280px;height:280px;background:radial-gradient(circle,rgba(10,124,255,.18),transparent 65%);pointer-events:none}
+  .case-soon>*{position:relative;z-index:1}
+  .case-soon .cs-tag{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:.68rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#4da3ff;background:rgba(10,124,255,.12);border:1px solid rgba(10,124,255,.25);padding:5px 14px;border-radius:100px;margin-bottom:14px}
+  .case-soon h4{font-size:1.4rem;font-weight:800;color:#0860c4;margin-bottom:8px;letter-spacing:-.5px}
+  .case-soon p{color:#5a6472;font-size:.92rem}
 
   /* CÓMO FUNCIONA — números grandes verdes con línea izquierda, como .proceso */
   .steps{display:grid;grid-template-columns:1fr;gap:24px}
@@ -112,7 +116,77 @@
   .perk-ico{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:var(--green3);display:flex;align-items:center;justify-content:center;color:var(--green2)}
   .perk-ico svg{width:16px;height:16px;stroke:currentColor;stroke-width:1.9;fill:none}
 
-  /* GALERÍA / CARRUSEL */
+  /* DASHBOARD */
+  .sec-dash{background:linear-gradient(180deg,#001528,#000a14);position:relative;overflow:hidden}
+  .sec-dash::before{content:"";position:absolute;top:-20%;right:-10%;width:500px;height:500px;background:radial-gradient(circle,rgba(10,124,255,.18),transparent 70%);pointer-events:none}
+  .sec-dash .eyebrow{color:#4da3ff}
+  .sec-dash .sec-title{color:#fff}
+  .sec-dash .sec-desc{color:rgba(255,255,255,.6)}
+  .dash{display:grid;grid-template-columns:1fr;gap:18px;margin-top:8px;position:relative}
+  @media(min-width:820px){ .dash{grid-template-columns:1.5fr 1fr} }
+  .dash-hero{background:linear-gradient(150deg,rgba(10,124,255,.12),rgba(255,255,255,.02));border:1px solid rgba(10,124,255,.25);border-radius:24px;padding:34px;display:flex;flex-direction:column;gap:26px;align-items:center;text-align:center;position:relative;overflow:hidden}
+  @media(min-width:560px){ .dash-hero{flex-direction:row;text-align:left} }
+  .dash-hero-compare{width:100%;max-width:280px;flex-shrink:0}
+  .dash-cmp-row{margin-bottom:16px}
+  .dash-cmp-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px}
+  .dash-cmp-lbl{font-size:.8rem;color:rgba(255,255,255,.6);font-weight:600}
+  .dash-cmp-val{font-family:var(--mono);font-size:1.05rem;font-weight:800;color:rgba(255,255,255,.55)}
+  .dash-cmp-val.hot{color:#4da3ff}
+  .dash-cmp-val.danger{color:#ff5a5a}
+  .dash-cmp-track{height:14px;background:rgba(255,255,255,.06);border-radius:100px;overflow:hidden}
+  .dash-cmp-fill{height:100%;border-radius:100px;transition:width 1s cubic-bezier(.4,0,.2,1)}
+  .dash-cmp-old{background:linear-gradient(90deg,#ff4d4d,#e02020);box-shadow:0 0 14px rgba(224,32,32,.4)}
+  .dash-cmp-new{background:linear-gradient(90deg,#4da3ff,#0860c4);box-shadow:0 0 14px rgba(10,124,255,.5)}
+  .dash-cmp-save{margin-top:6px;text-align:center;font-family:var(--mono);font-size:.82rem;font-weight:700;color:#4da3ff;background:rgba(10,124,255,.12);border:1px solid rgba(10,124,255,.3);border-radius:100px;padding:7px 0}
+  .dash-hero-text h3{color:#fff;font-size:1.35rem;font-weight:800;margin:0 0 8px;letter-spacing:-.5px}
+  .dash-hero-text p{color:rgba(255,255,255,.62);font-size:.92rem;line-height:1.55;margin:0}
+  .dash-side{display:flex;flex-direction:column;gap:18px}
+  .dash-stat{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:22px;display:flex;align-items:center;gap:16px;flex:1;transition:.2s}
+  .dash-stat:hover{border-color:rgba(10,124,255,.4);background:rgba(10,124,255,.06)}
+  .dash-stat-highlight{border-color:rgba(10,124,255,.4);background:rgba(10,124,255,.06)}
+  .dash-stat-ico{width:46px;height:46px;border-radius:13px;background:linear-gradient(135deg,#4da3ff,#0860c4);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 8px 20px -6px rgba(10,124,255,.6)}
+  .dash-stat-ico svg{width:22px;height:22px;stroke:#fff;stroke-width:2.2;fill:none}
+  .dash-stat-top{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .dash-stat-num{font-family:var(--mono);font-size:1.7rem;font-weight:800;color:#fff;line-height:1}
+  .dash-stat-trend{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:3px 9px;border-radius:100px}
+  .dash-stat-trend.up{background:rgba(10,124,255,.15);color:#4da3ff}
+  .dash-stat-lbl{color:rgba(255,255,255,.55);font-size:.82rem;margin-top:6px;line-height:1.35}
+  .dash-charts{display:grid;grid-template-columns:1fr;gap:16px;margin-top:18px}
+  @media(min-width:760px){ .dash-charts{grid-template-columns:1fr 1.4fr} }
+  .dash-chart-mails{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:16px}
+  .dash-mail-big{display:flex;align-items:center;gap:14px;font-family:var(--mono);font-weight:800;line-height:1}
+  .dash-mail-from{font-size:2.4rem;color:rgba(255,255,255,.35);text-decoration:line-through;text-decoration-color:rgba(255,255,255,.25)}
+  .dash-mail-arrow{font-size:1.4rem;color:rgba(255,255,255,.4)}
+  .dash-mail-to{font-size:3.2rem;background:linear-gradient(135deg,#4da3ff,#0860c4);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 12px rgba(10,124,255,.4))}
+  .dash-mail-txt .dash-growth-title{margin-bottom:3px}
+  .dash-chart-panel{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:22px;padding:24px 26px}
+  .dash-growth-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:18px;flex-wrap:wrap}
+  .dash-growth-title{color:#fff;font-weight:700;font-size:1rem}
+  .dash-growth-sub{color:rgba(255,255,255,.5);font-size:.82rem;margin-top:3px}
+  .dash-growth-badge{font-family:var(--mono);font-size:.9rem;font-weight:800;color:#4da3ff;background:rgba(10,124,255,.12);border:1px solid rgba(10,124,255,.3);padding:5px 13px;border-radius:100px;white-space:nowrap}
+  .dash-growth-badge.down{color:#7fbfff}
+  .dash-growth-chart{position:relative}
+  .dash-vs{display:flex;align-items:center;justify-content:space-around;gap:12px;padding:14px 0}
+  .dash-vs-item{text-align:center;flex:1}
+  .dash-vs-num{font-family:var(--mono);font-size:2.8rem;font-weight:800;line-height:1;color:rgba(255,255,255,.85)}
+  .dash-vs-item.hot .dash-vs-num{background:linear-gradient(135deg,#4da3ff,#0860c4);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 14px rgba(10,124,255,.4))}
+  .dash-vs-lbl{font-size:.78rem;color:rgba(255,255,255,.55);margin-top:8px;line-height:1.3}
+  .dash-vs-arrow{flex-shrink:0;color:rgba(10,124,255,.7)}
+  .dash-vs-arrow svg{width:32px;height:32px;stroke:currentColor;stroke-width:2;fill:none}
+  .dash-area{width:100%;height:100px;display:block}
+  .dash-checklist{display:grid;grid-template-columns:1fr;gap:14px;margin-top:20px}
+  @media(min-width:640px){ .dash-checklist{grid-template-columns:1fr 1fr} }
+  .dash-check-item{display:flex;align-items:flex-start;gap:12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:18px 20px}
+  .dash-check-ico{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:rgba(10,124,255,.15);display:flex;align-items:center;justify-content:center;color:#4da3ff;margin-top:1px}
+  .dash-check-ico svg{width:15px;height:15px;stroke:currentColor;stroke-width:2.4;fill:none}
+  .dash-check-text b{display:block;font-size:.92rem;color:#fff;margin-bottom:2px}
+  .dash-check-text span{font-size:.82rem;color:rgba(255,255,255,.5)}
+  .dash-chips{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:22px}
+  .dash-chip{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:100px;padding:11px 20px;font-size:.85rem;font-weight:600;color:#fff}
+  .dash-chip-dot{width:8px;height:8px;border-radius:50%;background:#4da3ff;flex-shrink:0;box-shadow:0 0 8px rgba(10,124,255,.7)}
+
+  
+/* GALERÍA / CARRUSEL */
   .sec-gallery{background:#fff}
   .gallery-track{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;padding:8px 4px 20px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
   .gallery-track::-webkit-scrollbar{display:none}
@@ -139,8 +213,7 @@
     .perk{flex:1}
   }
   /* CTA FINAL — verde con glow, como los CTA de la web */
-  .cta-final{background:linear-gradient(135deg,#002a52,#0a4a8c);border-radius:24px;padding:52px 28px;text-align:center;position:relative;overflow:hidden;box-shadow:0 30px 70px -30px rgba(10,124,255,.5)}
-  .cta-final::before{content:"";position:absolute;top:-50%;left:50%;transform:translateX(-50%);width:120%;height:200%;background:radial-gradient(ellipse at center,rgba(255,255,255,.16) 0%,transparent 55%);pointer-events:none}
+  .cta-final{background:linear-gradient(135deg,#0a7cff 0%,#0860c4 55%,#001528 100%);border:1px solid rgba(10,124,255,.35);border-radius:24px;padding:52px 28px;text-align:center;position:relative;overflow:hidden;box-shadow:0 30px 70px -30px rgba(10,124,255,.5)}
   .cta-final>*{position:relative}
   .cta-final h2{font-size:clamp(1.8rem,5.5vw,2.8rem);font-weight:800;letter-spacing:-1.2px;color:#fff;margin-bottom:14px}
   .cta-final p{color:rgba(255,255,255,.92);max-width:520px;margin:0 auto 30px;font-size:1rem}
@@ -196,9 +269,137 @@
   <div class="wrap">
     <span class="eyebrow">Producción a medida para empresas</span>
     <h1>Un portal de merch<br>propio para <span class="hl">tu empresa</span>.</h1>
-    <p class="lead">Le damos a tu empresa u organización una web exclusiva para pedir merch con condiciones pre-acordadas: precios corporativos, facturación a plazo y entrega coordinada. Sin vueltas.</p>
+    <p class="lead">Le damos a tu empresa u organización una web exclusiva para pedir merch con condiciones pre-acordadas: precios corporativos, facturación a plazo y entrega coordinada.</p>
   </div>
 </header>
+
+
+
+<section class="sec-howto">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Cómo funciona</span>
+      <h2 class="sec-title">Del pedido a la entrega en tres pasos.</h2>
+      <p class="sec-desc">Un proceso simple, con condiciones ya pactadas para tu empresa.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><span class="n">01</span><h4>Desarrollamos el portal</h4><p>Una web exclusiva con la identidad de tu empresa, cotizador propio y precios corporativos ya acordados. Lista para que la use tu equipo.</p></div>
+      <div class="step"><span class="n">02</span><h4>Tu equipo realiza el pedido</h4><p>Cada persona arma su pedido en minutos, indica a qué evento o acción corresponde, y elige recibirlo en las oficinas o en la dirección que necesite.</p></div>
+      <div class="step"><span class="n">03</span><h4>Producimos y entregamos</h4><p>Facturamos según las condiciones pactadas (plazo, forma de pago) y coordinamos la entrega. Sin ida y vuelta de presupuestos.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec-dash">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Beneficios para tu empresa</span>
+      <h2 class="sec-title">El tiempo que recupera tu equipo.</h2>
+      <p class="sec-desc">Un panel claro del tiempo y los pasos que tu equipo se ahorra en cada compra.</p>
+    </div>
+
+    <div class="dash">
+      <!-- Hero: comparativa antes/ahora -->
+      <div class="dash-hero">
+        <div class="dash-hero-compare">
+          <div class="dash-cmp-row">
+            <div class="dash-cmp-head"><span class="dash-cmp-lbl">Antes</span><span class="dash-cmp-val danger">100%</span></div>
+            <div class="dash-cmp-track"><div class="dash-cmp-fill dash-cmp-old" id="cmpOld" style="width:0%"></div></div>
+          </div>
+          <div class="dash-cmp-row">
+            <div class="dash-cmp-head"><span class="dash-cmp-lbl">Con el portal</span><span class="dash-cmp-val hot">20%</span></div>
+            <div class="dash-cmp-track"><div class="dash-cmp-fill dash-cmp-new" id="cmpNew" style="width:0%"></div></div>
+          </div>
+          <div class="dash-cmp-save">↓ 80% menos gestión</div>
+        </div>
+        <div class="dash-hero-text">
+          <h3>Menos tiempo administrativo</h3>
+          <p>Hasta un 80% menos de tiempo de gestión por pedido: sin cotizar por mail ni esperar aprobaciones cruzadas.</p>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="dash-side">
+        <div class="dash-stat dash-stat-highlight">
+          <div class="dash-stat-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+          <div class="dash-stat-body">
+            <div class="dash-stat-top"><span class="dash-stat-num" id="dashHours">0 hs</span><span class="dash-stat-trend up">ahorradas</span></div>
+            <div class="dash-stat-lbl">De gestión por mes, aprox., con pedidos recurrentes</div>
+          </div>
+        </div>
+        <div class="dash-stat">
+          <div class="dash-stat-ico"><svg viewBox="0 0 24 24"><path d="M4 12h16M4 6h16M4 18h10"/></svg></div>
+          <div class="dash-stat-body">
+            <div class="dash-stat-top"><span class="dash-stat-num">1 paso</span><span class="dash-stat-trend up">aprobación</span></div>
+            <div class="dash-stat-lbl">Tu equipo pide y confirma sin pasar por varias personas</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dos mini-gráficos animados -->
+    <div class="dash-charts">
+      <div class="dash-chart-panel dash-chart-mails">
+        <div class="dash-mail-big">
+          <span class="dash-mail-from">12</span>
+          <span class="dash-mail-arrow">→</span>
+          <span class="dash-mail-to" id="mailCounter">1</span>
+        </div>
+        <div class="dash-mail-txt">
+          <div class="dash-growth-title">Mails para cerrar una compra</div>
+          <div class="dash-growth-sub">De una cadena de idas y vueltas a un solo pedido</div>
+        </div>
+      </div>
+
+      <div class="dash-chart-panel">
+        <div class="dash-growth-head">
+          <div>
+            <div class="dash-growth-title">Menos trabajo, más volumen</div>
+            <div class="dash-growth-sub">Más pedidos procesados sin sumar horas de gestión</div>
+          </div>
+        </div>
+        <div class="dash-vs">
+          <div class="dash-vs-item">
+            <div class="dash-vs-num">1</div>
+            <div class="dash-vs-lbl">persona<br>coordinando</div>
+          </div>
+          <div class="dash-vs-arrow">
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </div>
+          <div class="dash-vs-item hot">
+            <div class="dash-vs-num" id="ordersCounter">+10</div>
+            <div class="dash-vs-lbl">pedidos<br>por mes</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dash-checklist">
+      <div class="dash-check-item">
+        <span class="dash-check-ico"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>
+        <div class="dash-check-text"><b>Generás la orden de compra</b><span>Directamente desde el pedido, sin planillas aparte.</span></div>
+      </div>
+      <div class="dash-check-item">
+        <span class="dash-check-ico"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>
+        <div class="dash-check-text"><b>Adjuntás tu orden de compra</b><span>Se carga en el mismo pedido, sin correos de por medio.</span></div>
+      </div>
+      <div class="dash-check-item">
+        <span class="dash-check-ico"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>
+        <div class="dash-check-text"><b>Sin ida y vuelta</b><span>Precios y condiciones ya pactados de antemano.</span></div>
+      </div>
+      <div class="dash-check-item">
+        <span class="dash-check-ico"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>
+        <div class="dash-check-text"><b>Historial centralizado</b><span>Todos los pedidos y órdenes de compra en un solo lugar.</span></div>
+      </div>
+    </div>
+
+    <div class="dash-chips">
+      <div class="dash-chip"><span class="dash-chip-dot"></span>Sin intercambio de mails</div>
+      <div class="dash-chip"><span class="dash-chip-dot"></span>Órdenes de compra integradas</div>
+      <div class="dash-chip"><span class="dash-chip-dot"></span>Facturación a los plazos pactados</div>
+    </div>
+  </div>
+</section>
 
 <section class="sec-white">
   <div class="wrap">
@@ -211,7 +412,7 @@
     <div class="case-eko">
       <div class="case-tag">● Red Bull · Portal corporativo</div>
       <h3>Un portal de merch propio para el equipo de Red Bull</h3>
-      <p class="case-p">Montamos una web exclusiva para Red Bull donde su equipo pide stickers, planchas, llaveros e imanes con precios corporativos ya pactados. Cada pedido indica a qué evento o acción va, se factura a 60 días y se entrega directo a sus oficinas o a la dirección que elijan. Todo online, sin ida y vuelta de presupuestos.</p>
+      <p class="case-p">Desarrollamos una web exclusiva para Red Bull donde su equipo pide stickers, planchas, llaveros e imanes con precios corporativos ya pactados. Cada pedido indica a qué evento o acción va, se factura a 60 días y se entrega directo a sus oficinas o a la dirección que elijan. Todo online, sin ida y vuelta de presupuestos.</p>
       <div class="case-stats">
         <div class="stat"><div class="n">60 días</div><div class="l">de plazo de pago pre-acordado</div></div>
         <div class="stat"><div class="n">100%</div><div class="l">online, con precios ya pactados</div></div>
@@ -222,7 +423,7 @@
     <div class="case-soon">
       <div class="cs-tag">Próximamente</div>
       <h4>¿La próxima es tu empresa?</h4>
-      <p>Sumá tu compañía u organización. Armamos un portal a la medida de tu marca y condiciones.</p>
+      <p>Incorporá tu compañía u organización. Desarrollamos un portal a la medida de tu marca y tus condiciones.</p>
     </div>
   </div>
 </section>
@@ -279,31 +480,11 @@
   </div>
 </section>
 
-<section class="sec-howto">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">Cómo funciona</span>
-      <h2 class="sec-title">Del pedido a la entrega en tres pasos.</h2>
-      <p class="sec-desc">Un proceso simple, con condiciones ya pactadas para tu empresa.</p>
-    </div>
-    <div class="steps">
-      <div class="step"><span class="n">01</span><h4>Armamos el portal</h4><p>Una web exclusiva con la identidad de tu empresa, cotizador propio y precios corporativos ya acordados. Lista para que la use tu equipo.</p></div>
-      <div class="step"><span class="n">02</span><h4>Tu equipo pide</h4><p>Cada persona arma su pedido en dos minutos, indica a qué evento o acción va, y elige recibirlo en las oficinas o donde necesite.</p></div>
-      <div class="step"><span class="n">03</span><h4>Producimos y entregamos</h4><p>Facturamos según las condiciones pactadas (plazo, forma de pago) y coordinamos la entrega. Sin ida y vuelta de presupuestos.</p></div>
-    </div>
-  </div>
-</section>
-
 <section class="sec-gray">
   <div class="wrap">
-    <div class="perks">
-      <div class="perk"><span class="perk-ico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18M9 21V9"></path></svg></span><span><b>Portal propio</b> con la marca de tu empresa</span></div>
-      <div class="perk"><span class="perk-ico"><svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></span><span><b>Precios y plazos</b> pre-acordados con tu empresa</span></div>
-      <div class="perk"><span class="perk-ico"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg></span><span><b>Entrega coordinada</b> a tus oficinas o donde elijan</span></div>
-    </div>
     <div class="cta-final">
       <h2>¿Hablamos de tu empresa?</h2>
-      <p>Si tu compañía u organización necesita producción recurrente con condiciones a medida, armamos un portal exclusivo para tu equipo. Contanos qué necesitás.</p>
+      <p>Si tu compañía u organización necesita producción recurrente con condiciones a medida, desarrollamos un portal exclusivo para tu equipo. Contanos qué necesitás.</p>
       <form class="evt-form" id="evt-form" action="https://formspree.io/f/mykqgkbe" method="POST">
         <input type="hidden" name="_origen" value="Corporativo — Consulta de empresa">
         <input type="hidden" name="_subject" value="Nueva consulta corporativa">
@@ -405,6 +586,58 @@
   if(prevBtn) prevBtn.addEventListener('click', ()=> goTo(currentIndex()-1));
   if(nextBtn) nextBtn.addEventListener('click', ()=> goTo(currentIndex()+1));
   slides.forEach(s=>io.observe(s));
+})();
+</script>
+<script>
+/* ===== DASHBOARD: contadores animados ===== */
+(function(){
+  const mailCounter=document.getElementById('mailCounter');
+  const ordersCounter=document.getElementById('ordersCounter');
+  const hoursEl=document.getElementById('dashHours');
+
+  const runMail=function(){
+    if(!mailCounter) return;
+    let v=12;
+    (function tick(){
+      v-=1; if(v<1) v=1;
+      mailCounter.textContent=v;
+      if(v>1) setTimeout(tick,80);
+    })();
+  };
+  const runOrders=function(){
+    if(!ordersCounter) return;
+    let v=0; const target=10;
+    (function tick(){
+      v+=1; if(v>target) v=target;
+      ordersCounter.textContent='+'+v;
+      if(v<target) setTimeout(tick,90);
+    })();
+  };
+
+  function runHours(){
+    if(!hoursEl) return;
+    let h=0; const target=40;
+    (function tick(){
+      h+=1; if(h>target) h=target;
+      hoursEl.textContent = h+' hs';
+      if(h<target) setTimeout(tick,26);
+    })();
+  }
+
+  let done=false;
+  const io=new IntersectionObserver((ents)=>{
+    ents.forEach(e=>{
+      if(e.isIntersecting && !done){
+        done=true;
+        runMail(); runOrders(); runHours();
+        const cmp=document.getElementById('cmpNew'); if(cmp) setTimeout(()=>cmp.style.width='20%', 200);
+        const cmpO=document.getElementById('cmpOld'); if(cmpO) setTimeout(()=>cmpO.style.width='100%', 100);
+        setTimeout(()=>{ done=false; }, 4000); // permite repetir al volver a entrar
+      }
+    });
+  },{threshold:.3});
+  const panel=document.querySelector('.sec-dash');
+  if(panel) io.observe(panel);
 })();
 </script>
 
