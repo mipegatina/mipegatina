@@ -94,10 +94,12 @@
   .case-link:hover{transform:translateY(-2px);box-shadow:0 18px 40px -12px rgba(255,46,110,.7)}
 
   /* PRÓXIMO CASO */
-  .case-soon{margin-top:16px;border:1.5px dashed var(--border2);border-radius:24px;padding:32px 28px;text-align:center;background:linear-gradient(160deg,rgba(255,106,61,.04),transparent)}
-  .case-soon .cs-tag{font-family:var(--mono);font-size:.68rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray3);margin-bottom:10px}
-  .case-soon h4{font-size:1.25rem;font-weight:700;color:var(--white);margin-bottom:8px}
-  .case-soon p{color:var(--gray3);font-size:.9rem}
+  .case-soon{margin-top:16px;border:1px solid rgba(255,106,61,.3);border-radius:24px;padding:36px 28px;text-align:center;background:linear-gradient(135deg,rgba(255,106,61,.14),rgba(255,140,80,.05) 60%,transparent);position:relative;overflow:hidden}
+  .case-soon::before{content:"";position:absolute;top:-40%;right:-10%;width:280px;height:280px;background:radial-gradient(circle,rgba(255,106,61,.18),transparent 65%);pointer-events:none}
+  .case-soon>*{position:relative;z-index:1}
+  .case-soon .cs-tag{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:.68rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#ff8c50;background:rgba(255,106,61,.12);border:1px solid rgba(255,106,61,.25);padding:5px 14px;border-radius:100px;margin-bottom:14px}
+  .case-soon h4{font-size:1.4rem;font-weight:800;color:#e0552a;margin-bottom:8px;letter-spacing:-.5px}
+  .case-soon p{color:#5a5450;font-size:.92rem}
 
   /* CÓMO FUNCIONA — números grandes verdes con línea izquierda, como .proceso */
   .steps{display:grid;grid-template-columns:1fr;gap:24px}
@@ -124,14 +126,12 @@
   @media(min-width:820px){ .dash{grid-template-columns:1.5fr 1fr} }
   .dash-hero{background:linear-gradient(150deg,rgba(255,106,61,.12),rgba(255,255,255,.02));border:1px solid rgba(255,106,61,.25);border-radius:24px;padding:34px;display:flex;flex-direction:column;gap:26px;align-items:center;text-align:center;position:relative;overflow:hidden}
   @media(min-width:560px){ .dash-hero{flex-direction:row;text-align:left} }
-  .dash-hero-donut{position:relative;width:150px;height:150px;flex-shrink:0}
-  .dash-hero-donut svg{width:100%;height:100%;transform:rotate(-90deg)}
-  .dash-hero-donut circle{fill:none;stroke-width:13}
-  .dash-ring-bg{stroke:rgba(255,255,255,.08)}
-  .dash-ring-fg{stroke:url(#dashGradEv);stroke-linecap:round;filter:drop-shadow(0 0 8px rgba(255,106,61,.5))}
-  .dash-hero-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-  .dash-hero-num{font-family:var(--mono);font-size:2.3rem;font-weight:800;color:#fff;line-height:1}
-  .dash-hero-tag{font-size:.72rem;color:rgba(255,255,255,.55);margin-top:4px;text-transform:uppercase;letter-spacing:1px}
+  .dash-hero-big{flex-shrink:0;text-align:center;padding:8px 10px}
+  .dash-big-badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:.66rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#ff8c50;background:rgba(255,106,61,.12);border:1px solid rgba(255,106,61,.3);padding:5px 12px;border-radius:100px;margin-bottom:14px}
+  .dash-big-badge svg{width:13px;height:13px;stroke:currentColor;stroke-width:3;fill:none}
+  .dash-big-num{font-family:var(--mono);font-size:5rem;font-weight:800;line-height:.9;background:linear-gradient(135deg,#ff8c50,#e0552a);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 20px rgba(255,106,61,.4))}
+  .dash-big-num span{font-size:2.6rem;vertical-align:top}
+  .dash-big-sub{color:rgba(255,255,255,.6);font-size:.85rem;margin-top:8px;max-width:180px;margin-left:auto;margin-right:auto;line-height:1.4}
   .dash-hero-text h3{color:#fff;font-size:1.35rem;font-weight:800;margin:0 0 8px;letter-spacing:-.5px}
   .dash-hero-text p{color:rgba(255,255,255,.62);font-size:.92rem;line-height:1.55;margin:0}
   .dash-side{display:flex;flex-direction:column;gap:18px}
@@ -145,6 +145,19 @@
   .dash-stat-trend.up{background:rgba(255,106,61,.15);color:#ff8c50}
   .dash-stat-lbl{color:rgba(255,255,255,.55);font-size:.82rem;margin-top:6px;line-height:1.35}
   .dash-growth-panel{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:22px;padding:26px 28px;margin-top:18px}
+  .dash-gauge-panel{display:flex;flex-direction:column;align-items:center;text-align:center;gap:20px}
+  @media(min-width:600px){ .dash-gauge-panel{flex-direction:row;text-align:left;gap:34px} }
+  .dash-gauge-wrap{position:relative;width:220px;flex-shrink:0}
+  .dash-gauge{width:100%;height:auto;display:block;overflow:visible}
+  .gauge-bg{fill:none;stroke:rgba(255,255,255,.08);stroke-width:16;stroke-linecap:round}
+  .gauge-fill{fill:none;stroke:url(#gaugeGradEv);stroke-width:16;stroke-linecap:round;stroke-dasharray:0 282.7;filter:drop-shadow(0 0 8px rgba(255,106,61,.5));transition:stroke-dasharray 1.4s cubic-bezier(.4,0,.2,1)}
+  .gauge-fill.on{stroke-dasharray:141.4 282.7}
+  .dash-gauge-center{position:absolute;bottom:6px;left:0;right:0;text-align:center}
+  .dash-gauge-num{font-family:var(--mono);font-size:2.6rem;font-weight:800;color:#fff;line-height:1}
+  .dash-gauge-num span{font-size:1.4rem;color:#ff8c50}
+  .dash-gauge-lbl{font-size:.72rem;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+  .dash-gauge-text .dash-growth-title{color:#fff;font-weight:700;font-size:1.1rem;margin-bottom:4px}
+  .dash-gauge-text .dash-growth-sub{color:rgba(255,255,255,.55);font-size:.9rem}
   .dash-growth-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:20px;flex-wrap:wrap}
   .dash-growth-title{color:#fff;font-weight:700;font-size:1.05rem}
   .dash-growth-sub{color:rgba(255,255,255,.5);font-size:.85rem;margin-top:3px}
@@ -209,7 +222,7 @@
 
 <nav>
   <div class="nav-in">
-    <a href="https://mipegatina.club/" class="brand"><img src="../img/img-01.png" alt="Mi Pegatina®"></a>
+    <a href="https://mipegatina.club/" class="brand"><img src="https://mipegatina.club/img/img-01.png" alt="Mi Pegatina®"></a>
     <a href="https://mipegatina.club/" class="nav-back">← Volver a la web</a>
   </div>
 </nav>
@@ -227,12 +240,12 @@
     <div class="sec-head">
       <span class="eyebrow">Cómo funciona</span>
       <h2 class="sec-title">De la idea al evento en tres pasos.</h2>
-      <p class="sec-desc">Un proceso simple donde ganan las dos partes: tus expositores y tu organización.</p>
+      <p class="sec-desc">Un proceso simple que beneficia a ambas partes: tus expositores y tu organización.</p>
     </div>
     <div class="steps">
-      <div class="step"><span class="n">01</span><h4>Armamos la web</h4><p>Una web dedicada, con la identidad de tu evento, cotizador propio y precios especiales para los expositores. Lista para el día uno.</p></div>
-      <div class="step"><span class="n">02</span><h4>Ustedes la comparten</h4><p>Mandan el link a sus expositores y listo. Cada uno cotiza y pide su merch en dos minutos, sin que ustedes intermedien ni gestionen nada.</p></div>
-      <div class="step"><span class="n">03</span><h4>Producimos y ganan todos</h4><p>El expositor recibe su merch antes del evento, y la organización suma crédito de producción por cada pedido que entra.</p></div>
+      <div class="step"><span class="n">01</span><h4>Desarrollamos la web</h4><p>Una web dedicada, con la identidad de tu evento, cotizador propio y precios especiales para los expositores. Lista desde el primer día.</p></div>
+      <div class="step"><span class="n">02</span><h4>La comparten con sus expositores</h4><p>Comparten el enlace y cada expositor cotiza y realiza su pedido en minutos, sin que la organización tenga que intermediar ni gestionar nada.</p></div>
+      <div class="step"><span class="n">03</span><h4>Producimos y entregamos</h4><p>El expositor recibe su merch antes del evento, y la organización acumula crédito de producción por cada pedido realizado.</p></div>
     </div>
   </div>
 </section>
@@ -246,23 +259,12 @@
     </div>
 
     <div class="dash">
-      <!-- Tarjeta hero: donut principal -->
+      <!-- Tarjeta hero: dato principal -->
       <div class="dash-hero">
-        <div class="dash-hero-donut">
-          <svg viewBox="0 0 140 140">
-            <defs>
-              <linearGradient id="dashGradEv" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#ff8c50"/>
-                <stop offset="1" stop-color="#e0552a"/>
-              </linearGradient>
-            </defs>
-            <circle class="dash-ring-bg" cx="70" cy="70" r="58"/>
-            <circle class="dash-ring-fg" cx="70" cy="70" r="58" style="stroke-dasharray:364.4 364.4"/>
-          </svg>
-          <div class="dash-hero-center">
-            <span class="dash-hero-num">100%</span>
-            <span class="dash-hero-tag">de los pedidos</span>
-          </div>
+        <div class="dash-hero-big">
+          <div class="dash-big-badge"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Todos los pedidos</div>
+          <div class="dash-big-num">100<span>%</span></div>
+          <div class="dash-big-sub">generan crédito para tu organización</div>
         </div>
         <div class="dash-hero-text">
           <h3>Cada pedido suma crédito</h3>
@@ -290,31 +292,28 @@
     </div>
 
     <!-- Barra ancha: crecimiento del crédito -->
-    <div class="dash-growth-panel">
-      <div class="dash-growth-head">
-        <div>
-          <div class="dash-growth-title">Tu crédito crece con cada pedido</div>
-          <div class="dash-growth-sub">Se acumula hasta cubrir el 50% del merch oficial de tu evento</div>
-        </div>
-        <div class="dash-growth-badge" id="dashCounter">0 pedidos</div>
-      </div>
-      <div class="dash-growth-chart">
-        <svg viewBox="0 0 400 120" preserveAspectRatio="none" class="dash-area">
+    <div class="dash-growth-panel dash-gauge-panel">
+      <div class="dash-gauge-wrap">
+        <svg viewBox="0 0 220 130" class="dash-gauge">
           <defs>
-            <linearGradient id="areaGradEv" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="rgba(255,106,61,.35)"/>
-              <stop offset="1" stop-color="rgba(255,106,61,0)"/>
+            <linearGradient id="gaugeGradEv" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#ff8c50"/>
+              <stop offset="1" stop-color="#e0552a"/>
             </linearGradient>
           </defs>
-          <line class="dash-cap-line" x1="0" y1="26" x2="400" y2="26"/>
-          <path id="dashArea" d="" fill="url(#areaGradEv)"/>
-          <path id="dashLine" d="" fill="none" stroke="#e0552a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle id="dashHead" r="4" fill="#ff8c50" style="filter:drop-shadow(0 0 6px rgba(255,140,80,.9))"/>
+          <!-- arco de fondo (semicírculo) -->
+          <path class="gauge-bg" d="M20,110 A90,90 0 0,1 200,110"/>
+          <!-- arco de relleno hasta 50% (mitad del semicírculo) -->
+          <path class="gauge-fill" id="gaugeFill" d="M20,110 A90,90 0 0,1 200,110"/>
         </svg>
-        <div class="dash-cap-tag">Tope 50%</div>
-        <div class="dash-growth-dots">
-          <span>Pedido 1</span><span>25</span><span>50</span><span>75</span><span>100+</span>
+        <div class="dash-gauge-center">
+          <div class="dash-gauge-num">50<span>%</span></div>
+          <div class="dash-gauge-lbl">tope de crédito</div>
         </div>
+      </div>
+      <div class="dash-gauge-text">
+        <div class="dash-growth-title">Tu crédito se acumula con cada pedido</div>
+        <div class="dash-growth-sub">Hasta cubrir la mitad del merch oficial de tu evento.</div>
       </div>
     </div>
 
@@ -337,7 +336,7 @@
     <div class="case-eko">
       <div class="case-tag">● Ekoparty 2026 · Print Partner Oficial</div>
       <h3>Una web propia para los expositores de la Ekoparty</h3>
-      <p class="case-p">Para la edición 2026 de la conferencia de seguridad informática más grande de la región, montamos una web dedicada a sus expositores: cotizan stickers, planchas, llaveros e imanes con precio especial y lo reciben antes del evento. La organización suma un beneficio para quienes exponen y participa de cada pedido — sin inversión ni carga operativa.</p>
+      <p class="case-p">Para la edición 2026 de la conferencia de seguridad informática más grande de la región, desarrollamos una web dedicada a sus expositores: cotizan stickers, planchas, llaveros e imanes con precio especial y lo reciben antes del evento. La organización suma un beneficio para quienes exponen y participa de cada pedido — sin inversión ni carga operativa.</p>
       <div class="case-stats">
         <div class="stat"><div class="n">15%</div><div class="l">de descuento exclusivo para expositores</div></div>
         <div class="stat"><div class="n">100%</div><div class="l">online, sin intermediar la organización</div></div>
@@ -349,7 +348,7 @@
     <div class="case-soon">
       <div class="cs-tag">Próximamente</div>
       <h4>¿El próximo caso es tu evento?</h4>
-      <p>Sumá tu conferencia, feria o expo. Armamos algo a la medida de tu marca.</p>
+      <p>Incorporá tu conferencia, feria o expo. Desarrollamos una solución a la medida de tu marca.</p>
     </div>
   </div>
 </section>
@@ -358,7 +357,7 @@
   <div class="wrap">
     <div class="cta-final">
       <h2>¿Organizás un evento?</h2>
-      <p>Si tenés una conferencia, feria o expo con expositores, armamos algo a medida que le sume valor a tu propuesta y te genere un ingreso extra.</p>
+      <p>Si tenés una conferencia, feria o expo con expositores, desarrollamos una solución a medida que agrega valor a tu propuesta y genera un ingreso adicional para tu organización.</p>
       <form class="evt-form" id="evt-form" action="https://formspree.io/f/mykqgkbe" method="POST">
         <input type="hidden" name="_origen" value="Casos de éxito — Consulta de evento">
         <input type="hidden" name="_subject" value="Nueva consulta de evento (casos de éxito)">
@@ -382,7 +381,7 @@
 
 <footer>
   <div class="wrap">
-    <img src="../img/img-01.png" alt="Mi Pegatina®" class="ft-logo-img">
+    <img src="https://mipegatina.club/img/img-01.png" alt="Mi Pegatina®" class="ft-logo-img">
     <div>Producción oficial para eventos · Buenos Aires, Argentina</div>
   </div>
 </footer>
@@ -418,60 +417,17 @@
   }
 </script>
 <script>
-/* ===== GRÁFICO ANIMADO DE CRÉDITO ===== */
+/* ===== GAUGE DE CRÉDITO (se llena al 50%) ===== */
 (function(){
-  const line = document.getElementById('dashLine');
-  const area = document.getElementById('dashArea');
-  const head = document.getElementById('dashHead');
-  const counter = document.getElementById('dashCounter');
-  if(!line || !area) return;
-
-  const W = 400, H = 120, CAP_Y = 26, BASE_Y = 108, TOTAL = 100;
-  // pre-genero los puntos: curva que sube rápido y se aplana en el tope (siempre ascendente)
-  const pts = [];
-  for(let i=0;i<=TOTAL;i++){
-    const t = i/TOTAL;
-    // curva ease-out (rápido al principio) hacia el tope
-    const prog = 1 - Math.pow(1-t, 2.2);
-    const y = BASE_Y - (BASE_Y-CAP_Y)*prog;
-    pts.push({ x: (i/TOTAL)*W, y });
-  }
-  // asegurar que los últimos queden pegados al tope
-  for(let i=TOTAL-6;i<=TOTAL;i++){ if(pts[i]) pts[i].y = CAP_Y; }
-
-  function draw(n){
-    // n = cuántos puntos mostrar
-    let d = `M${pts[0].x},${pts[0].y}`;
-    for(let i=1;i<=n;i++){ d += ` L${pts[i].x},${pts[i].y}`; }
-    line.setAttribute('d', d);
-    area.setAttribute('d', d + ` L${pts[n].x},${H} L0,${H} Z`);
-    head.setAttribute('cx', pts[n].x);
-    head.setAttribute('cy', pts[n].y);
-    counter.textContent = n + (n>=TOTAL ? '+ pedidos' : ' pedidos');
-  }
-
-  let raf, running=false;
-  function run(){
-    running=true;
-    let i=0;
-    draw(0);
-    function step(){
-      i += 2;                 // avanza rápido (2 pedidos por frame)
-      if(i>=TOTAL){ i=TOTAL; draw(i); running=false; setTimeout(()=>{ if(inView) run(); }, 1400); return; }
-      draw(i);
-      raf = requestAnimationFrame(step);
-    }
-    step();
-  }
-
-  let inView=false;
+  const fill = document.getElementById('gaugeFill');
+  if(!fill) return;
   const io = new IntersectionObserver((ents)=>{
     ents.forEach(e=>{
-      inView = e.isIntersecting;
-      if(e.isIntersecting && !running) run();
+      if(e.isIntersecting) fill.classList.add('on');
+      else fill.classList.remove('on'); // permite repetir al volver a entrar
     });
   }, {threshold:.4});
-  io.observe(document.querySelector('.dash-growth-panel'));
+  io.observe(document.querySelector('.dash-gauge-panel'));
 })();
 </script>
 
