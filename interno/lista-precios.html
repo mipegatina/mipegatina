@@ -4,7 +4,7 @@
     <!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=AW-18358544445"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config','AW-18358544445');</script></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mi Pegatina · Lista de Precios Julio 2026</title>
+<title>Mi Pegatina · Lista de Precios Agosto 2026</title>
 <link rel="manifest" href="/interno/manifest.json">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -59,7 +59,7 @@ body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15p
 .result-dims{font-size:1.8rem;font-weight:700;letter-spacing:-.5px;font-family:var(--mono);color:var(--ink)}
 .result-qty{font-size:.84rem;color:var(--gray3)}
 .result-total-label{font-size:.66rem;color:var(--gray4);text-transform:uppercase;letter-spacing:1px;font-family:var(--mono)}
-.result-total-val{font-size:2.8rem;font-weight:800;letter-spacing:-1.5px;color:var(--green2);line-height:1;font-family:'Inter',sans-serif}
+.result-total-val{font-size:2.8rem;font-weight:800;letter-spacing:-1.5px;color:var(--green2);line-height:1;font-family:'Inter',sans-serif}.rpb-strike{font-family:var(--mono);font-size:1rem;font-weight:700;color:rgba(10,10,10,.4);text-decoration:line-through;text-decoration-thickness:1px;text-decoration-color:rgba(220,40,40,.75);margin-bottom:2px;display:none}
 .result-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border)}
 @media(max-width:600px){.ac-3col{grid-template-columns:1fr !important}
   .result-cards{grid-template-columns:repeat(2,1fr) !important}
@@ -117,10 +117,10 @@ details[open] summary::before{transform:rotate(90deg)}
       <span class="brand-dot"></span>
       <div>
         <div class="brand-name">MI PEGATINA · INTERNO</div>
-        <div class="brand-sub">Lista de Precios Julio 2026</div>
+        <div class="brand-sub">Lista de Precios Agosto 2026</div>
       </div>
     </div>
-    <span class="internal-badge">JULIO 2026</span>
+    <span class="internal-badge">AGOSTO 2026</span>
   </div>
 </div>
 
@@ -177,12 +177,13 @@ details[open] summary::before{transform:rotate(90deg)}
         </div>
         <div class="result-total">
           <div class="result-total-label" id="r-total-label">Total</div>
+          <div class="rpb-strike" id="r-total-strike"></div>
           <div class="result-total-val" id="r-total">$0</div>
           <div id="r-iva-line" style="display:none;font-size:.74rem;color:var(--gray3);font-family:var(--mono);margin-top:6px;"></div>
         </div>
       </div>
       <div class="result-cards" style="grid-template-columns:repeat(5,1fr);">
-        <div class="rc" style="background:var(--green-soft);border-bottom:2px solid var(--green);"><div class="rc-label" style="color:var(--green2);">Por sticker</div><div class="rc-val" id="r-unit" style="font-size:2rem;color:var(--green2);">$0</div></div>
+        <div class="rc" style="background:var(--green-soft);border-bottom:2px solid var(--green);"><div class="rc-label" style="color:var(--green2);">Por sticker</div><div class="rpb-strike" id="r-unit-strike"></div><div class="rc-val" id="r-unit" style="font-size:2rem;color:var(--green2);">$0</div></div>
         <div class="rc"><div class="rc-label">Por sticker USD</div><div class="rc-val" id="r-unit-usd">U$D 0</div></div>
         <div class="rc"><div class="rc-label">Total pedido</div><div class="rc-val dim" id="r-total-ars">$0</div></div>
         <div class="rc rc-m2-pliego"><div class="rc-label">USD/m² pliego</div><div class="rc-val dim" id="r-m2usd-pliego">0</div></div><div class="rc rc-m2-stk"><div class="rc-label">USD/m² sticker</div><div class="rc-val dim" id="r-m2usd-sticker">0</div></div>
@@ -239,6 +240,7 @@ details[open] summary::before{transform:rotate(90deg)}
         </div>
         <div class="result-total">
           <div class="result-total-label" id="rpl-total-label">Total</div>
+          <div class="rpb-strike" id="rpl-total-strike"></div>
           <div class="result-total-val" id="rpl-total-big">$0</div>
           <div id="rpl-iva-line" style="display:none;font-size:.74rem;color:var(--gray3);font-family:var(--mono);margin-top:6px;"></div>
         </div>
@@ -246,6 +248,7 @@ details[open] summary::before{transform:rotate(90deg)}
       <div class="result-cards" style="grid-template-columns:repeat(5,1fr);">
         <div class="rc" style="background:var(--green-soft);border-bottom:2px solid var(--green);">
           <div class="rc-label" style="color:var(--green2);">Por plancha</div>
+          <div class="rpb-strike" id="rpl-unit-strike"></div>
           <div class="rc-val" id="rpl-unit" style="font-size:2rem;color:var(--green2);">$0</div>
         </div>
         <div class="rc"><div class="rc-label">Por plancha USD</div><div class="rc-val" id="rpl-unit-usd">U$D 0</div></div>
@@ -285,6 +288,7 @@ details[open] summary::before{transform:rotate(90deg)}
         </div>
         <div class="result-total">
           <div class="result-total-label" id="rac-total-label">Total</div>
+          <div class="rpb-strike" id="rac-total-strike"></div>
           <div class="result-total-val" id="rac-total-big" style="color:#4d96ff;">$0</div>
           <div id="rac-iva-line" style="display:none;font-size:.74rem;color:var(--gray3);font-family:var(--mono);margin-top:6px;"></div>
         </div>
@@ -292,6 +296,7 @@ details[open] summary::before{transform:rotate(90deg)}
       <div class="result-cards" style="grid-template-columns:repeat(4,1fr);">
         <div class="rc" style="background:rgba(77,150,255,.06);border-bottom:2px solid #4d96ff;">
           <div class="rc-label" style="color:#4d96ff;">Por unidad</div>
+          <div class="rpb-strike" id="rac-unit-strike"></div>
           <div class="rc-val" id="rac-unit" style="font-size:2rem;color:#4d96ff;">$0</div>
         </div>
         <div class="rc"><div class="rc-label">Por unidad USD</div><div class="rc-val" id="rac-unit-usd">U$D 0</div></div>
@@ -337,8 +342,16 @@ const ALL_SIZES = ['5x5','6x6','8x8','9x9'];
 const SIZE_CM = { '5x5':5, '6x6':6, '8x8':8, '9x9':9 };
 // Cantidades por medida (iguales a la web)
 const QTY_SUELTO_LIST = {'5x5':[200,300,500,1000,2000],'6x6':[200,300,500,1000,2000],'8x8':[100,200,500,1000,2000],'9x9':[100,200,500,1000,2000]};
-// Descuentos sueltos: 1000u=-5%, 2000u=-10%
-function discSuelto(qty){ return qty>=2000?0.10:qty>=1000?0.05:0; }
+// Descuentos sueltos (escala 5/10/15, umbral distinto para 5x5/6x6 vs 8x8/9x9); 2000u = consulta mayorista
+const MAYORISTA_SUELTO = 2000;
+function discSuelto(qty, sz){
+  const t1 = (sz==='8x8'||sz==='9x9') ? 200 : 300;
+  if(qty>=1000) return 0.15;
+  if(qty>=500) return 0.10;
+  if(qty>=t1) return 0.05;
+  return 0;
+}
+function esMayoristaSuelto(qty){ return qty>=MAYORISTA_SUELTO; }
 
 // ===== TABS =====
 function switchTab(tab, btn){
@@ -363,9 +376,9 @@ function getPrecioPliegoPlancha(matKey,sz){ return (P_PLIEGO_PLANCHA[matKey]&&P_
 
 // Precio por m² de plancha (USD) — fuente de verdad
 const M2_PLANCHA = {
-  '10x7':  { blancoPremium:40, transparente:45, especial:70 },
-  '10x15': { blancoPremium:37, transparente:42, especial:60 },
-  '15x21': { blancoPremium:37, transparente:42, especial:60 },
+  '10x7':  { blancoPremium:30, transparente:33, especial:50 },
+  '10x15': { blancoPremium:30, transparente:33, especial:50 },
+  '15x21': { blancoPremium:30, transparente:33, especial:50 },
 };
 const DIMS_PLANCHA_CM2 = { '10x7':[10,7], '10x15':[10,15], '15x21':[15,21] };
 function unitPlancha(matKey, sz, rate, qty){
@@ -373,9 +386,19 @@ function unitPlancha(matKey, sz, rate, qty){
   if(!m2Tbl || !m2Tbl[matKey]) return 0;
   const d = DIMS_PLANCHA_CM2[sz];
   const area = (d[0]/100)*(d[1]/100);
-  const disc = qty ? discPlancha(qty, sz) : 0;
   const uBase = round5up(m2Tbl[matKey] * area * (rate||COTIZACION));
-  return disc > 0 ? round5up(uBase*(1-disc)) : uBase;
+  if(!qty) return uBase;
+  const may = esMayoristaPlancha(qty, sz);
+  const disc = may ? 0 : discPlancha(qty, sz);
+  const uARS = disc > 0 ? round5up(uBase*(1-disc)) : uBase;
+  return uARS;
+}
+function unitPlanchaFull(matKey, sz, rate, qty){
+  const uBase = unitPlancha(matKey, sz, rate, null);
+  const may = esMayoristaPlancha(qty, sz);
+  const disc = may ? 0 : discPlancha(qty, sz);
+  const uARS = may ? null : (disc > 0 ? round5up(uBase*(1-disc)) : uBase);
+  return { uBase, uARS, disc, mayorista:may };
 }
 
 // getPliegos eliminado
@@ -392,9 +415,9 @@ function roundUp10(n){ return Math.ceil(n/10)*10; } // mantenido para compatibil
 
 // Precio por m² de sticker (USD) — fuente de verdad
 const M2_STICKER = {
-  blancoPremium: { '5x5':55, '6x6':45, '8x8':40, '9x9':35 },
-  transparente:  { '5x5':60, '6x6':50, '8x8':45, '9x9':40 },
-  especial:      { '5x5':80, '6x6':70, '8x8':50, '9x9':50 },
+  blancoPremium: { '5x5':40, '6x6':40, '8x8':30, '9x9':30 },
+  transparente:  { '5x5':44, '6x6':44, '8x8':33, '9x9':33 },
+  especial:      { '5x5':55, '6x6':55, '8x8':50, '9x9':50 },
 };
 function round5up(n){ return Math.ceil(n/5)*5; }
 function calcUnit(){
@@ -404,12 +427,13 @@ function calcUnit(){
   const m2Tbl = M2_STICKER[st.matKey];
   const areaStickerM2 = (sz/100)*(sz/100);
   const unitBase = m2Tbl ? round5up(m2Tbl[st.size] * areaStickerM2 * getRate()) : 0;
-  const disc = discSuelto(qty);
+  const mayorista = esMayoristaSuelto(qty);
+  const disc = mayorista ? 0 : discSuelto(qty, st.size);
   const unitARS = disc > 0 ? round5up(unitBase*(1-disc)) : unitBase;
   const unitUSD = unitARS / getRate();
   const unidadesMostradas = qty;
   const totalARS = unitARS * qty;
-  return { unitARS, unitUSD, totalARS, unidadesMostradas };
+  return { unitARS, unitUSD, totalARS, unidadesMostradas, mayorista, disc, unitBase };
 }
 
 // ===== TOGGLES =====
@@ -453,9 +477,11 @@ function buildPliegos(){
   const c=document.getElementById('opt-pliegos'); c.innerHTML='';
   const qtys=QTY_SUELTO_LIST[st.size]||[200,300,500,1000,2000];
   qtys.forEach(qty=>{
-    const disc=discSuelto(qty);
+    const may=esMayoristaSuelto(qty);
+    const disc=may?0:discSuelto(qty, st.size);
     const b=document.createElement('button'); b.className='opt opt-mono'+(st.qty===qty?' active':'');
-    b.innerHTML=`<span style="font-size:1.05em;font-weight:700">${qty.toLocaleString('es-AR')} u</span>`+(disc>0?`<br><span style="font-size:.68em;color:var(--green2);font-weight:700">-${disc*100}%</span>`:'');
+    const tag = may ? '<br><span style="font-size:.68em;color:var(--gray3);font-weight:700">Consulta</span>' : (disc>0?`<br><span style="font-size:.68em;color:var(--green2);font-weight:700">-${disc*100}%</span>`:'');
+    b.innerHTML=`<span style="font-size:1.05em;font-weight:700">${qty.toLocaleString('es-AR')} u</span>`+tag;
     b.style.cssText='display:flex;flex-direction:column;align-items:center;line-height:1.3;padding:9px 22px;min-width:90px;';
     b.onclick=()=>{ st.qty=qty; document.getElementById('pl-free').value=''; buildPliegos(); recalc(); };
     c.appendChild(b);
@@ -534,11 +560,21 @@ function recalc(){
   document.getElementById('r-mat').textContent=mat.label;
   document.getElementById('r-dims').textContent=st.size+' cm';
   document.getElementById('r-qty').innerHTML='<span style="font-size:1.15rem;font-weight:700;color:var(--ink);">'+r.unidadesMostradas.toLocaleString('es-AR')+' unidades</span>';
-  document.getElementById('r-total-label').textContent=ivaOn?'Total (con IVA)':'Total';
-  document.getElementById('r-total').textContent='$'+Math.round(totalShown).toLocaleString('es-AR');
-  document.getElementById('r-unit').textContent='$'+Math.round(unitShown).toLocaleString('es-AR');
-  document.getElementById('r-unit-usd').textContent='U$D '+(r.unitUSD*iva).toLocaleString('es-AR',{minimumFractionDigits:2,maximumFractionDigits:2});
-  const totArsEl=document.getElementById('r-total-ars'); if(totArsEl) totArsEl.textContent='$'+Math.round(r.totalARS*iva).toLocaleString('es-AR');
+  document.getElementById('r-total-label').textContent=r.mayorista?'Consultar':(ivaOn?'Total (con IVA)':'Total');
+  document.getElementById('r-total').textContent=r.mayorista?'Consultar':'$'+Math.round(totalShown).toLocaleString('es-AR');
+  document.getElementById('r-unit').textContent=r.mayorista?'—':'$'+Math.round(unitShown).toLocaleString('es-AR');
+  document.getElementById('r-unit-usd').textContent=r.mayorista?'—':'U$D '+(r.unitUSD*iva).toLocaleString('es-AR',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const totArsEl=document.getElementById('r-total-ars'); if(totArsEl) totArsEl.textContent=r.mayorista?'—':'$'+Math.round(r.totalARS*iva).toLocaleString('es-AR');
+  // Precio tachado (sin descuento) junto al total y al unitario, mismo criterio que la web (>=5%)
+  const strikeTot=document.getElementById('r-total-strike'), strikeUnit=document.getElementById('r-unit-strike');
+  if(strikeTot && strikeUnit){
+    if(!r.mayorista && r.disc>=0.05){
+      strikeTot.style.display='block'; strikeTot.textContent='$'+Math.round(r.unitBase*r.unidadesMostradas*iva).toLocaleString('es-AR');
+      strikeUnit.style.display='block'; strikeUnit.textContent='$'+Math.round(r.unitBase*iva).toLocaleString('es-AR');
+    } else {
+      strikeTot.style.display='none'; strikeUnit.style.display='none';
+    }
+  }
   // USD/m² pliego = precio pliego / área pliego / cotización
   // margen removido
   // USD/m² pliego
@@ -567,12 +603,18 @@ function buildFullTables(){
     let rows='';
     ALL_SIZES.forEach(sz=>{
       const m2TblRow=M2_STICKER[matKey];
+      const unitBase=m2TblRow?round5up(m2TblRow[sz]*(parseInt(sz)/100)**2*rate):0;
       (QTY_SUELTO_LIST[sz]||[200,300,500,1000,2000]).forEach(qty=>{
-        const disc=discSuelto(qty);
-        const unitBase=m2TblRow?round5up(m2TblRow[sz]*(parseInt(sz)/100)**2*rate):0;
+        const cur=(matKey===st.matKey&&sz===st.size&&qty===st.qty)?' class="cur"':'';
+        const may=esMayoristaSuelto(qty);
+        if(may){
+          rows+=`<tr${cur}><td>${sz}</td><td>${qty.toLocaleString('es-AR')} (consulta)</td>`+
+            `<td>—</td><td>—</td><td>—</td></tr>`;
+          return;
+        }
+        const disc=discSuelto(qty, sz);
         const unit=disc>0?round5up(unitBase*(1-disc)):unitBase;
         const total=unit*qty;
-        const cur=(matKey===st.matKey&&sz===st.size&&qty===st.qty)?' class="cur"':'';
         const discTag=disc>0?` (-${disc*100}%)`:'';
         rows+=`<tr${cur}><td>${sz}</td><td>${qty.toLocaleString('es-AR')}${discTag}</td>`+
           `<td>$${unit.toLocaleString('es-AR')}</td>`+
@@ -595,9 +637,13 @@ function exportCSV(){
   Object.keys(DATA).forEach(matKey=>{
     const mat=DATA[matKey]; const m2Tbl=M2_STICKER[matKey];
     ALL_SIZES.forEach(sz=>{
+      const unitBase=m2Tbl?round5up(m2Tbl[sz]*(parseInt(sz)/100)**2*rate):0;
       (QTY_SUELTO_LIST[sz]||[200,300,500,1000,2000]).forEach(qty=>{
-        const disc=discSuelto(qty);
-        const unitBase=m2Tbl?round5up(m2Tbl[sz]*(parseInt(sz)/100)**2*rate):0;
+        if(esMayoristaSuelto(qty)){
+          csv+=`${mat.label},${sz},${qty},Consultar,Consultar,Consultar\n`;
+          return;
+        }
+        const disc=discSuelto(qty, sz);
         const unit=disc>0?round5up(unitBase*(1-disc)):unitBase;
         const total=unit*qty;
         csv+=`${mat.label},${sz},${qty},${unit},${Math.round(total)},${(total/rate).toFixed(0)}\n`;
@@ -611,16 +657,26 @@ function exportCSV(){
 
 // ===== PLANCHAS =====
 let stPl = { matKey:'blancoPremium', size:'10x7', qty:150 };
-const QTY_PLANCHA_LIST = {'10x7':[150,300,500,1000],'10x15':[75,150,300,600],'15x21':[75,150,300,600]};
-function discPlancha(qty, sz){ const max={'10x7':1000,'10x15':600,'15x21':600}; const mid={'10x7':500,'10x15':300,'15x21':300}; return qty>=(max[sz]||600)?0.10:qty>=(mid[sz]||300)?0.05:0; }
+const QTY_PLANCHA_LIST = {'10x7':[150,300,500,1000],'10x15':[75,150,300,600],'15x21':[75,150,300,500]};
+const MAYORISTA_PLANCHA = {'10x7':1000,'10x15':600,'15x21':500};
+function discPlancha(qty, sz){
+  const t2={'10x7':500,'10x15':300,'15x21':300};
+  const t1={'10x7':300,'10x15':150,'15x21':150};
+  if(qty>=(t2[sz]||300)) return 0.10;
+  if(qty>=(t1[sz]||150)) return 0.05;
+  return 0;
+}
+function esMayoristaPlancha(qty, sz){ return qty>=(MAYORISTA_PLANCHA[sz]||600); }
 
 function buildQtyPl(){
   const c=document.getElementById('opt-qty-pl'); if(!c) return; c.innerHTML='';
   const qtys=QTY_PLANCHA_LIST[stPl.size]||[75,150,300];
   qtys.forEach(q=>{
-    const disc=discPlancha(q, stPl.size);
+    const may=esMayoristaPlancha(q, stPl.size);
+    const disc=may?0:discPlancha(q, stPl.size);
     const b=document.createElement('button'); b.className='opt opt-mono'+(stPl.qty===q?' active':'');
-    b.innerHTML=`<span style="font-size:1.05em;font-weight:700">${q.toLocaleString('es-AR')} u</span>`+(disc>0?`<br><span style="font-size:.68em;color:var(--green2);font-weight:700">-${disc*100}%</span>`:'');
+    const tag = may ? '<br><span style="font-size:.68em;color:var(--gray3);font-weight:700">Consulta</span>' : (disc>0?`<br><span style="font-size:.68em;color:var(--green2);font-weight:700">-${disc*100}%</span>`:'');
+    b.innerHTML=`<span style="font-size:1.05em;font-weight:700">${q.toLocaleString('es-AR')} u</span>`+tag;
     b.style.cssText='display:flex;flex-direction:column;align-items:center;line-height:1.3;padding:9px 22px;min-width:90px;';
     b.onclick=()=>{ stPl.qty=q; buildQtyPl(); recalcPl(); };
     c.appendChild(b);
@@ -649,52 +705,72 @@ function buildMedidaPl(){
 
 function recalcPl(){
   const rate=getRate();
-  const uARS = unitPlancha(stPl.matKey, stPl.size, rate, stPl.qty);
-  const uUSD = uARS / rate;
+  const qty = stPl.qty||75;
+  const f = unitPlanchaFull(stPl.matKey, stPl.size, rate, qty);
   const [w,h] = SIZE_CM_PLANCHA[stPl.size];
   const areaM2 = (w/100)*(h/100);
-  const m2usd = uARS / areaM2 / rate;
   const iva = ivaOn?1.21:1;
-  const qty = stPl.qty||75;
-  const total = Math.round(uARS*qty*iva);
   document.getElementById('rpl-mat').textContent = DATA[stPl.matKey].label;
   document.getElementById('rpl-dims').textContent = stPl.size+' cm · '+qty.toLocaleString('es-AR')+' u';
+  const strikeTot=document.getElementById('rpl-total-strike'), strikeUnit=document.getElementById('rpl-unit-strike');
+  if(f.mayorista){
+    document.getElementById('rpl-unit').textContent='—';
+    document.getElementById('rpl-unit-usd').textContent='—';
+    const totPlEl=document.getElementById('rpl-total'); if(totPlEl) totPlEl.textContent='Consultar';
+    const rplTotLbl=document.getElementById('rpl-total-label'); if(rplTotLbl) rplTotLbl.textContent='Consultar';
+    const rplTotBig=document.getElementById('rpl-total-big'); if(rplTotBig) rplTotBig.textContent='Consultar';
+    const rplIvaLine=document.getElementById('rpl-iva-line'); if(rplIvaLine) rplIvaLine.style.display='none';
+    const rplPliegoEl=document.getElementById('rpl-m2usd-pliego'); if(rplPliegoEl) rplPliegoEl.textContent='—';
+    const rplPlanchaEl=document.getElementById('rpl-m2usd-plancha'); if(rplPlanchaEl) rplPlanchaEl.textContent='—';
+    if(strikeTot) strikeTot.style.display='none';
+    if(strikeUnit) strikeUnit.style.display='none';
+    buildFullTablesPl(); return;
+  }
+  const uARS=f.uARS, uUSD=uARS/rate, m2usd=uARS/areaM2/rate, total=Math.round(uARS*qty*iva);
   document.getElementById('rpl-unit').textContent = '$'+Math.round(uARS*iva).toLocaleString('es-AR');
   document.getElementById('rpl-unit-usd').textContent = 'U$D '+(uUSD*iva).toLocaleString('es-AR',{minimumFractionDigits:2,maximumFractionDigits:2});
   const totPlEl=document.getElementById('rpl-total'); if(totPlEl) totPlEl.textContent='$'+total.toLocaleString('es-AR');
-  // Total del pedido destacado (con/sin IVA)
   const rplTotLbl=document.getElementById('rpl-total-label'); if(rplTotLbl) rplTotLbl.textContent=ivaOn?'Total (con IVA)':'Total';
   const rplTotBig=document.getElementById('rpl-total-big'); if(rplTotBig) rplTotBig.textContent='$'+total.toLocaleString('es-AR');
   const rplIvaLine=document.getElementById('rpl-iva-line');
   if(rplIvaLine){ if(ivaOn){ rplIvaLine.style.display='block'; rplIvaLine.textContent='IVA $'+Math.round(uARS*qty*0.21).toLocaleString('es-AR'); } else rplIvaLine.style.display='none'; }
-  // USD/m² pliego (con IVA si aplica)
   const rplPliegoEl=document.getElementById('rpl-m2usd-pliego');
   if(rplPliegoEl) rplPliegoEl.textContent='USD '+(m2usd*iva).toFixed(1);
-  // USD/m² plancha (con IVA si aplica)
   const m2Plancha = (uARS*iva) / areaM2 / rate;
   const rplPlanchaEl=document.getElementById('rpl-m2usd-plancha');
   if(rplPlanchaEl) rplPlanchaEl.textContent='USD '+m2Plancha.toFixed(1);
+  if(strikeTot && strikeUnit){
+    if(f.disc>=0.05){
+      strikeTot.style.display='block'; strikeTot.textContent='$'+Math.round(f.uBase*qty*iva).toLocaleString('es-AR');
+      strikeUnit.style.display='block'; strikeUnit.textContent='$'+Math.round(f.uBase*iva).toLocaleString('es-AR');
+    } else { strikeTot.style.display='none'; strikeUnit.style.display='none'; }
+  }
   buildFullTablesPl();
 }
 
 function buildFullTablesPl(){
   const cont=document.getElementById('full-tables-pl'); if(!cont) return; cont.innerHTML='';
   const rate=getRate();
+  const iva=ivaOn?1.21:1;
   Object.keys(DATA).forEach(matKey=>{
     const det=document.createElement('details');
     if(matKey===stPl.matKey) det.open=true;
-    const qtys=[75,150,300];
     let rows='';
     ALL_SIZES_PLANCHA.forEach(sz=>{
-      const uARS=unitPlancha(matKey,sz,rate);
-      const iva=ivaOn?1.21:1;
-      qtys.forEach(qty=>{
-        const total=Math.round(uARS*qty);
-        const cur=(matKey===stPl.matKey&&sz===stPl.size)?' class="cur"':'';
-        rows+=`<tr${cur}><td>${sz}</td><td>${qty}</td>`+
-          `<td>$${Math.round(uARS*iva).toLocaleString('es-AR')}</td>`+
-          `<td>$${Math.round(total*iva).toLocaleString('es-AR')}</td>`+
-          `<td>U$D ${(total/rate).toLocaleString('es-AR',{minimumFractionDigits:0,maximumFractionDigits:0})}</td></tr>`;
+      (QTY_PLANCHA_LIST[sz]||[75,150,300]).forEach(qty=>{
+        const f=unitPlanchaFull(matKey,sz,rate,qty);
+        const cur=(matKey===stPl.matKey&&sz===stPl.size&&qty===stPl.qty)?' class="cur"':'';
+        const discTag=(!f.mayorista&&f.disc>0)?` (-${f.disc*100}%)`:'';
+        if(f.mayorista){
+          rows+=`<tr${cur}><td>${sz}</td><td>${qty.toLocaleString('es-AR')} (consulta)</td>`+
+            `<td>—</td><td>—</td><td>—</td></tr>`;
+        } else {
+          const total=Math.round(f.uARS*qty);
+          rows+=`<tr${cur}><td>${sz}</td><td>${qty.toLocaleString('es-AR')}${discTag}</td>`+
+            `<td>$${Math.round(f.uARS*iva).toLocaleString('es-AR')}</td>`+
+            `<td>$${Math.round(total*iva).toLocaleString('es-AR')}</td>`+
+            `<td>U$D ${(total/rate).toLocaleString('es-AR',{minimumFractionDigits:0,maximumFractionDigits:0})}</td></tr>`;
+        }
       });
     });
     det.innerHTML=`<summary>${DATA[matKey].label}</summary>
@@ -706,21 +782,29 @@ function buildFullTablesPl(){
 }
 
 // ===== ACRÍLICOS =====
+// Tramos de descuento por medida (3cm difiere de 5/6cm: llega antes al 5% pero topea igual en -10%)
+const BREAKS_3CM  = [{qty:100,discount:0},{qty:200,discount:5},{qty:300,discount:10}];
+const BREAKS_56CM = [{qty:30,discount:0},{qty:100,discount:5},{qty:300,discount:10}];
+const BREAKS_PREMIO = [{qty:1,discount:0},{qty:5,discount:5},{qty:10,discount:10},{qty:25,discount:15}];
+// Cantidad de consulta mayorista por medida (no forma parte de los tramos con precio)
+const MAYORISTA_AC = { '3x3':600, '5x5':500, '6x6':500, '10x10':50, '15x21':50 };
+
 const ACRILICOS = {
-  llavero: { label:'Llavero', sub:'Incluye cadena metálica', baseUsdM2:438.9, fijoUSD:0.143,
+  llavero: { label:'Llavero', sub:'Incluye cadena metálica', baseUsdM2:416.955, fijoUSD:0.143,
     sizes:{'3x3':0.00108,'5x5':0.0025,'6x6':0.0036},
-    breaks:[{qty:30,discount:0},{qty:100,discount:0},{qty:300,discount:5}] },
-  iman:    { label:'Imán',    sub:'Imán en toda la superficie', baseUsdM2:438.9, fijoUSD:0.11,
+    breaksBySize:{'3x3':BREAKS_3CM,'5x5':BREAKS_56CM,'6x6':BREAKS_56CM} },
+  iman:    { label:'Imán',    sub:'Imán en toda la superficie', baseUsdM2:416.955, fijoUSD:0.11,
     sizes:{'5x5':0.0025,'6x6':0.0036},
-    breaks:[{qty:30,discount:0},{qty:100,discount:0},{qty:300,discount:5}] },
-  dije:    { label:'Dije',    sub:'Sin accesorio, solo acrílico', baseUsdM2:438.9, fijoUSD:0,
+    breaksBySize:{'5x5':BREAKS_56CM,'6x6':BREAKS_56CM} },
+  dije:    { label:'Dije',    sub:'Sin accesorio, solo acrílico', baseUsdM2:416.955, fijoUSD:0,
     sizes:{'3x3':0.00108,'5x5':0.0025,'6x6':0.0036},
-    breaks:[{qty:30,discount:0},{qty:100,discount:0},{qty:300,discount:5}] },
+    breaksBySize:{'3x3':BREAKS_3CM,'5x5':BREAKS_56CM,'6x6':BREAKS_56CM} },
   premio:  { label:'Premio | QR', sub:'Acrílico macizo 10mm · 15x21 incluye base · 50+ mayorista', baseUsdM2:0, fijoUSD:0,
     sizes:{'10x10':0.01,'15x21':0.0315},
-    pricesUSD:{'10x10':30,'15x21':65},
-    breaks:[{qty:1,discount:0},{qty:5,discount:0},{qty:10,discount:5},{qty:25,discount:10}] },
+    pricesUSD:{'10x10':28.5,'15x21':61.75},
+    breaksBySize:{'10x10':BREAKS_PREMIO,'15x21':BREAKS_PREMIO} },
 };
+function esMayoristaAc(sz, qty){ return qty>=(MAYORISTA_AC[sz]||99999); }
 
 let stAc = { prodKey:'llavero', size:'5x5', qty:30 };
 
@@ -742,7 +826,7 @@ function buildProductoAc(){
       stAc.prodKey=k;
       const sizes=Object.keys(ACRILICOS[k].sizes);
       if(!sizes.includes(stAc.size)) stAc.size=sizes[0];
-      const qs=ACRILICOS[k].breaks.map(b=>b.qty);
+      const qs=ACRILICOS[k].breaksBySize[stAc.size].map(b=>b.qty).concat([MAYORISTA_AC[stAc.size]]);
       if(!qs.includes(stAc.qty)) stAc.qty=qs[0];
       buildProductoAc(); buildMedidaAc(); buildQtyAc(); recalcAc();
     };
@@ -763,36 +847,63 @@ function buildMedidaAc(){
 
 function buildQtyAc(){
   const c=document.getElementById('opt-qty-ac'); if(!c) return; c.innerHTML='';
-  const breaks=ACRILICOS[stAc.prodKey].breaks;
+  const breaks=ACRILICOS[stAc.prodKey].breaksBySize[stAc.size];
   breaks.forEach(b=>{
     const btn=document.createElement('button'); btn.className='opt opt-mono'+(stAc.qty===b.qty?' active':'');
-    btn.textContent=b.qty.toLocaleString('es-AR');
+    btn.innerHTML=b.qty.toLocaleString('es-AR')+(b.discount>0?` <span style="font-size:.72em;color:var(--green2);font-weight:700">-${b.discount}%</span>`:'');
     btn.onclick=()=>{ stAc.qty=b.qty; buildQtyAc(); recalcAc(); };
     c.appendChild(btn);
   });
+  const mayQty=MAYORISTA_AC[stAc.size];
+  if(mayQty){
+    const btn=document.createElement('button'); btn.className='opt opt-mono'+(stAc.qty===mayQty?' active':'');
+    btn.innerHTML=mayQty.toLocaleString('es-AR')+' <span style="font-size:.72em;color:var(--gray3);font-weight:700">Consulta</span>';
+    btn.onclick=()=>{ stAc.qty=mayQty; buildQtyAc(); recalcAc(); };
+    c.appendChild(btn);
+  }
 }
 
 function recalcAc(){
   const rate=getRate();
-  const breaks=ACRILICOS[stAc.prodKey].breaks;
-  const br=breaks.find(b=>b.qty===stAc.qty)||breaks[0];
+  const iva=ivaOn?1.21:1;
+  const strikeTot=document.getElementById('rac-total-strike'), strikeUnit=document.getElementById('rac-unit-strike');
+  document.getElementById('rac-prod').textContent=ACRILICOS[stAc.prodKey].label;
+  if(esMayoristaAc(stAc.size, stAc.qty)){
+    document.getElementById('rac-dims').textContent=stAc.size+' cm · '+stAc.qty+' u · consulta';
+    document.getElementById('rac-unit').textContent='—';
+    document.getElementById('rac-unit-usd').textContent='—';
+    const totEl=document.getElementById('rac-total'); if(totEl) totEl.textContent='Consultar';
+    const racTotLbl=document.getElementById('rac-total-label'); if(racTotLbl) racTotLbl.textContent='Consultar';
+    const racTotBig=document.getElementById('rac-total-big'); if(racTotBig) racTotBig.textContent='Consultar';
+    const racIvaLine=document.getElementById('rac-iva-line'); if(racIvaLine) racIvaLine.style.display='none';
+    document.getElementById('rac-m2usd').textContent='—';
+    if(strikeTot) strikeTot.style.display='none';
+    if(strikeUnit) strikeUnit.style.display='none';
+    buildFullTablesAc(); return;
+  }
+  const breaks=ACRILICOS[stAc.prodKey].breaksBySize[stAc.size];
+  const br=breaks.slice().reverse().find(b=>stAc.qty>=b.qty)||breaks[0];
   const uARS=unitAcrilico(stAc.prodKey,stAc.size,rate,br.discount); if(!uARS) return;
+  const uBase=unitAcrilico(stAc.prodKey,stAc.size,rate,0);
   const uUSD=uARS/rate;
   const area=ACRILICOS[stAc.prodKey].sizes[stAc.size];
   const m2usd=uARS/area/rate;
-  const iva=ivaOn?1.21:1;
-  document.getElementById('rac-prod').textContent=ACRILICOS[stAc.prodKey].label;
   document.getElementById('rac-dims').textContent=stAc.size+' cm · '+stAc.qty+' u'+(br.discount>0?' · -'+br.discount+'%':'');
   document.getElementById('rac-unit').textContent='$'+Math.round(uARS*iva).toLocaleString('es-AR');
   document.getElementById('rac-unit-usd').textContent='U$D '+(uUSD*iva).toLocaleString('es-AR',{minimumFractionDigits:2,maximumFractionDigits:2});
   const total=Math.round(uARS*stAc.qty*iva);
   const totEl=document.getElementById('rac-total'); if(totEl) totEl.textContent='$'+total.toLocaleString('es-AR');
-  // Total del pedido destacado (con/sin IVA)
   const racTotLbl=document.getElementById('rac-total-label'); if(racTotLbl) racTotLbl.textContent=ivaOn?'Total (con IVA)':'Total';
   const racTotBig=document.getElementById('rac-total-big'); if(racTotBig) racTotBig.textContent='$'+total.toLocaleString('es-AR');
   const racIvaLine=document.getElementById('rac-iva-line');
   if(racIvaLine){ if(ivaOn){ racIvaLine.style.display='block'; racIvaLine.textContent='IVA $'+Math.round(uARS*stAc.qty*0.21).toLocaleString('es-AR'); } else racIvaLine.style.display='none'; }
   document.getElementById('rac-m2usd').textContent='USD '+(m2usd*iva).toFixed(1);
+  if(strikeTot && strikeUnit){
+    if(br.discount>=5){
+      strikeTot.style.display='block'; strikeTot.textContent='$'+Math.round(uBase*stAc.qty*iva).toLocaleString('es-AR');
+      strikeUnit.style.display='block'; strikeUnit.textContent='$'+Math.round(uBase*iva).toLocaleString('es-AR');
+    } else { strikeTot.style.display='none'; strikeUnit.style.display='none'; }
+  }
   buildFullTablesAc();
 }
 
@@ -805,16 +916,22 @@ function buildFullTablesAc(){
     if(pk===stAc.prodKey) det.open=true;
     let rows='';
     Object.keys(p.sizes).forEach(sz=>{
-      p.breaks.forEach(b=>{
+      const breaks=p.breaksBySize[sz];
+      breaks.forEach(b=>{
         const uDesc=unitAcrilico(pk,sz,rate,b.discount);
         const total=Math.round(uDesc*b.qty);
-        const cur=(pk===stAc.prodKey&&sz===stAc.size)?' class="cur"':'';
+        const cur=(pk===stAc.prodKey&&sz===stAc.size&&b.qty===stAc.qty)?' class="cur"':'';
         rows+=`<tr${cur}><td>${sz}</td><td>${b.qty}</td>`+
           `<td>${b.discount>0?'-'+b.discount+'%':'—'}</td>`+
           `<td>$${Math.round(uDesc*iva).toLocaleString('es-AR')}</td>`+
           `<td>$${Math.round(total*iva).toLocaleString('es-AR')}</td>`+
           `<td>U$D ${(total/rate).toLocaleString('es-AR',{minimumFractionDigits:0,maximumFractionDigits:0})}</td></tr>`;
       });
+      const mayQty=MAYORISTA_AC[sz];
+      if(mayQty){
+        const cur=(pk===stAc.prodKey&&sz===stAc.size&&mayQty===stAc.qty)?' class="cur"':'';
+        rows+=`<tr${cur}><td>${sz}</td><td>${mayQty} (consulta)</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>`;
+      }
     });
     det.innerHTML=`<summary>${p.label} · ${p.sub}</summary>
       <div class="tbl-scroll"><table class="full-table">
@@ -853,11 +970,11 @@ buildAll();
 (function(){
   const DATA = [
     { label:'Blanco Premium', sub:'Vinilo blanco mate/brillante', color:'#4d96ff',
-      suelto:43.8, plancha:38.3, total:41.0 },
+      suelto:35.0, plancha:30.0, total:32.5 },
     { label:'Transparente Premium', sub:'Vinilo transparente', color:'#00c264',
-      suelto:48.8, plancha:41.7, total:45.2 },
+      suelto:38.5, plancha:33.0, total:35.8 },
     { label:'Especial / Holográfico', sub:'Vinilos especiales', color:'#c800ff',
-      suelto:62.5, plancha:64.0, total:63.2 },
+      suelto:52.5, plancha:50.0, total:51.3 },
   ];
   const MAX = 70;
   const c = document.getElementById('chart-m2');
