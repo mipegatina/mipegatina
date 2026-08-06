@@ -693,8 +693,8 @@ label:"Dije", sub:"Sin accesorio, solo acrílico", baseUsdM2:300, fijoUSD:0,
 sizes:{ "3x3":{area:.00108},"5x5":{area:.0025},"6x6":{area:.0036} }
 },
 premio: {
-label:"Premio | QR", sub:"Acrílico macizo con impresión UV directa. 15x21 incluye base acrílica", baseUsdM2:0, fijoUSD:0,
-sizes:{ "10x10":{area:.01,priceUSD:28.5},"15x21":{area:.0315,priceUSD:61.75} }
+label:"Premio | QR", sub:"Acrílico macizo con impresión UV directa. 10×10 sin base · 15×21 con base acrílica", baseUsdM2:0, fijoUSD:0,
+sizes:{ "10x10":{area:.01,priceUSD:22},"15x21":{area:.0315,priceUSD:50} }
 }
 };
 const materialesPlancha = {
@@ -725,7 +725,7 @@ if(cot.cat === 'acrilicos') return materialesAcrilico;
 return cot.producto === 'plancha' ? materialesPlancha : materialesSuelto;
 }
 // getBreaks / getMinQty / getMaxQty reemplazados por TRAMOS (ver mas abajo)
-function acrilSizeLabel(sz, matKey){ const p = sz.split('x').map(Number); if(matKey==='premio' || p[0]!==p[1]) return p.join(' × ')+' cm'; return Math.max(...p)+' cm'; }
+function acrilSizeLabel(sz, matKey){ const p = sz.split('x').map(Number); if(matKey==='premio') return p.join(' × ')+' cm'+(sz==='15x21'?' · con base':' · sin base'); if(p[0]!==p[1]) return p.join(' × ')+' cm'; return Math.max(...p)+' cm'; }
 function onCatSelect(cat){
 document.querySelectorAll('.cat-card').forEach(c=>c.classList.remove('selected'));
 document.getElementById('cat-'+cat).classList.add('selected');
@@ -1221,30 +1221,30 @@ qtysFor(tr).forEach(unidades=>{
 // mayorista -> desde esta cantidad se abre el form de consulta (null = sin limite)
 const TRAMOS = {
   suelto: {
-    '5x5':  { qtys:[200,300,500,1000,2000], desc:[{q:300,d:5},{q:500,d:10},{q:1000,d:15}], mayorista:2000 },
-    '6x6':  { qtys:[200,300,500,1000,2000], desc:[{q:300,d:5},{q:500,d:10},{q:1000,d:15}], mayorista:2000 },
-    '8x8':  { qtys:[100,200,500,1000,2000], desc:[{q:200,d:5},{q:500,d:10},{q:1000,d:15}], mayorista:2000 },
-    '9x9':  { qtys:[100,200,500,1000,2000], desc:[{q:200,d:5},{q:500,d:10},{q:1000,d:15}], mayorista:2000 },
+    '5x5':  { qtys:[200,500,1200,3000,6000], desc:[{q:500,d:5},{q:1200,d:10},{q:3000,d:15}], mayorista:6000 },
+    '6x6':  { qtys:[200,500,1200,3000,6000], desc:[{q:500,d:5},{q:1200,d:10},{q:3000,d:15}], mayorista:6000 },
+    '8x8':  { qtys:[100,250,600,1500,3000], desc:[{q:250,d:5},{q:600,d:10},{q:1500,d:15}], mayorista:3000 },
+    '9x9':  { qtys:[100,250,600,1500,3000], desc:[{q:250,d:5},{q:600,d:10},{q:1500,d:15}], mayorista:3000 },
   },
   plancha: {
-    '10x7':  { qtys:[150,300,500,1000], desc:[{q:300,d:5},{q:500,d:10}], mayorista:1000 },
-    '10x15': { qtys:[75,150,300,600],   desc:[{q:150,d:5},{q:300,d:10}], mayorista:600 },
-    '15x21': { qtys:[75,150,300,500],   desc:[{q:150,d:5},{q:300,d:10}], mayorista:500 },
+    '10x7':  { qtys:[200,500,1000,2000], desc:[{q:500,d:5},{q:1000,d:10}], mayorista:2000 },
+    '10x15': { qtys:[100,250,500,1000], desc:[{q:250,d:5},{q:500,d:10}], mayorista:1000 },
+    '15x21': { qtys:[100,250,500,1000], desc:[{q:250,d:5},{q:500,d:10}], mayorista:1000 },
   },
   acrilico: {
     llavero: {
       '3x3': { qtys:[100,200,300,600], desc:[{q:200,d:5},{q:300,d:10}], mayorista:600 },
-      '5x5': { qtys:[30,100,300,500], desc:[{q:100,d:5},{q:300,d:10}], mayorista:500 },
-      '6x6': { qtys:[30,100,300,500], desc:[{q:100,d:5},{q:300,d:10}], mayorista:500 },
+      '5x5': { qtys:[30,60,200,600], desc:[{q:60,d:5},{q:200,d:10}], mayorista:600 },
+      '6x6': { qtys:[30,60,200,600], desc:[{q:60,d:5},{q:200,d:10}], mayorista:600 },
     },
     iman: {
-      '5x5': { qtys:[30,100,300,500], desc:[{q:100,d:5},{q:300,d:10}], mayorista:500 },
-      '6x6': { qtys:[30,100,300,500], desc:[{q:100,d:5},{q:300,d:10}], mayorista:500 },
+      '5x5': { qtys:[30,60,200,600], desc:[{q:60,d:5},{q:200,d:10}], mayorista:600 },
+      '6x6': { qtys:[30,60,200,600], desc:[{q:60,d:5},{q:200,d:10}], mayorista:600 },
     },
     dije: {
       '3x3': { qtys:[100,200,300,600], desc:[{q:200,d:5},{q:300,d:10}], mayorista:600 },
-      '5x5': { qtys:[30,100,300,500], desc:[{q:100,d:5},{q:300,d:10}], mayorista:500 },
-      '6x6': { qtys:[30,100,300,500], desc:[{q:100,d:5},{q:300,d:10}], mayorista:500 },
+      '5x5': { qtys:[30,60,200,600], desc:[{q:60,d:5},{q:200,d:10}], mayorista:600 },
+      '6x6': { qtys:[30,60,200,600], desc:[{q:60,d:5},{q:200,d:10}], mayorista:600 },
     },
     premio: {
       '10x10': { qtys:[1,5,10,25,50], desc:[{q:5,d:5},{q:10,d:10},{q:25,d:15}], mayorista:50 },
@@ -3239,7 +3239,7 @@ function mpcStepAcrilSize(prod){
   mpcState.material = prod;
   mpcPush('Medida', ()=>mpcStepAcrilSize(prod)); mpcShowBack();
   const sizes = Object.keys(MPC.precios.acrilicos[prod]);
-  const SIZE_LABEL_AC = {'3x3':'3 cm','5x5':'5 cm','6x6':'6 cm','10x10':'10 × 10 cm','15x21':'15 × 21 cm'};
+  const SIZE_LABEL_AC = {'3x3':'3 cm','5x5':'5 cm','6x6':'6 cm','10x10':'10 × 10 cm · sin base','15x21':'15 × 21 cm · con base'};
   mpcTyping(()=>{
     mpcMsg(prod==='premio' ? '¿Qué medida?<br><span style="font-size:.75rem;opacity:.65;">10 mm de espesor · Acrílico macizo 100% virgen, pulido a máquina · 100% brilloso</span>' : '¿Qué medida? (lado más largo del diseño)');
     mpcOpts(sizes.map(s=>({ label: (SIZE_LABEL_AC[s]||s+' cm'), action:()=>mpcStepAcrilQty(s) })));
