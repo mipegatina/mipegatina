@@ -568,7 +568,7 @@
 
 <script>
 /* ===== COTIZADOR RED BULL ===== */
-const COT = 1600, RECARGO = 0.15, IVA = 0.21;
+const COT = 1600, RECARGO = 0.20, IVA = 0.21;
 function round5up(n){ return Math.ceil(n/5)*5; }
 // Mapeo de materiales visibles -> columna de la lista oficial
 const MAT_COL = {
@@ -580,25 +580,29 @@ const MAT_COL = {
 };
 // USD/m² por material y medida (lista oficial julio 2026)
 const M2_STICKER = {
-  blancoPremium: { "5x5":55, "6x6":45, "8x8":40, "9x9":35 },
-  transparente:  { "5x5":60, "6x6":50, "8x8":45, "9x9":40 },
-  especial:      { "5x5":80, "6x6":70, "8x8":50, "9x9":50 }
+  blancoPremium: { "5x5":40, "6x6":40, "8x8":30, "9x9":30 },
+  transparente:  { "5x5":44, "6x6":44, "8x8":33, "9x9":33 },
+  especial:      { "5x5":55, "6x6":55, "8x8":50, "9x9":50 }
 };
 const M2_PLANCHA = {
-  "10x15": { blancoPremium:37, transparente:42, especial:60 },
-  "15x21": { blancoPremium:37, transparente:42, especial:60 }
+  "10x15": { blancoPremium:30, transparente:33, especial:50 },
+  "15x21": { blancoPremium:30, transparente:33, especial:50 }
 };
 const AREA_STICKER = { "5x5":0.0025, "6x6":0.0036, "8x8":0.0064, "9x9":0.0081 };
 const AREA_PLANCHA = { "10x15":0.015, "15x21":0.0315 };
-// Descuentos por cantidad
-function discSuelto(qty){ return qty>=2000?0.10:qty>=1000?0.05:0; }
-function discPlancha(qty, sz){ const max={"10x15":600,"15x21":600}, mid={"10x15":300,"15x21":300}; return qty>=(max[sz]||600)?0.10:qty>=(mid[sz]||300)?0.05:0; }
-function discAcril(qty){ return qty>=300?5:0; } // en %
+// Descuentos por cantidad (misma escala que el cotizador de Mi Pegatina; sin tramo de consulta mayorista)
+function discSuelto(qty, sz){
+  const chico = (sz==="5x5"||sz==="6x6");
+  const t3 = chico?3000:1500, t2 = chico?1200:600, t1 = chico?500:250;
+  if(qty>=t3) return 0.15; if(qty>=t2) return 0.10; if(qty>=t1) return 0.05; return 0;
+}
+function discPlancha(qty){ if(qty>=500) return 0.10; if(qty>=250) return 0.05; return 0; }
+function discAcril(qty){ if(qty>=200) return 10; if(qty>=60) return 5; return 0; } // en %
 
 const PRODUCTOS = {
   stickers: {
     label: "Stickers sueltos",
-    packsPorMedida: { "5x5":[200,300,500,1000,2000], "6x6":[200,300,500,1000,2000], "8x8":[100,200,500,1000,2000], "9x9":[100,200,500,1000,2000] },
+    packsPorMedida: { "5x5":[200,500,1200,3000], "6x6":[200,500,1200,3000], "8x8":[100,250,600,1500], "9x9":[100,250,600,1500] },
     materiales: {
       "Vinilo Blanco Premium": 1,
       "Blanco Premium con Laca": 1,
@@ -609,14 +613,16 @@ const PRODUCTOS = {
     sizes: { "5x5":1, "6x6":1, "8x8":1, "9x9":1 },
     unit(mat, sz, qty){
       const col = MAT_COL[mat];
-      const uBase = round5up(M2_STICKER[col][sz] * AREA_STICKER[sz] * COT);
-      const d = discSuelto(qty);
+      // Misma fórmula que el cotizador público (con su redondeo de coma flotante en 5x5, replicado a propósito)
+      const areaCalc = (parseFloat(sz)/100)*(parseFloat(sz)/100);
+      const uBase = round5up(M2_STICKER[col][sz] * areaCalc * COT);
+      const d = discSuelto(qty, sz);
       return d>0 ? round5up(uBase*(1-d)) : uBase;
     }
   },
   plancha: {
     label: "Plancha de stickers",
-    packsPorMedida: { "10x15":[75,150,300,600], "15x21":[75,150,300,600] },
+    packsPorMedida: { "10x15":[100,250,500], "15x21":[100,250,500] },
     materiales: {
       "Vinilo Blanco Premium": 1,
       "Blanco Premium con Laca": 1,
@@ -634,25 +640,25 @@ const PRODUCTOS = {
   },
   llaveros: {
     label: "Llaveros",
-    packsPorMedida: { "5x5":[30,100,300], "6x6":[30,100,300] },
-    materiales: { "Acrílico impreso": 438.9 },
+    packsPorMedida: { "5x5":[30,60,200], "6x6":[30,60,200] },
+    materiales: { "Acrílico impreso": 300 },
     fijo: 0.143,
     sizes: { "5x5":0.0025, "6x6":0.0036 },
     unit(mat, sz, qty){
       const disc = discAcril(qty);
-      const uU = 438.9 * (1-disc/100) * this.sizes[sz] + this.fijo;
+      const uU = 300 * (1-disc/100) * this.sizes[sz] + this.fijo;
       return round5up(uU * COT);
     }
   },
   imanes: {
     label: "Imanes",
-    packsPorMedida: { "5x5":[30,100,300], "6x6":[30,100,300] },
-    materiales: { "Acrílico impreso": 438.9 },
+    packsPorMedida: { "5x5":[30,60,200], "6x6":[30,60,200] },
+    materiales: { "Acrílico impreso": 300 },
     fijo: 0.11,
     sizes: { "5x5":0.0025, "6x6":0.0036 },
     unit(mat, sz, qty){
       const disc = discAcril(qty);
-      const uU = 438.9 * (1-disc/100) * this.sizes[sz] + this.fijo;
+      const uU = 300 * (1-disc/100) * this.sizes[sz] + this.fijo;
       return round5up(uU * COT);
     }
   }
