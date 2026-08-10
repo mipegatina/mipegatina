@@ -11,6 +11,29 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config','AW-18358544445');
 </script>
+<!-- Mi Pegatina · Conversiones Google Ads (mpConv) -->
+<script>
+(function(){
+  var AW = 'AW-18358544445';
+  var LBL = {
+    pedido:   AW + '/wEa4CISSg90cEL3QhLJE',  // Pedido enviado (formulario web) - Compra
+    consulta: AW + '/OcM8CNvSn98cEL3QhLJE',  // Consulta enviada (formulario)   - Lead
+    cotizar:  AW + '/zDl4CN7Sn98cEL3QhLJE',  // Cotizador iniciado (landing)    - Solicitar cotizacion
+    carrito:  AW + '/54gYCOHSn98cEL3QhLJE'   // Cotizacion agregada al carrito  - Agregar al carrito
+  };
+  var enviado = {};
+  window.mpConv = function(tipo, valor, extra){
+    try{
+      if (typeof gtag !== 'function' || !LBL[tipo]) return;
+      if (tipo !== 'pedido'){ if (enviado[tipo]) return; enviado[tipo] = 1; }
+      var p = { 'send_to': LBL[tipo], 'value': (valor == null ? 1.0 : valor), 'currency': 'ARS' };
+      if (extra){ for (var k in extra){ p[k] = extra[k]; } }
+      gtag('event', 'conversion', p);
+    }catch(e){}
+  };
+})();
+</script>
+
 <!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://mipegatina.club/">
@@ -894,6 +917,7 @@ method:'POST', headers:{'Accept':'application/json','Content-Type':'application/
 body:JSON.stringify({_subject:'Consulta mayorista de '+(nombre||'cliente'), _replyto:email, tipo:'B2B / Mayorista', nombre:nombre, email:email, mensaje:mensaje})
 }).then(r=>{
 if(r.ok){
+if(window.mpConv){ mpConv('consulta'); }
 const form=document.getElementById('b2b-form');
 if(form){
 if(!window._b2bFormOriginal){ window._b2bFormOriginal=form.innerHTML; }
@@ -1626,6 +1650,7 @@ function whsEnviar(){
     })
   }).then(r=>{
     if(r.ok){
+      if(window.mpConv){ mpConv('consulta'); }
             var primerNombreW=(document.getElementById('whs-nombre').value||'').split(' ')[0]||'';
       var emailW=document.getElementById('whs-email').value||'';
       var wm=document.getElementById('wholesale-msg');
@@ -1665,6 +1690,7 @@ function cfEnviar(){
   }).then(function(r){
     var st=document.getElementById('cf-status');
     if(r.ok){
+      if(window.mpConv){ mpConv('consulta'); }
             var primerNombre=nombre.split(' ')[0]||'';
       document.getElementById('contacto-form-wrap').innerHTML=
         '<div style="text-align:center;padding:32px 24px;background:#fff;border:1px solid rgba(0,194,100,.25);border-radius:16px;box-shadow:0 4px 32px rgba(0,194,100,.08);">'+
@@ -2539,13 +2565,7 @@ method:'POST', headers:{'Accept':'application/json'},
 body: fd
 }).then(r=>{
 if(!r.ok) throw new Error('bad');
-  if(typeof gtag==='function'){
-gtag('event','conversion',{
-'send_to':'AW-18358544445/wEa4CISg90cEL3QhLJE',
-'value': _totalFinal,
-'currency':'ARS'
-});
-}
+  if(window.mpConv){ mpConv('pedido', _totalFinal, {'transaction_id':'MP-'+Date.now()}); }
 const body=document.getElementById('pm-body');
 if(body){
 body.setAttribute('data-confirm','1');
@@ -2636,6 +2656,7 @@ producto: cot.producto || 'sticker',
 borde: ''
 };
 carrito.push(item);
+if(window.mpConv){ mpConv('carrito', subtotal||1.0); }
 renderCarrito();
 const fab=document.getElementById('cart-fab');
 fab.style.display='flex';
@@ -3623,6 +3644,7 @@ window.mpcEnviarMayorista = function(detalle){
     const form = document.getElementById('mpc-mayorista-form');
     if(form) form.remove();
     if(r.ok){
+      if(window.mpConv){ mpConv('consulta'); }
       mpcMsg('✅ ¡Listo! Te contactamos a <strong>'+email+'</strong> con una propuesta en menos de 24 hs.');
     } else {
       mpcMsg('Hubo un error al enviar. Intentá de nuevo o usá el formulario de la web.');
@@ -3709,6 +3731,7 @@ window.mpcEnviarContacto = function(){
     const form = document.getElementById('mpc-contacto-form');
     if(form) form.remove();
     if(r.ok){
+      if(window.mpConv){ mpConv('consulta'); }
       mpcMsg('✅ ¡Mensaje recibido! Te respondemos a <strong>'+email+'</strong> a la brevedad.');
     } else {
       mpcMsg('Error al enviar. Intentá de nuevo.');

@@ -9,6 +9,38 @@
     gtag('js', new Date());
     gtag('config','AW-18358544445');
   </script>
+<!-- Mi Pegatina · Conversiones Google Ads (mpConv) -->
+<script>
+(function(){
+  var AW = 'AW-18358544445';
+  var LBL = {
+    pedido:   AW + '/wEa4CISSg90cEL3QhLJE',  // Pedido enviado (formulario web) - Compra
+    consulta: AW + '/OcM8CNvSn98cEL3QhLJE',  // Consulta enviada (formulario)   - Lead
+    cotizar:  AW + '/zDl4CN7Sn98cEL3QhLJE',  // Cotizador iniciado (landing)    - Solicitar cotizacion
+    carrito:  AW + '/54gYCOHSn98cEL3QhLJE'   // Cotizacion agregada al carrito  - Agregar al carrito
+  };
+  var enviado = {};
+  window.mpConv = function(tipo, valor, extra){
+    try{
+      if (typeof gtag !== 'function' || !LBL[tipo]) return;
+      if (tipo !== 'pedido'){ if (enviado[tipo]) return; enviado[tipo] = 1; }
+      var p = { 'send_to': LBL[tipo], 'value': (valor == null ? 1.0 : valor), 'currency': 'ARS' };
+      if (extra){ for (var k in extra){ p[k] = extra[k]; } }
+      gtag('event', 'conversion', p);
+    }catch(e){}
+  };
+})();
+</script>
+
+<!-- Mi Pegatina · Conversion "Cotizador iniciado" en clicks a #cotizador -->
+<script>
+document.addEventListener('click', function(e){
+  var t = e.target;
+  var a = (t && t.closest) ? t.closest('a[href*="#cotizador"]') : null;
+  if (a && window.mpConv) { window.mpConv('cotizar'); }
+}, true);
+</script>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Stickers Personalizados Troquelados en Argentina | Mi Pegatina®</title>
