@@ -131,8 +131,11 @@
   .q-field select:focus,.q-field input:focus{outline:none;border-color:var(--red)}
   .price-out{margin-top:24px;padding:24px;background:linear-gradient(150deg,var(--wine),var(--bg));border:1px solid var(--line);border-radius:16px;display:flex;flex-direction:column;align-items:stretch;gap:16px;text-align:center}
   .price-out .was{color:var(--dimmer);text-decoration:line-through;font-size:15px;font-weight:500}
-  .price-out .now{font-size:36px;font-weight:900;color:var(--ink);letter-spacing:-1.5px}
-  .price-out .tag{font-size:11px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:1.5px;display:block;margin-top:3px}
+  .price-out .price-block{display:flex;flex-direction:column;align-items:center;gap:12px}
+  .price-out .now{font-size:clamp(38px,11vw,52px);font-weight:900;color:var(--ink);letter-spacing:-2px;line-height:1}
+  .price-out .tag{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:800;color:#fff;text-transform:uppercase;letter-spacing:1.6px;background:linear-gradient(120deg,var(--red),var(--magenta));padding:7px 16px;border-radius:100px;white-space:nowrap;box-shadow:0 10px 26px -8px rgba(224,34,74,.85)}
+  .price-out .tag::before{content:"";width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 8px rgba(255,255,255,.9);flex-shrink:0}
+  @media(min-width:640px){ .price-out .price-block{align-items:flex-start} }
   /* NOTA IVA */
   .iva-note{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:18px;padding:14px 16px;background:rgba(224,34,74,.05);border:1px solid var(--line);border-radius:12px;font-size:13.5px;color:var(--dim);line-height:1.5;text-align:center;flex-wrap:wrap}
   .iva-badge{flex-shrink:0;font-size:11px;font-weight:800;letter-spacing:.5px;color:#fff;background:linear-gradient(120deg,var(--red),var(--magenta));padding:4px 11px;border-radius:100px;text-transform:uppercase}
@@ -177,6 +180,24 @@
   .row-body h3{font-size:18px;font-weight:700;margin-bottom:3px}
   .row-body p{color:var(--dim);font-size:13.5px}
   .row-consult{flex-shrink:0;font-size:13px;font-weight:600;color:var(--red);transition:.2s;white-space:nowrap;display:flex;align-items:center;gap:5px}
+
+  /* ===== TRABAJOS / INSTAGRAM ===== */
+  .ig-grid{column-count:1;column-gap:18px}
+  .ig-grid.is-empty{column-count:1;display:flex;justify-content:center}
+  .ig-card{break-inside:avoid;-webkit-column-break-inside:avoid;page-break-inside:avoid;display:inline-block;width:100%;margin:0 0 18px;border-radius:18px;overflow:hidden;border:1px solid var(--line-soft);background:#fff;box-shadow:0 26px 60px -32px rgba(224,34,74,.5);transition:.2s}
+  .ig-card:hover{border-color:var(--line);transform:translateY(-3px)}
+  .ig-card .instagram-media{margin:0 !important;min-width:0 !important;width:100% !important;max-width:100% !important;border:0 !important;border-radius:0 !important;box-shadow:none !important}
+  .ig-card iframe{width:100% !important;border-radius:0 !important}
+  .ig-empty{width:100%;max-width:620px;text-align:center;background:linear-gradient(160deg,var(--panel-2),var(--bg));border:1px dashed var(--line);border-radius:20px;padding:44px 26px}
+  .ig-empty .ig-ico{width:58px;height:58px;margin:0 auto 18px;border-radius:17px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--red);background:rgba(224,34,74,.05)}
+  .ig-empty .ig-ico svg{width:28px;height:28px;stroke:currentColor;stroke-width:1.5;fill:none}
+  .ig-empty h3{font-size:20px;font-weight:800;letter-spacing:-.5px;margin-bottom:8px}
+  .ig-empty p{color:var(--dim);font-size:14.5px;max-width:400px;margin:0 auto 22px}
+  .ig-cta{display:flex;justify-content:center;margin-top:30px}
+  .btn-ig{display:inline-flex;align-items:center;justify-content:center;gap:10px}
+  .btn-ig svg{width:18px;height:18px;stroke:currentColor;stroke-width:1.8;fill:none;flex-shrink:0}
+  @media(min-width:760px){ .ig-grid{column-count:2} }
+  @media(min-width:1040px){ .ig-grid{column-count:3} }
 
   /* B2B */
   .b2b{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--wine) 0%,var(--bg-grad-2) 60%,var(--bg) 100%);border:1px solid var(--line);border-radius:26px;padding:44px 26px;text-align:center;box-shadow:0 40px 100px -40px rgba(224,34,74,.4)}
@@ -273,6 +294,7 @@
     <div class="nav-links">
       <a href="#proceso">Cómo funciona</a>
       <a href="#cotizador">Cotizador</a>
+      <a href="#trabajos">Trabajos</a>
       <a href="#expo">Productos</a>
       <a href="#b2b">B2B</a>
       <a href="#contacto">Contacto</a>
@@ -327,7 +349,7 @@
       <p class="sec-desc">El mismo proceso simple de siempre, ahora con condiciones especiales para expositores de Ekoparty.</p>
     </div>
     <div class="steps">
-      <div class="step"><div class="n">01</div><h3>Cotizá online</h3><p>Elegí material, medida y cantidad. El precio de expositor aparece al instante, ya con descuento.</p></div>
+      <div class="step"><div class="n">01</div><h3>Cotizá online</h3><p>Elegí material, medida y cantidad. Tu Precio Especial Ekoparty aparece al instante.</p></div>
       <div class="step"><div class="n">02</div><h3>Confirmamos el arte</h3><p>Revisamos tu diseño por mail y coordinamos detalles antes de imprimir. Sin sorpresas.</p></div>
       <div class="step"><div class="n">03</div><h3>Producimos a tiempo</h3><p>3 a 5 días hábiles. Todo listo para que llegue antes del arranque de la expo.</p></div>
     </div>
@@ -339,7 +361,7 @@
     <div class="sec-head">
       <div class="sec-eyebrow">Cotizador expositor</div>
       <h2 class="sec-title">Tu precio Ekoparty, en segundos.</h2>
-      <p class="sec-desc">Elegí producto, material, medida y cantidad. El precio ya viene con el 15% de descuento exclusivo para expositores de Ekoparty.</p>
+      <p class="sec-desc">Elegí producto, material, medida y cantidad. Vas a ver directamente tu Precio Especial Ekoparty, reservado para expositores.</p>
     </div>
     <div class="quoter-wrap">
       <div class="q-grid">
@@ -349,8 +371,10 @@
         <div class="q-field"><label>Cantidad</label><select id="q-cantidad"></select></div>
       </div>
       <div class="price-out">
-        <div><span class="was" id="q-was">$ 0</span></div>
-        <div><span class="now" id="q-now">$ 0</span><span class="tag">Precio Ekoparty · 15% OFF</span></div>
+        <div class="price-block">
+          <span class="tag">Precio Especial Ekoparty</span>
+          <span class="now" id="q-now">$ 0</span>
+        </div>
         <button class="btn btn-primary" id="q-add" type="button">+ Agregar a la cotización</button>
       </div>
 
@@ -367,8 +391,8 @@
         <div class="cart-head">Tu cotización</div>
         <div id="cart-items"></div>
         <div class="cart-total">
-          <div class="cart-total-lbl">Total expositor <span class="cart-total-off">(15% OFF · sin IVA)</span></div>
-          <div class="cart-total-nums"><span class="cart-was" id="cart-was">$ 0</span><span class="cart-now" id="cart-now">$ 0</span></div>
+          <div class="cart-total-lbl">Total <span class="cart-total-off">Precio Especial Ekoparty · sin IVA</span></div>
+          <div class="cart-total-nums"><span class="cart-now" id="cart-now">$ 0</span></div>
         </div>
         <div class="cart-actions">
           <a href="#cotizador" class="btn cart-add-more" id="cart-add-more">+ Agregar otro producto</a>
@@ -378,6 +402,122 @@
     </div>
   </div>
 </section>
+
+<section id="trabajos" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Trabajos reales</div>
+      <h2 class="sec-title">Lo que sale de<br>nuestra imprenta.</h2>
+      <p class="sec-desc">Producimos todos los días para marcas, eventos y comunidades. Esto es lo último que salió del taller.</p>
+      <a href="https://www.instagram.com/mipegatina/" target="_blank" rel="noopener" class="sec-link">Ver todo en @mipegatina →</a>
+    </div>
+
+    <div class="ig-grid" id="ig-grid"></div>
+
+    <div class="ig-cta">
+      <a href="https://www.instagram.com/mipegatina/" target="_blank" rel="noopener" class="btn btn-ghost btn-ig">
+        <svg viewBox="0 0 24 24"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg>
+        Seguinos en @mipegatina
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+/* ================================================================
+   TRABAJOS · Galería masonry con embeds oficiales de Instagram
+   ----------------------------------------------------------------
+   Para cambiar los posts: editá la lista de abajo.
+   El link se saca del post → botón "..." → "Copiar enlace".
+   Sirve cualquier formato (/p/, /reel/, con o sin el usuario adelante).
+
+   TIP de armado: intercalá reels y fotos en vez de agruparlos.
+   Los reels son verticales y las fotos cuadradas: alternándolos, las
+   columnas quedan escalonadas (efecto masonry). Si ponés todos los
+   reels juntos, las filas se alinean y parece una grilla común.
+   ================================================================ */
+const IG_POSTS = [
+  "https://www.instagram.com/mipegatina/reel/Db3P6rORRN8/",
+  "https://www.instagram.com/mipegatina/p/DY8CahwmOfa/",
+  "https://www.instagram.com/mipegatina/p/DRkgasokW3X/",
+
+  "https://www.instagram.com/mipegatina/p/DWhbWy8mH0E/",
+  "https://www.instagram.com/mipegatina/reel/DaQcSumwDVw/",
+  "https://www.instagram.com/mipegatina/p/DTSxqA7EUrS/",
+
+  "https://www.instagram.com/mipegatina/p/DVMBlI9EQf9/",
+  "https://www.instagram.com/mipegatina/p/DObHO-AkdhD/",
+  "https://www.instagram.com/mipegatina/reel/DaBgoX5PnlX/",
+];
+
+(function(){
+  const grid = document.getElementById('ig-grid');
+  const seccion = document.getElementById('trabajos');
+  if(!grid || !seccion) return;
+
+  let listo = false;
+
+  function mostrarFallback(){
+    if(listo) return;
+    listo = true;
+    grid.classList.add('is-empty');
+    grid.innerHTML =
+      '<div class="ig-empty">'
+      + '<div class="ig-ico"><svg viewBox="0 0 24 24"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg></div>'
+      + '<h3>Mirá nuestros trabajos en Instagram</h3>'
+      + '<p>Subimos producción real todas las semanas: stickers, planchas, llaveros e imanes para marcas y eventos.</p>'
+      + '<a href="https://www.instagram.com/mipegatina/" target="_blank" rel="noopener" class="btn btn-primary">Ver @mipegatina →</a>'
+      + '</div>';
+  }
+
+  // Normaliza cualquier formato de link al permalink canónico que espera Instagram:
+  // .../mipegatina/reel/CODIGO/  ->  https://www.instagram.com/reel/CODIGO/
+  function normalizar(url){
+    if(typeof url !== 'string') return null;
+    const m = url.split('?')[0].match(/instagram\.com\/(?:[^\/]+\/)?(p|reel|reels|tv)\/([A-Za-z0-9_-]+)/);
+    if(!m) return null;
+    return 'https://www.instagram.com/' + (m[1] === 'reels' ? 'reel' : m[1]) + '/' + m[2] + '/';
+  }
+
+  const posts = IG_POSTS.map(normalizar).filter(Boolean);
+  if(posts.length === 0){ mostrarFallback(); return; }
+
+  function cargar(){
+    posts.forEach(link=>{
+      const card = document.createElement('div');
+      card.className = 'ig-card';
+      card.innerHTML =
+        '<blockquote class="instagram-media" data-instgrm-permalink="'+link+'" data-instgrm-version="14">'
+        + '<a href="'+link+'" target="_blank" rel="noopener">Ver esta publicación en Instagram</a>'
+        + '</blockquote>';
+      grid.appendChild(card);
+    });
+
+    const sc = document.createElement('script');
+    sc.async = true;
+    sc.src = 'https://www.instagram.com/embed.js';
+    sc.onload = ()=>{ if(window.instgrm && window.instgrm.Embeds) window.instgrm.Embeds.process(); };
+    sc.onerror = mostrarFallback;
+    document.body.appendChild(sc);
+
+    // Si Instagram no responde (script bloqueado, post borrado), mostramos el bloque alternativo
+    setTimeout(()=>{
+      if(grid.querySelector('iframe')) listo = true;
+      else mostrarFallback();
+    }, 6000);
+  }
+
+  // Carga diferida: los embeds se piden recién cuando la sección se acerca a pantalla
+  if('IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries, obs)=>{
+      if(entries.some(e=>e.isIntersecting)){ obs.disconnect(); cargar(); }
+    }, { rootMargin: '600px 0px' });
+    io.observe(seccion);
+  } else {
+    cargar();
+  }
+})();
+</script>
 
 <section id="expo" style="padding-top:0">
   <div class="wrap">
@@ -457,7 +597,7 @@
       <button class="pm-close" id="pm-close" type="button">✕</button>
     </div>
     <h3 class="pm-title">Casi listo 🔥</h3>
-    <p class="pm-sub">Revisá tu cotización y dejanos tus datos. Te confirmamos a la brevedad con el precio final para expositores.</p>
+    <p class="pm-sub">Revisá tu cotización y dejanos tus datos. Te confirmamos a la brevedad tu Precio Especial Ekoparty final.</p>
     <div class="pm-resumen" id="pm-resumen"></div>
     <div class="pm-envio">
       <label class="pm-envio-lbl">Envío</label>
@@ -483,7 +623,7 @@
     <div class="success-box" id="pm-success">
       <div class="success-check">&#10003;</div>
       <div class="success-title">¡Cotización enviada!</div>
-      <div class="success-msg">La recibimos con todos tus productos. Te contactamos pronto con el precio final para expositores.</div>
+      <div class="success-msg">La recibimos con todos tus productos. Te contactamos pronto con tu Precio Especial Ekoparty final.</div>
     </div>
   </div>
 </div>
@@ -497,9 +637,15 @@
 
 <script>
 /* ===== COTIZADOR EKOPARTY ===== */
-const COT = 1600, EKO = 0.15;
+/* ================================================================
+   DATOS — Lista de Precios Interna · Agosto 2026
+   Precio Ekoparty = precio de lista CON su descuento por cantidad,
+   y encima un 5% extra Ekoparty · SIEMPRE SIN IVA
+   ================================================================ */
+const COT = 1600, EKO = 0.05;
 function round5up(n){ return Math.ceil(n/5)*5; }
-// Mapeo de materiales visibles -> columna de la lista oficial
+
+// Mapeo de materiales visibles -> columna de la lista interna
 const MAT_COL = {
   "Vinilo Blanco Premium": "blancoPremium",
   "Blanco Premium con Laca": "especial",
@@ -507,26 +653,50 @@ const MAT_COL = {
   "Vinilo Holográfico": "especial",
   "Vinilo Holográfico Gold": "especial"
 };
-// USD/m² por material y medida (lista oficial julio 2026)
+
+// USD/m² por material y medida — STICKERS SUELTOS (lista agosto 2026)
 const M2_STICKER = {
-  blancoPremium: { "5x5":55, "6x6":45, "8x8":40, "9x9":35 },
-  transparente:  { "5x5":60, "6x6":50, "8x8":45, "9x9":40 },
-  especial:      { "5x5":80, "6x6":70, "8x8":50, "9x9":50 }
+  blancoPremium: { "5x5":40, "6x6":40, "8x8":30, "9x9":30 },
+  transparente:  { "5x5":44, "6x6":44, "8x8":33, "9x9":33 },
+  especial:      { "5x5":55, "6x6":55, "8x8":50, "9x9":50 }
 };
+// USD/m² por medida y material — PLANCHAS (lista agosto 2026)
 const M2_PLANCHA = {
-  "10x15": { blancoPremium:37, transparente:42, especial:60 },
-  "15x21": { blancoPremium:37, transparente:42, especial:60 }
+  "10x15": { blancoPremium:30, transparente:33, especial:50 },
+  "15x21": { blancoPremium:30, transparente:33, especial:50 }
 };
 const AREA_STICKER = { "5x5":0.0025, "6x6":0.0036, "8x8":0.0064, "9x9":0.0081 };
 const AREA_PLANCHA = { "10x15":0.015, "15x21":0.0315 };
-function discSuelto(qty){ return qty>=2000?0.10:qty>=1000?0.05:0; }
-function discPlancha(qty, sz){ const max={"10x15":600,"15x21":600}, mid={"10x15":300,"15x21":300}; return qty>=(max[sz]||600)?0.10:qty>=(mid[sz]||300)?0.05:0; }
-function discAcril(qty){ return qty>=300?5:0; }
+
+// Descuentos por cantidad — SUELTOS (umbral distinto para medidas chicas y grandes)
+function discSuelto(qty, sz){
+  const chico = (sz === "5x5" || sz === "6x6");
+  const t3 = chico ? 3000 : 1500;
+  const t2 = chico ? 1200 : 600;
+  const t1 = chico ? 500  : 250;
+  if(qty >= t3) return 0.15;
+  if(qty >= t2) return 0.10;
+  if(qty >= t1) return 0.05;
+  return 0;
+}
+// Descuentos por cantidad — PLANCHAS
+function discPlancha(qty, sz){
+  if(qty >= 500) return 0.10;
+  if(qty >= 250) return 0.05;
+  return 0;
+}
+// Descuentos por cantidad — ACRÍLICOS (llaveros / imanes, medidas 5 y 6 cm)
+function discAcril(qty){
+  if(qty >= 200) return 10;
+  if(qty >= 60)  return 5;
+  return 0;
+}
+const AC_BASE_USD_M2 = 300;
 
 const PRODUCTOS = {
   stickers: {
     label: "Stickers sueltos",
-    packsPorMedida: { "5x5":[200,300,500,1000,2000], "6x6":[200,300,500,1000,2000], "8x8":[100,200,500,1000,2000], "9x9":[100,200,500,1000,2000] },
+    packsPorMedida: { "5x5":[500,1000,2000], "6x6":[500,1000,2000], "8x8":[600,1500,3000], "9x9":[600,1500,3000] },
     materiales: {
       "Vinilo Blanco Premium": 1,
       "Blanco Premium con Laca": 1,
@@ -538,13 +708,13 @@ const PRODUCTOS = {
     unit(mat, sz, qty){
       const col = MAT_COL[mat];
       const uBase = round5up(M2_STICKER[col][sz] * AREA_STICKER[sz] * COT);
-      const d = discSuelto(qty);
-      return d>0 ? round5up(uBase*(1-d)) : uBase;
+      const d = discSuelto(qty, sz);
+      return d > 0 ? round5up(uBase*(1-d)) : uBase;
     }
   },
   plancha: {
     label: "Plancha de stickers",
-    packsPorMedida: { "10x15":[75,150,300,600], "15x21":[75,150,300,600] },
+    packsPorMedida: { "10x15":[300,500,1000], "15x21":[300,500,1000] },
     materiales: {
       "Vinilo Blanco Premium": 1,
       "Blanco Premium con Laca": 1,
@@ -557,30 +727,30 @@ const PRODUCTOS = {
       const col = MAT_COL[mat];
       const uBase = round5up(M2_PLANCHA[sz][col] * AREA_PLANCHA[sz] * COT);
       const d = discPlancha(qty, sz);
-      return d>0 ? round5up(uBase*(1-d)) : uBase;
+      return d > 0 ? round5up(uBase*(1-d)) : uBase;
     }
   },
   llaveros: {
     label: "Llaveros",
-    packsPorMedida: { "5x5":[30,100,300], "6x6":[30,100,300] },
-    materiales: { "Acrílico impreso": 438.9 },
+    packsPorMedida: { "5x5":[100,300,500], "6x6":[100,300,500] },
+    materiales: { "Acrílico impreso": 1 },
     fijo: 0.143,
     sizes: { "5x5":0.0025, "6x6":0.0036 },
     unit(mat, sz, qty){
       const disc = discAcril(qty);
-      const uU = 438.9 * (1-disc/100) * this.sizes[sz] + this.fijo;
+      const uU = AC_BASE_USD_M2 * (1-disc/100) * this.sizes[sz] + this.fijo;
       return round5up(uU * COT);
     }
   },
   imanes: {
     label: "Imanes",
-    packsPorMedida: { "5x5":[30,100,300], "6x6":[30,100,300] },
-    materiales: { "Acrílico impreso": 438.9 },
+    packsPorMedida: { "5x5":[100,300,500], "6x6":[100,300,500] },
+    materiales: { "Acrílico impreso": 1 },
     fijo: 0.11,
     sizes: { "5x5":0.0025, "6x6":0.0036 },
     unit(mat, sz, qty){
       const disc = discAcril(qty);
-      const uU = 438.9 * (1-disc/100) * this.sizes[sz] + this.fijo;
+      const uU = AC_BASE_USD_M2 * (1-disc/100) * this.sizes[sz] + this.fijo;
       return round5up(uU * COT);
     }
   }
@@ -590,12 +760,10 @@ const $prod = document.getElementById('q-producto');
 const $mat  = document.getElementById('q-material');
 const $med  = document.getElementById('q-medida');
 const $cant = document.getElementById('q-cantidad');
-const $was  = document.getElementById('q-was');
 const $now  = document.getElementById('q-now');
 const $add  = document.getElementById('q-add');
 const $cart = document.getElementById('cart');
 const $cartItems = document.getElementById('cart-items');
-const $cartWas = document.getElementById('cart-was');
 const $cartNow = document.getElementById('cart-now');
 
 let carrito = [];
@@ -643,23 +811,21 @@ function fillPacks(){
 function currentPrice(){
   const p = PRODUCTOS[$prod.value];
   const qty = parseInt($cant.value, 10);
-  const unitBase = p.unit($mat.value, $med.value, qty);
+  const unitBase = p.unit($mat.value, $med.value, qty);   // unitario de lista interna (sin IVA)
   const r100 = n => Math.ceil(n/100)*100;
-  const normal = r100(unitBase * qty);          // precio de lista redondeado a 100
-  return { normal, eko: r100(unitBase*qty*(1-EKO)) };  // Ekoparty: -15%, sin IVA, redondeado a 100
+  // Ekoparty: precio de lista − 5%, sin IVA, redondeado a 100
+  return { eko: r100(unitBase*qty*(1-EKO)) };
 }
 function recalc(){
-  const pr = currentPrice();
-  $was.textContent = money(pr.normal);
-  $now.textContent = money(pr.eko);
+  $now.textContent = money(currentPrice().eko);
 }
 function renderCart(){
   if(carrito.length === 0){ $cart.style.display = 'none'; return; }
   $cart.style.display = '';
   $cartItems.innerHTML = '';
-  let totNormal = 0, totEko = 0;
+  let totEko = 0;
   carrito.forEach((it, i)=>{
-    totNormal += it.normal; totEko += it.eko;
+    totEko += it.eko;
     const row = document.createElement('div');
     row.className = 'cart-item';
     row.innerHTML =
@@ -667,11 +833,10 @@ function renderCart(){
       + '<div class="cart-item-title">'+it.prodLabel+' — '+it.matLabel+'</div>'
       + '<div class="cart-item-meta">'+sizeLabel(it.size)+' · '+it.qty.toLocaleString('es-AR')+' u</div>'
       + '</div>'
-      + '<div class="cart-item-price"><span class="cinorm">'+money(it.normal)+'</span>'+money(it.eko)+'</div>'
+      + '<div class="cart-item-price">'+money(it.eko)+'</div>'
       + '<button class="cart-item-del" data-i="'+i+'" title="Quitar">×</button>';
     $cartItems.appendChild(row);
   });
-  $cartWas.textContent = money(totNormal);
   $cartNow.textContent = money(totEko);
   $cartItems.querySelectorAll('.cart-item-del').forEach(b=>{
     b.addEventListener('click', ()=>{ carrito.splice(parseInt(b.dataset.i,10),1); renderCart(); });
@@ -685,7 +850,6 @@ function addToCart(){
     matLabel: $mat.value,
     size: $med.value,
     qty: parseInt($cant.value,10),
-    normal: pr.normal,
     eko: pr.eko
   });
   renderCart();
@@ -746,7 +910,7 @@ function renderResumen(){
     html += '<div class="pm-res-item"><span class="pl">Envío CABA (mensajería)</span><span class="pr">'+money(ENVIO_CABA)+'</span></div>';
   }
   const totFinal = totEko + (envioSel === 'caba' ? ENVIO_CABA : 0);
-  html += '<div class="pm-res-total"><span class="pl">Total expositor (15% OFF)</span><span class="pr">'+money(totFinal)+'</span></div>';
+  html += '<div class="pm-res-total"><span class="pl">Total · Precio Especial Ekoparty</span><span class="pr">'+money(totFinal)+'</span></div>';
   let ivaLine = 'Precios sin IVA · Facturamos A / B';
   if(envioSel === 'andreani') ivaLine += ' · Envío Andreani a coordinar';
   html += '<div class="pm-res-iva">'+ivaLine+'</div>';
@@ -791,9 +955,8 @@ if($pmForm){
     const btn = document.getElementById('pm-send');
     btn.textContent = 'Enviando...'; btn.disabled = true;
     let detalle = carrito.map((it,i)=>{
-      return `${i+1}) ${it.prodLabel} — ${it.matLabel} · ${sizeLabel(it.size)} · ${it.qty} u  →  ${money(it.eko)} (normal ${money(it.normal)})`;
+      return `${i+1}) ${it.prodLabel} — ${it.matLabel} · ${sizeLabel(it.size)} · ${it.qty} u  →  ${money(it.eko)}`;
     }).join('\n');
-    const totNormal = carrito.reduce((a,i)=>a+i.normal,0);
     const totEko = carrito.reduce((a,i)=>a+i.eko,0);
     const envioTxt = envioSel === 'caba' ? ('CABA — ' + money(ENVIO_CABA) + ' (mensajería privada)') : 'Resto del país — Andreani (a coordinar)';
     const totFinal = totEko + (envioSel === 'caba' ? ENVIO_CABA : 0);
@@ -806,7 +969,7 @@ if($pmForm){
     fd.append('comentarios', document.getElementById('pm-notes').value || '—');
     fd.append('productos', detalle);
     fd.append('envio', envioTxt);
-    fd.append('total_productos', money(totEko) + ' (15% OFF, sin IVA)');
+    fd.append('total_productos', money(totEko) + ' (Precio Especial Ekoparty, sin IVA)');
     fd.append('total_final', money(totFinal) + (envioSel==='caba' ? ' (incluye envío CABA)' : ' (+ envío Andreani a coordinar)'));
     try{
       const res = await fetch(ENDPOINT, { method:'POST', body:fd, headers:{'Accept':'application/json'} });
