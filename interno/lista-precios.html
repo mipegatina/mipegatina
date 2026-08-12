@@ -108,7 +108,13 @@ details[open] summary::before{transform:rotate(90deg)}
   .pliego-info{gap:10px}
 }
 </style>
-</head>
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "y17qfsdct0");
+</script></head>
 <body>
 
 <div class="top">
@@ -660,11 +666,11 @@ function exportCSV(){
 
 // ===== PLANCHAS =====
 let stPl = { matKey:'blancoPremium', size:'10x7', qty:150 };
-const QTY_PLANCHA_LIST = {'10x7':[200,500,1000,2000],'10x15':[100,250,500,1000],'15x21':[100,250,500,1000]};
-const MAYORISTA_PLANCHA = {'10x7':2000,'10x15':1000,'15x21':1000};
+const QTY_PLANCHA_LIST = {'10x7':[200,500,1000,2000],'10x15':[100,250,500,1000],'15x21':[60,150,300,600]};
+const MAYORISTA_PLANCHA = {'10x7':2000,'10x15':1000,'15x21':600};
 function discPlancha(qty, sz){
-  const t2={'10x7':1000,'10x15':500,'15x21':500};
-  const t1={'10x7':500,'10x15':250,'15x21':250};
+  const t2={'10x7':1000,'10x15':500,'15x21':300};
+  const t1={'10x7':500,'10x15':250,'15x21':150};
   if(qty>=(t2[sz]||500)) return 0.10;
   if(qty>=(t1[sz]||250)) return 0.05;
   return 0;
