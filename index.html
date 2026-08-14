@@ -673,6 +673,27 @@ gtag('config','AW-18358544445');
 @media(max-width:900px){.ft-grid{grid-template-columns:1fr 1fr;gap:32px}.ft-brand{grid-column:1/-1;max-width:none;text-align:center;display:flex;flex-direction:column;align-items:center}.ft-social{justify-content:center}}
 @media(max-width:560px){.ft-grid{grid-template-columns:1fr 1fr;gap:24px}.ft-wrap{padding:0 22px}.ft-bot{flex-direction:column;text-align:center}}
 .faq-cat{font-family:var(--mono);font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--green);font-weight:700;margin:0;padding:14px 4px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;border-bottom:1px solid var(--border);transition:color .15s}.faq-cat:hover{color:var(--green2)}.faq-cat-ico{width:22px;height:22px;border-radius:50%;background:var(--green3);color:var(--green2);font-size:.9rem;display:flex;align-items:center;justify-content:center;transition:transform .3s;line-height:1}.faq-group.open .faq-cat-ico{transform:rotate(45deg)}.faq-group{margin-bottom:10px}.faq-group-items{max-height:0;overflow:hidden;transition:max-height .35s ease}.faq-group-items .faq-item{margin-bottom:10px}.faq-group-items .faq-item:first-child{margin-top:10px}.faq-group-items .faq-item{opacity:0;transition:opacity .3s ease .1s}.faq-group.open .faq-group-items .faq-item{opacity:1}.faq-cat:first-child{margin-top:0}
+
+@media(min-width:901px){
+#cotizador .cot-inner{display:block!important}
+#cotizador .cot-sidebar{width:100%!important;border-right:none!important;position:static!important;max-height:none!important;padding:0!important}
+#cotizador .cot-block{background:#fff!important;border:1px solid var(--border)!important;border-radius:18px!important;padding:24px 28px!important;margin-bottom:16px!important}
+#cotizador #sub-options-panel{border-bottom:none!important;background:#fff!important;border:1px solid var(--border)!important;border-radius:18px!important;padding:20px 28px!important;margin-bottom:16px!important}
+#cotizador #prod-cards{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))!important;gap:12px!important}
+#cotizador #mat-cards{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))!important;gap:12px!important}
+#cotizador #prod-cards .opt-card,#cotizador #mat-cards .opt-card{width:100%!important}
+#cotizador .cat-cards{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))!important;gap:16px!important;max-width:none!important}
+#cotizador #size-pills,#cotizador #qty-grid{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))!important}
+#cotizador .mat-suboptions{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(160px,1fr))!important;gap:8px!important}
+#cotizador .cot-main{width:100%!important;position:static!important;margin-top:8px;background:#fff!important;border:1px solid var(--border)!important;border-radius:18px!important;padding:26px 32px!important;box-shadow:0 8px 30px rgba(10,10,10,.06)!important}
+#cotizador .res-price-area{flex-direction:row!important;gap:1px!important}
+#cotizador .res-price-box{flex:1!important;border-right:1px solid var(--border)!important}
+#cotizador .res-price-box:last-child{border-right:none!important}
+#cotizador .res-context{padding-bottom:0!important;margin-bottom:12px!important}
+/* Cotizá a medida / consulta mayorista: es un formulario corto, no debe estirarse a todo el ancho de la card */
+#cotizador #wholesale-msg{max-width:none!important;margin:8px 0 0!important;width:100%!important;padding:36px 28px!important;background:#fafafa!important;border:1px solid var(--border)!important;border-radius:16px!important}
+#cotizador #wholesale-msg input,#cotizador #wholesale-msg textarea{font-size:.92rem!important;background:#fff!important}
+}
 </style>
 </head><body><div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div><nav><a href="#" class="nav-logo"><img src="img/img-01.png" alt="Mi Pegatina®" class="nav-logo-img"></a><div class="nav-mega-trigger" id="mega-trigger"><button class="nav-mega-btn" onclick="toggleMega()"><span class="btn-dot"></span>
 ¿Qué producto querés realizar?
@@ -1197,8 +1218,8 @@ return;
 const pm   = document.getElementById('pending-msg');
 const ra   = document.getElementById('results-area');
 const wp   = document.getElementById('wholesale-msg');
-// Umbral mayorista: unico, desde TRAMOS
-const showWholesale = esMayorista(cot.qty, tramoActual());
+// El tramo tope ahora cotiza con precio (desc anterior +5%) en vez de derivar a consulta
+const showWholesale = false;
 if(showWholesale){
 if(pm) pm.style.display='none';
 if(ra) ra.style.display='none';
@@ -1544,6 +1565,8 @@ function descFor(qty, tr){
   if(!tr || !tr.desc) return 0;
   let d = 0;
   for(const t of tr.desc) if(qty >= t.q) d = t.d;
+  // Tramo tope (antes "consultar"): 5 puntos extra sobre el descuento del escalon anterior
+  if(tr.mayorista != null && qty >= tr.mayorista) d += 5;
   return d;
 }
 function esMayorista(qty, tr){ return !!(tr && tr.mayorista != null && qty >= tr.mayorista); }
@@ -1551,7 +1574,6 @@ function esMayorista(qty, tr){ return !!(tr && tr.mayorista != null && qty >= tr
 // Contenido de cada boton de cantidad: numero + descuento visible
 function qtyPillHTML(qty, tr){
   const n = '<span class="qp-n">' + qty.toLocaleString('es-AR') + '</span>';
-  if(esMayorista(qty, tr)) return n + '<span class="qp-d qp-may">consultar</span>';
   const d = descFor(qty, tr);
   return n + (d > 0 ? '<span class="qp-d">\u2212' + d + '%</span>'
                     : '<span class="qp-d qp-base">\u2212</span>');
@@ -3454,9 +3476,8 @@ function mpcStepQty(size){
   mpcTyping(()=>{
     mpcMsg('¿Cuántas unidades?');
     mpcOpts(qtysFor(tr).map(q=>{
-      const may = esMayorista(q, tr);
-      const d = may ? 0 : descFor(q, tr);
-      const tag = may ? ' 📩' : (d > 0 ? ' -'+d+'%' : '');
+      const d = descFor(q, tr);
+      const tag = d > 0 ? ' -'+d+'%' : '';
       return { label: q.toLocaleString('es-AR')+' u'+tag, action:()=>mpcResultado(q) };
     }));
   });
@@ -3467,7 +3488,6 @@ function mpcResultado(qty){
   const { producto, material, size } = mpcState;
   const prodKey = producto==='sueltos' ? 'suelto' : 'plancha';
   const tr = tramoFor('stickers', prodKey, material, size);
-  if(esMayorista(qty, tr)){ mpcMayorista(); return; }
 
   // Mismo precio y mismo redondeo que el cotizador
   const pu = precioUnitarioARS('stickers', prodKey, material, size, qty);
@@ -3538,9 +3558,8 @@ function mpcStepAcrilQty(size){
   mpcTyping(()=>{
     mpcMsg('¿Cuántas unidades?');
     mpcOpts(qtysFor(tr).map(q=>{
-      const may = esMayorista(q, tr);
-      const d = may ? 0 : descFor(q, tr);
-      const tag = may ? ' 📩' : (d > 0 ? ' -'+d+'%' : '');
+      const d = descFor(q, tr);
+      const tag = d > 0 ? ' -'+d+'%' : '';
       return { label: q.toLocaleString('es-AR')+' u'+tag, action:()=>mpcResultadoAcril(q) };
     }));
   });
@@ -3550,7 +3569,6 @@ function mpcResultadoAcril(qty){
   mpcState.qty = qty;
   const { material, size } = mpcState;
   const tr = tramoFor('acrilicos', null, material, size);
-  if(esMayorista(qty, tr)){ mpcMayorista(); return; }
 
   // Mismo precio y mismo redondeo que el cotizador
   const pu = precioUnitarioARS('acrilicos', null, material, size, qty);
