@@ -129,6 +129,26 @@
   .q-field label{font-size:12px;font-weight:600;color:var(--dim);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:8px}
   .q-field select,.q-field input{width:100%;background:var(--bg);border:1px solid var(--line-soft);color:var(--ink);font-family:inherit;font-size:15px;padding:15px;border-radius:12px}
   .q-field select:focus,.q-field input:focus{outline:none;border-color:var(--red)}
+.q-field-mat{grid-column:1/-1}
+.q-swatches{display:flex;flex-wrap:wrap;gap:10px}
+.q-sw-btn{display:flex;flex-direction:column;align-items:center;gap:7px;background:transparent;border:none;padding:0;cursor:pointer;width:88px}
+.q-sw{width:52px;height:52px;border-radius:14px;border:1.5px solid var(--line-soft);background-size:cover;background-position:center;background-repeat:no-repeat;position:relative;transition:transform .2s,border-color .2s,box-shadow .2s}
+.q-sw-btn:hover .q-sw{transform:translateY(-2px);border-color:var(--magenta)}
+.q-sw-btn.sel .q-sw{border-color:var(--magenta);box-shadow:0 0 0 3px rgba(255,46,110,.18),0 0 16px rgba(255,46,110,.3)}
+.q-sw-btn.sel .q-sw::after{content:'\2713';position:absolute;top:-6px;right:-6px;width:19px;height:19px;background:var(--magenta);color:#fff;border-radius:50%;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.q-sw-lbl{font-size:11px;line-height:1.25;text-align:center;color:var(--dimmer);transition:color .2s}
+.q-sw-btn.sel .q-sw-lbl{color:var(--ink)}
+.q-swatches.single .q-sw-btn{cursor:default}
+.q-swatches.single .q-sw-btn:hover .q-sw{transform:none}
+.sw-blanco{background:#fff;box-shadow:inset 0 0 0 1px rgba(0,0,0,.18)}
+.sw-blancoLaca{background:#f0f0f0;box-shadow:inset 0 0 0 1px rgba(10,10,10,.5),inset 2px 2px 4px rgba(10,10,10,.55),inset -2px -2px 4px rgba(255,255,255,.35)}
+.sw-transparente{background-color:rgba(255,255,255,.06);background-image:linear-gradient(45deg,rgba(255,255,255,.16) 25%,transparent 25%,transparent 75%,rgba(255,255,255,.16) 75%),linear-gradient(45deg,rgba(255,255,255,.16) 25%,transparent 25%,transparent 75%,rgba(255,255,255,.16) 75%);background-size:14px 14px;background-position:0 0,7px 7px}
+.sw-holografico{background:linear-gradient(135deg,#ff6b6b,#ffd93d,#6bcb77,#4d96ff,#c77dff,#ff6b6b);background-size:200% 200%;animation:holo-shift 3s linear infinite}
+.sw-holograficoGold{background:linear-gradient(135deg,#ffd700,#ffb347,#ffe066,#ffaa00,#ffd700);background-size:200% 200%;animation:holo-shift 2.5s linear infinite}
+.sw-acrilico{background:linear-gradient(135deg,rgba(255,255,255,.3),rgba(255,255,255,.07));box-shadow:inset 0 0 0 1px rgba(255,255,255,.22)}
+@keyframes holo-shift{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+@media(prefers-reduced-motion:reduce){.sw-holografico,.sw-holograficoGold{animation:none}}
+@media(max-width:560px){.q-sw-btn{width:72px}.q-sw{width:44px;height:44px;border-radius:12px}.q-sw-lbl{font-size:10px}}
   .price-out{margin-top:24px;padding:24px;background:linear-gradient(150deg,var(--wine),var(--bg));border:1px solid var(--line);border-radius:16px;display:flex;flex-direction:column;align-items:stretch;gap:16px;text-align:center}
   .price-out .was{color:var(--dimmer);text-decoration:line-through;font-size:15px;font-weight:500}
   .price-out .price-block{display:flex;flex-direction:column;align-items:center;gap:12px}
@@ -366,7 +386,7 @@
     <div class="quoter-wrap">
       <div class="q-grid">
         <div class="q-field"><label>Producto</label><select id="q-producto"></select></div>
-        <div class="q-field"><label>Material</label><select id="q-material"></select></div>
+        <div class="q-field q-field-mat"><label>Material</label><div class="q-swatches" id="q-material-sw"></div></div>
         <div class="q-field"><label>Medida</label><select id="q-medida"></select></div>
         <div class="q-field"><label>Cantidad</label><select id="q-cantidad"></select></div>
       </div>
@@ -636,128 +656,244 @@ const IG_POSTS = [
 </footer>
 
 <script>
-/* ===== COTIZADOR EKOPARTY ===== */
 /* ================================================================
-   DATOS — Lista de Precios Interna · Agosto 2026
-   Precio Ekoparty = precio de lista CON su descuento por cantidad,
-   y encima un 5% extra Ekoparty · SIEMPRE SIN IVA
+   COTIZADOR PARTNER · Mi Pegatina
+   ----------------------------------------------------------------
+   Este archivo tiene DOS bloques bien separados:
+
+   BLOQUE 1 · MOTOR MI PEGATINA
+     Copia literal del cotizador de mipegatina.club. NO se edita acá.
+     Para actualizarlo: abrir index.html de Mi Pegatina, copiar el
+     bloque equivalente y pegarlo tal cual encima de este.
+     Precios por m2, tramos de descuento y redondeos viven SOLO acá.
+
+   BLOQUE 2 · CAPA PARTNER
+     Lo unico que cambia por marca: que cantidades se muestran y
+     cuanto descuento extra tiene el partner sobre el precio de lista.
+     El descuento POR CANTIDAD nunca se define acá: sale de TRAMOS.
    ================================================================ */
-const COT = 1600, EKO = 0.05;
+
+
+/* ================================================================
+   BLOQUE 1 · MOTOR MI PEGATINA  —  copiado verbatim, no editar
+   ================================================================ */
+const COTIZACION = 1600;
 function round5up(n){ return Math.ceil(n/5)*5; }
 
-// Mapeo de materiales visibles -> columna de la lista interna
-const MAT_COL = {
-  "Vinilo Blanco Premium": "blancoPremium",
-  "Blanco Premium con Laca": "especial",
-  "Vinilo Transparente Premium": "transparente",
-  "Vinilo Holográfico": "especial",
-  "Vinilo Holográfico Gold": "especial"
-};
-
-// USD/m² por material y medida — STICKERS SUELTOS (lista agosto 2026)
-const M2_STICKER = {
-  blancoPremium: { "5x5":40, "6x6":40, "8x8":30, "9x9":30 },
-  transparente:  { "5x5":44, "6x6":44, "8x8":33, "9x9":33 },
-  especial:      { "5x5":55, "6x6":55, "8x8":50, "9x9":50 }
-};
-// USD/m² por medida y material — PLANCHAS (lista agosto 2026)
+// Precio por m2 de plancha (USD) — fuente de verdad
 const M2_PLANCHA = {
-  "10x15": { blancoPremium:30, transparente:33, especial:50 },
-  "15x21": { blancoPremium:30, transparente:33, especial:50 }
+  '10x7':  { blancoPremium:30, transparentePremium:33, viniloEspecial:50 },
+  '10x15': { blancoPremium:30, transparentePremium:33, viniloEspecial:50 },
+  '15x21': { blancoPremium:30, transparentePremium:33, viniloEspecial:50 },
 };
-const AREA_STICKER = { "5x5":0.0025, "6x6":0.0036, "8x8":0.0064, "9x9":0.0081 };
-const AREA_PLANCHA = { "10x15":0.015, "15x21":0.0315 };
+const DIMS_PLANCHA_CM = { '10x7':[10,7], '10x15':[10,15], '15x21':[15,21] };
 
-// Descuentos por cantidad — SUELTOS (umbral distinto para medidas chicas y grandes)
-function discSuelto(qty, sz){
-  const chico = (sz === "5x5" || sz === "6x6");
-  const t3 = chico ? 3000 : 1500;
-  const t2 = chico ? 1200 : 600;
-  const t1 = chico ? 500  : 250;
-  if(qty >= t3) return 0.15;
-  if(qty >= t2) return 0.10;
-  if(qty >= t1) return 0.05;
-  return 0;
-}
-// Descuentos por cantidad — PLANCHAS
-function discPlancha(qty, sz){
-  if(qty >= 500) return 0.10;
-  if(qty >= 250) return 0.05;
-  return 0;
-}
-// Descuentos por cantidad — ACRÍLICOS (llaveros / imanes, medidas 5 y 6 cm)
-function discAcril(qty){
-  if(qty >= 200) return 10;
-  if(qty >= 60)  return 5;
-  return 0;
-}
-const AC_BASE_USD_M2 = 300;
+// Precio por m2 de sticker (USD) — fuente de verdad
+const M2_STICKER = {
+  blancoPremium:       { '5x5':40, '6x6':40, '8x8':30, '9x9':30 },
+  transparentePremium: { '5x5':44, '6x6':44, '8x8':33, '9x9':33 },
+  viniloEspecial:      { '5x5':55, '6x6':55, '8x8':50, '9x9':50 },
+};
 
-const PRODUCTOS = {
-  stickers: {
-    label: "Stickers sueltos",
-    packsPorMedida: { "5x5":[500,1000,2000], "6x6":[500,1000,2000], "8x8":[600,1500,3000], "9x9":[600,1500,3000] },
-    materiales: {
-      "Vinilo Blanco Premium": 1,
-      "Blanco Premium con Laca": 1,
-      "Vinilo Transparente Premium": 1,
-      "Vinilo Holográfico": 1,
-      "Vinilo Holográfico Gold": 1
-    },
-    sizes: { "5x5":1, "6x6":1, "8x8":1, "9x9":1 },
-    unit(mat, sz, qty){
-      const col = MAT_COL[mat];
-      const uBase = round5up(M2_STICKER[col][sz] * AREA_STICKER[sz] * COT);
-      const d = discSuelto(qty, sz);
-      return d > 0 ? round5up(uBase*(1-d)) : uBase;
-    }
+const materialesAcrilico = {
+  llavero: { baseUsdM2:300, fijoUSD:0.143, sizes:{ '3x3':{area:.00108}, '5x5':{area:.0025}, '6x6':{area:.0036} } },
+  iman:    { baseUsdM2:300, fijoUSD:0.11,  sizes:{ '5x5':{area:.0025}, '6x6':{area:.0036} } },
+  dije:    { baseUsdM2:300, fijoUSD:0,     sizes:{ '3x3':{area:.00108}, '5x5':{area:.0025}, '6x6':{area:.0036} } },
+  premio:  { baseUsdM2:0,   fijoUSD:0,     sizes:{ '10x10':{area:.01, priceUSD:22}, '15x21':{area:.0315, priceUSD:50} } },
+};
+
+const TRAMOS = {
+  suelto: {
+    '5x5':  { qtys:[200,500,1200,3000,6000], desc:[{q:500,d:5},{q:1200,d:10},{q:3000,d:15}], mayorista:6000 },
+    '6x6':  { qtys:[200,500,1200,3000,6000], desc:[{q:500,d:5},{q:1200,d:10},{q:3000,d:15}], mayorista:6000 },
+    '8x8':  { qtys:[100,250,600,1500,3000], desc:[{q:250,d:5},{q:600,d:10},{q:1500,d:15}], mayorista:3000 },
+    '9x9':  { qtys:[100,250,600,1500,3000], desc:[{q:250,d:5},{q:600,d:10},{q:1500,d:15}], mayorista:3000 },
   },
   plancha: {
-    label: "Plancha de stickers",
-    packsPorMedida: { "10x15":[300,500,1000], "15x21":[300,500,1000] },
-    materiales: {
-      "Vinilo Blanco Premium": 1,
-      "Blanco Premium con Laca": 1,
-      "Vinilo Transparente Premium": 1,
-      "Vinilo Holográfico": 1,
-      "Vinilo Holográfico Gold": 1
+    '10x7':  { qtys:[200,500,1000,2000], desc:[{q:500,d:5},{q:1000,d:10}], mayorista:2000 },
+    '10x15': { qtys:[100,250,500,1000], desc:[{q:250,d:5},{q:500,d:10}], mayorista:1000 },
+    '15x21': { qtys:[60,150,300,600], desc:[{q:150,d:5},{q:300,d:10}], mayorista:600 },
+  },
+  acrilico: {
+    llavero: {
+      '3x3': { qtys:[100,200,300,600], desc:[{q:200,d:5},{q:300,d:10}], mayorista:600 },
+      '5x5': { qtys:[30,60,200,600], desc:[{q:60,d:5},{q:200,d:10}], mayorista:600 },
+      '6x6': { qtys:[30,60,200,600], desc:[{q:60,d:5},{q:200,d:10}], mayorista:600 },
     },
-    sizes: { "10x15":1, "15x21":1 },
-    unit(mat, sz, qty){
-      const col = MAT_COL[mat];
-      const uBase = round5up(M2_PLANCHA[sz][col] * AREA_PLANCHA[sz] * COT);
-      const d = discPlancha(qty, sz);
-      return d > 0 ? round5up(uBase*(1-d)) : uBase;
-    }
+    iman: {
+      '5x5': { qtys:[30,60,200,600], desc:[{q:60,d:5},{q:200,d:10}], mayorista:600 },
+      '6x6': { qtys:[30,60,200,600], desc:[{q:60,d:5},{q:200,d:10}], mayorista:600 },
+    },
+    dije: {
+      '3x3': { qtys:[100,200,300,600], desc:[{q:200,d:5},{q:300,d:10}], mayorista:600 },
+      '5x5': { qtys:[30,60,200,600], desc:[{q:60,d:5},{q:200,d:10}], mayorista:600 },
+      '6x6': { qtys:[30,60,200,600], desc:[{q:60,d:5},{q:200,d:10}], mayorista:600 },
+    },
+    premio: {
+      '10x10': { qtys:[1,5,10,25,50], desc:[{q:5,d:5},{q:10,d:10},{q:25,d:15}], mayorista:50 },
+      '15x21': { qtys:[1,5,10,25,50], desc:[{q:5,d:5},{q:10,d:10},{q:25,d:15}], mayorista:50 },
+    },
   },
-  llaveros: {
-    label: "Llaveros",
-    packsPorMedida: { "5x5":[100,300,500], "6x6":[100,300,500] },
-    materiales: { "Acrílico impreso": 1 },
-    fijo: 0.143,
-    sizes: { "5x5":0.0025, "6x6":0.0036 },
-    unit(mat, sz, qty){
-      const disc = discAcril(qty);
-      const uU = AC_BASE_USD_M2 * (1-disc/100) * this.sizes[sz] + this.fijo;
-      return round5up(uU * COT);
-    }
-  },
-  imanes: {
-    label: "Imanes",
-    packsPorMedida: { "5x5":[100,300,500], "6x6":[100,300,500] },
-    materiales: { "Acrílico impreso": 1 },
-    fijo: 0.11,
-    sizes: { "5x5":0.0025, "6x6":0.0036 },
-    unit(mat, sz, qty){
-      const disc = discAcril(qty);
-      const uU = AC_BASE_USD_M2 * (1-disc/100) * this.sizes[sz] + this.fijo;
-      return round5up(uU * COT);
-    }
-  }
 };
 
+function tramoFor(cat, producto, matKey, sz){
+  if(!sz) return null;
+  if(cat === 'acrilicos') return (TRAMOS.acrilico[matKey] || {})[sz] || null;
+  return (TRAMOS[producto] || {})[sz] || null;
+}
+function descFor(qty, tr){
+  if(!tr || !tr.desc) return 0;
+  let d = 0;
+  for(const t of tr.desc) if(qty >= t.q) d = t.d;
+  // Tramo tope (antes "consultar"): 5 puntos extra sobre el escalon anterior
+  if(tr.mayorista != null && qty >= tr.mayorista) d += 5;
+  return d;
+}
+
+function precioUnitarioPlancha(matKey, sz){
+  const m2Tbl = M2_PLANCHA[sz];
+  if(!m2Tbl) return null;
+  const dims = DIMS_PLANCHA_CM[sz];
+  const areaPlancha = (dims[0]/100)*(dims[1]/100);
+  return round5up(m2Tbl[matKey] * areaPlancha * COTIZACION);
+}
+function precioUnitarioPliego(matKey, sz){
+  const m2Table = M2_STICKER[matKey];
+  if(!m2Table || !m2Table[sz]) return null;
+  const sizeCm = parseFloat(sz);
+  const areaStickerM2 = (sizeCm/100)*(sizeCm/100);
+  return round5up(m2Table[sz] * areaStickerM2 * COTIZACION);
+}
+
+// ===== PRECIO UNITARIO EN ARS — funcion pura =====
+// Mismo redondeo en todos los canales: round5up SIEMPRE despues del descuento.
+function precioUnitarioARS(cat, producto, matKey, sz, qty){
+  const dPct = descFor(qty, tramoFor(cat, producto, matKey, sz));
+  const d = dPct/100;
+  if(cat === 'stickers' && producto === 'suelto'){
+    const uA = precioUnitarioPliego(matKey, sz);
+    if(uA != null) return { uA: round5up(uA*(1-d)), dPct };
+  }
+  if(cat === 'stickers' && producto === 'plancha'){
+    const uA = precioUnitarioPlancha(matKey, sz);
+    if(uA != null) return { uA: round5up(uA*(1-d)), dPct };
+  }
+  if(cat === 'acrilicos'){
+    const m = materialesAcrilico[matKey];
+    const sd = m && m.sizes[sz];
+    if(sd){
+      const fijo = m.fijoUSD || 0;
+      // el descuento pega sobre el acrilico, no sobre el accesorio (cadena/iman)
+      const uU = (sd.priceUSD != null) ? sd.priceUSD*(1-d) : m.baseUsdM2*(1-d)*sd.area + fijo;
+      return { uA: round5up(uU*COTIZACION), dPct, uU };
+    }
+  }
+  return { uA: 0, dPct: 0 };
+}
+/* ================= FIN BLOQUE 1 · MOTOR ========================= */
+
+
+/* ================================================================
+   BLOQUE 2 · CAPA PARTNER  —  lo unico que se edita por marca
+   ----------------------------------------------------------------
+   extra      : descuento adicional del partner sobre el precio de lista
+   materiales : nombre visible  ->  clave del motor
+   cantidades : los botones que ve ESTE partner, por medida.
+                Pueden ser distintos a los de Mi Pegatina; el descuento
+                por cantidad lo resuelve TRAMOS igual, buscando por numero.
+   ================================================================ */
+const PARTNER = {
+  nombre: 'Ekoparty',
+  extra: 0.05,
+  // Materiales de sticker y plancha. label = lo que ve el cliente,
+  // mat = clave del motor, swatch = clase CSS de la textura.
+  materialesVinilo: [
+    { label:'Vinilo Blanco Premium',       mat:'blancoPremium',       swatch:'blanco' },
+    { label:'Blanco Premium con Laca',     mat:'viniloEspecial',      swatch:'blancoLaca' },
+    { label:'Vinilo Transparente Premium', mat:'transparentePremium', swatch:'transparente' },
+    { label:'Vinilo Holográfico',          mat:'viniloEspecial',      swatch:'holografico' },
+    { label:'Vinilo Holográfico Gold',     mat:'viniloEspecial',      swatch:'holograficoGold' },
+  ],
+
+  // Fotos reales que se superponen al gradiente CSS. Si no cargan, queda el
+  // gradiente: nunca se ve un swatch vacio. El resto de los materiales
+  // (blanco, transparente, laca) son CSS puro y no necesitan imagen.
+  texturas: {
+    base: '../img/',   // carpeta /img/ de Mi Pegatina (raiz). Para que la web
+                       // sea autocontenida: copiar las fotos a /eko/img/ y poner 'img/'
+    holografico:     'img-39.jpg',
+    holograficoGold: 'img-40.jpg',
+  },
+
+  productos: {
+    suelto: {
+      label: 'Stickers sueltos',
+      cat: 'stickers', producto: 'suelto',
+      cantidades: { '5x5':[500,1000,2000], '6x6':[500,1000,2000], '8x8':[600,1500,3000], '9x9':[600,1500,3000] },
+    },
+    plancha: {
+      label: 'Plancha de stickers',
+      cat: 'stickers', producto: 'plancha',
+      cantidades: { '10x15':[300,500,1000], '15x21':[300,500,1000] },
+    },
+    llaveros: {
+      label: 'Llaveros',
+      cat: 'acrilicos', producto: 'llavero',
+      materiales: [{ label:'Acrílico impreso', mat:'llavero', swatch:'acrilico' }],
+      cantidades: { '5x5':[100,300,500], '6x6':[100,300,500] },
+    },
+    imanes: {
+      label: 'Imanes',
+      cat: 'acrilicos', producto: 'iman',
+      materiales: [{ label:'Acrílico impreso', mat:'iman', swatch:'acrilico' }],
+      cantidades: { '5x5':[100,300,500], '6x6':[100,300,500] },
+    },
+  }
+};
+// Los productos de vinilo comparten la misma lista de materiales
+PARTNER.productos.suelto.materiales  = PARTNER.materialesVinilo;
+PARTNER.productos.plancha.materiales = PARTNER.materialesVinilo;
+
+const r100 = n => Math.ceil(n/100)*100;
+
+// Precio del partner: precio de lista de Mi Pegatina (ya con su descuento
+// por cantidad) y encima el extra del partner. Redondeo final a $100.
+function precioPartner(prodKey, mat, sz, qty){
+  const p = PARTNER.productos[prodKey];
+  const matKey = (p.cat === 'acrilicos') ? p.producto : mat.mat;
+  const { uA, dPct } = precioUnitarioARS(p.cat, p.producto, matKey, sz, qty);
+  const lista = uA * qty;
+  return { lista, partner: r100(lista * (1 - PARTNER.extra)), dPct, unit: uA };
+}
+
+/* --- Validacion: ninguna cantidad del partner puede quedar por debajo
+       del minimo de Mi Pegatina para esa medida. Avisa por consola. --- */
+(function validarCantidadesPartner(){
+  const errores = [];
+  for(const k in PARTNER.productos){
+    const p = PARTNER.productos[k];
+    for(const sz in p.cantidades){
+      const matKey = (p.cat === 'acrilicos') ? p.producto : p.materiales[0].mat;
+      const tr = tramoFor(p.cat, p.producto, matKey, sz);
+      if(!tr){ errores.push('· ' + p.label + ' ' + sz + ': la medida no existe en TRAMOS de Mi Pegatina'); continue; }
+      const minMP = tr.qtys ? tr.qtys[0] : null;
+      if(minMP == null) continue;
+      p.cantidades[sz].forEach(q=>{
+        if(q < minMP) errores.push('· ' + p.label + ' ' + sz + ': ' + q + ' u está por debajo del mínimo de Mi Pegatina (' + minMP + ' u)');
+      });
+    }
+  }
+  if(errores.length){
+    console.warn('%c⚠ COTIZADOR ' + PARTNER.nombre.toUpperCase() + ' — cantidades inválidas\n' + errores.join('\n')
+      + '\nCorregí PARTNER.productos[...].cantidades: nunca por debajo del mínimo de Mi Pegatina.',
+      'color:#ff6a3d;font-weight:bold');
+  }
+})();
+/* ================ FIN BLOQUE 2 · CAPA PARTNER =================== */
+
+
 const $prod = document.getElementById('q-producto');
-const $mat  = document.getElementById('q-material');
+const $matSw = document.getElementById('q-material-sw');
 const $med  = document.getElementById('q-medida');
 const $cant = document.getElementById('q-cantidad');
 const $now  = document.getElementById('q-now');
@@ -767,40 +903,78 @@ const $cartItems = document.getElementById('cart-items');
 const $cartNow = document.getElementById('cart-now');
 
 let carrito = [];
+let matSel = null;   // material elegido (objeto de PARTNER.materialesVinilo)
 
 function money(n){ return "$ " + Math.round(n).toLocaleString('es-AR'); }
 function sizeLabel(sz){ return sz.replace('x',' × ') + ' cm'; }
 
 function fillProductos(){
   $prod.innerHTML = '';
-  for(const k in PRODUCTOS){
+  for(const k in PARTNER.productos){
     const o = document.createElement('option');
-    o.value = k; o.textContent = PRODUCTOS[k].label;
+    o.value = k; o.textContent = PARTNER.productos[k].label;
     $prod.appendChild(o);
   }
 }
 function fillMateriales(){
-  const p = PRODUCTOS[$prod.value];
-  $mat.innerHTML = '';
-  for(const m in p.materiales){
-    const o = document.createElement('option');
-    o.value = m; o.textContent = m;
-    $mat.appendChild(o);
-  }
-  $mat.disabled = Object.keys(p.materiales).length <= 1;
+  const p = PARTNER.productos[$prod.value];
+  const unico = p.materiales.length <= 1;
+  $matSw.innerHTML = '';
+  $matSw.classList.toggle('single', unico);
+  p.materiales.forEach((m, i)=>{
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'q-sw-btn' + (i === 0 ? ' sel' : '');
+    b.setAttribute('aria-pressed', i === 0 ? 'true' : 'false');
+    b.innerHTML = '<span class="q-sw sw-'+m.swatch+'"></span><span class="q-sw-lbl">'+m.label+'</span>';
+    if(!unico){
+      b.addEventListener('click', ()=>{
+        $matSw.querySelectorAll('.q-sw-btn').forEach(x=>{ x.classList.remove('sel'); x.setAttribute('aria-pressed','false'); });
+        b.classList.add('sel'); b.setAttribute('aria-pressed','true');
+        matSel = m;
+        recalc();
+      });
+    }
+    $matSw.appendChild(b);
+  });
+  matSel = p.materiales[0];
+  aplicarTexturas();
+}
+
+/* Superpone las fotos reales sobre el gradiente CSS. Solo para los materiales
+   listados en PARTNER.texturas; si la imagen no carga, queda el gradiente. */
+function aplicarTexturas(){
+  const t = PARTNER.texturas || {};
+  const base = t.base || '';
+  Object.keys(t).forEach(k=>{
+    if(k === 'base') return;
+    const nodos = $matSw.querySelectorAll('.sw-' + k);
+    if(!nodos.length) return;
+    const im = new Image();
+    im.onload = ()=>{
+      const url = "url('" + base + t[k] + "')";
+      nodos.forEach(el=>{
+        el.style.setProperty('background-image', url, 'important');
+        el.style.setProperty('background-size', 'cover', 'important');
+        el.style.setProperty('background-position', 'center', 'important');
+        el.style.setProperty('animation', 'none', 'important');
+      });
+    };
+    im.src = base + t[k];
+  });
 }
 function fillMedidas(){
-  const p = PRODUCTOS[$prod.value];
+  const p = PARTNER.productos[$prod.value];
   $med.innerHTML = '';
-  for(const sz in p.sizes){
+  for(const sz in p.cantidades){
     const o = document.createElement('option');
     o.value = sz; o.textContent = sizeLabel(sz);
     $med.appendChild(o);
   }
 }
 function fillPacks(){
-  const p = PRODUCTOS[$prod.value];
-  const packs = (p.packsPorMedida && p.packsPorMedida[$med.value]) || p.packs || [];
+  const p = PARTNER.productos[$prod.value];
+  const packs = p.cantidades[$med.value] || [];
   $cant.innerHTML = '';
   packs.forEach(q=>{
     const o = document.createElement('option');
@@ -809,12 +983,8 @@ function fillPacks(){
   });
 }
 function currentPrice(){
-  const p = PRODUCTOS[$prod.value];
-  const qty = parseInt($cant.value, 10);
-  const unitBase = p.unit($mat.value, $med.value, qty);   // unitario de lista interna (sin IVA)
-  const r100 = n => Math.ceil(n/100)*100;
-  // Ekoparty: precio de lista − 5%, sin IVA, redondeado a 100
-  return { eko: r100(unitBase*qty*(1-EKO)) };
+  const r = precioPartner($prod.value, matSel, $med.value, parseInt($cant.value, 10));
+  return { eko: r.partner, lista: r.lista, dPct: r.dPct };
 }
 function recalc(){
   $now.textContent = money(currentPrice().eko);
@@ -843,11 +1013,11 @@ function renderCart(){
   });
 }
 function addToCart(){
-  const p = PRODUCTOS[$prod.value];
+  const p = PARTNER.productos[$prod.value];
   const pr = currentPrice();
   carrito.push({
     prodLabel: p.label,
-    matLabel: $mat.value,
+    matLabel: matSel.label,
     size: $med.value,
     qty: parseInt($cant.value,10),
     eko: pr.eko
@@ -857,7 +1027,6 @@ function addToCart(){
 }
 
 $prod.addEventListener('change', ()=>{ fillMateriales(); fillMedidas(); fillPacks(); recalc(); });
-$mat.addEventListener('change', ()=>{ fillPacks(); recalc(); });
 $med.addEventListener('change', ()=>{ fillPacks(); recalc(); });
 $cant.addEventListener('change', recalc);
 $add.addEventListener('click', addToCart);
