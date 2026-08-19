@@ -129,26 +129,27 @@
   .q-field label{font-size:12px;font-weight:600;color:var(--dim);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:8px}
   .q-field select,.q-field input{width:100%;background:var(--bg);border:1px solid var(--line-soft);color:var(--ink);font-family:inherit;font-size:15px;padding:15px;border-radius:12px}
   .q-field select:focus,.q-field input:focus{outline:none;border-color:var(--red)}
-.q-field-mat{grid-column:1/-1}
+.q-field-prod,.q-field-mat{grid-column:1/-1}
 .q-swatches{display:flex;flex-wrap:wrap;gap:10px}
-.q-sw-btn{display:flex;flex-direction:column;align-items:center;gap:7px;background:transparent;border:none;padding:0;cursor:pointer;width:88px}
-.q-sw{width:52px;height:52px;border-radius:14px;border:1.5px solid var(--line-soft);background-size:cover;background-position:center;background-repeat:no-repeat;position:relative;transition:transform .2s,border-color .2s,box-shadow .2s}
+.q-sw-btn{display:flex;flex-direction:column;align-items:center;gap:7px;background:transparent;border:none;padding:0;cursor:pointer;min-width:88px}
+.q-sw{width:52px;height:52px;border-radius:14px;border:1.5px solid rgba(255,255,255,.16);background-size:cover;background-position:center;background-repeat:no-repeat;position:relative;transition:transform .2s,border-color .2s,box-shadow .2s}
 .q-sw-btn:hover .q-sw{transform:translateY(-2px);border-color:var(--magenta)}
 .q-sw-btn.sel .q-sw{border-color:var(--magenta);box-shadow:0 0 0 3px rgba(255,46,110,.18),0 0 16px rgba(255,46,110,.3)}
 .q-sw-btn.sel .q-sw::after{content:'\2713';position:absolute;top:-6px;right:-6px;width:19px;height:19px;background:var(--magenta);color:#fff;border-radius:50%;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center}
-.q-sw-lbl{font-size:11px;line-height:1.25;text-align:center;color:var(--dimmer);transition:color .2s}
+.q-sw-lbl{font-size:11px;line-height:1.25;text-align:center;color:var(--dimmer);white-space:nowrap;transition:color .2s}
 .q-sw-btn.sel .q-sw-lbl{color:var(--ink)}
 .q-swatches.single .q-sw-btn{cursor:default}
 .q-swatches.single .q-sw-btn:hover .q-sw{transform:none}
-.sw-blanco{background:#fff;box-shadow:inset 0 0 0 1px rgba(0,0,0,.18)}
-.sw-blancoLaca{background:#f0f0f0;box-shadow:inset 0 0 0 1px rgba(10,10,10,.5),inset 2px 2px 4px rgba(10,10,10,.55),inset -2px -2px 4px rgba(255,255,255,.35)}
-.sw-transparente{background-color:rgba(255,255,255,.06);background-image:linear-gradient(45deg,rgba(255,255,255,.16) 25%,transparent 25%,transparent 75%,rgba(255,255,255,.16) 75%),linear-gradient(45deg,rgba(255,255,255,.16) 25%,transparent 25%,transparent 75%,rgba(255,255,255,.16) 75%);background-size:14px 14px;background-position:0 0,7px 7px}
+/* Recetas identicas a las del preview de materiales de mipegatina.club */
+.sw-blanco{background:#fff}
+.sw-blancoLaca{background:linear-gradient(135deg,#fff 40%,#e8e8e8 50%,#fff 60%)}
+.sw-transparente{background:repeating-conic-gradient(#aaa 0% 25%,#fff 0% 50%) 0 0/12px 12px}
 .sw-holografico{background:linear-gradient(135deg,#ff6b6b,#ffd93d,#6bcb77,#4d96ff,#c77dff,#ff6b6b);background-size:200% 200%;animation:holo-shift 3s linear infinite}
 .sw-holograficoGold{background:linear-gradient(135deg,#ffd700,#ffb347,#ffe066,#ffaa00,#ffd700);background-size:200% 200%;animation:holo-shift 2.5s linear infinite}
-.sw-acrilico{background:linear-gradient(135deg,rgba(255,255,255,.3),rgba(255,255,255,.07));box-shadow:inset 0 0 0 1px rgba(255,255,255,.22)}
+.sw-acrilico{background:linear-gradient(135deg,#fdfdfd 35%,#e4ecf2 50%,#fdfdfd 65%)}
 @keyframes holo-shift{0%{background-position:0% 50%}100%{background-position:200% 50%}}
 @media(prefers-reduced-motion:reduce){.sw-holografico,.sw-holograficoGold{animation:none}}
-@media(max-width:560px){.q-sw-btn{width:72px}.q-sw{width:44px;height:44px;border-radius:12px}.q-sw-lbl{font-size:10px}}
+@media(max-width:560px){.q-sw-btn{min-width:72px}.q-sw-lbl{white-space:normal}.q-sw{width:44px;height:44px;border-radius:12px}.q-sw-lbl{font-size:10px}}
   .price-out{margin-top:24px;padding:24px;background:linear-gradient(150deg,var(--wine),var(--bg));border:1px solid var(--line);border-radius:16px;display:flex;flex-direction:column;align-items:stretch;gap:16px;text-align:center}
   .price-out .was{color:var(--dimmer);text-decoration:line-through;font-size:15px;font-weight:500}
   .price-out .price-block{display:flex;flex-direction:column;align-items:center;gap:12px}
@@ -385,7 +386,7 @@
     </div>
     <div class="quoter-wrap">
       <div class="q-grid">
-        <div class="q-field"><label>Producto</label><select id="q-producto"></select></div>
+        <div class="q-field q-field-prod"><label>Producto</label><select id="q-producto"></select></div>
         <div class="q-field q-field-mat"><label>Material</label><div class="q-swatches" id="q-material-sw"></div></div>
         <div class="q-field"><label>Medida</label><select id="q-medida"></select></div>
         <div class="q-field"><label>Cantidad</label><select id="q-cantidad"></select></div>
@@ -807,12 +808,14 @@ const PARTNER = {
   extra: 0.05,
   // Materiales de sticker y plancha. label = lo que ve el cliente,
   // mat = clave del motor, swatch = clase CSS de la textura.
+  // label = nombre completo (va al carrito y al mail) · corto = lo que se lee
+  // debajo del swatch · swatch = clase CSS de la textura
   materialesVinilo: [
-    { label:'Vinilo Blanco Premium',       mat:'blancoPremium',       swatch:'blanco' },
-    { label:'Blanco Premium con Laca',     mat:'viniloEspecial',      swatch:'blancoLaca' },
-    { label:'Vinilo Transparente Premium', mat:'transparentePremium', swatch:'transparente' },
-    { label:'Vinilo Holográfico',          mat:'viniloEspecial',      swatch:'holografico' },
-    { label:'Vinilo Holográfico Gold',     mat:'viniloEspecial',      swatch:'holograficoGold' },
+    { label:'Vinilo Blanco Premium',       corto:'Blanco',        mat:'blancoPremium',       swatch:'blanco' },
+    { label:'Blanco Premium con Laca',     corto:'Blanco + Laca', mat:'viniloEspecial',      swatch:'blancoLaca' },
+    { label:'Vinilo Transparente Premium', corto:'Transparente',  mat:'transparentePremium', swatch:'transparente' },
+    { label:'Vinilo Holográfico',          corto:'Holográfico',   mat:'viniloEspecial',      swatch:'holografico' },
+    { label:'Vinilo Holográfico Gold',     corto:'Holo Gold',     mat:'viniloEspecial',      swatch:'holograficoGold' },
   ],
 
   // Fotos reales que se superponen al gradiente CSS. Si no cargan, queda el
@@ -821,8 +824,14 @@ const PARTNER = {
   texturas: {
     base: '../img/',   // carpeta /img/ de Mi Pegatina (raiz). Para que la web
                        // sea autocontenida: copiar las fotos a /eko/img/ y poner 'img/'
-    holografico:     'img-39.jpg',
-    holograficoGold: 'img-40.jpg',
+    fotos: {
+      holografico: 'img-39.jpg',
+    },
+    // Holo Gold no tiene foto propia: se genera tintando la del holografico,
+    // igual que en el index de Mi Pegatina. Usar img-40.jpg da un crema palido.
+    tintados: {
+      holograficoGold: { desde:'holografico', tinte:'#dbb68a' },
+    },
   },
 
   productos: {
@@ -839,13 +848,13 @@ const PARTNER = {
     llaveros: {
       label: 'Llaveros',
       cat: 'acrilicos', producto: 'llavero',
-      materiales: [{ label:'Acrílico impreso', mat:'llavero', swatch:'acrilico' }],
+      materiales: [{ label:'Acrílico impreso', corto:'Acrílico', mat:'llavero', swatch:'acrilico' }],
       cantidades: { '5x5':[100,300,500], '6x6':[100,300,500] },
     },
     imanes: {
       label: 'Imanes',
       cat: 'acrilicos', producto: 'iman',
-      materiales: [{ label:'Acrílico impreso', mat:'iman', swatch:'acrilico' }],
+      materiales: [{ label:'Acrílico impreso', corto:'Acrílico', mat:'iman', swatch:'acrilico' }],
       cantidades: { '5x5':[100,300,500], '6x6':[100,300,500] },
     },
   }
@@ -926,7 +935,8 @@ function fillMateriales(){
     b.type = 'button';
     b.className = 'q-sw-btn' + (i === 0 ? ' sel' : '');
     b.setAttribute('aria-pressed', i === 0 ? 'true' : 'false');
-    b.innerHTML = '<span class="q-sw sw-'+m.swatch+'"></span><span class="q-sw-lbl">'+m.label+'</span>';
+    b.title = m.label;
+    b.innerHTML = '<span class="q-sw sw-'+m.swatch+'"></span><span class="q-sw-lbl">'+(m.corto || m.label)+'</span>';
     if(!unico){
       b.addEventListener('click', ()=>{
         $matSw.querySelectorAll('.q-sw-btn').forEach(x=>{ x.classList.remove('sel'); x.setAttribute('aria-pressed','false'); });
@@ -941,28 +951,57 @@ function fillMateriales(){
   aplicarTexturas();
 }
 
-/* Superpone las fotos reales sobre el gradiente CSS. Solo para los materiales
-   listados en PARTNER.texturas; si la imagen no carga, queda el gradiente. */
+/* Superpone las fotos reales sobre el gradiente CSS. Si una imagen no carga,
+   queda el gradiente: nunca se ve un swatch vacio. */
 function aplicarTexturas(){
   const t = PARTNER.texturas || {};
   const base = t.base || '';
-  Object.keys(t).forEach(k=>{
-    if(k === 'base') return;
-    const nodos = $matSw.querySelectorAll('.sw-' + k);
-    if(!nodos.length) return;
+  const fotos = t.fotos || {};
+  const tintados = t.tintados || {};
+  const cargadas = {};
+
+  function pintar(swatchKey, url){
+    const nodos = $matSw.querySelectorAll('.sw-' + swatchKey);
+    nodos.forEach(el=>{
+      el.style.setProperty('background-image', "url('" + url + "')", 'important');
+      el.style.setProperty('background-size', 'cover', 'important');
+      el.style.setProperty('background-position', 'center', 'important');
+      el.style.setProperty('background-repeat', 'no-repeat', 'important');
+      el.style.setProperty('animation', 'none', 'important');
+    });
+  }
+
+  // Tinta una foto ya cargada con un color en modo multiply (via canvas)
+  function tintar(img, color){
+    const c = document.createElement('canvas');
+    c.width = img.naturalWidth; c.height = img.naturalHeight;
+    const cx = c.getContext('2d');
+    cx.drawImage(img, 0, 0);
+    cx.globalCompositeOperation = 'multiply';
+    cx.fillStyle = color;
+    cx.fillRect(0, 0, c.width, c.height);
+    cx.globalCompositeOperation = 'source-over';
+    try { return c.toDataURL('image/png'); } catch(e){ return null; }
+  }
+
+  Object.keys(fotos).forEach(k=>{
+    const src = base + fotos[k];
     const im = new Image();
     im.onload = ()=>{
-      const url = "url('" + base + t[k] + "')";
-      nodos.forEach(el=>{
-        el.style.setProperty('background-image', url, 'important');
-        el.style.setProperty('background-size', 'cover', 'important');
-        el.style.setProperty('background-position', 'center', 'important');
-        el.style.setProperty('animation', 'none', 'important');
+      cargadas[k] = im;
+      pintar(k, src);
+      // los que derivan de esta foto
+      Object.keys(tintados).forEach(tk=>{
+        const cfg = tintados[tk];
+        if(cfg.desde !== k) return;
+        const data = tintar(im, cfg.tinte);
+        if(data) pintar(tk, data);
       });
     };
-    im.src = base + t[k];
+    im.src = src;
   });
 }
+
 function fillMedidas(){
   const p = PARTNER.productos[$prod.value];
   $med.innerHTML = '';
