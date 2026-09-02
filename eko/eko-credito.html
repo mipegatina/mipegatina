@@ -57,6 +57,17 @@ h1{font-size:clamp(2rem,5.5vw,3.2rem);font-weight:800;letter-spacing:-1.5px;line
   letter-spacing:-2px;line-height:1;text-shadow:0 0 30px rgba(0,194,100,.3)}
 .cifra-pie{color:var(--gray2);font-size:.88rem;margin-top:12px;max-width:32ch}
 .pendiente{color:var(--gray3);font-size:.82rem;margin-top:14px}
+.tope{margin-top:26px;padding:18px 20px;background:var(--green3);border:1px solid rgba(0,194,100,.28);
+  border-radius:12px;font-size:.9rem;color:var(--gray1);line-height:1.7}
+.tope-tit{font-family:var(--mono);font-size:.7rem;font-weight:700;letter-spacing:1.4px;
+  text-transform:uppercase;color:var(--green2);margin-bottom:14px}
+.tope-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px}
+.tope-grid>div{padding-left:14px;border-left:2px solid rgba(0,194,100,.35)}
+.tope-grid>div:first-child{border-left-color:var(--green)}
+.tope-grid b{display:block;font-family:var(--mono);font-size:1.4rem;font-weight:700;
+  letter-spacing:-.6px;line-height:1.2;color:var(--gray1)}
+.tope-grid>div:first-child b{color:var(--green2)}
+.tope-grid span{font-size:.78rem;color:var(--gray2)}
 .desglose{width:100%;border-collapse:collapse;font-size:.92rem}
 .desglose td{padding:13px 0;border-bottom:1px solid var(--border);color:var(--gray2)}
 .desglose td:last-child{text-align:right;font-family:var(--mono);font-weight:600;color:var(--white)}
@@ -161,6 +172,7 @@ footer .sec-label{margin-bottom:8px}
         <tr><td>Ya usado</td><td id="usado">—</td></tr>
       </table>
     </div>
+    <div class="tope" id="tope"></div>
   </section>
 
   <section class="card">
@@ -170,8 +182,8 @@ footer .sec-label{margin-bottom:8px}
   </section>
 
   <section class="card">
-    <div class="sec-label">El crédito, en unidades</div>
-    <p class="nota">Lo que el crédito de hoy alcanza a producir, a precio de lista.</p>
+    <div class="sec-label">Qué pueden pedir hoy</div>
+    <p class="nota" id="nota-equis">Un pedido con el crédito puesto al máximo: el crédito paga la mitad y las unidades son a precio de lista.</p>
     <div class="equis" id="equis"></div>
   </section>
 
@@ -202,7 +214,7 @@ footer .sec-label{margin-bottom:8px}
   <footer>
     <div>
       <div class="sec-label">Cómo se calcula</div>
-      <p>El crédito es el 5% del precio neto de cada pedido, sin IVA, y se acredita cuando el pedido está cobrado. Se usa para producir merch de la Eko con Mi Pegatina; no se convierte en efectivo.</p>
+      <p>El crédito es el 5% del precio neto de cada pedido, sin IVA, y se acredita cuando el pedido está cobrado. Se usa para producir merch de la Eko con Mi Pegatina y paga la mitad de cada pedido, así que rinde el doble de su valor. No se convierte en efectivo.</p>
     </div>
     <div>
       <div class="sec-label">Merch bonificado</div>
@@ -218,6 +230,7 @@ footer .sec-label{margin-bottom:8px}
 const CONFIG = {
   demo: false,                 // ponelo en true si querés cargar datos de prueba
   porcentaje: 0.05,            // 5% sobre el neto sin IVA
+  topeCredito: 0.50,           // el crédito cubre como máximo este % de cada pedido de la Eko
   creditoUsado: 0,             // pesos de crédito que la Eko ya gastó en producción
   fechaEvento: "2026-10-06"    // CONFIRMAR fecha real de la Eko
 };
@@ -270,6 +283,7 @@ const netoTotal = cobrados.reduce((a,p) => a + p.neto, 0);
 const generado  = netoTotal * CONFIG.porcentaje;
 const total     = generado - CONFIG.creditoUsado;
 const pendiente = enCurso.reduce((a,p) => a + p.neto, 0) * CONFIG.porcentaje;
+const poderCompra = Math.max(0, total) / CONFIG.topeCredito;
 
 $("#aviso").hidden = !CONFIG.demo;
 $("#periodo").textContent = "Al " + new Date().toLocaleDateString("es-AR", {day:"numeric", month:"long", year:"numeric"});
@@ -281,6 +295,14 @@ if (pendiente > 0) {
   $("#pendiente").hidden = false;
   $("#pendiente").textContent = pesos(pendiente) + " más en pedidos confirmados, todavía sin cobrar.";
 }
+
+$("#tope").innerHTML =
+  '<div class="tope-tit">El crédito rinde el doble</div>' +
+  '<div class="tope-grid">' +
+    '<div><b>' + pesos(poderCompra) + '</b><span>pedido posible hoy</span></div>' +
+    '<div><b>' + pesos(Math.max(0, total)) + '</b><span>lo cubre el crédito</span></div>' +
+    '<div><b>' + pesos(poderCompra - Math.max(0, total)) + '</b><span>lo abona la Eko</span></div>' +
+  '</div>';
 
 /* hojas de troquel del merch bonificado: 1 troquel = 20 stickers */
 (function sheets(){
@@ -315,7 +337,7 @@ if (pendiente > 0) {
 
 /* equivalencias del crédito */
 $("#equis").innerHTML = EQUIVALENCIAS.map(e =>
-  `<div><b>${num(Math.max(0, total) / e.precio)}</b><span>${e.label}<br>${e.detalle}</span></div>`
+  `<div><b>${num(poderCompra / e.precio)}</b><span>${e.label}<br>${e.detalle}</span></div>`
 ).join("");
 
 /* métricas */
