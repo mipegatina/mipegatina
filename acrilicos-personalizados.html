@@ -32,6 +32,46 @@
 })();
 </script>
 
+<!-- Mi Pegatina · Captura de gclid/gbraid/wbraid para atribucion exacta de Google Ads en los formularios -->
+<script>
+(function(){
+  var MAXDAYS = 90; // igual a la ventana de conversion configurada en Google Ads
+  function getParam(name){
+    try{ return new URLSearchParams(location.search).get(name); }catch(e){ return null; }
+  }
+  function store(key, val){
+    try{ localStorage.setItem(key, val); localStorage.setItem(key+'_ts', String(Date.now())); }catch(e){}
+  }
+  function read(key){
+    try{
+      var v = localStorage.getItem(key);
+      var ts = parseInt(localStorage.getItem(key+'_ts')||'0', 10);
+      if(!v || !ts) return '';
+      if((Date.now() - ts) / 86400000 > MAXDAYS) return '';
+      return v;
+    }catch(e){ return ''; }
+  }
+  var gclid  = getParam('gclid');
+  var gbraid = getParam('gbraid');
+  var wbraid = getParam('wbraid');
+  if(gclid)  store('mp_gclid', gclid);
+  if(gbraid) store('mp_gbraid', gbraid);
+  if(wbraid) store('mp_wbraid', wbraid);
+  var utmSource = getParam('utm_source');
+  var utmMedium = getParam('utm_medium');
+  if(utmSource) store('mp_utm_source', utmSource);
+  if(utmMedium) store('mp_utm_medium', utmMedium);
+
+  window.mpGetGclid = function(){ return read('mp_gclid') || read('mp_gbraid') || read('mp_wbraid') || ''; };
+  window.mpAdOrigin = function(){
+    if(read('mp_gclid') || read('mp_gbraid') || read('mp_wbraid')) return 'Google Ads';
+    var src = read('mp_utm_source'); var med = read('mp_utm_medium');
+    if(src) return src + (med ? ' / ' + med : '');
+    return '';
+  };
+})();
+</script>
+
 <!-- Mi Pegatina · Conversion "Cotizador iniciado" en clicks a #cotizador -->
 <script>
 document.addEventListener('click', function(e){

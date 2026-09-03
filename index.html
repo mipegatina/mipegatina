@@ -34,6 +34,46 @@ gtag('config','AW-18358544445');
 })();
 </script>
 
+<!-- Mi Pegatina · Captura de gclid/gbraid/wbraid para atribucion exacta de Google Ads en los formularios -->
+<script>
+(function(){
+  var MAXDAYS = 90; // igual a la ventana de conversion configurada en Google Ads
+  function getParam(name){
+    try{ return new URLSearchParams(location.search).get(name); }catch(e){ return null; }
+  }
+  function store(key, val){
+    try{ localStorage.setItem(key, val); localStorage.setItem(key+'_ts', String(Date.now())); }catch(e){}
+  }
+  function read(key){
+    try{
+      var v = localStorage.getItem(key);
+      var ts = parseInt(localStorage.getItem(key+'_ts')||'0', 10);
+      if(!v || !ts) return '';
+      if((Date.now() - ts) / 86400000 > MAXDAYS) return '';
+      return v;
+    }catch(e){ return ''; }
+  }
+  var gclid  = getParam('gclid');
+  var gbraid = getParam('gbraid');
+  var wbraid = getParam('wbraid');
+  if(gclid)  store('mp_gclid', gclid);
+  if(gbraid) store('mp_gbraid', gbraid);
+  if(wbraid) store('mp_wbraid', wbraid);
+  var utmSource = getParam('utm_source');
+  var utmMedium = getParam('utm_medium');
+  if(utmSource) store('mp_utm_source', utmSource);
+  if(utmMedium) store('mp_utm_medium', utmMedium);
+
+  window.mpGetGclid = function(){ return read('mp_gclid') || read('mp_gbraid') || read('mp_wbraid') || ''; };
+  window.mpAdOrigin = function(){
+    if(read('mp_gclid') || read('mp_gbraid') || read('mp_wbraid')) return 'Google Ads';
+    var src = read('mp_utm_source'); var med = read('mp_utm_medium');
+    if(src) return src + (med ? ' / ' + med : '');
+    return '';
+  };
+})();
+</script>
+
 <!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://mipegatina.club/">
@@ -935,7 +975,7 @@ if(FORMSPREE_ID==='PEGAR_TU_ID_ACA'){ pvShowToast && pvShowToast('Falta configur
 if(btn){ btn.disabled=true; btn.textContent='Enviando…'; }
 fetch(pvFormspreeURL(),{
 method:'POST', headers:{'Accept':'application/json','Content-Type':'application/json'},
-body:JSON.stringify({_subject:'Consulta mayorista de '+(nombre||'cliente'), _replyto:email, tipo:'B2B / Mayorista', nombre:nombre, email:email, mensaje:mensaje})
+body:JSON.stringify({_subject:'Consulta mayorista de '+(nombre||'cliente'), _replyto:email, tipo:'B2B / Mayorista', nombre:nombre, email:email, mensaje:mensaje, gclid:(window.mpGetGclid?mpGetGclid():''), origen:(window.mpAdOrigin?mpAdOrigin():'')})
 }).then(r=>{
 if(r.ok){
 if(window.mpConv){ mpConv('consulta'); }
@@ -1675,7 +1715,9 @@ function whsEnviar(){
       nombre: nombre,
       email: email,
       pedido: mensaje ? 'A medida: '+mensaje : 'Mayorista: '+detalle,
-      comentarios: 'Enviado desde el cotizador web'
+      comentarios: 'Enviado desde el cotizador web',
+      gclid: (window.mpGetGclid?mpGetGclid():''),
+      origen: (window.mpAdOrigin?mpAdOrigin():'')
     })
   }).then(r=>{
     if(r.ok){
@@ -1715,7 +1757,7 @@ function cfEnviar(){
   fetch('https://formspree.io/f/'+FORMSPREE_ID,{
     method:'POST',
     headers:{'Accept':'application/json','Content-Type':'application/json'},
-    body:JSON.stringify({_subject:'Consulta de '+nombre+' (contacto web)',_replyto:email,nombre:nombre,email:email,mensaje:msg||'Sin mensaje'})
+    body:JSON.stringify({_subject:'Consulta de '+nombre+' (contacto web)',_replyto:email,nombre:nombre,email:email,mensaje:msg||'Sin mensaje',gclid:(window.mpGetGclid?mpGetGclid():''),origen:(window.mpAdOrigin?mpAdOrigin():'')})
   }).then(function(r){
     var st=document.getElementById('cf-status');
     if(r.ok){
@@ -2588,6 +2630,8 @@ fd.append('envio', _envioTxt);
 fd.append('factura', factura?'Si - Factura A/B (mas 21% IVA)':'No');
 fd.append('link_disenos', link||'(no adjunto link - enviara por mail)');
 fd.append('comentarios', notes||'(sin comentarios)');
+fd.append('gclid', (window.mpGetGclid?mpGetGclid():''));
+fd.append('origen', (window.mpAdOrigin?mpAdOrigin():''));
 _files.forEach(function(f,i){ fd.append(i===0?'file':'file'+(i+1), f, f.name); });
 fetch('https://formspree.io/f/'+FORMSPREE_ID,{
 method:'POST', headers:{'Accept':'application/json'},
@@ -3663,7 +3707,9 @@ window.mpcEnviarMayorista = function(detalle){
       nombre: nombre,
       email: email,
       pedido: 'Consulta mayorista: '+detalle,
-      comentarios: 'Enviado desde MIPI (chatbot)'
+      comentarios: 'Enviado desde MIPI (chatbot)',
+      gclid: (window.mpGetGclid?mpGetGclid():''),
+      origen: (window.mpAdOrigin?mpAdOrigin():'')
     })
   }).then(r=>{
     const form = document.getElementById('mpc-mayorista-form');
@@ -3750,7 +3796,9 @@ window.mpcEnviarContacto = function(){
       nombre: nombre,
       email: email,
       pedido: msg || 'Sin mensaje',
-      comentarios: 'Enviado desde MIPI — consulta general'
+      comentarios: 'Enviado desde MIPI — consulta general',
+      gclid: (window.mpGetGclid?mpGetGclid():''),
+      origen: (window.mpAdOrigin?mpAdOrigin():'')
     })
   }).then(r=>{
     const form = document.getElementById('mpc-contacto-form');
