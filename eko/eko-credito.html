@@ -15,20 +15,18 @@
   --border:#e2e2e5;--border2:#d4d4d8;--border3:#c4c4c8;
   --white:#0a0a0a;--gray1:#18181b;--gray2:#52525b;--gray3:#71717a;--gray4:#e4e4e7;
   --green:#00c264;--green2:#00a855;--green3:rgba(0,194,100,.1);
+  --ambar:#a16207;--ambar2:rgba(161,98,7,.09);
   --sans:'Inter',sans-serif;--mono:'Space Grotesk',sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{background:#fff;-webkit-text-size-adjust:100%}
-body{
-  font-family:var(--sans);background:var(--bg);color:var(--white);
-  line-height:1.6;overflow-x:hidden;font-variant-numeric:tabular-nums;
-}
+body{font-family:var(--sans);background:var(--bg);color:var(--white);
+  line-height:1.6;overflow-x:hidden;font-variant-numeric:tabular-nums}
 .orb{position:fixed;border-radius:50%;filter:blur(160px);pointer-events:none;z-index:0;opacity:.3}
 .orb1{width:600px;height:600px;background:radial-gradient(circle,rgba(0,194,100,.06),transparent 70%);top:-200px;right:-100px}
 .orb2{width:500px;height:500px;background:radial-gradient(circle,rgba(10,10,10,.02),transparent 70%);bottom:-100px;left:-100px}
 .wrap{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:28px 24px 80px}
 
-/* header */
 header{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;
   padding-bottom:20px;border-bottom:1px solid var(--border);margin-bottom:40px}
 .marca{display:flex;align-items:center;gap:12px}
@@ -40,40 +38,39 @@ header{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:s
 .eyebrow{display:inline-block;font-family:var(--mono);font-size:.65rem;font-weight:700;
   letter-spacing:1.5px;text-transform:uppercase;color:var(--green);margin-bottom:16px}
 h1{font-size:clamp(2rem,5.5vw,3.2rem);font-weight:800;letter-spacing:-1.5px;line-height:1.06;margin-bottom:14px;max-width:16ch}
-.bajada{color:var(--gray2);max-width:58ch;font-size:1rem;margin-bottom:40px}
+.bajada{color:var(--gray2);max-width:60ch;font-size:1rem;margin-bottom:40px}
 .aviso{margin-bottom:28px;padding:12px 16px;border:1px dashed var(--green);border-radius:12px;
   background:var(--green3);color:var(--green2);font-size:.85rem}
 
-/* tarjetas */
 .card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:30px 28px;margin-bottom:22px}
 .card.destacada{border-color:rgba(0,194,100,.3);box-shadow:0 0 32px rgba(0,194,100,.08)}
 .sec-label{font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:1.5px;
   text-transform:uppercase;color:rgba(10,10,10,.7);margin-bottom:10px}
 .nota{color:var(--gray2);font-size:.88rem;max-width:64ch;margin-bottom:26px}
 
-/* crédito */
 .credito{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:center}
 .cifra{font-family:var(--mono);font-size:clamp(2.8rem,7.5vw,4.4rem);font-weight:700;color:var(--green);
   letter-spacing:-2px;line-height:1;text-shadow:0 0 30px rgba(0,194,100,.3)}
 .cifra-pie{color:var(--gray2);font-size:.88rem;margin-top:12px;max-width:32ch}
+.saldo-top{margin-top:16px;padding-top:14px;border-top:1px solid var(--border);
+  font-size:.88rem;color:var(--gray2)}
+.saldo-top b{font-family:var(--mono);font-weight:700;color:var(--ambar);font-size:1.15rem;
+  letter-spacing:-.4px;margin-right:6px}
 .pendiente{color:var(--gray3);font-size:.82rem;margin-top:14px}
-.tope{margin-top:26px;padding:18px 20px;background:var(--green3);border:1px solid rgba(0,194,100,.28);
-  border-radius:12px;font-size:.9rem;color:var(--gray1);line-height:1.7}
-.tope-tit{font-family:var(--mono);font-size:.7rem;font-weight:700;letter-spacing:1.4px;
-  text-transform:uppercase;color:var(--green2);margin-bottom:14px}
-.tope-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px}
-.tope-grid>div{padding-left:14px;border-left:2px solid rgba(0,194,100,.35)}
-.tope-grid>div:first-child{border-left-color:var(--green)}
-.tope-grid b{display:block;font-family:var(--mono);font-size:1.4rem;font-weight:700;
-  letter-spacing:-.6px;line-height:1.2;color:var(--gray1)}
-.tope-grid>div:first-child b{color:var(--green2)}
-.tope-grid span{font-size:.78rem;color:var(--gray2)}
 .desglose{width:100%;border-collapse:collapse;font-size:.92rem}
 .desglose td{padding:13px 0;border-bottom:1px solid var(--border);color:var(--gray2)}
 .desglose td:last-child{text-align:right;font-family:var(--mono);font-weight:600;color:var(--white)}
 .desglose tr:last-child td{border-bottom:0}
 
-/* hojas de troquel */
+.metricas{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.metricas>div{padding:24px 20px;background:var(--bg2);border-right:1px solid var(--border)}
+.metricas>div:last-child{border-right:none}
+.metricas b{display:block;font-family:var(--mono);font-size:1.55rem;font-weight:700;letter-spacing:-.8px;line-height:1.1;margin-bottom:6px}
+.metricas span{font-size:.75rem;color:var(--gray3)}
+.metricas small{display:block;font-family:var(--mono);font-size:.68rem;color:var(--gray3);
+  margin-top:8px;padding-top:8px;border-top:1px solid var(--border);line-height:1.6}
+
 .sheets{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:30px}
 .sheet-cab{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:14px;
   padding-left:12px;border-left:2px solid rgba(0,194,100,.3)}
@@ -87,44 +84,30 @@ h1{font-size:clamp(2rem,5.5vw,3.2rem);font-weight:800;letter-spacing:-1.5px;line
 .die.usado{background:var(--green);border-color:var(--green2);border-style:solid;box-shadow:0 0 14px rgba(0,194,100,.4)}
 .leyenda{margin-top:14px;font-size:.8rem;color:var(--gray3)}
 
-/* equivalencias y métricas */
-.equis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:28px}
-.equis>div{padding-left:14px;border-left:2px solid rgba(0,194,100,.3)}
-.equis b{display:block;font-family:var(--mono);font-size:2rem;font-weight:700;color:var(--green);
-  letter-spacing:-1px;line-height:1;text-shadow:0 0 20px rgba(0,194,100,.25);margin-bottom:8px}
-.equis span{font-size:.8rem;color:var(--gray2)}
-.metricas{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
-  border:1px solid var(--border);border-radius:14px;overflow:hidden}
-.metricas>div{padding:24px 20px;background:var(--bg2);border-right:1px solid var(--border)}
-.metricas>div:last-child{border-right:none}
-.metricas b{display:block;font-family:var(--mono);font-size:1.55rem;font-weight:700;letter-spacing:-.8px;line-height:1.1;margin-bottom:6px}
-.metricas span{font-size:.75rem;color:var(--gray3)}
-
-#curva{width:100%;height:190px;display:block}
-.eje{font-size:11px;fill:var(--gray3);font-family:'Space Grotesk',sans-serif}
-
-/* tablas */
 table.datos{width:100%;border-collapse:collapse;font-size:.88rem}
 table.datos th{text-align:left;font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:1.2px;
   text-transform:uppercase;color:var(--gray3);padding:0 14px 12px 0;border-bottom:1px solid var(--border2);white-space:nowrap}
 table.datos td{padding:15px 14px 15px 0;border-bottom:1px solid var(--border);color:var(--gray2);vertical-align:top}
-table.datos td:nth-child(3){color:var(--white);font-weight:500}
+table.datos td.cliente{color:var(--white);font-weight:500}
 table.datos tr:last-child td{border-bottom:0}
 table.datos .num,table.datos th.num{text-align:right;padding-left:22px;padding-right:0;font-family:var(--mono)}
 table.datos .estado,table.datos th.estado{text-align:right;padding-left:26px;padding-right:0;width:1%;white-space:nowrap}
 .orden{font-family:var(--mono);font-weight:700;color:var(--green2)!important;white-space:nowrap}
 .ref{color:var(--gray3);font-size:.78rem;margin-top:3px}
+.tipo{display:table;font-family:var(--mono);font-size:.58rem;font-weight:700;letter-spacing:1px;
+  text-transform:uppercase;padding:2px 8px;border-radius:5px;background:var(--bg3);color:var(--gray2);
+  margin-top:6px;white-space:nowrap}
+.tipo.eko{background:var(--ambar2);color:var(--ambar)}
 .chip{display:inline-block;padding:4px 12px;border-radius:99px;font-family:var(--mono);
   font-size:.62rem;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;
   border:1px solid;white-space:nowrap;line-height:1.5}
 .chip.cobrado{color:var(--green2);border-color:rgba(0,194,100,.35);background:var(--green3)}
+.chip.acuenta{color:var(--ambar);border-color:rgba(161,98,7,.3);background:var(--ambar2)}
 .chip.confirmado{color:#0284c7;border-color:rgba(2,132,199,.3);background:rgba(2,132,199,.08)}
 .chip.cotizado{color:var(--gray3);border-color:var(--border2)}
-.barra{height:5px;background:var(--gray4);border-radius:99px;overflow:hidden;margin-top:9px;max-width:220px}
-.barra i{display:block;height:100%;background:var(--green);box-shadow:0 0 10px rgba(0,194,100,.4)}
 .vacio{padding:28px;border:1px dashed var(--border2);border-radius:12px;background:var(--bg2);color:var(--gray3);font-size:.88rem}
 footer{margin-top:36px;padding-top:26px;border-top:1px solid var(--border);
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:26px 48px}
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:26px 44px}
 footer p{color:var(--gray2);font-size:.83rem;line-height:1.7;max-width:48ch}
 footer .sec-label{margin-bottom:8px}
 
@@ -154,55 +137,27 @@ footer .sec-label{margin-bottom:8px}
 
   <div class="eyebrow">Estado de cuenta</div>
   <h1>Lo que la Eko lleva ganado</h1>
-  <p class="bajada">Cada pedido que los expositores hacen por la web de la Eko devuelve un 5% del neto como crédito de producción para la organización. Además está el merch bonificado del arranque.</p>
+  <p class="bajada">Cada pedido que pasa por el canal de la Eko devuelve un 5% del neto como crédito de producción para la organización: tanto las compras de los expositores como los trabajos que pide la propia Eko. Además está el merch bonificado del arranque.</p>
   <div class="aviso" id="aviso" hidden>Datos de ejemplo. Todavía no hay pedidos reales cargados.</div>
 
   <section class="card destacada">
     <div class="sec-label">Crédito acumulado</div>
-    <p class="nota">5% del precio neto, sin IVA, de cada pedido cobrado.</p>
+    <p class="nota">5% del precio neto, sin IVA, de cada trabajo entregado.</p>
     <div class="credito">
       <div>
         <div class="cifra" id="total">—</div>
-        <p class="cifra-pie">disponible para producir merch de la Eko</p>
+        <p class="cifra-pie">a favor de la Eko</p>
+        <p class="saldo-top" id="saldo-top" hidden></p>
         <p class="pendiente" id="pendiente" hidden></p>
       </div>
       <table class="desglose">
-        <tr><td>Facturado por el canal, sin IVA</td><td id="neto">—</td></tr>
-        <tr><td>Crédito generado (5%)</td><td id="generado">—</td></tr>
+        <tr><td>Compras de expositores, sin IVA</td><td id="neto-exp">—</td></tr>
+        <tr><td>Trabajos de la Eko, sin IVA</td><td id="neto-eko">—</td></tr>
+        <tr><td>Crédito por expositores (5%)</td><td id="cred-exp">—</td></tr>
+        <tr><td>Crédito por la organización (5%)</td><td id="cred-eko">—</td></tr>
         <tr><td>Ya usado</td><td id="usado">—</td></tr>
       </table>
     </div>
-    <div class="tope" id="tope"></div>
-  </section>
-
-  <section class="card">
-    <div class="sec-label">Merch bonificado</div>
-    <p class="nota" id="nota-sheets"></p>
-    <div class="sheets" id="sheets"></div>
-  </section>
-
-  <section class="card">
-    <div class="sec-label">Qué pueden pedir hoy</div>
-    <p class="nota" id="nota-equis">Un pedido con el crédito puesto al máximo: el crédito paga la mitad y las unidades son a precio de lista.</p>
-    <div class="equis" id="equis"></div>
-  </section>
-
-  <section class="card">
-    <div class="sec-label">El canal, en números</div>
-    <p class="nota">Sobre pedidos ya cobrados. Los montos son netos, sin IVA.</p>
-    <div class="metricas" id="metricas"></div>
-  </section>
-
-  <section class="card">
-    <div class="sec-label">Cómo viene creciendo</div>
-    <p class="nota">Crédito acumulado por fecha de cobro.</p>
-    <div id="curva-wrap"></div>
-  </section>
-
-  <section class="card">
-    <div class="sec-label">Expositores</div>
-    <p class="nota">Empresas que compraron por el canal de la Eko.</p>
-    <div id="por-expositor"></div>
   </section>
 
   <section class="card">
@@ -211,14 +166,36 @@ footer .sec-label{margin-bottom:8px}
     <div id="movimientos"></div>
   </section>
 
+  <section class="card">
+    <div class="sec-label">Canal de expositores</div>
+    <p class="nota">Compras que hacen las empresas del evento y pagan ellas. Montos netos, sin IVA.</p>
+    <div class="metricas" id="met-exp"></div>
+  </section>
+
+  <section class="card">
+    <div class="sec-label">Pedidos de la organización</div>
+    <p class="nota">Trabajos que pide la Eko y se entregan sin abonar. A fin de año se descuenta todo el crédito acumulado, venga de donde venga, y se salda la diferencia.</p>
+    <div class="metricas" id="met-eko"></div>
+  </section>
+
+  <section class="card">
+    <div class="sec-label">Merch bonificado</div>
+    <p class="nota" id="nota-sheets"></p>
+    <div class="sheets" id="sheets"></div>
+  </section>
+
   <footer>
     <div>
-      <div class="sec-label">Cómo se calcula</div>
-      <p>El crédito es el 5% del precio neto de cada pedido, sin IVA, y se acredita cuando el pedido está cobrado. Se usa para producir merch de la Eko con Mi Pegatina y paga la mitad de cada pedido, así que rinde el doble de su valor. No se convierte en efectivo.</p>
+      <div class="sec-label">Cómo se calcula el crédito</div>
+      <p>Es el 5% del precio neto, sin IVA, de cada trabajo del canal. En las compras de expositores se acredita cuando el pedido se cobra; en los trabajos de la Eko, cuando el trabajo se entrega. No se convierte en efectivo.</p>
+    </div>
+    <div>
+      <div class="sec-label">Cuenta corriente</div>
+      <p>Los trabajos que pide la Eko se entregan sin abonar y quedan anotados. A fin de año se hace la cuenta: lo pedido menos el crédito acumulado, y se salda la diferencia.</p>
     </div>
     <div>
       <div class="sec-label">Merch bonificado</div>
-      <p>Son unidades acordadas al inicio del acuerdo, aparte del crédito. Se cuentan en stickers producidos, no en pesos, y no se descuentan del crédito.</p>
+      <p>Son unidades acordadas al inicio del acuerdo, aparte del crédito y de la cuenta corriente. Se cuentan en stickers producidos, no en pesos.</p>
     </div>
   </footer>
 </div>
@@ -230,8 +207,7 @@ footer .sec-label{margin-bottom:8px}
 const CONFIG = {
   demo: false,                 // ponelo en true si querés cargar datos de prueba
   porcentaje: 0.05,            // 5% sobre el neto sin IVA
-  topeCredito: 0.50,           // el crédito cubre como máximo este % de cada pedido de la Eko
-  creditoUsado: 0,             // pesos de crédito que la Eko ya gastó en producción
+  creditoUsado: 0,             // crédito ya aplicado
   fechaEvento: "2026-10-06"    // CONFIRMAR fecha real de la Eko
 };
 
@@ -241,30 +217,36 @@ const BONIFICADO = [
   { material:"Stickers especiales 6 cm",      total:500,  usados:360, holo:true }
 ];
 
-/* Precios de referencia para traducir el crédito a unidades.
-   Precio de lista Mi Pegatina, material blanco, en la cantidad indicada. */
-const EQUIVALENCIAS = [
-  { label:"stickers 8×8 cm",         detalle:"sueltos, desde 1.500 u", precio:265  },
-  { label:"planchas 10×15 cm",       detalle:"desde 500 u",            precio:650  },
-  { label:"llaveros acrílicos 5 cm", detalle:"desde 200 u",            precio:1290 }
-];
-
 /* ==========================================================================
    2. PEDIDOS — una línea por pedido
-   orden: número de orden de compra interna de Mi Pegatina
-   estado: "cotizado" | "confirmado" | "cobrado"   (solo "cobrado" suma crédito)
-   neto: monto facturado SIN IVA
+   tipo:   "expositor" (lo paga la empresa) | "eko" (lo pide la organización)
+   estado: "cotizado" | "confirmado" | "cobrado" | "acuenta"
+           - expositor: suma crédito cuando está "cobrado"
+           - eko:       suma crédito cuando está "acuenta" o "cobrado"
+   neto:   monto SIN IVA
    ========================================================================== */
 const PEDIDOS = [
   {
     orden: 828,
     fecha: "2026-09-01",
-    expositor: "Christian Gehmlich",
+    tipo: "expositor",
+    cliente: "Christian Gehmlich",
     referencia: "Ilustraciones Eko",
     producto: "Stickers holográficos sin blanco · 3 diseños, 6 y 5 cm",
     cantidad: 1500,
     neto: 388000,
     estado: "cobrado"
+  },
+  {
+    orden: 849,
+    fecha: "2026-09-04",
+    tipo: "eko",
+    cliente: "Ekoparty",
+    referencia: "Sailpoint",
+    producto: "Stickers blancos 5 cm",
+    cantidad: 500,
+    neto: 76000,
+    estado: "acuenta"
   }
 ];
 
@@ -272,45 +254,114 @@ const PEDIDOS = [
    3. CÁLCULO Y RENDER — no hace falta tocar de acá para abajo
    ========================================================================== */
 const $ = s => document.querySelector(s);
+const set = (sel, prop, val) => { const el = $(sel); if (el) el[prop] = val; };
 const pesos = n => "$" + Math.round(n).toLocaleString("es-AR");
 const num   = n => Math.round(n).toLocaleString("es-AR");
 const fecha = f => new Date(f + "T12:00:00").toLocaleDateString("es-AR", {day:"2-digit", month:"short"});
 const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const ETIQUETA = {cobrado:"cobrado", acuenta:"a cuenta", confirmado:"confirmado", cotizado:"cotizado"};
 
-const cobrados  = PEDIDOS.filter(p => p.estado === "cobrado").sort((a,b) => a.fecha < b.fecha ? -1 : 1);
-const enCurso   = PEDIDOS.filter(p => p.estado === "confirmado");
-const netoTotal = cobrados.reduce((a,p) => a + p.neto, 0);
-const generado  = netoTotal * CONFIG.porcentaje;
+/* qué pedidos generan crédito */
+const generaCredito = p =>
+  (p.tipo === "expositor" && p.estado === "cobrado") ||
+  (p.tipo === "eko" && (p.estado === "acuenta" || p.estado === "cobrado"));
+
+const expCobrados = PEDIDOS.filter(p => p.tipo === "expositor" && p.estado === "cobrado");
+const ekoTrabajos = PEDIDOS.filter(p => p.tipo === "eko" && (p.estado === "acuenta" || p.estado === "cobrado"));
+const enCurso     = PEDIDOS.filter(p => p.estado === "confirmado");
+
+const netoExp   = expCobrados.reduce((a,p) => a + p.neto, 0);
+const netoEko   = ekoTrabajos.reduce((a,p) => a + p.neto, 0);
+const credExp   = netoExp * CONFIG.porcentaje;
+const credEko   = netoEko * CONFIG.porcentaje;
+const generado  = credExp + credEko;
 const total     = generado - CONFIG.creditoUsado;
 const pendiente = enCurso.reduce((a,p) => a + p.neto, 0) * CONFIG.porcentaje;
-const poderCompra = Math.max(0, total) / CONFIG.topeCredito;
 
-$("#aviso").hidden = !CONFIG.demo;
-$("#periodo").textContent = "Al " + new Date().toLocaleDateString("es-AR", {day:"numeric", month:"long", year:"numeric"});
-$("#total").textContent    = pesos(total);
-$("#neto").textContent     = pesos(netoTotal);
-$("#generado").textContent = pesos(generado);
-$("#usado").textContent    = pesos(CONFIG.creditoUsado);
-if (pendiente > 0) {
-  $("#pendiente").hidden = false;
-  $("#pendiente").textContent = pesos(pendiente) + " más en pedidos confirmados, todavía sin cobrar.";
+/* deuda: trabajos de la Eko entregados y sin abonar */
+const deuda  = PEDIDOS.filter(p => p.tipo === "eko" && p.estado === "acuenta").reduce((a,p) => a + p.neto, 0);
+const aFavor = Math.max(0, total) - deuda;
+
+set("#aviso", "hidden", !CONFIG.demo);
+let dias = "";
+if (CONFIG.fechaEvento) {
+  const d = Math.ceil((new Date(CONFIG.fechaEvento + "T12:00:00") - new Date()) / 86400000);
+  dias = d > 0 ? " · " + d + " días para la Eko" : " · Eko en curso";
+}
+set("#periodo", "textContent", "Al " + new Date().toLocaleDateString("es-AR", {day:"numeric", month:"long", year:"numeric"}) + dias);
+set("#total", "textContent", pesos(total));
+set("#neto-exp", "textContent", pesos(netoExp));
+set("#neto-eko", "textContent", pesos(netoEko));
+if (aFavor < 0) {
+  set("#saldo-top", "hidden", false);
+  set("#saldo-top", "innerHTML", "<b>" + pesos(Math.abs(aFavor)) + "</b> a saldar a fin de año");
 }
 
-$("#tope").innerHTML =
-  '<div class="tope-tit">El crédito rinde el doble</div>' +
-  '<div class="tope-grid">' +
-    '<div><b>' + pesos(poderCompra) + '</b><span>pedido posible hoy</span></div>' +
-    '<div><b>' + pesos(Math.max(0, total)) + '</b><span>lo cubre el crédito</span></div>' +
-    '<div><b>' + pesos(poderCompra - Math.max(0, total)) + '</b><span>lo abona la Eko</span></div>' +
-  '</div>';
+set("#cred-exp", "textContent", pesos(credExp));
+set("#cred-eko", "textContent", pesos(credEko));
+set("#usado", "textContent", pesos(CONFIG.creditoUsado));
+if (pendiente > 0) {
+  set("#pendiente", "hidden", false);
+  set("#pendiente", "textContent", pesos(pendiente) + " más en pedidos confirmados, todavía sin cobrar.");
+}
+
+/* dos filas de métricas: expositores por un lado, organización por el otro */
+const grilla = filas => filas.map(([v,l,d]) =>
+  `<div><b>${v}</b><span>${l}</span>${d ? `<small>${d}</small>` : ""}</div>`).join("");
+const empresas = [...new Set(expCobrados.map(p => p.cliente))];
+
+set("#met-exp", "innerHTML", grilla([
+  [expCobrados.length, "pedidos cobrados"],
+  [empresas.length, empresas.length === 1 ? "empresa compró" : "empresas compraron"],
+  [pesos(netoExp), "facturado sin IVA"],
+  [pesos(credExp), "de crédito generado"]
+]));
+
+set("#met-eko", "innerHTML", grilla([
+  [ekoTrabajos.length, ekoTrabajos.length === 1 ? "trabajo pedido" : "trabajos pedidos"],
+  [pesos(deuda), "sin abonar"],
+  [pesos(Math.max(0, total)), "de crédito acumulado a favor",
+   pesos(credExp) + " de expositores + " + pesos(credEko) + " de organización"],
+  [pesos(Math.abs(aFavor)), aFavor >= 0 ? "queda a favor de la Eko" : "a saldar a fin de año"]
+]));
+
+/* tabla de movimientos */
+(function movimientos(){
+  const cont = $("#movimientos");
+  if (!cont) return;
+  if (!PEDIDOS.length) {
+    cont.innerHTML = `<div class="vacio">Todavía no hay pedidos cargados. Cada trabajo que entre por el canal de la Eko aparece acá.</div>`;
+    return;
+  }
+  const orden = [...PEDIDOS].sort((a,b) => a.fecha < b.fecha ? 1 : -1);
+  cont.innerHTML = `<table class="datos">
+    <thead><tr>
+      <th>Orden</th><th>Fecha</th><th>Quién pide</th><th class="oculta-movil">Trabajo</th>
+      <th class="num oculta-movil">Cant.</th><th class="num">Neto</th><th class="num">Crédito</th><th class="estado">Estado</th>
+    </tr></thead>
+    <tbody>${orden.map(p => `
+      <tr>
+        <td class="orden">#${p.orden}</td>
+        <td>${fecha(p.fecha)}</td>
+        <td class="cliente">${p.cliente}<div class="tipo ${p.tipo === "eko" ? "eko" : ""}">${p.tipo === "eko" ? "Organización" : "Expositor"}</div></td>
+        <td class="oculta-movil">${p.producto}${p.referencia ? `<div class="ref">${p.referencia}</div>` : ""}</td>
+        <td class="num oculta-movil">${num(p.cantidad)}</td>
+        <td class="num">${pesos(p.neto)}</td>
+        <td class="num">${generaCredito(p) ? pesos(p.neto * CONFIG.porcentaje) : "—"}</td>
+        <td class="estado"><span class="chip ${p.estado}">${ETIQUETA[p.estado] || p.estado}</span></td>
+      </tr>`).join("")}
+    </tbody></table>`;
+})();
 
 /* hojas de troquel del merch bonificado: 1 troquel = 20 stickers */
 (function sheets(){
+  const cont0 = $("#sheets");
+  if (!cont0) return;
   const POR_DIE = 20;
   let delay = 0;
-  $("#nota-sheets").textContent =
-    "Unidades acordadas al inicio, aparte del crédito. Cada círculo son " + POR_DIE + " stickers; los encendidos ya se produjeron.";
-  $("#sheets").innerHTML = BONIFICADO.map((b,i) => `
+  set("#nota-sheets", "textContent",
+    "Unidades acordadas al inicio, aparte del crédito. Cada círculo son " + POR_DIE + " stickers; los encendidos ya se produjeron.");
+  cont0.innerHTML = BONIFICADO.map((b,i) => `
       <div>
         <div class="sheet-cab">
           <b>${b.material}</b>
@@ -321,6 +372,7 @@ $("#tope").innerHTML =
       </div>`).join("");
   BONIFICADO.forEach((b,i) => {
     const cont = document.getElementById("sheet-" + i);
+    if (!cont) return;
     const dies = Math.round(b.total / POR_DIE);
     const usados = Math.round(b.usados / POR_DIE);
     for (let k = 0; k < dies; k++) {
@@ -333,114 +385,6 @@ $("#tope").innerHTML =
       }
     }
   });
-})();
-
-/* equivalencias del crédito */
-$("#equis").innerHTML = EQUIVALENCIAS.map(e =>
-  `<div><b>${num(poderCompra / e.precio)}</b><span>${e.label}<br>${e.detalle}</span></div>`
-).join("");
-
-/* métricas */
-const expositores = [...new Set(cobrados.map(p => p.expositor))];
-const ticket = cobrados.length ? netoTotal / cobrados.length : 0;
-let dias = "—";
-if (CONFIG.fechaEvento) {
-  const d = Math.ceil((new Date(CONFIG.fechaEvento + "T12:00:00") - new Date()) / 86400000);
-  dias = d > 0 ? d + " días" : "en curso";
-}
-$("#metricas").innerHTML = [
-  [expositores.length, "expositores compraron"],
-  [cobrados.length, "pedidos cobrados"],
-  [pesos(netoTotal), "facturado por el canal"],
-  [pesos(ticket), "ticket promedio"],
-  [dias, "para la Eko"]
-].map(([v,l]) => `<div><b>${v}</b><span>${l}</span></div>`).join("");
-
-/* curva acumulada */
-(function curva(){
-  const wrap = $("#curva-wrap");
-  if (cobrados.length < 2) {
-    wrap.innerHTML = `<div class="vacio">Con dos pedidos cobrados en adelante aparece acá la curva de crecimiento.</div>`;
-    return;
-  }
-  const W = 1000, H = 190, pad = {t:14, r:8, b:26, l:8};
-  let acum = 0;
-  const pts = cobrados.map(p => { acum += p.neto * CONFIG.porcentaje; return {f:p.fecha, v:acum}; });
-  const max = acum, n = pts.length;
-  const x = i => pad.l + (W - pad.l - pad.r) * (n === 1 ? 0.5 : i / (n - 1));
-  const y = v => pad.t + (H - pad.t - pad.b) * (1 - v / max);
-  const linea = pts.map((p,i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(p.v).toFixed(1)}`).join(" ");
-  const area  = `${linea} L${x(n-1).toFixed(1)},${H-pad.b} L${x(0).toFixed(1)},${H-pad.b} Z`;
-  wrap.innerHTML = `
-    <svg id="curva" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img"
-         aria-label="Crédito acumulado: ${pesos(max)}">
-      <defs>
-        <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#00c264" stop-opacity=".28"></stop>
-          <stop offset="100%" stop-color="#00c264" stop-opacity="0"></stop>
-        </linearGradient>
-      </defs>
-      <path d="${area}" fill="url(#g)"></path>
-      <path d="${linea}" fill="none" stroke="#00c264" stroke-width="2.5"
-            stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"></path>
-      ${pts.map((p,i) => `<circle cx="${x(i).toFixed(1)}" cy="${y(p.v).toFixed(1)}" r="3.5" fill="#00a855"></circle>`).join("")}
-      <text class="eje" x="${x(0)}" y="${H-8}">${fecha(pts[0].f)}</text>
-      <text class="eje" x="${W-pad.r}" y="${H-8}" text-anchor="end">${fecha(pts[n-1].f)} · ${pesos(max)}</text>
-    </svg>`;
-})();
-
-/* por expositor */
-(function porExpositor(){
-  const cont = $("#por-expositor");
-  if (!cobrados.length) {
-    cont.innerHTML = `<div class="vacio">Cuando entre el primer pedido cobrado aparece acá el detalle por empresa.</div>`;
-    return;
-  }
-  const mapa = {};
-  cobrados.forEach(p => {
-    mapa[p.expositor] = mapa[p.expositor] || {pedidos:0, neto:0};
-    mapa[p.expositor].pedidos++;
-    mapa[p.expositor].neto += p.neto;
-  });
-  const filas = Object.entries(mapa).sort((a,b) => b[1].neto - a[1].neto);
-  const top = filas[0][1].neto;
-  cont.innerHTML = `<table class="datos">
-    <thead><tr><th>Expositor</th><th class="num">Pedidos</th><th class="num">Neto</th><th class="num">Crédito</th></tr></thead>
-    <tbody>${filas.map(([nom,d]) => `
-      <tr>
-        <td>${nom}<div class="barra"><i style="width:${(d.neto/top*100).toFixed(1)}%"></i></div></td>
-        <td class="num">${d.pedidos}</td>
-        <td class="num">${pesos(d.neto)}</td>
-        <td class="num">${pesos(d.neto * CONFIG.porcentaje)}</td>
-      </tr>`).join("")}
-    </tbody></table>`;
-})();
-
-/* movimientos */
-(function movimientos(){
-  const cont = $("#movimientos");
-  if (!PEDIDOS.length) {
-    cont.innerHTML = `<div class="vacio">Todavía no hay pedidos cargados. Cada pedido que entre por la web de la Eko aparece acá.</div>`;
-    return;
-  }
-  const orden = [...PEDIDOS].sort((a,b) => a.fecha < b.fecha ? 1 : -1);
-  cont.innerHTML = `<table class="datos">
-    <thead><tr>
-      <th>Orden</th><th>Fecha</th><th>Expositor</th><th class="oculta-movil">Producto</th>
-      <th class="num oculta-movil">Cant.</th><th class="num">Neto</th><th class="num">Crédito</th><th class="estado">Estado</th>
-    </tr></thead>
-    <tbody>${orden.map(p => `
-      <tr>
-        <td class="orden">#${p.orden}</td>
-        <td>${fecha(p.fecha)}</td>
-        <td>${p.expositor}</td>
-        <td class="oculta-movil">${p.producto}${p.referencia ? `<div class="ref">${p.referencia}</div>` : ""}</td>
-        <td class="num oculta-movil">${num(p.cantidad)}</td>
-        <td class="num">${pesos(p.neto)}</td>
-        <td class="num">${p.estado === "cobrado" ? pesos(p.neto * CONFIG.porcentaje) : "—"}</td>
-        <td class="estado"><span class="chip ${p.estado}">${p.estado}</span></td>
-      </tr>`).join("")}
-    </tbody></table>`;
 })();
 </script>
 </body>
