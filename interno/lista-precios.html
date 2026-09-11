@@ -4,7 +4,7 @@
     <!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=AW-18358544445"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config','AW-18358544445');</script></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mi Pegatina · Lista de Precios Agosto 2026</title>
+<title>Mi Pegatina · Lista de Precios Septiembre 2026</title>
 <link rel="manifest" href="/interno/manifest.json">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -112,6 +112,12 @@ body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15p
         t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "y17qfsdct0");
+</script><script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "y17qfsdct0");
 </script></head>
 <body>
 
@@ -121,10 +127,10 @@ body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15p
       <span class="brand-dot"></span>
       <div>
         <div class="brand-name">MI PEGATINA · INTERNO</div>
-        <div class="brand-sub">Lista de Precios Agosto 2026</div>
+        <div class="brand-sub">Lista de Precios Septiembre 2026</div>
       </div>
     </div>
-    <span class="internal-badge">AGOSTO 2026</span>
+    <span class="internal-badge">SEPTIEMBRE 2026</span>
   </div>
 </div>
 
@@ -134,11 +140,11 @@ body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15p
   <div class="rate-box">
     <div>
       <div class="rate-label">Tipo de cambio</div>
-      <div style="font-size:.76rem;color:var(--gray3);margin-top:3px;">Editá el dólar y todo se recalcula</div>
+      <div style="font-size:.76rem;color:var(--gray3);margin-top:3px;">BNA vendedor $1.535 (11/09/2026) + 4,5% · Editá el dólar y todo se recalcula</div>
     </div>
     <div class="rate-input-grp">
       <span class="rate-currency">ARS $</span>
-      <input type="number" id="rate" class="rate-input" value="1600" min="1" step="10" oninput="recalc()">
+      <input type="number" id="rate" class="rate-input" value="1605" min="0" step="5" oninput="recalc()">
       <span class="rate-currency" style="font-size:.8rem;">/ USD</span>
     </div>
   </div>
@@ -327,7 +333,18 @@ body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15p
 const SEP_MM = 5;          // separación entre stickers
 const PLIEGO_W = 50, PLIEGO_H = 50; // cm
 
-const COTIZACION_DEFAULT = 1600;
+// ===== DÓLAR =====
+// Cotización Mi Pegatina = BNA vendedor + MARGEN_DOLAR, redondeado a $5.
+// Solo se actualiza cuando se mueve el dólar: cambiar BNA_VENDEDOR con el valor del día.
+const BNA_VENDEDOR = 1535;   // BNA vendedor al 11/09/2026
+const MARGEN_DOLAR = 0.045;  // +4,5% sobre BNA
+const COTIZACION_DEFAULT = Math.round(BNA_VENDEDOR * (1 + MARGEN_DOLAR) / 5) * 5; // = 1605
+
+// ===== AJUSTE DE LISTA (USD) =====
+// Aumentos por inflación en pesos, sin tocar el dólar. Multiplica TODOS los valores en USD
+// (m² de stickers y planchas, acrílicos, accesorios, Premio y Posavaso).
+// Acumulativo: Sep 2026 +3% = 1.03. Si el próximo es +2% → 1.03 * 1.02
+const AJUSTE_LISTA = 1.03;
 
 // Unidades por pliego (con separación en cm)
 // unidadesPorPliego eliminado
@@ -356,7 +373,7 @@ function discSuelto(qty, sz){
   else if(qty>=t1) d = 0.05;
   // Tramo tope (antes "consulta"): +5 puntos extra sobre el descuento del escalon anterior
   if(qty>=(MAYORISTA_SUELTO[sz]||6000)) d += 0.05;
-  return d;
+  return Math.round(d*100)/100; // evita 0.15000000000000002
 }
 function esMayoristaSuelto(qty, sz){ return qty>=(MAYORISTA_SUELTO[sz]||6000); }
 
@@ -387,7 +404,7 @@ function unitPlancha(matKey, sz, rate, qty){
   if(!m2Tbl || !m2Tbl[matKey]) return 0;
   const d = DIMS_PLANCHA_CM2[sz];
   const area = (d[0]/100)*(d[1]/100);
-  const uBase = round5up(m2Tbl[matKey] * area * (rate||COTIZACION));
+  const uBase = round5up(m2Tbl[matKey] * AJUSTE_LISTA * area * (rate||COTIZACION_DEFAULT));
   if(!qty) return uBase;
   const disc = discPlancha(qty, sz);
   const uARS = disc > 0 ? round5up(uBase*(1-disc)) : uBase;
@@ -417,14 +434,15 @@ const M2_STICKER = {
   transparente:  { '5x5':44, '6x6':44, '8x8':33, '9x9':33 },
   especial:      { '5x5':55, '6x6':55, '8x8':50, '9x9':50 },
 };
-function round5up(n){ return Math.ceil(n/5)*5; }
+// Redondea a centavos antes de subir a múltiplo de 5: evita que 160.00000000000003 salte a 165
+function round5up(n){ return Math.ceil(Math.round(n*100)/100/5)*5; }
 function calcUnit(){
   const qty = st.qty;
   const sz = SIZE_CM[st.size];
   // Precio unitario desde m²/sticker con descuento por cantidad
   const m2Tbl = M2_STICKER[st.matKey];
   const areaStickerM2 = (sz/100)*(sz/100);
-  const unitBase = m2Tbl ? round5up(m2Tbl[st.size] * areaStickerM2 * getRate()) : 0;
+  const unitBase = m2Tbl ? round5up(m2Tbl[st.size] * AJUSTE_LISTA * areaStickerM2 * getRate()) : 0;
   const disc = discSuelto(qty, st.size);
   const unitARS = disc > 0 ? round5up(unitBase*(1-disc)) : unitBase;
   const unitUSD = unitARS / getRate();
@@ -476,7 +494,7 @@ function buildPliegos(){
   qtys.forEach(qty=>{
     const disc=discSuelto(qty, st.size);
     const b=document.createElement('button'); b.className='opt opt-mono'+(st.qty===qty?' active':'');
-    const tag = disc>0?`<br><span style="font-size:.68em;color:var(--green2);font-weight:700">-${disc*100}%</span>`:'';
+    const tag = disc>0?`<br><span style="font-size:.68em;color:var(--green2);font-weight:700">-${Math.round(disc*100)}%</span>`:'';
     b.innerHTML=`<span style="font-size:1.05em;font-weight:700">${qty.toLocaleString('es-AR')} u</span>`+tag;
     b.style.cssText='display:flex;flex-direction:column;align-items:center;line-height:1.3;padding:9px 22px;min-width:90px;';
     b.onclick=()=>{ st.qty=qty; document.getElementById('pl-free').value=''; buildPliegos(); recalc(); };
@@ -539,7 +557,7 @@ function unitSueltoForQty(qty, sz, matKey){
   const m2Tbl = M2_STICKER[matKey];
   const areaStickerM2 = (parseFloat(sz)/100)*(parseFloat(sz)/100);
   const rate = getRate();
-  const unitBase = m2Tbl ? round5up(m2Tbl[sz]*areaStickerM2*rate) : 0;
+  const unitBase = m2Tbl ? round5up(m2Tbl[sz]*AJUSTE_LISTA*areaStickerM2*rate) : 0;
   const disc = discSuelto(qty, sz);
   const unitARS = disc>0 ? round5up(unitBase*(1-disc)) : unitBase;
   return { unitARS, unitBase, disc };
@@ -636,7 +654,7 @@ function discPlancha(qty, sz){
   else if(qty>=(t1[sz]||250)) d = 0.05;
   // Tramo tope (antes "consulta"): +5 puntos extra sobre el descuento del escalon anterior
   if(qty>=(MAYORISTA_PLANCHA[sz]||600)) d += 0.05;
-  return d;
+  return Math.round(d*100)/100; // evita 0.15000000000000002
 }
 function esMayoristaPlancha(qty, sz){ return qty>=(MAYORISTA_PLANCHA[sz]||600); }
 
@@ -646,7 +664,7 @@ function buildQtyPl(){
   qtys.forEach(q=>{
     const disc=discPlancha(q, stPl.size);
     const b=document.createElement('button'); b.className='opt opt-mono'+(stPl.qty===q?' active':'');
-    const tag = disc>0?`<br><span style="font-size:.68em;color:var(--green2);font-weight:700">-${disc*100}%</span>`:'';
+    const tag = disc>0?`<br><span style="font-size:.68em;color:var(--green2);font-weight:700">-${Math.round(disc*100)}%</span>`:'';
     b.innerHTML=`<span style="font-size:1.05em;font-weight:700">${q.toLocaleString('es-AR')} u</span>`+tag;
     b.style.cssText='display:flex;flex-direction:column;align-items:center;line-height:1.3;padding:9px 22px;min-width:90px;';
     b.onclick=()=>{ stPl.qty=q; buildQtyPl(); recalcPl(); };
@@ -737,11 +755,13 @@ function renderCurvePl(){
 const BREAKS_3CM  = [{qty:100,discount:0},{qty:200,discount:5},{qty:300,discount:10},{qty:600,discount:15}];
 const BREAKS_56CM = [{qty:30,discount:0},{qty:60,discount:5},{qty:200,discount:10},{qty:600,discount:15}];
 const BREAKS_PREMIO = [{qty:1,discount:0},{qty:5,discount:5},{qty:10,discount:10},{qty:25,discount:15},{qty:50,discount:20}];
+// Posavaso: igual que la web, sin tramo tope (84u = -15%)
+const BREAKS_POSAVASO = [{qty:12,discount:0},{qty:36,discount:5},{qty:60,discount:10},{qty:84,discount:15}];
 // Cantidad de consulta mayorista por medida (no forma parte de los tramos con precio)
 const MAYORISTA_AC = { '3x3':600, '5x5':600, '6x6':600, '10x10':50, '15x21':50 };
 
 const ACRILICOS = {
-  llavero: { label:'Llavero', sub:'Incluye cadena metálica', baseUsdM2:300, fijoUSD:0.143,
+  llavero: { label:'Llavero', sub:'Incluye cadena metálica reforzada', baseUsdM2:300, fijoUSD:0.143,
     sizes:{'3x3':0.00108,'5x5':0.0025,'6x6':0.0036},
     breaksBySize:{'3x3':BREAKS_3CM,'5x5':BREAKS_56CM,'6x6':BREAKS_56CM} },
   iman:    { label:'Imán',    sub:'Imán en toda la superficie', baseUsdM2:300, fijoUSD:0.11,
@@ -750,7 +770,11 @@ const ACRILICOS = {
   dije:    { label:'Dije',    sub:'Sin accesorio, solo acrílico', baseUsdM2:300, fijoUSD:0,
     sizes:{'3x3':0.00108,'5x5':0.0025,'6x6':0.0036},
     breaksBySize:{'3x3':BREAKS_3CM,'5x5':BREAKS_56CM,'6x6':BREAKS_56CM} },
-  premio:  { label:'Premio | QR', sub:'Acrílico macizo 10mm · 10x10 sin base, 15x21 con base · 50+ mayorista', baseUsdM2:0, fijoUSD:0,
+  posavaso: { label:'Posavaso', sub:'Espesor 2 mm · sin base antideslizante', baseUsdM2:0, fijoUSD:0,
+    sizes:{'9.5x9.5':0.009025},
+    pricesUSD:{'9.5x9.5':1.75},
+    breaksBySize:{'9.5x9.5':BREAKS_POSAVASO} },
+  premio:  { label:'Premio | QR', sub:'Acrílico macizo 10mm · 10x10 sin base, 15x21 con base acrílica', baseUsdM2:0, fijoUSD:0,
     sizes:{'10x10':0.01,'15x21':0.0315},
     pricesUSD:{'10x10':22,'15x21':50},
     breaksBySize:{'10x10':BREAKS_PREMIO,'15x21':BREAKS_PREMIO} },
@@ -764,7 +788,7 @@ function unitAcrilico(prodKey, sz, rate, discount=0){
   const uU = (p.pricesUSD && p.pricesUSD[sz]!=null)
     ? p.pricesUSD[sz] * (1 - discount/100)
     : p.baseUsdM2 * (1 - discount/100) * p.sizes[sz] + (p.fijoUSD||0);
-  return round5up(uU * rate);
+  return round5up(uU * AJUSTE_LISTA * rate);
 }
 
 function buildProductoAc(){
@@ -851,6 +875,7 @@ function renderCurveAc(){
 }
 
 // ===== INIT =====
+try{ document.getElementById('rate').value = COTIZACION_DEFAULT; }catch(e){}
 function buildAll(){
   buildMaterial(); buildMedida(); buildPliegos(); recalc();
   buildMaterialPl(); buildMedidaPl(); buildQtyPl(); recalcPl();
