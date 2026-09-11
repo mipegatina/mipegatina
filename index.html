@@ -1009,6 +1009,9 @@ const COTIZACION = Math.round(BNA_VENDEDOR * (1 + MARGEN_DOLAR) / 5) * 5; // = 1
 // (M2_STICKER, M2_PLANCHA, acrílicos, accesorios, Premio y Posavaso). Cotizador y MIPI lo toman de acá.
 // Acumulativo: Sep 2026 +3% = 1.03. Si el próximo es +2% → 1.03 * 1.02
 const AJUSTE_LISTA = 1.03;
+// Ajuste extra SOLO para acrílicos (llavero, imán, dije, posavaso, premio), encima de AJUSTE_LISTA.
+// Sep 2026: +5% = 1.05. Acrílico acumula AJUSTE_LISTA × AJUSTE_ACRILICO (1.03 × 1.05)
+const AJUSTE_ACRILICO = 1.05;
 const materialesSuelto = {
 blancoPremium: {
 label:"Vinilo Blanco Premium",
@@ -1690,7 +1693,7 @@ function precioUnitarioARS(cat, producto, matKey, sz, qty){
     if(sd){
       const fijo = m.fijoUSD || 0;
       // el descuento pega sobre el acrilico, no sobre el accesorio (cadena/iman)
-      const uU = ((sd.priceUSD != null) ? sd.priceUSD*(1-d) : m.baseUsdM2*(1-d)*sd.area + fijo) * AJUSTE_LISTA;
+      const uU = ((sd.priceUSD != null) ? sd.priceUSD*(1-d) : m.baseUsdM2*(1-d)*sd.area + fijo) * AJUSTE_LISTA * AJUSTE_ACRILICO;
       return { uA: round5up(uU*COTIZACION), dPct, uU };
     }
   }
