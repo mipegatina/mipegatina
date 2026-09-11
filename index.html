@@ -998,7 +998,17 @@ else { pvShowToast && pvShowToast('No pudimos enviar. Probá de nuevo o escribin
 }).catch(()=>{ pvShowToast && pvShowToast('Error de conexión. Probá de nuevo.'); })
 .finally(()=>{ if(btn){ btn.disabled=false; btn.textContent='Enviar consulta →'; } });
 }
-const COTIZACION = 1600;
+// ===== DÓLAR =====
+// Cotización Mi Pegatina = BNA vendedor + MARGEN_DOLAR, redondeado a $5.
+// Solo se actualiza cuando se mueve el dólar: cambiar BNA_VENDEDOR con el valor del día.
+const BNA_VENDEDOR = 1535;   // BNA vendedor al 11/09/2026
+const MARGEN_DOLAR = 0.045;  // +4,5% sobre BNA
+const COTIZACION = Math.round(BNA_VENDEDOR * (1 + MARGEN_DOLAR) / 5) * 5; // = 1605
+// ===== AJUSTE DE LISTA (USD) =====
+// Aumentos por inflación en pesos, sin tocar el dólar. Multiplica TODOS los valores en USD
+// (M2_STICKER, M2_PLANCHA, acrílicos, accesorios, Premio y Posavaso). Cotizador y MIPI lo toman de acá.
+// Acumulativo: Sep 2026 +3% = 1.03. Si el próximo es +2% → 1.03 * 1.02
+const AJUSTE_LISTA = 1.03;
 const materialesSuelto = {
 blancoPremium: {
 label:"Vinilo Blanco Premium",
@@ -1559,7 +1569,7 @@ qtysFor(tr).forEach(unidades=>{
   g.appendChild(btn);
 });
 }
-// ===== PRECIOS POR PLIEGO (cotización base $1550) =====
+// ===== PRECIOS POR PLIEGO =====
 // Pliego 50×50cm, separación 5mm, mínimo 2 pliegos
 // ===== TRAMOS — FUENTE UNICA DE VERDAD =====
 // qtys      -> botones de cantidad que se muestran (cotizador web y chatbot MIPI)
@@ -1640,7 +1650,7 @@ function precioUnitarioPlancha(matKey, sz){
   if(!m2Tbl) return null;
   const dims = DIMS_PLANCHA_CM[sz];
   const areaPlancha = (dims[0]/100)*(dims[1]/100);
-  return round5up(m2Tbl[matKey] * areaPlancha * COTIZACION);
+  return round5up(m2Tbl[matKey] * AJUSTE_LISTA * areaPlancha * COTIZACION);
 }
 
 // Precio unitario fijo por medida/material (basado en primer tramo, sin inversión)
@@ -1651,13 +1661,14 @@ const M2_STICKER = {
   transparentePremium: { '5x5':44, '6x6':44, '8x8':33, '9x9':33 },
   viniloEspecial:      { '5x5':55, '6x6':55, '8x8':50, '9x9':50 },
 };
-function round5up(n){ return Math.ceil(n/5)*5; }
+// Redondea a centavos antes de subir a múltiplo de 5: evita que 160.00000000000003 salte a 165
+function round5up(n){ return Math.ceil(Math.round(n*100)/100/5)*5; }
 function precioUnitarioPliego(matKey, sz){
   const m2Table = M2_STICKER[matKey];
   if(!m2Table || !m2Table[sz]) return null;
   const sizeCm = parseFloat(sz);
   const areaStickerM2 = (sizeCm/100)*(sizeCm/100);
-  return round5up(m2Table[sz] * areaStickerM2 * COTIZACION);
+  return round5up(m2Table[sz] * AJUSTE_LISTA * areaStickerM2 * COTIZACION);
 }
 
 // ===== PRECIO UNITARIO EN ARS — funcion pura, la usan el cotizador y MIPI =====
@@ -1679,7 +1690,7 @@ function precioUnitarioARS(cat, producto, matKey, sz, qty){
     if(sd){
       const fijo = m.fijoUSD || 0;
       // el descuento pega sobre el acrilico, no sobre el accesorio (cadena/iman)
-      const uU = (sd.priceUSD != null) ? sd.priceUSD*(1-d) : m.baseUsdM2*(1-d)*sd.area + fijo;
+      const uU = ((sd.priceUSD != null) ? sd.priceUSD*(1-d) : m.baseUsdM2*(1-d)*sd.area + fijo) * AJUSTE_LISTA;
       return { uA: round5up(uU*COTIZACION), dPct, uU };
     }
   }
@@ -2321,7 +2332,7 @@ waitFor(()=>true, finish, 6);
 });
 });
 }</script>
-<div id="pedido-modal" class="pedido-overlay" style="display:none;position:fixed;inset:0;z-index:4000;overflow-y:auto;"><div class="pedido-card" style="max-width:480px;margin:0 auto;min-height:100%;background:#fff;position:relative;"><div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--green),transparent);opacity:.7;z-index:2;"></div><div style="display:flex;align-items:center;justify-content:space-between;padding:26px 26px 0;"><div style="display:flex;align-items:center;gap:9px;"><span style="width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:pulse-dot 2s infinite;"></span><span style="font-family:var(--mono);font-size:.7rem;letter-spacing:2px;color:var(--green);font-weight:700;">FINALIZAR PEDIDO</span></div><button onclick="closePedidoModal()" style="background:transparent;border:1px solid var(--border2);border-radius:8px;width:30px;height:30px;color:rgba(10,10,10,.6);font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;" onmouseover="this.style.borderColor='rgba(255,80,80,.5)';this.style.color='#ff6b6b'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='rgba(10,10,10,.6)'">✕</button></div><div id="pm-body" style="padding:14px 26px 26px;"><h3 style="font-family:var(--sans);font-size:1.4rem;font-weight:800;letter-spacing:-.8px;color:#0a0a0a;margin:0 0 4px;">Casi listo 🔥</h3><p style="font-size:.82rem;color:rgba(10,10,10,.55);margin:0 0 16px;font-family:var(--sans);">Revisá tu pedido, subí tu diseño y dejanos tu mail. Te confirmamos a la brevedad.</p><div class="pm-cols"><div class="pm-col-left"><div style="margin-bottom:18px;"><div style="font-family:var(--mono);font-size:.62rem;letter-spacing:1.5px;color:rgba(10,10,10,.5);font-weight:700;margin-bottom:12px;">RESUMEN DEL PEDIDO</div><div id="pm-summary" style="display:flex;flex-direction:column;gap:10px;font-family:var(--sans);font-size:.85rem;"></div></div><div style="margin:0 0 14px;"><label id="pm-factura-row" onclick="toggleFactura()" style="display:flex;align-items:center;gap:12px;cursor:pointer;background:rgba(0,194,100,.04);border:1.5px solid var(--border2);border-radius:12px;padding:12px 16px;margin-bottom:14px;transition:all .2s;"><span id="pm-factura-box" style="width:20px;height:20px;border-radius:8px;border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;"><svg id="pm-factura-check" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><polyline points="20 6 9 17 4 12"/></svg></span><span style="font-size:.82rem;color:rgba(10,10,10,.85);font-family:var(--sans);font-weight:500;">Necesito factura A/B <span style="color:rgba(10,10,10,.45);font-weight:400;">(+21% IVA)</span></span></label><input type="checkbox" id="pm-factura" style="display:none;"></div><div id="pm-envio-block" style="margin-bottom:18px;"><label style="display:block;font-size:.78rem;font-weight:600;color:rgba(10,10,10,.85);margin-bottom:8px;font-family:var(--sans);">Seleccioná el envío *</label><div class="opt-cards" style="margin-top:0;"><button type="button" class="opt-card envio-card" id="pm-envio-andreani" onclick="pmSelectEnvio(&#39;andreani&#39;)"><div class="opt-card-title">Andreani</div><div class="opt-card-sub">Gratis en pedidos +$180.000</div></button><button type="button" class="opt-card envio-card" id="pm-envio-caba" onclick="pmSelectEnvio(&#39;caba&#39;)"><div class="opt-card-title">CABA Express</div><div class="opt-card-sub">+$18.000 · A domicilio</div></button></div></div></div><div class="pm-col-right"><label style="display:block;font-size:.78rem;font-weight:600;color:rgba(10,10,10,.85);margin-bottom:8px;font-family:var(--sans);">Link de tus diseños <span style="color:rgba(10,10,10,.4);font-weight:400;">(opcional)</span></label><input type="url" id="pm-link" placeholder="Pegá acá tu link de Drive, WeTransfer, Dropbox..." style="width:100%;box-sizing:border-box;background:#fff;border:1px solid var(--border2);border-radius:12px;padding:12px 14px;color:#0a0a0a;font-family:var(--sans);font-size:.9rem;outline:none;margin-bottom:10px;transition:border-color .2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border2)'"><p style="font-size:.72rem;color:rgba(10,10,10,.4);line-height:1.5;margin:0 0 18px;font-family:var(--sans);">Subí tus archivos a Google Drive, WeTransfer o Dropbox y pegá el link acá. Asegurate de que el enlace tenga permiso de acceso. También podés enviarlos luego por mail respondiendo nuestra confirmación.</p><label style="display:block;font-size:.78rem;font-weight:600;color:rgba(10,10,10,.85);margin-bottom:8px;font-family:var(--sans);">O subí tus archivos directo <span style="color:rgba(10,10,10,.4);font-weight:400;">(opcional · hasta 10 archivos, 25 MB c/u · seleccionalos todos juntos)</span></label><label id="pm-file-label" style="display:flex;align-items:center;gap:10px;cursor:pointer;background:#fff;border:1.5px dashed var(--border2);border-radius:12px;padding:12px 14px;margin-bottom:18px;transition:border-color .2s;" onmouseover="this.style.borderColor='var(--green)'" onmouseout="if(!document.getElementById('pm-file').files.length)this.style.borderColor='var(--border2)'"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(10,10,10,.4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg><span id="pm-file-name" style="font-size:.82rem;color:rgba(10,10,10,.4);font-family:var(--sans);">Elegir archivos (AI, PDF, PNG…)</span><input type="file" id="pm-file" accept=".ai,.pdf,.png,.svg,.zip" multiple style="display:none;" onchange="var f=this.files;var n=f.length===0?'Elegir archivos (AI, PDF, PNG…)':(f.length===1?f[0].name:f.length+' archivos seleccionados');document.getElementById('pm-file-name').textContent=n;document.getElementById('pm-file-name').style.color=f.length?'var(--green2)':'rgba(10,10,10,.4)';document.getElementById('pm-file-label').style.borderColor=f.length?'var(--green)':'var(--border2)';"></label><label style="display:block;font-size:.78rem;font-weight:600;color:rgba(10,10,10,.85);margin-bottom:8px;font-family:var(--sans);">Tu nombre *</label><input type="text" id="pm-nombre" placeholder="Nombre o empresa" style="width:100%;box-sizing:border-box;background:#fff;border:1px solid var(--border2);border-radius:12px;padding:12px 14px;color:#0a0a0a;font-family:var(--sans);font-size:.9rem;outline:none;margin-bottom:14px;transition:border-color .2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border2)'"><label style="display:block;font-size:.78rem;font-weight:600;color:rgba(10,10,10,.85);margin-bottom:8px;font-family:var(--sans);">Tu mail *</label><input type="email" id="pm-email" placeholder="tucorreo@ejemplo.com" style="width:100%;box-sizing:border-box;background:#fff;border:1px solid var(--border2);border-radius:12px;padding:12px 14px;color:#0a0a0a;font-family:var(--sans);font-size:.9rem;outline:none;margin-bottom:14px;transition:border-color .2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border2)'"><label style="display:block;font-size:.78rem;font-weight:600;color:rgba(10,10,10,.85);margin-bottom:8px;font-family:var(--sans);">Comentarios <span style="color:rgba(10,10,10,.4);font-weight:400;">(opcional)</span></label><textarea id="pm-notes" rows="2" placeholder="Algo que tengamos que saber sobre tu pedido..." style="width:100%;box-sizing:border-box;background:#fff;border:1px solid var(--border2);border-radius:12px;padding:12px 14px;color:#0a0a0a;font-family:var(--sans);font-size:.9rem;outline:none;margin-bottom:20px;resize:vertical;transition:border-color .2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border2)'"></textarea><button onclick="enviarPedido()" class="btn-primary" style="width:100%;justify-content:center;font-size:.95rem;border:none;cursor:pointer;box-sizing:border-box;">Enviar pedido →</button></div></div><div id="pm-summary-bottom" style="margin-top:18px;padding-top:16px;border-top:1px solid var(--border);font-family:var(--sans);font-size:.85rem;color:rgba(10,10,10,.7);display:flex;flex-direction:column;gap:8px;"></div><div id="pm-status" style="font-size:.8rem;text-align:center;margin-top:12px;font-family:var(--sans);"></div></div></div></div>
+<div id="pedido-modal" class="pedido-overlay" style="display:none;position:fixed;inset:0;z-index:4000;overflow-y:auto;"><div class="pedido-card" style="max-width:480px;margin:0 auto;min-height:100%;background:#fff;position:relative;"><div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--green),transparent);opacity:.7;z-index:2;"></div><div style="display:flex;align-items:center;justify-content:space-between;padding:26px 26px 0;"><div style="display:flex;align-items:center;gap:9px;"><span style="width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:pulse-dot 2s infinite;"></span><span style="font-family:var(--mono);font-size:.7rem;letter-spacing:2px;color:var(--green);font-weight:700;">FINALIZAR PEDIDO</span></div><button onclick="closePedidoModal()" style="background:transparent;border:1px solid var(--border2);border-radius:8px;width:30px;height:30px;color:rgba(10,10,10,.6);font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;" onmouseover="this.style.borderColor='rgba(255,80,80,.5)';this.style.color='#ff6b6b'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='rgba(10,10,10,.6)'">✕</button></div><div id="pm-body" style="padding:14px 26px 26px;"><h3 style="font-family:var(--sans);font-size:1.4rem;font-weight:800;letter-spacing:-.8px;color:#0a0a0a;margin:0 0 4px;">Casi listo 🔥</h3><p style="font-size:.82rem;color:rgba(10,10,10,.55);margin:0 0 16px;font-family:var(--sans);">Revisá tu pedido, subí tu diseño y dejanos tu mail. Te confirmamos a la brevedad.</p><div class="pm-cols"><div class="pm-col-left"><div style="margin-bottom:18px;"><div style="font-family:var(--mono);font-size:.62rem;letter-spacing:1.5px;color:rgba(10,10,10,.5);font-weight:700;margin-bottom:12px;">RESUMEN DEL PEDIDO</div><div id="pm-summary" style="display:flex;flex-direction:column;gap:10px;font-family:var(--sans);font-size:.85rem;"></div></div><div style="margin:0 0 14px;"><label id="pm-factura-row" onclick="toggleFactura()" style="display:flex;align-items:center;gap:12px;cursor:pointer;background:rgba(0,194,100,.04);border:1.5px solid var(--border2);border-radius:12px;padding:12px 16px;margin-bottom:14px;transition:all .2s;"><span id="pm-factura-box" style="width:20px;height:20px;border-radius:8px;border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;"><svg id="pm-factura-check" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><polyline points="20 6 9 17 4 12"/></svg></span><span style="font-size:.82rem;color:rgba(10,10,10,.85);font-family:var(--sans);font-weight:500;">Necesito factura A/B <span style="color:rgba(10,10,10,.45);font-weight:400;">(+21% IVA)</span></span></label><input type="checkbox" id="pm-factura" style="display:none;"></div><div id="pm-envio-block" style="margin-bottom:18px;"><label style="display:block;font-size:.78rem;font-weight:600;color:rgba(10,10,10,.85);margin-bottom:8px;font-family:var(--sans);">Seleccioná el envío *</label><div class="opt-cards" style="margin-top:0;"><button type="button" class="opt-card envio-card" id="pm-envio-andreani" onclick="pmSelectEnvio(&#39;andreani&#39;)"><div class="opt-card-title">Andreani</div><div class="opt-card-sub">Gratis en pedidos +$180.000</div></button><button type="button" class="opt-card envio-card" id="pm-envio-caba" onclick="pmSelectEnvio(&#39;caba&#39;)"><div class="opt-card-title">CABA Express</div><div class="opt-card-sub">+$19.000 · A domicilio</div></button></div></div></div><div class="pm-col-right"><label style="display:block;font-size:.78rem;font-weight:600;color:rgba(10,10,10,.85);margin-bottom:8px;font-family:var(--sans);">Link de tus diseños <span style="color:rgba(10,10,10,.4);font-weight:400;">(opcional)</span></label><input type="url" id="pm-link" placeholder="Pegá acá tu link de Drive, WeTransfer, Dropbox..." style="width:100%;box-sizing:border-box;background:#fff;border:1px solid var(--border2);border-radius:12px;padding:12px 14px;color:#0a0a0a;font-family:var(--sans);font-size:.9rem;outline:none;margin-bottom:10px;transition:border-color .2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border2)'"><p style="font-size:.72rem;color:rgba(10,10,10,.4);line-height:1.5;margin:0 0 18px;font-family:var(--sans);">Subí tus archivos a Google Drive, WeTransfer o Dropbox y pegá el link acá. Asegurate de que el enlace tenga permiso de acceso. También podés enviarlos luego por mail respondiendo nuestra confirmación.</p><label style="display:block;font-size:.78rem;font-weight:600;color:rgba(10,10,10,.85);margin-bottom:8px;font-family:var(--sans);">O subí tus archivos directo <span style="color:rgba(10,10,10,.4);font-weight:400;">(opcional · hasta 10 archivos, 25 MB c/u · seleccionalos todos juntos)</span></label><label id="pm-file-label" style="display:flex;align-items:center;gap:10px;cursor:pointer;background:#fff;border:1.5px dashed var(--border2);border-radius:12px;padding:12px 14px;margin-bottom:18px;transition:border-color .2s;" onmouseover="this.style.borderColor='var(--green)'" onmouseout="if(!document.getElementById('pm-file').files.length)this.style.borderColor='var(--border2)'"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(10,10,10,.4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg><span id="pm-file-name" style="font-size:.82rem;color:rgba(10,10,10,.4);font-family:var(--sans);">Elegir archivos (AI, PDF, PNG…)</span><input type="file" id="pm-file" accept=".ai,.pdf,.png,.svg,.zip" multiple style="display:none;" onchange="var f=this.files;var n=f.length===0?'Elegir archivos (AI, PDF, PNG…)':(f.length===1?f[0].name:f.length+' archivos seleccionados');document.getElementById('pm-file-name').textContent=n;document.getElementById('pm-file-name').style.color=f.length?'var(--green2)':'rgba(10,10,10,.4)';document.getElementById('pm-file-label').style.borderColor=f.length?'var(--green)':'var(--border2)';"></label><label style="display:block;font-size:.78rem;font-weight:600;color:rgba(10,10,10,.85);margin-bottom:8px;font-family:var(--sans);">Tu nombre *</label><input type="text" id="pm-nombre" placeholder="Nombre o empresa" style="width:100%;box-sizing:border-box;background:#fff;border:1px solid var(--border2);border-radius:12px;padding:12px 14px;color:#0a0a0a;font-family:var(--sans);font-size:.9rem;outline:none;margin-bottom:14px;transition:border-color .2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border2)'"><label style="display:block;font-size:.78rem;font-weight:600;color:rgba(10,10,10,.85);margin-bottom:8px;font-family:var(--sans);">Tu mail *</label><input type="email" id="pm-email" placeholder="tucorreo@ejemplo.com" style="width:100%;box-sizing:border-box;background:#fff;border:1px solid var(--border2);border-radius:12px;padding:12px 14px;color:#0a0a0a;font-family:var(--sans);font-size:.9rem;outline:none;margin-bottom:14px;transition:border-color .2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border2)'"><label style="display:block;font-size:.78rem;font-weight:600;color:rgba(10,10,10,.85);margin-bottom:8px;font-family:var(--sans);">Comentarios <span style="color:rgba(10,10,10,.4);font-weight:400;">(opcional)</span></label><textarea id="pm-notes" rows="2" placeholder="Algo que tengamos que saber sobre tu pedido..." style="width:100%;box-sizing:border-box;background:#fff;border:1px solid var(--border2);border-radius:12px;padding:12px 14px;color:#0a0a0a;font-family:var(--sans);font-size:.9rem;outline:none;margin-bottom:20px;resize:vertical;transition:border-color .2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border2)'"></textarea><button onclick="enviarPedido()" class="btn-primary" style="width:100%;justify-content:center;font-size:.95rem;border:none;cursor:pointer;box-sizing:border-box;">Enviar pedido →</button></div></div><div id="pm-summary-bottom" style="margin-top:18px;padding-top:16px;border-top:1px solid var(--border);font-family:var(--sans);font-size:.85rem;color:rgba(10,10,10,.7);display:flex;flex-direction:column;gap:8px;"></div><div id="pm-status" style="font-size:.8rem;text-align:center;margin-top:12px;font-family:var(--sans);"></div></div></div></div>
 <script>function openPedidoModal(){
 const get=(id)=>{const e=document.getElementById(id);return e?e.textContent.trim():'';};
 const mat=get('r-mat'), size=get('r-size'), qty=get('r-qty'), total=get('r-totalARS');
@@ -2358,14 +2369,15 @@ const st=document.getElementById('pm-status'); if(st) st.textContent='';
 pmRecalcTotal();
 renderPmTotal();
 }
-// Recalcula el total sumando el envío elegido (CABA +$18.000; Andreani gratis si supera el mínimo)
+// Recalcula el total sumando el envío elegido (CABA Express +$19.000; Andreani gratis si supera el mínimo)
+// Si cambia el precio de CABA Express, cambiar CABA_PRICE y el texto del botón (id="pm-envio-caba")
 function pmRecalcTotal(){
-const CABA_PRICE=18000, FREE_MIN=180000;
+const CABA_PRICE=19000, FREE_MIN=180000;
 const sub = window._pmProductSubtotal||0;
 const envio = window._pmEnvio||'';
 let envioRow='';
 if(envio==='caba'){
-envioRow=`<div style="display:flex;justify-content:space-between;gap:12px;border-top:1px solid rgba(10,10,10,.06);padding-top:8px;"><span style="color:rgba(10,10,10,.5);">Envío</span><span style="color:#0a0a0a;font-weight:600;text-align:right;">CABA Express · $18.000</span></div>`;
+envioRow=`<div style="display:flex;justify-content:space-between;gap:12px;border-top:1px solid rgba(10,10,10,.06);padding-top:8px;"><span style="color:rgba(10,10,10,.5);">Envío</span><span style="color:#0a0a0a;font-weight:600;text-align:right;">CABA Express · $${CABA_PRICE.toLocaleString('es-AR')}</span></div>`;
 window._pmTotalBase = sub + CABA_PRICE;
 } else if(envio==='andreani'){
 const lbl = sub>=FREE_MIN ? 'Andreani · Sin cargo' : 'Andreani · a coordinar';
@@ -3254,8 +3266,7 @@ document.addEventListener('keydown',e=>{
 const MPC = {
   get precios(){
     // Lee dinámicamente desde las mismas variables del cotizador
-    const r5 = n => Math.ceil(n/5)*5;
-    const COTI = typeof COTIZACION !== 'undefined' ? COTIZACION : 1600;
+    // Usa las mismas funciones del cotizador: mismo dólar, mismo AJUSTE_LISTA y mismo redondeo
     // Sueltos
     const sueltos = {};
     if(typeof M2_STICKER !== 'undefined'){
@@ -3263,7 +3274,7 @@ const MPC = {
         sueltos[mat] = {};
         ['5x5','6x6','8x8','9x9'].forEach(sz=>{
           const sc=parseInt(sz); const area=(sc/100)**2;
-          sueltos[mat][sz] = r5((M2_STICKER[mat]||{})[sz]*area*COTI);
+          sueltos[mat][sz] = precioUnitarioPliego(mat, sz);
         });
       });
     }
@@ -3275,19 +3286,19 @@ const MPC = {
         planchas[mat] = {};
         ['10x7','10x15','15x21'].forEach(sz=>{
           const [w,h]=DIMS[sz]; const area=(w/100)*(h/100);
-          planchas[mat][sz] = r5((M2_PLANCHA[sz]||{})[mat]*area*COTI);
+          planchas[mat][sz] = precioUnitarioPlancha(mat, sz);
         });
       });
     }
     // Acrílicos
     const acrilicos = {};
     if(typeof materialesAcrilico !== 'undefined'){
-      ['llavero','iman','dije','premio'].forEach(prod=>{
+      ['llavero','iman','dije','posavaso','premio'].forEach(prod=>{
         acrilicos[prod] = {};
         const m = materialesAcrilico[prod]; if(!m) return;
         Object.keys(m.sizes||{}).forEach(sz=>{
           const sd = m.sizes[sz];
-          acrilicos[prod][sz] = r5(((sd.priceUSD != null ? sd.priceUSD : (m.baseUsdM2*sd.area+(m.fijoUSD||0))))*COTI);
+          acrilicos[prod][sz] = precioUnitarioARS('acrilicos', null, prod, sz, 0).uA;
         });
       });
     }
@@ -3588,6 +3599,7 @@ function mpcStepAcril(){
       {label:'Llavero (con cadena)', action:()=>mpcStepAcrilSize('llavero')},
       {label:'Imán', action:()=>mpcStepAcrilSize('iman')},
       {label:'Dije (sin accesorio)', action:()=>mpcStepAcrilSize('dije')},
+      {label:'Posavaso', action:()=>mpcStepAcrilSize('posavaso')},
       {label:'Premio | QR', action:()=>mpcStepAcrilSize('premio')},
     ]);
   });
@@ -3597,9 +3609,9 @@ function mpcStepAcrilSize(prod){
   mpcState.material = prod;
   mpcPush('Medida', ()=>mpcStepAcrilSize(prod)); mpcShowBack();
   const sizes = Object.keys(MPC.precios.acrilicos[prod]);
-  const SIZE_LABEL_AC = {'3x3':'3 cm','5x5':'5 cm','6x6':'6 cm','10x10':'10 × 10 cm · sin base','15x21':'15 × 21 cm · con base'};
+  const SIZE_LABEL_AC = {'3x3':'3 cm','5x5':'5 cm','6x6':'6 cm','9.5x9.5':'9,5 × 9,5 cm','10x10':'10 × 10 cm · sin base','15x21':'15 × 21 cm · con base'};
   mpcTyping(()=>{
-    mpcMsg(prod==='premio' ? '¿Qué medida?<br><span style="font-size:.75rem;opacity:.65;">10 mm de espesor · Acrílico macizo 100% virgen, pulido a máquina · 100% brilloso</span>' : '¿Qué medida? (lado más largo del diseño)');
+    mpcMsg(prod==='premio' ? '¿Qué medida?<br><span style="font-size:.75rem;opacity:.65;">10 mm de espesor · Acrílico macizo 100% virgen, pulido a máquina · 100% brilloso</span>' : prod==='posavaso' ? '¿Qué medida?<br><span style="font-size:.75rem;opacity:.65;">Espesor de 2 mm · sin base antideslizante</span>' : '¿Qué medida? (lado más largo del diseño)');
     mpcOpts(sizes.map(s=>({ label: (SIZE_LABEL_AC[s]||s+' cm'), action:()=>mpcStepAcrilQty(s) })));
   });
 }
@@ -3628,7 +3640,7 @@ function mpcResultadoAcril(qty){
   const uARS = pu.uA;
   const br = { d: pu.dPct };
   const total = uARS * qty;
-  const prodLabel = {llavero:'Llavero',iman:'Imán',dije:'Dije',premio:'Premio | QR'}[material];
+  const prodLabel = {llavero:'Llavero',iman:'Imán',dije:'Dije',posavaso:'Posavaso',premio:'Premio | QR'}[material];
   const acrIcon = material==='premio' ? '🏆' : '💎';
   const szLabel = acrilSizeLabel(size, material);
   const descTxt = br.d > 0 ? ` <span style="color:var(--green2);font-size:.75rem;">(-${br.d}%)</span>` : '';
@@ -3639,10 +3651,11 @@ function mpcResultadoAcril(qty){
       mpcMsg(`<strong style="font-size:1.05rem;">$${uARS.toLocaleString('es-AR')} / u</strong>${descTxt}<br><span style="color:rgba(10,10,10,.6);font-size:.78rem;">Total: $${Math.round(total).toLocaleString('es-AR')}</span>`);
       mpcTyping(()=>{
         mpcMsg('Agregué este item a tu cotización.');
-        const prodLabel = {llavero:'Llavero',iman:'Imán',dije:'Dije',premio:'Premio | QR'}[material];
+        const prodLabel = {llavero:'Llavero',iman:'Imán',dije:'Dije',posavaso:'Posavaso',premio:'Premio | QR'}[material];
         const descTxt2 = br.d > 0 ? ' (-'+br.d+'%)' : '';
         const cartItem = {
           cat: 'acrilicos',
+          materialKey: material, // para calcular diseños incluidos en el pedido (posavaso/premio)
           producto: prodLabel,
           medida: szLabel,
           cantidad: qty.toLocaleString('es-AR'),
@@ -3738,7 +3751,7 @@ function mpcMenuCotizar(){
     mpcOpts([
       {label:'Stickers sueltos', action:()=>mpcStepMaterial('sueltos')},
       {label:'Planchas de stickers', action:()=>mpcStepMaterial('planchas')},
-      {label:'Acrílicos (llavero/imán/dije/premio)', action:()=>mpcStepAcril()},
+      {label:'Acrílicos (llavero/imán/dije/posavaso/premio)', action:()=>mpcStepAcril()},
     ]);
   });
 }
@@ -3855,7 +3868,7 @@ window.mpcSend = function(){
     // Detectar producto
     const esSuelto = txt.includes('sticker')||txt.includes('suelto')||txt.includes('individual');
     const esPlancha = txt.includes('plancha')||txt.includes('kiss')||txt.includes('hoja');
-    const esAcril = txt.includes('acr')||txt.includes('llavero')||txt.includes('imán')||txt.includes('iman')||txt.includes('dije');
+    const esAcril = txt.includes('acr')||txt.includes('llavero')||txt.includes('imán')||txt.includes('iman')||txt.includes('dije')||txt.includes('posavaso');
     const esPrecio = txt.includes('precio')||txt.includes('costo')||txt.includes('cuanto')||txt.includes('cuánto')||txt.includes('vale')||txt.includes('cobran')||txt.includes('cotiz');
     const esEnvio = txt.includes('envio')||txt.includes('envío')||txt.includes('manda')||txt.includes('despach')||txt.includes('andreani')||txt.includes('correo');
     const esTiempo = txt.includes('tiempo')||txt.includes('demora')||txt.includes('plazo')||txt.includes('cuand')||txt.includes('días')||txt.includes('dias')||txt.includes('entrega');
