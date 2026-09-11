@@ -345,6 +345,9 @@ const COTIZACION_DEFAULT = Math.round(BNA_VENDEDOR * (1 + MARGEN_DOLAR) / 5) * 5
 // (m² de stickers y planchas, acrílicos, accesorios, Premio y Posavaso).
 // Acumulativo: Sep 2026 +3% = 1.03. Si el próximo es +2% → 1.03 * 1.02
 const AJUSTE_LISTA = 1.03;
+// Ajuste extra SOLO para acrílicos (llavero, imán, dije, posavaso, premio), encima de AJUSTE_LISTA.
+// Sep 2026: +5% = 1.05. Acrílico acumula AJUSTE_LISTA × AJUSTE_ACRILICO (1.03 × 1.05)
+const AJUSTE_ACRILICO = 1.05;
 
 // Unidades por pliego (con separación en cm)
 // unidadesPorPliego eliminado
@@ -788,7 +791,7 @@ function unitAcrilico(prodKey, sz, rate, discount=0){
   const uU = (p.pricesUSD && p.pricesUSD[sz]!=null)
     ? p.pricesUSD[sz] * (1 - discount/100)
     : p.baseUsdM2 * (1 - discount/100) * p.sizes[sz] + (p.fijoUSD||0);
-  return round5up(uU * AJUSTE_LISTA * rate);
+  return round5up(uU * AJUSTE_LISTA * AJUSTE_ACRILICO * rate);
 }
 
 function buildProductoAc(){
