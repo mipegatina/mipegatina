@@ -270,6 +270,23 @@
   .pm-dir-campos.show{display:block}
   .pm-check{display:flex;align-items:center;gap:9px;margin-top:14px;font-size:13px;color:var(--dim);cursor:pointer}
   .pm-check input{width:17px;height:17px;accent-color:var(--red);cursor:pointer}
+
+  /* Días disponibles para dejar el pedido */
+  .pm-dias{display:none;margin-top:16px;background:var(--bg);border:1px solid var(--line-soft);border-radius:13px;padding:15px 15px 16px}
+  .pm-dias.show{display:block}
+  .pm-dias-lbl{display:block;font-size:13px;font-weight:700;color:var(--ink);margin-bottom:4px}
+  .pm-dias-hint{display:block;font-size:11.5px;color:var(--dim);line-height:1.4;margin-bottom:11px}
+  .pm-dias-grid{display:flex;flex-wrap:wrap;gap:8px}
+  .pm-dia{position:relative;flex:1 1 90px;min-width:90px}
+  .pm-dia input{position:absolute;opacity:0;width:0;height:0}
+  .pm-dia span{display:flex;align-items:center;justify-content:center;gap:7px;padding:11px 10px;border:1.5px solid var(--line-soft);border-radius:11px;font-size:13px;font-weight:600;color:var(--dim);cursor:pointer;transition:.15s;user-select:none;text-align:center}
+  .pm-dia span::before{content:"";width:15px;height:15px;border-radius:5px;border:1.5px solid var(--line);flex-shrink:0;transition:.15s}
+  .pm-dia input:checked + span{border-color:var(--red);background:rgba(225,6,0,.1);color:var(--ink)}
+  .pm-dia input:checked + span::before{background:var(--red);border-color:var(--red);box-shadow:inset 0 0 0 2px var(--bg)}
+  .pm-dia span:hover{border-color:var(--line)}
+  .pm-dia input:focus-visible + span{outline:2px solid var(--red);outline-offset:2px}
+  .pm-dias-todos{margin-top:11px;font-size:12px;font-weight:700;color:var(--red);background:transparent;border:none;padding:0;cursor:pointer;font-family:inherit;text-decoration:underline;text-underline-offset:3px}
+  @media(max-width:520px){ .pm-dia{flex:1 1 calc(50% - 4px)} }
   .pm-card textarea{width:100%;background:var(--bg);border:1px solid var(--line-soft);color:var(--ink);font-family:inherit;font-size:15px;padding:14px;border-radius:12px;resize:vertical}
   .pm-card input:focus,.pm-card textarea:focus{outline:none;border-color:var(--red)}
   .pm-card input::placeholder,.pm-card textarea::placeholder{color:var(--dimmer)}
@@ -492,6 +509,18 @@
           <div class="q-field" style="margin-top:14px"><label>Nombre de quien recibe *</label><input type="text" id="pm-dir-recibe" placeholder="Nombre y apellido"></div>
           <div class="q-field" style="margin-top:14px"><label>Rango horario *</label><input type="text" id="pm-dir-horario" placeholder="Ej: de 9 a 18 hs"></div>
           <label class="pm-check"><input type="checkbox" id="pm-dir-guardia"> <span>Se puede dejar en guardia / recepción</span></label>
+        </div>
+
+        <div class="pm-dias show" id="pm-dias">
+          <span class="pm-dias-lbl">¿Qué días podemos dejar el pedido? *</span>
+          <span class="pm-dias-hint">Podés marcar <b>más de un día</b>: cuantos más marques, más rápido coordinamos la entrega.</span>
+          <div class="pm-dias-grid">
+            <label class="pm-dia"><input type="checkbox" class="pm-dia-chk" value="Lunes"><span>Lunes</span></label>
+            <label class="pm-dia"><input type="checkbox" class="pm-dia-chk" value="Martes"><span>Martes</span></label>
+            <label class="pm-dia"><input type="checkbox" class="pm-dia-chk" value="Miércoles"><span>Miércoles</span></label>
+            <label class="pm-dia"><input type="checkbox" class="pm-dia-chk" value="Jueves"><span>Jueves</span></label>
+          </div>
+          <button type="button" class="pm-dias-todos" id="pm-dias-todos">Marcar todos los días</button>
         </div>
       </div>
 
@@ -845,22 +874,49 @@ $pmOverlay.addEventListener('click', (e)=>{ if(e.target === $pmOverlay) closePed
 // selección de dirección de entrega
 let dirSel = 'hq';
 const dirCampos = document.getElementById('pm-dir-campos');
+const $pmDias = document.getElementById('pm-dias');
 document.querySelectorAll('.pm-dir-opt').forEach(btn=>{
   btn.addEventListener('click', ()=>{
     document.querySelectorAll('.pm-dir-opt').forEach(b=>b.classList.remove('sel'));
     btn.classList.add('sel');
     dirSel = btn.dataset.dir;
     dirCampos.classList.toggle('show', dirSel === 'otra');
+    // los días para dejar el pedido sólo aplican al Headquarter
+    $pmDias.classList.toggle('show', dirSel === 'hq');
   });
 });
+
+// días de entrega (multi-selección)
+const $diasChks = Array.from(document.querySelectorAll('.pm-dia-chk'));
+const $diasTodos = document.getElementById('pm-dias-todos');
+function diasSeleccionados(){ return $diasChks.filter(c=>c.checked).map(c=>c.value); }
+function syncDiasTodosLbl(){
+  const todos = $diasChks.every(c=>c.checked);
+  $diasTodos.textContent = todos ? 'Desmarcar todos' : 'Marcar todos los días';
+}
+$diasTodos.addEventListener('click', ()=>{
+  const todos = $diasChks.every(c=>c.checked);
+  $diasChks.forEach(c=>{ c.checked = !todos; });
+  syncDiasTodosLbl();
+});
+$diasChks.forEach(c=> c.addEventListener('change', syncDiasTodosLbl));
 
 if($pmForm){
   $pmForm.addEventListener('submit', async (e)=>{
     e.preventDefault();
     // validar dirección
     let entregaTxt = '';
+    let diasTxt = '—';
     if(dirSel === 'hq'){
-      entregaTxt = 'Headquarter Red Bull — Av. del Libertador 7208, Piso 21, C1429 CABA';
+      const dias = diasSeleccionados();
+      if(dias.length === 0){
+        $pmStatus.className = 'cf-status err';
+        $pmStatus.textContent = 'Marcá al menos un día en el que podamos dejar el pedido.';
+        $pmDias.scrollIntoView({behavior:'smooth', block:'center'});
+        return;
+      }
+      diasTxt = dias.length === 4 ? 'Lunes a Jueves (todos)' : dias.join(', ');
+      entregaTxt = 'Headquarter Red Bull — Av. del Libertador 7208, Piso 21, C1429 CABA · Días para dejar el pedido: ' + diasTxt;
     } else {
       const dir = document.getElementById('pm-dir-direccion').value.trim();
       const rec = document.getElementById('pm-dir-recibe').value.trim();
@@ -888,6 +944,7 @@ if($pmForm){
     fd.append('nombre', document.getElementById('pm-nombre').value);
     fd.append('email', document.getElementById('pm-email').value);
     fd.append('entrega', entregaTxt);
+    fd.append('dias_entrega', diasTxt);
     fd.append('link_disenos', document.getElementById('pm-link').value || '—');
     fd.append('comentarios', document.getElementById('pm-notes').value || '—');
     fd.append('productos', detalle);
