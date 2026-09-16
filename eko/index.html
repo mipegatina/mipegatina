@@ -404,7 +404,7 @@
         <span>Los precios no incluyen IVA.</span>
       </div>
       <div class="ship-note">
-        <div class="ship-row"><span class="ship-ico">⛟</span><span><b>Envío CABA</b> — $18.000, a coordinar con mensajería privada (se suma al total).</span></div>
+        <div class="ship-row"><span class="ship-ico">⛟</span><span><b>Envío CABA</b> — $20.000 + IVA, a coordinar con mensajería privada (se suma al total).</span></div>
         <div class="ship-row"><span class="ship-ico">☒</span><span><b>Resto del país</b> — por Correo Andreani, a coordinar (los tiempos dependen del correo).</span></div>
       </div>
 
@@ -625,7 +625,7 @@ const IG_POSTS = [
       <div class="pm-envio-opts">
         <button type="button" class="pm-envio-opt" id="envio-caba" data-envio="caba">
           <span class="pm-envio-t">CABA</span>
-          <span class="pm-envio-s">+$18.000 · mensajería</span>
+          <span class="pm-envio-s">+$20.000 · mensajería</span>
         </button>
         <button type="button" class="pm-envio-opt" id="envio-andreani" data-envio="andreani">
           <span class="pm-envio-t">Resto del país</span>
@@ -678,8 +678,21 @@ const IG_POSTS = [
 /* ================================================================
    BLOQUE 1 · MOTOR MI PEGATINA  —  copiado verbatim, no editar
    ================================================================ */
-const COTIZACION = 1600;
-function round5up(n){ return Math.ceil(n/5)*5; }
+// ===== COTIZACION DEL DOLAR =====
+// Solo se actualiza cuando se mueve el dolar: cambiar BNA_VENDEDOR con el valor del dia.
+const BNA_VENDEDOR = 1535;   // BNA vendedor al 11/09/2026
+const MARGEN_DOLAR = 0.045;  // +4,5% sobre BNA
+const COTIZACION = Math.round(BNA_VENDEDOR * (1 + MARGEN_DOLAR) / 5) * 5; // = 1605
+
+// ===== AJUSTE DE LISTA (USD) =====
+// Aumentos por inflacion en pesos, sin tocar el dolar. Multiplica TODOS los valores en USD.
+// Acumulativo: Sep 2026 +3% = 1.03. Si el proximo es +2% -> 1.03 * 1.02
+const AJUSTE_LISTA = 1.03;
+// +5% extra solo para acrilicos (llavero, iman, dije, premio). Va encima de AJUSTE_LISTA.
+const AJUSTE_ACRILICO = 1.05;
+
+// Redondea a centavos antes de subir a multiplo de 5: evita que 160.00000000000003 salte a 165
+function round5up(n){ return Math.ceil(Math.round(n*100)/100/5)*5; }
 
 // Precio por m2 de plancha (USD) — fuente de verdad
 const M2_PLANCHA = {
@@ -756,14 +769,14 @@ function precioUnitarioPlancha(matKey, sz){
   if(!m2Tbl) return null;
   const dims = DIMS_PLANCHA_CM[sz];
   const areaPlancha = (dims[0]/100)*(dims[1]/100);
-  return round5up(m2Tbl[matKey] * areaPlancha * COTIZACION);
+  return round5up(m2Tbl[matKey] * AJUSTE_LISTA * areaPlancha * COTIZACION);
 }
 function precioUnitarioPliego(matKey, sz){
   const m2Table = M2_STICKER[matKey];
   if(!m2Table || !m2Table[sz]) return null;
   const sizeCm = parseFloat(sz);
   const areaStickerM2 = (sizeCm/100)*(sizeCm/100);
-  return round5up(m2Table[sz] * areaStickerM2 * COTIZACION);
+  return round5up(m2Table[sz] * AJUSTE_LISTA * areaStickerM2 * COTIZACION);
 }
 
 // ===== PRECIO UNITARIO EN ARS — funcion pura =====
@@ -786,7 +799,7 @@ function precioUnitarioARS(cat, producto, matKey, sz, qty){
       const fijo = m.fijoUSD || 0;
       // el descuento pega sobre el acrilico, no sobre el accesorio (cadena/iman)
       const uU = (sd.priceUSD != null) ? sd.priceUSD*(1-d) : m.baseUsdM2*(1-d)*sd.area + fijo;
-      return { uA: round5up(uU*COTIZACION), dPct, uU };
+      return { uA: round5up(uU*AJUSTE_LISTA*AJUSTE_ACRILICO*COTIZACION), dPct, uU };
     }
   }
   return { uA: 0, dPct: 0 };
@@ -1105,7 +1118,7 @@ const $pmResumen = document.getElementById('pm-resumen');
 const $pmForm = document.getElementById('pm-form');
 const $pmStatus = document.getElementById('pm-status');
 
-const ENVIO_CABA = 18000;
+const ENVIO_CABA = 20000; // sin IVA, como el resto de los precios del portal
 let envioSel = null; // 'caba' | 'andreani' | null
 
 function renderResumen(){
