@@ -597,8 +597,21 @@
 
 <script>
 /* ===== COTIZADOR RED BULL ===== */
-const COT = 1600, RECARGO = 0.20, IVA = 0.21;
-function round5up(n){ return Math.ceil(n/5)*5; }
+// ===== COTIZACIÓN DEL DÓLAR =====
+// Solo se actualiza cuando se mueve el dólar: cambiar BNA_VENDEDOR con el valor del día.
+const BNA_VENDEDOR = 1535;   // BNA vendedor al 11/09/2026
+const MARGEN_DOLAR = 0.045;  // +4,5% sobre BNA
+const COT = Math.round(BNA_VENDEDOR * (1 + MARGEN_DOLAR) / 5) * 5; // = 1605
+// ===== AJUSTE DE LISTA (USD) =====
+// Aumentos por inflación en pesos, sin tocar el dólar. Multiplica TODOS los valores en USD.
+// Acumulativo: Sep 2026 +3% = 1.03. Si el próximo es +2% → 1.03 * 1.02
+const AJUSTE_LISTA = 1.03;
+// +5% extra solo para acrílicos (en este portal: llaveros e imanes). Va encima de AJUSTE_LISTA.
+const AJUSTE_ACRILICO = 1.05;
+// Recargo del portal Red Bull sobre el precio de lista, + IVA
+const RECARGO = 0.20, IVA = 0.21;
+// Redondea a centavos antes de subir a múltiplo de 5: evita que 160.00000000000003 salte a 165
+function round5up(n){ return Math.ceil(Math.round(n*100)/100/5)*5; }
 // Mapeo de materiales visibles -> columna de la lista oficial
 const MAT_COL = {
   "Vinilo Blanco Premium": "blancoPremium",
@@ -607,7 +620,7 @@ const MAT_COL = {
   "Vinilo Holográfico": "especial",
   "Vinilo Holográfico Gold": "especial"
 };
-// USD/m² por material y medida (lista oficial julio 2026)
+// USD/m² por material y medida (lista oficial; el ajuste de lista se aplica con AJUSTE_LISTA)
 const M2_STICKER = {
   blancoPremium: { "5x5":40, "6x6":40, "8x8":30, "9x9":30 },
   transparente:  { "5x5":44, "6x6":44, "8x8":33, "9x9":33 },
@@ -642,9 +655,9 @@ const PRODUCTOS = {
     sizes: { "5x5":1, "6x6":1, "8x8":1, "9x9":1 },
     unit(mat, sz, qty){
       const col = MAT_COL[mat];
-      // Misma fórmula que el cotizador público (con su redondeo de coma flotante en 5x5, replicado a propósito)
+      // Misma fórmula que el cotizador público (mismo round5up corregido, mismo AJUSTE_LISTA)
       const areaCalc = (parseFloat(sz)/100)*(parseFloat(sz)/100);
-      const uBase = round5up(M2_STICKER[col][sz] * areaCalc * COT);
+      const uBase = round5up(M2_STICKER[col][sz] * AJUSTE_LISTA * areaCalc * COT);
       const d = discSuelto(qty, sz);
       return d>0 ? round5up(uBase*(1-d)) : uBase;
     }
@@ -662,7 +675,7 @@ const PRODUCTOS = {
     sizes: { "10x15":1, "15x21":1 },
     unit(mat, sz, qty){
       const col = MAT_COL[mat];
-      const uBase = round5up(M2_PLANCHA[sz][col] * AREA_PLANCHA[sz] * COT);
+      const uBase = round5up(M2_PLANCHA[sz][col] * AJUSTE_LISTA * AREA_PLANCHA[sz] * COT);
       const d = discPlancha(qty, sz);
       return d>0 ? round5up(uBase*(1-d)) : uBase;
     }
@@ -676,7 +689,7 @@ const PRODUCTOS = {
     unit(mat, sz, qty){
       const disc = discAcril(qty);
       const uU = 300 * (1-disc/100) * this.sizes[sz] + this.fijo;
-      return round5up(uU * COT);
+      return round5up(uU * AJUSTE_LISTA * AJUSTE_ACRILICO * COT);
     }
   },
   imanes: {
@@ -688,7 +701,7 @@ const PRODUCTOS = {
     unit(mat, sz, qty){
       const disc = discAcril(qty);
       const uU = 300 * (1-disc/100) * this.sizes[sz] + this.fijo;
-      return round5up(uU * COT);
+      return round5up(uU * AJUSTE_LISTA * AJUSTE_ACRILICO * COT);
     }
   }
 };
@@ -752,7 +765,7 @@ function currentPrice(){
   const qty = parseInt($cant.value, 10);
   const unitBase = p.unit($mat.value, $med.value, qty);
   const baseTotal = unitBase * qty;
-  // Red Bull: precio de lista +15% de recargo, +21% IVA = precio final facturado
+  // Red Bull: precio de lista +20% de recargo, +21% IVA = precio final facturado
   const final = Math.ceil(baseTotal * (1 + RECARGO) * (1 + IVA) / 100) * 100;
   return { normal: final, eko: final };
 }
