@@ -2174,7 +2174,7 @@ tctx.fillRect(0,0,tileC.width,tileC.height);
 tctx.globalCompositeOperation='source-over';
 }
 const pat=document.createElement('canvas').getContext('2d').createPattern(tileC,'repeat');
-try{ const hs=window.pvHoloShift||{x:0,y:0}; const _shf=(isGlitter?0.03:0.45); if(pat && pat.setTransform){ const mtx=(typeof DOMMatrix!=='undefined')?new DOMMatrix():null; if(mtx){ mtx.e=hs.x*tileC.width*_shf; mtx.f=hs.y*tileC.height*_shf; pat.setTransform(mtx); } } }catch(e){}
+try{ const hs=window.pvHoloShift||{x:0,y:0}; const _shf=(pvMat==='suncatcher')?0:(isGlitter?0.03:0.45); if(pat && pat.setTransform){ const mtx=(typeof DOMMatrix!=='undefined')?new DOMMatrix():null; if(mtx){ mtx.e=hs.x*tileC.width*_shf; mtx.f=hs.y*tileC.height*_shf; pat.setTransform(mtx); } } }catch(e){}
 const layer=paintShape(c=>{c.fillStyle=pat;c.fillRect(0,0,PW,PH);});
 const lc=layer.getContext('2d');
 lc.globalCompositeOperation='source-over';
@@ -2845,7 +2845,8 @@ secciones.forEach(s=>io.observe(s));
 })();
 /* ===== Efecto holográfico interactivo (sigue el mouse) ===== */
 (function(){
-const HOLO_EFFECTS=['holografico','holografico-gold','glitter','glitterTrans','blancoLaca','suncatcher'];
+// Materiales cuyo brillo "viaja" al inclinar. El suncatcher NO va: su textura queda fija al sticker y gira con él.
+const HOLO_EFFECTS=['holografico','holografico-gold','glitter','glitterTrans','blancoLaca'];
 function holoActive(){ return typeof pvMat!=='undefined' && HOLO_EFFECTS.indexOf(pvMat)>=0; }
 const stage=document.getElementById('pv-canvas-wrap');
 if(!stage) return;
