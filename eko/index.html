@@ -695,18 +695,20 @@ const AJUSTE_ACRILICO = 1.05;
 function round5up(n){ return Math.ceil(Math.round(n*100)/100/5)*5; }
 
 // Precio por m2 de plancha (USD) — fuente de verdad
+// Sep 2026 (comparativa competencia): 8-9 cm y planchas +7% en los 3 materiales; Especial 5-6 cm +5%
 const M2_PLANCHA = {
-  '10x7':  { blancoPremium:30, transparentePremium:33, viniloEspecial:50 },
-  '10x15': { blancoPremium:30, transparentePremium:33, viniloEspecial:50 },
-  '15x21': { blancoPremium:30, transparentePremium:33, viniloEspecial:50 },
+  '10x7':  { blancoPremium:32.1, transparentePremium:35.31, viniloEspecial:53.5 },
+  '10x15': { blancoPremium:32.1, transparentePremium:35.31, viniloEspecial:53.5 },
+  '15x21': { blancoPremium:32.1, transparentePremium:35.31, viniloEspecial:53.5 },
 };
 const DIMS_PLANCHA_CM = { '10x7':[10,7], '10x15':[10,15], '15x21':[15,21] };
 
 // Precio por m2 de sticker (USD) — fuente de verdad
+// Sep 2026 (comparativa competencia): 8-9 cm y planchas +7% en los 3 materiales; Especial 5-6 cm +5%
 const M2_STICKER = {
-  blancoPremium:       { '5x5':40, '6x6':40, '8x8':30, '9x9':30 },
-  transparentePremium: { '5x5':44, '6x6':44, '8x8':33, '9x9':33 },
-  viniloEspecial:      { '5x5':55, '6x6':55, '8x8':50, '9x9':50 },
+  blancoPremium:       { '5x5':40, '6x6':40, '8x8':32.1, '9x9':32.1 },
+  transparentePremium: { '5x5':44, '6x6':44, '8x8':35.31, '9x9':35.31 },
+  viniloEspecial:      { '5x5':57.75, '6x6':57.75, '8x8':53.5, '9x9':53.5 },
 };
 
 const materialesAcrilico = {
