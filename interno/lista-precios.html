@@ -464,7 +464,8 @@ const U0_PLANCHA  = { '10x7':48,'10x15':48,'15x21':42 }; // unidades reales (sin
 // Precio por m² de plancha (USD) — fuente de verdad
 // Sep 2026 (comparativa competencia): 8-9 cm y planchas +7% en los 3 materiales; Especial 5-6 cm +5%
 const M2_PLANCHA = {
-  '10x7':  { blancoPremium:32.1, transparente:35.31, especial:53.5 },
+  // Sep 2026: 10x7 +10% sobre el valor de 9 cm (quedaba barata). Igual que la web.
+  '10x7':  { blancoPremium:32.1*1.10, transparente:35.31*1.10, especial:53.5*1.10 },
   '10x15': { blancoPremium:32.1, transparente:35.31, especial:53.5 },
   '15x21': { blancoPremium:32.1, transparente:35.31, especial:53.5 },
 };
