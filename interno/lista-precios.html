@@ -118,6 +118,12 @@ body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15p
         t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "y17qfsdct0");
+</script><script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "y17qfsdct0");
 </script></head>
 <body>
 
@@ -154,6 +160,7 @@ body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15p
     <button class="tab-btn active" onclick="switchTab('sueltos',this)">Stickers sueltos</button>
     <button class="tab-btn" onclick="switchTab('planchas',this)">Planchas</button>
     <button class="tab-btn" onclick="switchTab('acrilicos',this)">Acrílicos</button>
+    <button class="tab-btn" onclick="switchTab('remeras',this)">Remeras</button>
   </div>
 
   <!-- ===== TAB: STICKERS SUELTOS ===== -->
@@ -326,6 +333,63 @@ body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15p
     </div>
   </div>
 
+  <!-- ===== TAB: REMERAS ===== -->
+  <div class="tab-panel" id="tab-remeras">
+    <div class="calc-grid" style="grid-template-columns:2fr 1fr 1fr;">
+      <div class="field">
+        <span class="field-label">Producto</span>
+        <div class="opts"><button class="opt active" style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.3;">Remera · 2 estampas<br><span style="font-size:.72em;color:var(--gray3);font-weight:400">Algodón · DTF full color · pecho + espalda</span></button></div>
+      </div>
+      <div class="field">
+        <span class="field-label">Talles</span>
+        <div style="font-family:var(--mono);font-size:.84rem;color:var(--ink);padding:8px 0;">S · M · L · XL · XXL</div>
+        <div style="font-size:.72rem;color:var(--gray3);line-height:1.4;">Mismo precio en todos los talles. Se combinan en el pedido.</div>
+      </div>
+      <div class="field">
+        <span class="field-label">Cantidad total</span>
+        <div class="opts" id="opt-qty-rm" style="margin-bottom:8px;"></div>
+        <input type="number" id="rm-free" class="qty-input" placeholder="Otro..." min="10" step="1" oninput="setQtyRm(this.value)">
+      </div>
+    </div>
+    <div class="result" id="result-rm" style="margin-top:16px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 18px;border-bottom:1px solid var(--border);background:var(--bg2);border-radius:12px 12px 0 0;margin-bottom:-1px;">
+        <span style="font-family:var(--mono);font-size:.66rem;letter-spacing:.8px;color:var(--gray3);font-weight:700;text-transform:uppercase;">Mostrar con IVA (21%)</span>
+        <div onclick="toggleIVA()" style="position:relative;width:44px;height:25px;flex-shrink:0;cursor:pointer;"><div id="iva-track-rm" style="position:absolute;inset:0;background:var(--border2);border-radius:99px;transition:background .2s;"></div><div id="iva-thumb-rm" style="position:absolute;top:3px;left:3px;width:19px;height:19px;background:#fff;border-radius:50%;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:left .2s;"></div></div>
+      </div>
+      <div class="result-head">
+        <div class="result-meta">
+          <span class="result-mat" id="rrm-prod">—</span>
+          <span class="result-dims" id="rrm-dims">—</span>
+        </div>
+        <div class="result-total">
+          <div class="result-total-label" id="rrm-total-label">Total</div>
+          <div class="rpb-strike" id="rrm-total-strike"></div>
+          <div class="result-total-val" id="rrm-total-big" style="color:#ff4dc4;">$0</div>
+          <div id="rrm-iva-line" style="display:none;font-size:.74rem;color:var(--gray3);font-family:var(--mono);margin-top:6px;"></div>
+        </div>
+      </div>
+      <div class="result-cards" style="grid-template-columns:repeat(4,1fr);">
+        <div class="rc" style="background:rgba(255,77,196,.06);border-bottom:2px solid #ff4dc4;">
+          <div class="rc-label" style="color:#ff4dc4;">Por unidad</div>
+          <div class="rpb-strike" id="rrm-unit-strike"></div>
+          <div class="rc-val" id="rrm-unit" style="font-size:2rem;color:#ff4dc4;">$0</div>
+        </div>
+        <div class="rc"><div class="rc-label">Por unidad USD</div><div class="rc-val" id="rrm-unit-usd">U$D 0</div></div>
+        <div class="rc"><div class="rc-label">Total pedido</div><div class="rc-val dim" id="rrm-total">$0</div></div>
+        <div class="rc"><div class="rc-label">Descuento</div><div class="rc-val dim" id="rrm-desc">0%</div></div>
+      </div>
+    </div>
+    <div class="section-label" style="margin-top:24px;">Precio por unidad según cantidad</div>
+    <div class="curve-card">
+      <span class="curve-title" id="curve-title-rm">—</span>
+      <span class="curve-sub">Así baja el precio por unidad a medida que sube la cantidad — para mostrarle al cliente por teléfono o WhatsApp</span>
+      <div class="curve-wrap">
+        <svg id="curve-svg-rm" viewBox="0 0 680 220" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;display:block;overflow:visible;"></svg>
+        <div id="curve-tooltip-rm" class="curve-tooltip"></div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -357,6 +421,8 @@ const DATA = {
   transparente:  { label:'Vinilo Transparente'   },
   especial:      { label:'Vinilo Especial / Holográfico' },
 };
+// Sueltos = materiales de plancha + Suncatcher Adhesivo (solo sticker suelto, solo 8 y 9 cm)
+const DATA_SUELTO = Object.assign({}, DATA, { suncatcher: { label:'Suncatcher Adhesivo' } });
 
 // ===== STICKERS SUELTOS =====
 const ALL_SIZES = ['5x5','6x6','8x8','9x9'];
@@ -428,7 +494,7 @@ let st = { matKey:'blancoPremium', size:'5x5', qty:200 };
 let ivaOn = false;
 
 function getRate(){ const v=parseFloat(document.getElementById('rate').value); return (isNaN(v)||v<=0)?COTIZACION_DEFAULT:v; }
-function getMat(){ return DATA[st.matKey]; }
+function getMat(){ return DATA_SUELTO[st.matKey]; }
 function roundUp10(n){ return Math.ceil(n/10)*10; } // mantenido para compatibilidad
 
 
@@ -439,6 +505,13 @@ const M2_STICKER = {
   transparente:  { '5x5':44, '6x6':44, '8x8':35.31, '9x9':35.31 },
   especial:      { '5x5':57.75, '6x6':57.75, '8x8':53.5, '9x9':53.5 },
 };
+// Suncatcher Adhesivo = Vinilo Especial + 15%, en las medidas que tiene (8 y 9 cm). Igual que la web.
+const RECARGO_SUNCATCHER = 1.15;
+M2_STICKER.suncatcher = {
+  '8x8': M2_STICKER.especial['8x8'] * RECARGO_SUNCATCHER,
+  '9x9': M2_STICKER.especial['9x9'] * RECARGO_SUNCATCHER,
+};
+function sizesSuelto(matKey){ return ALL_SIZES.filter(sz=>M2_STICKER[matKey] && M2_STICKER[matKey][sz]!=null); }
 // Redondea a centavos antes de subir a múltiplo de 5: evita que 160.00000000000003 salte a 165
 function round5up(n){ return Math.ceil(Math.round(n*100)/100/5)*5; }
 function calcUnit(){
@@ -460,25 +533,28 @@ function calcUnit(){
 function toggleIVA(){
   ivaOn=!ivaOn;
   const green='var(--green)', gray='var(--border2)';
-  ['iva-track','iva-track-pl','iva-track-ac'].forEach(id=>{ const el=document.getElementById(id); if(el) el.style.background=ivaOn?green:gray; });
-  ['iva-thumb','iva-thumb-pl','iva-thumb-ac'].forEach(id=>{ const el=document.getElementById(id); if(el) el.style.left=ivaOn?'23px':'3px'; });
-  recalc(); recalcPl(); recalcAc();
+  ['iva-track','iva-track-pl','iva-track-ac','iva-track-rm'].forEach(id=>{ const el=document.getElementById(id); if(el) el.style.background=ivaOn?green:gray; });
+  ['iva-thumb','iva-thumb-pl','iva-thumb-ac','iva-thumb-rm'].forEach(id=>{ const el=document.getElementById(id); if(el) el.style.left=ivaOn?'23px':'3px'; });
+  recalc(); recalcPl(); recalcAc(); recalcRm();
 }
 
 // ===== BUILDERS =====
 function buildMaterial(){
   const c=document.getElementById('opt-material'); c.innerHTML='';
-  Object.keys(DATA).forEach(k=>{
+  Object.keys(DATA_SUELTO).forEach(k=>{
     const b=document.createElement('button'); b.className='opt'+(st.matKey===k?' active':'');
-    b.textContent=DATA[k].label;
-    b.onclick=()=>{ st.matKey=k; document.getElementById('pl-free').value=''; buildAll(); };
+    b.textContent=DATA_SUELTO[k].label;
+    b.onclick=()=>{ st.matKey=k;
+      // si la medida elegida no existe para este material (suncatcher: solo 8 y 9), pasar a la primera disponible
+      const szs=sizesSuelto(k); if(!szs.includes(st.size)){ st.size=szs[0]; const q=QTY_SUELTO_LIST[st.size]; if(!q.includes(st.qty)) st.qty=q[0]; }
+      document.getElementById('pl-free').value=''; buildAll(); };
     c.appendChild(b);
   });
 }
 
 function buildMedida(){
   const c=document.getElementById('opt-medida'); c.innerHTML='';
-  ALL_SIZES.forEach(sz=>{
+  sizesSuelto(st.matKey).forEach(sz=>{
     const b=document.createElement('button'); b.className='opt opt-mono'+(st.size===sz?' active':'');
     b.textContent=sz;
     b.onclick=()=>{
@@ -518,7 +594,7 @@ function setPliegos(v){
 
 // ===== RESULTADO =====
 function recalc(){
-  recalcPl(); recalcAc();
+  recalcPl(); recalcAc(); if(typeof recalcRm==='function' && document.getElementById('rrm-unit')) recalcRm();
 
   const r=calcUnit(); if(!r) return;
   const iva=ivaOn?1.21:1;
@@ -639,7 +715,7 @@ function renderCurve(){
   const sz = st.size, matKey = st.matKey;
   const qtys = QTY_SUELTO_LIST[sz] || [200,300,500,1000,2000];
   const iva = ivaOn?1.21:1;
-  const mat = DATA[matKey];
+  const mat = DATA_SUELTO[matKey];
   const pts = qtys.map(q=>{
     const r = unitSueltoForQty(q, sz, matKey);
     return { qty:q, unit:r.unitARS*iva, disc:r.disc };
@@ -879,16 +955,72 @@ function renderCurveAc(){
   renderStepChart({svg:'curve-svg-ac',title:'curve-title-ac',tooltip:'curve-tooltip-ac'}, ACRILICOS[prodKey].label+' · '+sz+' cm', pts, stAc.qty, 'por unidad');
 }
 
+// ===== REMERAS =====
+// Igual que la web: precio en USD por remera × AJUSTE_LISTA (sin AJUSTE_ACRILICO).
+// Todos los talles valen lo mismo; el descuento va por el TOTAL de remeras del pedido. Mínimo 10.
+const REMERA_USD = 21.17; // $35.000 con dólar 1605 y AJUSTE_LISTA 1.03
+const BREAKS_REMERA = [{qty:10,discount:0},{qty:25,discount:5},{qty:50,discount:10},{qty:100,discount:15}];
+const MIN_REMERAS = 10;
+let stRm = { qty:10 };
+function discRemera(qty){ let d=0; BREAKS_REMERA.forEach(b=>{ if(qty>=b.qty) d=b.discount; }); return d; }
+function unitRemera(rate, discount=0){ return round5up(REMERA_USD * (1 - discount/100) * AJUSTE_LISTA * rate); }
+function buildQtyRm(){
+  const c=document.getElementById('opt-qty-rm'); if(!c) return; c.innerHTML='';
+  BREAKS_REMERA.forEach(b=>{
+    const btn=document.createElement('button'); btn.className='opt opt-mono'+(stRm.qty===b.qty?' active':'');
+    btn.innerHTML=b.qty.toLocaleString('es-AR')+(b.discount>0?` <span style="font-size:.72em;color:var(--green2);font-weight:700">-${b.discount}%</span>`:'');
+    btn.onclick=()=>{ stRm.qty=b.qty; document.getElementById('rm-free').value=''; buildQtyRm(); recalcRm(); };
+    c.appendChild(btn);
+  });
+}
+function setQtyRm(v){
+  const n=parseInt(v,10);
+  stRm.qty = (isNaN(n)||n<1) ? MIN_REMERAS : n;
+  document.querySelectorAll('#opt-qty-rm .opt').forEach(b=>b.classList.remove('active'));
+  recalcRm();
+}
+function recalcRm(){
+  const rate=getRate();
+  const iva=ivaOn?1.21:1;
+  const qty=stRm.qty;
+  const d=discRemera(qty);
+  const uARS=unitRemera(rate,d), uBase=unitRemera(rate,0);
+  const uUSD=uARS/rate;
+  const total=Math.round(uARS*qty*iva);
+  document.getElementById('rrm-prod').textContent='Remera · 2 estampas';
+  document.getElementById('rrm-dims').textContent=qty.toLocaleString('es-AR')+' remeras'+(d>0?' · -'+d+'%':'')+(qty<MIN_REMERAS?' · por debajo del mínimo ('+MIN_REMERAS+')':'');
+  document.getElementById('rrm-unit').textContent='$'+Math.round(uARS*iva).toLocaleString('es-AR');
+  document.getElementById('rrm-unit-usd').textContent='U$D '+(uUSD*iva).toLocaleString('es-AR',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const totEl=document.getElementById('rrm-total'); if(totEl) totEl.textContent='$'+total.toLocaleString('es-AR');
+  const lbl=document.getElementById('rrm-total-label'); if(lbl) lbl.textContent=ivaOn?'Total (con IVA)':'Total';
+  const big=document.getElementById('rrm-total-big'); if(big) big.textContent='$'+total.toLocaleString('es-AR');
+  const ivl=document.getElementById('rrm-iva-line');
+  if(ivl){ if(ivaOn){ ivl.style.display='block'; ivl.textContent='IVA $'+Math.round(uARS*qty*0.21).toLocaleString('es-AR'); } else ivl.style.display='none'; }
+  const de=document.getElementById('rrm-desc'); if(de) de.textContent=d+'%';
+  const sT=document.getElementById('rrm-total-strike'), sU=document.getElementById('rrm-unit-strike');
+  if(sT && sU){
+    if(d>=5){ sT.style.display='block'; sT.textContent='$'+Math.round(uBase*qty*iva).toLocaleString('es-AR'); sU.style.display='block'; sU.textContent='$'+Math.round(uBase*iva).toLocaleString('es-AR'); }
+    else { sT.style.display='none'; sU.style.display='none'; }
+  }
+  renderCurveRm();
+}
+function renderCurveRm(){
+  const rate=getRate(), iva=ivaOn?1.21:1;
+  const pts=BREAKS_REMERA.map(b=>({ qty:b.qty, unit:unitRemera(rate,b.discount)*iva, disc:b.discount/100 }));
+  renderStepChart({svg:'curve-svg-rm',title:'curve-title-rm',tooltip:'curve-tooltip-rm'}, 'Remera · 2 estampas · S a XXL', pts, stRm.qty, 'por remera');
+}
+
 // ===== INIT =====
 try{ document.getElementById('rate').value = COTIZACION_DEFAULT; }catch(e){}
 function buildAll(){
   buildMaterial(); buildMedida(); buildPliegos(); recalc();
   buildMaterialPl(); buildMedidaPl(); buildQtyPl(); recalcPl();
   buildProductoAc(); buildMedidaAc(); buildQtyAc(); recalcAc();
+  buildQtyRm(); recalcRm();
 }
 buildAll();
 let curveResizeTO=null;
-window.addEventListener('resize', ()=>{ clearTimeout(curveResizeTO); curveResizeTO=setTimeout(()=>{ renderCurve(); renderCurvePl(); renderCurveAc(); }, 120); });
+window.addEventListener('resize', ()=>{ clearTimeout(curveResizeTO); curveResizeTO=setTimeout(()=>{ renderCurve(); renderCurvePl(); renderCurveAc(); renderCurveRm(); }, 120); });
 </script>
 
 
