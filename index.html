@@ -1833,7 +1833,8 @@ function qtyPillHTML(qty, tr){
 // Precio por m² de plancha (USD) — fuente de verdad
 // Sep 2026 (comparativa competencia): 8-9 cm y planchas +7% en los 3 materiales; Especial 5-6 cm +5%
 const M2_PLANCHA = {
-  '10x7':  { blancoPremium:32.1, transparentePremium:35.31, viniloEspecial:53.5 },
+  // Sep 2026: 10x7 +10% sobre el valor de 9 cm (quedaba barata). Se calcula solo desde el valor base.
+  '10x7':  { blancoPremium:32.1*1.10, transparentePremium:35.31*1.10, viniloEspecial:53.5*1.10 },
   '10x15': { blancoPremium:32.1, transparentePremium:35.31, viniloEspecial:53.5 },
   '15x21': { blancoPremium:32.1, transparentePremium:35.31, viniloEspecial:53.5 },
 };
@@ -4033,8 +4034,42 @@ function mpcMenuCotizar(){
       {label:'Stickers sueltos', action:()=>mpcStepMaterial('sueltos')},
       {label:'Planchas de stickers', action:()=>mpcStepMaterial('planchas')},
       {label:'Acrílicos (llavero/imán/dije/posavaso/premio)', action:()=>mpcStepAcril()},
+      {label:'Remeras personalizadas', action:()=>mpcRemeras()},
     ]);
   });
+}
+
+// ===== REMERAS: MIPI informa precio y características y deriva al cotizador =====
+function mpcRemeras(){
+  mpcPush('Remeras', mpcRemeras); mpcShowBack();
+  const tr = tramoFor('merch', null, 'remera2', 'S');
+  const P = q => precioUnitarioARS('merch', null, 'remera2', 'S', q);
+  const tramos = tr.desc.map(t=>`${t.q}+ <strong>$${P(t.q).uA.toLocaleString('es-AR')}</strong> (−${t.d}%)`).join('<br>');
+  mpcTyping(()=>{
+    mpcMsg(`👕 <strong>Remera personalizada · 2 estampas</strong><br><span style="font-size:.78rem;opacity:.7;">Algodón · DTF full color · logo en el pecho + diseño en la espalda · talles S a XXL</span>`);
+    mpcTyping(()=>{
+      mpcMsg(`<strong style="font-size:1.05rem;">$${P(MIN_REMERAS).uA.toLocaleString('es-AR')} c/u</strong><br><span style="font-size:.8rem;">${tramos}</span><br><span style="font-size:.75rem;opacity:.65;">Mínimo ${MIN_REMERAS} remeras, combinando talles. El descuento va por el total.</span>`);
+      mpcTyping(()=>{
+        mpcMsg('Los talles y cantidades los armás en el cotizador 👇');
+        mpcOpts([
+          {label:'Armar mi pedido de remeras →', action:()=>mpcIrRemeras()},
+          {label:'Cotizar otro producto', action:()=>mpcMenuCotizar()},
+        ]);
+      }, 400);
+    }, 500);
+  });
+}
+function mpcIrRemeras(){
+  mpcToggle();
+  const cot = document.getElementById('cotizador');
+  if(cot) cot.scrollIntoView({behavior:'smooth', block:'start'});
+  setTimeout(()=>{
+    if(typeof onCatSelect==='function') onCatSelect('merch');
+    const b = document.querySelector('#prod-cards .opt-card');
+    if(b) b.click();
+    const s3 = document.getElementById('step3-block');
+    if(s3) setTimeout(()=>s3.scrollIntoView({behavior:'smooth', block:'center'}), 300);
+  }, 450);
 }
 
 function mpcIrFaq(){
@@ -4149,6 +4184,7 @@ window.mpcSend = function(){
     // Detectar producto
     const esSuelto = txt.includes('sticker')||txt.includes('suelto')||txt.includes('individual')||txt.includes('suncatcher')||txt.includes('sun catcher');
     const esPlancha = txt.includes('plancha')||txt.includes('kiss')||txt.includes('hoja');
+    const esRemera = txt.includes('remera')||txt.includes('buzo')||txt.includes('merch')||txt.includes('camiseta')||txt.includes('dtf');
     const esAcril = txt.includes('acr')||txt.includes('llavero')||txt.includes('imán')||txt.includes('iman')||txt.includes('dije')||txt.includes('posavaso');
     const esPrecio = txt.includes('precio')||txt.includes('costo')||txt.includes('cuanto')||txt.includes('cuánto')||txt.includes('vale')||txt.includes('cobran')||txt.includes('cotiz');
     const esEnvio = txt.includes('envio')||txt.includes('envío')||txt.includes('manda')||txt.includes('despach')||txt.includes('andreani')||txt.includes('correo');
@@ -4162,8 +4198,12 @@ window.mpcSend = function(){
         {label:'Cotizar stickers', action:()=>mpcStepMaterial('sueltos')},
         {label:'Cotizar planchas', action:()=>mpcStepMaterial('planchas')},
         {label:'Cotizar acrílicos', action:()=>mpcStepAcril()},
+        {label:'Cotizar remeras', action:()=>mpcRemeras()},
         {label:'Otra consulta', action:()=>mpcContacto()},
       ]);
+    } else if(esRemera){
+      mpcMsg('Te cuento sobre las remeras personalizadas.');
+      mpcRemeras();
     } else if(esSuelto || (esPrecio && !esPlancha && !esAcril)){
       mpcMsg('Te cotizo stickers sueltos ahora. ¿Qué material necesitás?');
       mpcStepMaterial('sueltos');
@@ -4191,6 +4231,7 @@ window.mpcSend = function(){
         {label:'Cotizar stickers', action:()=>mpcStepMaterial('sueltos')},
         {label:'Cotizar planchas', action:()=>mpcStepMaterial('planchas')},
         {label:'Cotizar acrílicos', action:()=>mpcStepAcril()},
+        {label:'Cotizar remeras', action:()=>mpcRemeras()},
         {label:'Hablar con alguien', action:()=>mpcContacto()},
       ]);
     }
