@@ -61,6 +61,9 @@ h1{font-size:clamp(2rem,5.5vw,3.2rem);font-weight:800;letter-spacing:-1.5px;line
 .desglose td{padding:13px 0;border-bottom:1px solid var(--border);color:var(--gray2)}
 .desglose td:last-child{text-align:right;font-family:var(--mono);font-weight:600;color:var(--white)}
 .desglose tr:last-child td{border-bottom:0}
+.desglose tr.total-fila td{border-top:2px solid var(--border2);border-bottom:0;
+  padding-top:14px;color:var(--white);font-weight:600}
+.desglose tr.total-fila td:last-child{font-size:1.05rem}
 
 .metricas{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
   border:1px solid var(--border);border-radius:14px;overflow:hidden}
@@ -150,6 +153,7 @@ footer .sec-label{margin-bottom:8px}
         <tr><td>Crédito por expositores (5%)</td><td id="cred-exp">—</td></tr>
         <tr><td>Crédito por la organización (5%)</td><td id="cred-eko">—</td></tr>
         <tr><td>Ya usado</td><td id="usado">—</td></tr>
+        <tr class="total-fila"><td>Total facturado sin IVA</td><td id="facturado-total">—</td></tr>
       </table>
     </div>
   </section>
@@ -272,6 +276,39 @@ const PEDIDOS = [
     cantidad: 2000,
     neto: 522500,
     estado: "acuenta"
+  },
+  {
+    orden: 971,
+    fecha: "2026-09-24",
+    tipo: "expositor",
+    cliente: "Bug Bounty Girls Club",
+    referencia: "1.000 blancos 5×5 + 500 holográficos 5×5",
+    producto: "Stickers sueltos · 2 ítems",
+    cantidad: 1500,
+    neto: 266100,
+    estado: "cobrado"
+  },
+  {
+    orden: 972,
+    fecha: "2026-09-24",
+    tipo: "expositor",
+    cliente: "Christian Gehmlich",
+    referencia: "Tarjeta Crédito EKO · 120 de cada diseño",
+    producto: "Tarjetas holográficas sin blanco · 8,5 cm de ancho · 2 diseños",
+    cantidad: 240,
+    neto: 115000,
+    estado: "cobrado"
+  },
+  {
+    orden: 973,
+    fecha: "2026-09-24",
+    tipo: "expositor",
+    cliente: "Joana Antonela Zarate",
+    referencia: "250 blanco premium + 250 holográfico liso · logo circular",
+    producto: "Stickers 8 cm el lado más largo · 2 ítems",
+    cantidad: 500,
+    neto: 217250,
+    estado: "cobrado"
   }
 ];
 
@@ -331,6 +368,7 @@ if (aFavor < 0) {
 set("#cred-exp", "textContent", pesos(credExp));
 set("#cred-eko", "textContent", pesos(credEko));
 set("#usado", "textContent", pesos(CONFIG.creditoUsado));
+set("#facturado-total", "textContent", pesos(netoExpFact + netoEko));
 if (pendiente > 0) {
   set("#pendiente", "hidden", false);
   set("#pendiente", "textContent", pesos(pendiente) + " más en pedidos confirmados, todavía sin cobrar.");
