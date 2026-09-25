@@ -71,18 +71,6 @@ h1{font-size:clamp(2rem,5.5vw,3.2rem);font-weight:800;letter-spacing:-1.5px;line
 .metricas small{display:block;font-family:var(--mono);font-size:.68rem;color:var(--gray3);
   margin-top:8px;padding-top:8px;border-top:1px solid var(--border);line-height:1.6}
 
-.sheets{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:30px}
-.sheet-cab{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:14px;
-  padding-left:12px;border-left:2px solid rgba(0,194,100,.3)}
-.sheet-cab b{font-size:.95rem;font-weight:800;color:var(--green2);letter-spacing:-.3px}
-.sheet-cab span{font-family:var(--mono);font-size:.72rem;color:var(--gray3);white-space:nowrap}
-.troquel{display:grid;grid-template-columns:repeat(10,1fr);gap:8px;padding:18px;
-  border:1px dashed var(--border2);border-radius:12px;background:var(--bg2)}
-.die{aspect-ratio:1;border-radius:50%;border:1px dashed var(--border3);background:transparent;
-  transition:background-color .6s cubic-bezier(.22,1,.36,1),box-shadow .6s cubic-bezier(.22,1,.36,1),border-color .6s}
-.die.holo{background:conic-gradient(from 0deg,rgba(255,120,200,.22),rgba(120,200,255,.22),rgba(150,255,190,.22),rgba(255,230,140,.22),rgba(255,120,200,.22))}
-.die.usado{background:var(--green);border-color:var(--green2);border-style:solid;box-shadow:0 0 14px rgba(0,194,100,.4)}
-.leyenda{margin-top:14px;font-size:.8rem;color:var(--gray3)}
 
 table.datos{width:100%;border-collapse:collapse;font-size:.88rem}
 table.datos th{text-align:left;font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:1.2px;
@@ -103,6 +91,7 @@ table.datos .estado,table.datos th.estado{text-align:right;padding-left:26px;pad
   border:1px solid;white-space:nowrap;line-height:1.5}
 .chip.cobrado{color:var(--green2);border-color:rgba(0,194,100,.35);background:var(--green3)}
 .chip.acuenta{color:var(--ambar);border-color:rgba(161,98,7,.3);background:var(--ambar2)}
+.chip.parcial{color:#0284c7;border-color:rgba(2,132,199,.3);background:rgba(2,132,199,.08)}
 .chip.confirmado{color:#0284c7;border-color:rgba(2,132,199,.3);background:rgba(2,132,199,.08)}
 .chip.cotizado{color:var(--gray3);border-color:var(--border2)}
 .vacio{padding:28px;border:1px dashed var(--border2);border-radius:12px;background:var(--bg2);color:var(--gray3);font-size:.88rem}
@@ -118,7 +107,6 @@ footer .sec-label{margin-bottom:8px}
   .metricas>div{border-right:none;border-bottom:1px solid var(--border)}
   .oculta-movil{display:none}
 }
-@media (prefers-reduced-motion:reduce){.die{transition:none}}
 </style>
 <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
@@ -143,7 +131,7 @@ footer .sec-label{margin-bottom:8px}
 
   <div class="eyebrow">Estado de cuenta</div>
   <h1>Lo que la Eko lleva ganado</h1>
-  <p class="bajada">Cada pedido que pasa por el canal de la Eko devuelve un 5% del neto como crédito de producción para la organización: tanto las compras de los expositores como los trabajos que pide la propia Eko. Además está el merch bonificado del arranque.</p>
+  <p class="bajada">Cada pedido que pasa por el canal de la Eko devuelve un 5% del neto como crédito de producción para la organización: tanto las compras de los expositores como los trabajos que pide la propia Eko.</p>
   <div class="aviso" id="aviso" hidden>Datos de ejemplo. Todavía no hay pedidos reales cargados.</div>
 
   <section class="card destacada">
@@ -157,7 +145,7 @@ footer .sec-label{margin-bottom:8px}
         <p class="pendiente" id="pendiente" hidden></p>
       </div>
       <table class="desglose">
-        <tr><td>Compras de expositores, sin IVA</td><td id="neto-exp">—</td></tr>
+        <tr><td>Compras de expositores cobradas, sin IVA</td><td id="neto-exp">—</td></tr>
         <tr><td>Trabajos de la Eko, sin IVA</td><td id="neto-eko">—</td></tr>
         <tr><td>Crédito por expositores (5%)</td><td id="cred-exp">—</td></tr>
         <tr><td>Crédito por la organización (5%)</td><td id="cred-eko">—</td></tr>
@@ -184,12 +172,6 @@ footer .sec-label{margin-bottom:8px}
     <div class="metricas" id="met-eko"></div>
   </section>
 
-  <section class="card">
-    <div class="sec-label">Merch bonificado</div>
-    <p class="nota" id="nota-sheets"></p>
-    <div class="sheets" id="sheets"></div>
-  </section>
-
   <footer>
     <div>
       <div class="sec-label">Cómo se calcula el crédito</div>
@@ -198,10 +180,6 @@ footer .sec-label{margin-bottom:8px}
     <div>
       <div class="sec-label">Cuenta corriente</div>
       <p>Los trabajos que pide la Eko se entregan sin abonar y quedan anotados. A fin de año se hace la cuenta: lo pedido menos el crédito acumulado, y se salda la diferencia.</p>
-    </div>
-    <div>
-      <div class="sec-label">Merch bonificado</div>
-      <p>Son unidades acordadas al inicio del acuerdo, aparte del crédito y de la cuenta corriente. Se cuentan en stickers producidos, no en pesos.</p>
     </div>
   </footer>
 </div>
@@ -217,21 +195,51 @@ const CONFIG = {
   fechaEvento: "2026-10-06"    // CONFIRMAR fecha real de la Eko
 };
 
-/* Merch bonificado, en unidades. Un troquel de la hoja = 20 stickers. */
-const BONIFICADO = [
-  { material:"Stickers blancos premium 6 cm", total:1000, usados:0   },
-  { material:"Stickers especiales 6 cm",      total:500,  usados:360, holo:true }
-];
-
 /* ==========================================================================
    2. PEDIDOS — una línea por pedido
    tipo:   "expositor" (lo paga la empresa) | "eko" (lo pide la organización)
-   estado: "cotizado" | "confirmado" | "cobrado" | "acuenta"
-           - expositor: suma crédito cuando está "cobrado"
+   estado: "cotizado" | "confirmado" | "cobrado" | "parcial" | "acuenta"
+           - expositor: suma crédito cuando está "cobrado" (sobre el neto entero)
+                        o "parcial" (solo sobre lo que indique cobradoNeto)
            - eko:       suma crédito cuando está "acuenta" o "cobrado"
+   cobradoNeto: solo para "parcial" — cuánto del neto ya se cobró
    neto:   monto SIN IVA
    ========================================================================== */
 const PEDIDOS = [
+  {
+    orden: 969,
+    fecha: "2026-09-24",
+    tipo: "expositor",
+    cliente: "Daniel Malvaceda",
+    referencia: "2.000 blancos 5×5 + 1.000 holográficos 5×5 + 500 holográficos gold 5×5",
+    producto: "Stickers sueltos · 3 ítems",
+    cantidad: 3500,
+    neto: 591500,
+    estado: "cobrado"
+  },
+  {
+    orden: 954,
+    fecha: "2026-09-24",
+    tipo: "eko",
+    cliente: "Ekoparty",
+    referencia: "Merch oficial · más 200 llaveros acrílicos 5 cm bonificados sin cargo",
+    producto: "Stickers holográficos 6 cm",
+    cantidad: 10100,
+    neto: 3022000,
+    estado: "acuenta"
+  },
+  {
+    orden: 968,
+    fecha: "2026-09-24",
+    tipo: "expositor",
+    cliente: "Blue Space",
+    referencia: "500 blancos 6×6 + 500 holográficos 6×6 + 100 llaveros + 100 imanes + 3.000 blancos 5×5",
+    producto: "Stickers, llaveros e imanes · 5 ítems",
+    cantidad: 4200,
+    neto: 1043900,
+    cobradoNeto: 521950,
+    estado: "parcial"
+  },
   {
     orden: 828,
     fecha: "2026-09-01",
@@ -275,20 +283,26 @@ const set = (sel, prop, val) => { const el = $(sel); if (el) el[prop] = val; };
 const pesos = n => "$" + Math.round(n).toLocaleString("es-AR");
 const num   = n => Math.round(n).toLocaleString("es-AR");
 const fecha = f => new Date(f + "T12:00:00").toLocaleDateString("es-AR", {day:"2-digit", month:"short"});
-const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const ETIQUETA = {cobrado:"cobrado", acuenta:"a cuenta", confirmado:"confirmado", cotizado:"cotizado"};
 
-/* qué pedidos generan crédito */
-const generaCredito = p =>
-  (p.tipo === "expositor" && p.estado === "cobrado") ||
-  (p.tipo === "eko" && (p.estado === "acuenta" || p.estado === "cobrado"));
+/* cuánto neto de cada pedido genera crédito hoy */
+const netoAcreditable = p => {
+  if (p.tipo === "expositor") {
+    if (p.estado === "cobrado") return p.neto;
+    if (p.estado === "parcial") return Math.min(p.cobradoNeto || 0, p.neto);
+    return 0;
+  }
+  return (p.estado === "acuenta" || p.estado === "cobrado") ? p.neto : 0;
+};
+const generaCredito = p => netoAcreditable(p) > 0;
 
-const expCobrados = PEDIDOS.filter(p => p.tipo === "expositor" && p.estado === "cobrado");
+const expCobrados = PEDIDOS.filter(p => p.tipo === "expositor" && (p.estado === "cobrado" || p.estado === "parcial"));
 const ekoTrabajos = PEDIDOS.filter(p => p.tipo === "eko" && (p.estado === "acuenta" || p.estado === "cobrado"));
 const enCurso     = PEDIDOS.filter(p => p.estado === "confirmado");
 
-const netoExp   = expCobrados.reduce((a,p) => a + p.neto, 0);
-const netoEko   = ekoTrabajos.reduce((a,p) => a + p.neto, 0);
+const netoExpFact = expCobrados.reduce((a,p) => a + p.neto, 0);
+const netoExp     = expCobrados.reduce((a,p) => a + netoAcreditable(p), 0);
+const netoEko     = ekoTrabajos.reduce((a,p) => a + p.neto, 0);
 const credExp   = netoExp * CONFIG.porcentaje;
 const credEko   = netoEko * CONFIG.porcentaje;
 const generado  = credExp + credEko;
@@ -330,8 +344,9 @@ const empresas = [...new Set(expCobrados.map(p => p.cliente))];
 set("#met-exp", "innerHTML", grilla([
   [expCobrados.length, "pedidos cobrados"],
   [empresas.length, empresas.length === 1 ? "empresa compró" : "empresas compraron"],
-  [pesos(netoExp), "facturado sin IVA"],
-  [pesos(credExp), "de crédito generado"]
+  [pesos(netoExpFact), "facturado sin IVA"],
+  [pesos(credExp), "de crédito generado",
+   netoExp < netoExpFact ? "sobre " + pesos(netoExp) + " ya cobrados de " + pesos(netoExpFact) : null]
 ]));
 
 set("#met-eko", "innerHTML", grilla([
@@ -350,7 +365,7 @@ set("#met-eko", "innerHTML", grilla([
     cont.innerHTML = `<div class="vacio">Todavía no hay pedidos cargados. Cada trabajo que entre por el canal de la Eko aparece acá.</div>`;
     return;
   }
-  const orden = [...PEDIDOS].sort((a,b) => a.fecha < b.fecha ? 1 : -1);
+  const orden = [...PEDIDOS].sort((a,b) => a.orden - b.orden);
   cont.innerHTML = `<table class="datos">
     <thead><tr>
       <th>Orden</th><th>Fecha</th><th>Quién pide</th><th class="oculta-movil">Trabajo</th>
@@ -364,45 +379,16 @@ set("#met-eko", "innerHTML", grilla([
         <td class="oculta-movil">${p.producto}${p.referencia ? `<div class="ref">${p.referencia}</div>` : ""}</td>
         <td class="num oculta-movil">${num(p.cantidad)}</td>
         <td class="num">${pesos(p.neto)}</td>
-        <td class="num">${generaCredito(p) ? pesos(p.neto * CONFIG.porcentaje) : "—"}</td>
-        <td class="estado"><span class="chip ${p.estado}">${ETIQUETA[p.estado] || p.estado}</span></td>
+        <td class="num">${generaCredito(p) ? pesos(netoAcreditable(p) * CONFIG.porcentaje) : "—"}</td>
+        <td class="estado"><span class="chip ${p.estado}">${
+          p.estado === "parcial"
+            ? Math.round((p.cobradoNeto || 0) / p.neto * 100) + "% cobrado"
+            : (ETIQUETA[p.estado] || p.estado)
+        }</span></td>
       </tr>`).join("")}
     </tbody></table>`;
 })();
 
-/* hojas de troquel del merch bonificado: 1 troquel = 20 stickers */
-(function sheets(){
-  const cont0 = $("#sheets");
-  if (!cont0) return;
-  const POR_DIE = 20;
-  let delay = 0;
-  set("#nota-sheets", "textContent",
-    "Unidades acordadas al inicio, aparte del crédito. Cada círculo son " + POR_DIE + " stickers; los encendidos ya se produjeron.");
-  cont0.innerHTML = BONIFICADO.map((b,i) => `
-      <div>
-        <div class="sheet-cab">
-          <b>${b.material}</b>
-          <span>${num(b.total - b.usados)} de ${num(b.total)} sin usar</span>
-        </div>
-        <div class="troquel" id="sheet-${i}" aria-hidden="true"></div>
-        <p class="leyenda">${b.usados ? num(b.usados) + " ya producidos" : "Todavía sin usar"}</p>
-      </div>`).join("");
-  BONIFICADO.forEach((b,i) => {
-    const cont = document.getElementById("sheet-" + i);
-    if (!cont) return;
-    const dies = Math.round(b.total / POR_DIE);
-    const usados = Math.round(b.usados / POR_DIE);
-    for (let k = 0; k < dies; k++) {
-      const d = document.createElement("span");
-      d.className = "die" + (b.holo ? " holo" : "");
-      cont.appendChild(d);
-      if (k < usados) {
-        if (reduce) d.classList.add("usado");
-        else setTimeout(() => d.classList.add("usado"), 220 + (delay++) * 30);
-      }
-    }
-  });
-})();
 </script>
 </body>
 </html>
