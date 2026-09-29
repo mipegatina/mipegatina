@@ -10,6 +10,8 @@
 //  - Sin base de datos: todo se recalcula desde Trello (cacheado 30 s).
 
 const BASE = 7330545; // histórico: 102.000 stickers/mes × 72 meses = 7.344.000 al 29/09/2026 (menos 13.455 ya archivados desde el corte)
+// Llaveros: 2.377/mes contados en Trello × 72 meses × 2 = 342.000 al 29/09/2026 (menos 200 ya archivados desde el corte)
+const BASE_LLAVEROS = 341800;
 const CUTOFF = '2026-09-28T20:00:00.000Z';
 const BOARD_ID = '67c713e8887ddc24b92ef825';
 const TZ_OFFSET_H = -3;
@@ -78,8 +80,10 @@ function classify(text, section) {
 
 function estimate(desc) {
   const t = clean(desc);
-  const res = { stickers: 0, planchas: 0, acrilicos: 0 };
-  const add = (kind, n) => {
+  const res = { stickers: 0, planchas: 0, acrilicos: 0, llaveros: 0 };
+  const esLlavero = (ctx) => /llaver/i.test(ctx || '') && !/im[aá]n|dije|\bpin/i.test(ctx || '');
+  const add = (kind, n, ctx) => {
+    if (kind === 'acril' && esLlavero(ctx)) res.llaveros += n;
     if (kind === 'plancha') res.planchas += n;
     else if (kind === 'acril') res.acrilicos += n;
     else if (kind === 'sticker') res.stickers += n;
@@ -106,10 +110,10 @@ function estimate(desc) {
       if (RX_ACRIL.test(mat) && !RX_STICK.test(mat)) return 'acril';
       return 'sticker';
     };
-    if (q.length === 1 && !/c\/u|cada|\+|\/| y /i.test(cant)) { add(kindOf(), q[0]); return finish(res, t); }
-    if (q.length === 1 && /c\/u|cada/i.test(cant)) { add(kindOf(), q[0] * Math.max(dis, 1)); return finish(res, t); }
+    if (q.length === 1 && !/c\/u|cada|\+|\/| y /i.test(cant)) { add(kindOf(), q[0], mat); return finish(res, t); }
+    if (q.length === 1 && /c\/u|cada/i.test(cant)) { add(kindOf(), q[0] * Math.max(dis, 1), mat); return finish(res, t); }
     if (q.length >= 1 && /total/i.test(cant)) {       // "500 TOTAL (200 y 300)" → toma el primero
-      add(kindOf(), Math.max(...q)); return finish(res, t);
+      add(kindOf(), Math.max(...q), mat); return finish(res, t);
     }
     if (q.length > 1) {                                // "200 y 200", "300 planchas + 800 sueltos"
       const parts = cant.split(/\+|\/|\by\b|,/i);
@@ -121,7 +125,7 @@ function estimate(desc) {
           else if (/suelt|sticker|calco/i.test(p)) k = 'sticker';
           else if (RX_ACRIL.test(p)) k = 'acril';
           else k = kindOf();
-          add(k, pq[0]); }
+          add(k, pq[0], /llaver|im[aá]n|dije/i.test(p) ? p : mat); }
         return finish(res, t);
       }
     }
@@ -129,20 +133,21 @@ function estimate(desc) {
 
   // Caso 2: pedido detallado por líneas
   let section = RX_ACRIL.test(mat) && !RX_STICK.test(mat) ? 'acril' : null;
+  let sectionCtx = section ? mat : '';
   let totalLine = null;
   for (const raw of lines) {
     const l = raw.replace(/^[-•\d]+[.)]\s+/, (m) => (/^\d+[.)]\s+$/.test(m) ? '' : m)).replace(/^[-•]\s*/, '');
     if (/^cantidad de dise/i.test(l) || /^medida/i.test(l)) continue;
     const q = quantities(l);
     const hasKw = RX_PLANCHA.test(l) || RX_ACRIL.test(l) || RX_STICK.test(l) || RX_REMERA.test(l);
-    if (!q.length) { if (hasKw) section = classify(l, null); continue; }  // encabezado: "Llaveros:" / "Vinilo Blanco"
+    if (!q.length) { if (hasKw) { section = classify(l, null); sectionCtx = l; } continue; }  // encabezado: "Llaveros:" / "Vinilo Blanco"
     if (/^total\b|total\s*:/i.test(l)) { totalLine = q[0]; continue; }
     if (/muestra/i.test(l) && q[0] <= 5) { add('sticker', q[0]); continue; }
     const n = Math.max(...q.filter((x) => x >= 1 && x <= 50000));
     if (!isFinite(n)) continue;
     const kind = hasKw ? classify(l, section) : (section || 'sticker');
-    add(kind, /c\/u|cada/i.test(l) && dis ? n * dis : n);
-    if (hasKw) section = (kind === 'acril' || kind === 'remera') ? kind : null;
+    add(kind, /c\/u|cada/i.test(l) && dis ? n * dis : n, RX_ACRIL.test(l) ? l : sectionCtx);
+    if (hasKw) { section = (kind === 'acril' || kind === 'remera') ? kind : null; sectionCtx = section ? l : ''; }
   }
   if (!res.stickers && !res.planchas && !res.acrilicos && totalLine) res.stickers = totalLine;
   return finish(res, t);
@@ -196,12 +201,15 @@ async function compute() {
     : [];
 
   const starts = periodStarts();
-  let sumado = 0, hoy = 0, semana = 0, mes = 0, pedidosHoy = 0;
+  let sumado = 0, hoy = 0, semana = 0, mes = 0, pedidosHoy = 0, llaveros = 0, llaverosMes = 0;
   const ultimos = [];
   for (const card of closed) {
     const t = archivedAt.get(card.id);
     if (!t || YA_CONTADAS.has(card.id)) continue;
-    const v = estimate(card.desc).total;
+    const e = estimate(card.desc);
+    llaveros += e.llaveros;
+    if (t >= starts.mes) llaverosMes += e.llaveros;
+    const v = e.total;
     if (!v) continue;
     sumado += v;
     if (t >= starts.hoy) { hoy += v; pedidosHoy++; }
@@ -213,6 +221,7 @@ async function compute() {
 
   return {
     total: BASE + sumado, hoy, semana, mes, pedidosHoy,
+    llaveros: BASE_LLAVEROS + llaveros, llaverosMes,
     ultimos: ultimos.slice(0, 5),
     base: BASE, actualizado: new Date().toISOString(),
   };
