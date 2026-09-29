@@ -2,14 +2,14 @@
 // GET /.netlify/functions/contador  →  { total, hoy, semana, mes, ultimos, ... }
 //
 // Cómo cuenta:
-//  - BASE = histórico desde 2020 al 28/09/2026 (5.364.839, incluye ajuste de +1.860.000).
+//  - BASE = histórico desde 2020 (102.000 por mes × 6 años), de modo que el 29/09/2026 el total da 7.344.000.
 //  - Desde ese momento, CADA TARJETA QUE SE ARCHIVA en el tablero suma lo que dice su
 //    descripción (estimado automático: sueltos + planchas × 8; remeras y acrílicos no suman;
 //    "según archivo" = 500).
 //  - Hoy / semana / mes: según la fecha en que se archivó (hora de Buenos Aires).
 //  - Sin base de datos: todo se recalcula desde Trello (cacheado 30 s).
 
-const BASE = 5364839; // histórico desde 2020: 3.504.839 estimado + 1.860.000 de ajuste (29/09/2026)
+const BASE = 7330545; // histórico: 102.000 stickers/mes × 72 meses = 7.344.000 al 29/09/2026 (menos 13.455 ya archivados desde el corte)
 const CUTOFF = '2026-09-28T20:00:00.000Z';
 const BOARD_ID = '67c713e8887ddc24b92ef825';
 const TZ_OFFSET_H = -3;
