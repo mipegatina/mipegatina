@@ -34,7 +34,8 @@
   .bar{height:clamp(8px,1.2vh,14px);background:var(--bg2);border:1px solid var(--border);border-radius:99px;overflow:hidden}
   .bar i{display:block;height:100%;width:0;border-radius:99px;background:var(--green);box-shadow:0 0 16px rgba(0,194,100,.35);transition:width 1.2s ease}
   .next p{display:flex;justify-content:space-between;margin-top:1.2vh;color:var(--gray3);font-weight:500;font-size:clamp(12px,1.4vw,21px);font-variant-numeric:tabular-nums}
-  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:3vw;padding:0 6vw 5vh}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:2.5vw;padding:0 5vw 5vh}
+  .stat-ll{border-left-color:var(--ink)}
   .stat{border-left:2px solid rgba(0,194,100,.35);padding:.4vh 0 .4vh 1.6vw}
   .stat small{color:var(--gray3);font-weight:600;text-transform:uppercase;letter-spacing:.16em;font-size:clamp(11px,1.1vw,17px)}
   .stat b{display:block;font-weight:800;font-size:clamp(28px,4.4vw,72px);font-variant-numeric:tabular-nums;letter-spacing:-.04em;margin-top:.4vh;color:var(--ink)}
@@ -62,7 +63,7 @@
     .next{width:calc(100vw - 32px)}
     .next p,.last{font-size:13px}
     .plus{top:22%;right:16px;font-size:30px}
-    .stats{grid-template-columns:repeat(3,1fr);gap:10px;padding:0 16px 32px}
+    .stats{grid-template-columns:repeat(2,1fr);gap:14px 10px;padding:0 16px 28px}
     .stat{padding:2px 0 2px 10px}
     .stat small{font-size:10px;letter-spacing:.1em}
     .stat b{font-size:clamp(20px,6.5vw,30px)}
@@ -99,6 +100,7 @@
   <div class="stat"><small>Hoy</small><b id="hoy">—</b></div>
   <div class="stat"><small>Esta semana</small><b id="semana">—</b></div>
   <div class="stat"><small>Este mes</small><b id="mes">—</b></div>
+  <div class="stat stat-ll"><small>Llaveros desde 2020</small><b id="llaveros">—</b></div>
 </section>
 
 <div class="party" id="party"><img src="img/img-01.png" alt=""><h2 id="partyTitle"></h2><p id="partySub"></p></div>
@@ -146,6 +148,7 @@
     $('hoy').textContent = fmt(d.hoy);
     $('semana').textContent = fmt(d.semana);
     $('mes').textContent = fmt(d.mes);
+    if(d.llaveros != null) $('llaveros').textContent = fmt(d.llaveros);
     var u = d.ultimos && d.ultimos[0];
     $('last').innerHTML = u ? 'Último pedido archivado: <b></b> <em></em>' : '';
     if(u){ $('last').querySelector('b').textContent = u.nombre; $('last').querySelector('em').textContent = '+' + fmt(u.stickers); }
@@ -225,11 +228,11 @@
 
   // Modo demo: /contador?demo  (simula pedidos y un festejo)
   if(DEMO){
-    var d = {total: 3509200, hoy: 1200, semana: 8400, mes: 23100};
+    var d = {llaveros: 342000, total: 3509200, hoy: 1200, semana: 8400, mes: 23100};
     render(d);
     setInterval(function(){
       var add = [200, 500, 800, 400][Math.floor(Math.random()*4)];
-      d = {total:d.total+add, hoy:d.hoy+add, semana:d.semana+add, mes:d.mes+add, ultimos:[{nombre:'#98' + Math.floor(Math.random()*10) + ' Pedido demo', stickers:add}]};
+      d = {llaveros:d.llaveros+30, total:d.total+add, hoy:d.hoy+add, semana:d.semana+add, mes:d.mes+add, ultimos:[{nombre:'#98' + Math.floor(Math.random()*10) + ' Pedido demo', stickers:add}]};
       render(d);
     }, 3500);
     status('Modo demo');
