@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Contador · Mi Pegatina</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d0d12; --fg:#f6f4ef; --muted:#8b8a93; --card:#17171f; --line:#26262f;
+    --c1:#ff4d8d; --c2:#ffd23f; --c3:#3fd6ff; --c4:#7cff6b; --c5:#b56bff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    background:var(--bg); color:var(--fg);
+    font-family:'Space Grotesk',system-ui,sans-serif;
+    display:flex; flex-direction:column; overflow:hidden; cursor:default;
+    background-image:
+      radial-gradient(circle at 12% 18%, rgba(255,77,141,.10), transparent 38%),
+      radial-gradient(circle at 88% 82%, rgba(63,214,255,.10), transparent 40%);
+  }
+  header{display:flex;justify-content:space-between;align-items:center;padding:3vh 4vw 0}
+  .brand{font-weight:700;font-size:clamp(16px,2.2vw,30px);letter-spacing:-.02em}
+  .brand span{color:var(--c1)}
+  .clock{color:var(--muted);font-size:clamp(14px,1.8vw,26px);font-variant-numeric:tabular-nums}
+  main{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:0 3vw;position:relative}
+  .label{color:var(--muted);text-transform:uppercase;letter-spacing:.3em;font-size:clamp(12px,1.6vw,24px);margin-bottom:1vh}
+  .total{
+    font-weight:700;line-height:.9;letter-spacing:-.04em;font-variant-numeric:tabular-nums;
+    font-size:clamp(64px,17vw,320px);
+    background:linear-gradient(90deg,var(--c1),var(--c2),var(--c3),var(--c4),var(--c5),var(--c1));
+    background-size:300% 100%; -webkit-background-clip:text; background-clip:text; color:transparent;
+    animation:shine 12s linear infinite;
+  }
+  @keyframes shine{to{background-position:300% 0}}
+  .total.bump{animation:shine 12s linear infinite, bump .6s ease}
+  @keyframes bump{40%{transform:scale(1.04)}}
+  .next{margin-top:2vh;width:min(70vw,900px)}
+  .bar{height:clamp(8px,1.2vh,16px);background:var(--line);border-radius:99px;overflow:hidden}
+  .bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--c1),var(--c2));transition:width 1.2s ease}
+  .next p{display:flex;justify-content:space-between;margin-top:1vh;color:var(--muted);font-size:clamp(12px,1.5vw,22px);font-variant-numeric:tabular-nums}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:2vw;padding:0 4vw 4vh}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:2.4vh 2vw}
+  .stat small{color:var(--muted);text-transform:uppercase;letter-spacing:.2em;font-size:clamp(11px,1.2vw,18px)}
+  .stat b{display:block;font-size:clamp(28px,5vw,80px);font-variant-numeric:tabular-nums;letter-spacing:-.03em;margin-top:.6vh}
+  .stat:nth-child(1) b{color:var(--c2)} .stat:nth-child(2) b{color:var(--c3)} .stat:nth-child(3) b{color:var(--c4)}
+  .plus{position:absolute;font-weight:700;font-size:clamp(28px,5vw,80px);color:var(--c4);
+    top:18%;right:12%;opacity:0;pointer-events:none}
+  .plus.go{animation:plus 2.4s ease forwards}
+  @keyframes plus{0%{opacity:0;transform:translateY(20px)}15%{opacity:1;transform:none}80%{opacity:1}100%{opacity:0;transform:translateY(-40px)}}
+  .party{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    background:rgba(13,13,18,.9);opacity:0;pointer-events:none;transition:opacity .5s;z-index:5;text-align:center;padding:4vw}
+  .party.on{opacity:1}
+  .party h2{font-size:clamp(40px,9vw,170px);line-height:.95;letter-spacing:-.04em}
+  .party p{font-size:clamp(18px,3vw,48px);color:var(--c2);margin-top:2vh}
+  .last{margin-top:3vh;color:var(--muted);font-size:clamp(14px,1.8vw,26px);text-align:center;min-height:1.2em}
+  .last b{color:var(--fg);font-weight:500} .last em{color:var(--c4);font-style:normal;font-weight:700}
+  .status{position:fixed;left:4vw;bottom:1.2vh;font-size:12px;color:var(--muted);opacity:.6}
+  .status.err{color:var(--c1);opacity:1}
+  canvas{position:fixed;inset:0;pointer-events:none;z-index:6}
+  @media (max-width:640px){.stats{grid-template-columns:1fr;gap:10px}.next{width:88vw}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">Mi <span>Pegatina</span> · Taller</div>
+  <div class="clock" id="clock">--:--</div>
+</header>
+
+<main>
+  <div class="label">Stickers producidos desde 2020</div>
+  <div class="total" id="total">—</div>
+  <div class="plus" id="plus"></div>
+  <div class="next">
+    <div class="bar"><i id="bar"></i></div>
+    <p><span id="nextLabel">Próximo festejo</span><span id="nextLeft"></span></p>
+  </div>
+  <div class="last" id="last"></div>
+</main>
+
+<section class="stats">
+  <div class="stat"><small>Hoy</small><b id="hoy">—</b></div>
+  <div class="stat"><small>Esta semana</small><b id="semana">—</b></div>
+  <div class="stat"><small>Este mes</small><b id="mes">—</b></div>
+</section>
+
+<div class="party" id="party"><h2 id="partyTitle"></h2><p id="partySub"></p></div>
+<div class="status" id="status"></div>
+<canvas id="fx"></canvas>
+
+<script>
+(function(){
+  var API = '/.netlify/functions/contador';
+  var POLL_MS = 30000;
+  var STEP = 10000;                                   // festejo chico cada 10.000
+  var BIG = [3600000, 3750000, 4000000, 4500000, 5000000]; // festejos grandes
+  var DEMO = /[?&]demo/.test(location.search);
+
+  var fmt = function(n){ return Math.round(n).toLocaleString('es-AR'); };
+  var $ = function(id){ return document.getElementById(id); };
+  var shown = 0, last = null;
+
+  // ---------- Reloj ----------
+  function tick(){
+    $('clock').textContent = new Date().toLocaleString('es-AR',{timeZone:'America/Argentina/Buenos_Aires',weekday:'long',hour:'2-digit',minute:'2-digit'});
+  }
+  tick(); setInterval(tick, 10000);
+
+  // ---------- Número animado ----------
+  function animateTo(target){
+    var from = shown, start = performance.now(), dur = Math.min(2500, 600 + Math.abs(target-from)/5);
+    (function step(t){
+      var p = Math.min(1,(t-start)/dur), e = 1-Math.pow(1-p,3);
+      shown = from + (target-from)*e;
+      $('total').textContent = fmt(shown);
+      if(p<1) requestAnimationFrame(step);
+    })(start);
+  }
+
+  function nextMilestone(n){
+    var small = (Math.floor(n/STEP)+1)*STEP;
+    var big = BIG.filter(function(b){return b>n;})[0];
+    return (big && big<=small) ? big : small;
+  }
+
+  function render(d){
+    var prev = last; last = d;
+    animateTo(d.total);
+    $('hoy').textContent = fmt(d.hoy);
+    $('semana').textContent = fmt(d.semana);
+    $('mes').textContent = fmt(d.mes);
+    var u = d.ultimos && d.ultimos[0];
+    $('last').innerHTML = u ? 'Último pedido archivado: <b></b> <em></em>' : '';
+    if(u){ $('last').querySelector('b').textContent = u.nombre; $('last').querySelector('em').textContent = '+' + fmt(u.stickers); }
+
+    var nm = nextMilestone(d.total), from = nm - STEP;
+    $('bar').style.width = Math.max(2, Math.min(100, (d.total-from)/STEP*100)) + '%';
+    $('nextLabel').textContent = 'Próximo festejo: ' + fmt(nm);
+    $('nextLeft').textContent = 'faltan ' + fmt(nm - d.total);
+
+    if(prev && d.total > prev.total){
+      var el = $('plus'), t = $('total');
+      el.textContent = '+' + fmt(d.total - prev.total);
+      el.classList.remove('go'); void el.offsetWidth; el.classList.add('go');
+      t.classList.remove('bump'); void t.offsetWidth; t.classList.add('bump');
+      checkMilestone(prev.total, d.total);
+    }
+  }
+
+  function checkMilestone(a, b){
+    var bigHit = BIG.filter(function(m){return a < m && b >= m;}).pop();
+    if(bigHit){ return party(fmt(bigHit), bigHit%1000000===0 ? '¡' + (bigHit/1000000) + ' MILLONES DE STICKERS! 🎉' : '¡Qué locura, equipo!', true); }
+    if(Math.floor(a/STEP) < Math.floor(b/STEP)){
+      party(fmt(Math.floor(b/STEP)*STEP), '¡Pasamos otro hito!', false);
+    }
+  }
+
+  // ---------- Festejo ----------
+  function party(title, sub, big){
+    $('partyTitle').textContent = title;
+    $('partySub').textContent = sub;
+    $('party').classList.add('on');
+    confetti(big ? 900 : 300, big ? 9000 : 5000);
+    setTimeout(function(){ $('party').classList.remove('on'); }, big ? 12000 : 6000);
+  }
+
+  var cv = $('fx'), ctx = cv.getContext('2d'), parts = [], running = false;
+  function size(){ cv.width = innerWidth*devicePixelRatio; cv.height = innerHeight*devicePixelRatio; }
+  size(); addEventListener('resize', size);
+  var COLORS = ['#ff4d8d','#ffd23f','#3fd6ff','#7cff6b','#b56bff','#ffffff'];
+  function confetti(n, ms){
+    var W = cv.width, H = cv.height, until = performance.now() + ms;
+    for(var i=0;i<n;i++){
+      parts.push({x:Math.random()*W, y:-Math.random()*H*0.6, vx:(Math.random()-.5)*6, vy:2+Math.random()*6,
+        r:(6+Math.random()*10)*devicePixelRatio, a:Math.random()*6, va:(Math.random()-.5)*.3,
+        c:COLORS[i%COLORS.length], s:Math.random()<.35, until:until});
+    }
+    if(!running){ running = true; requestAnimationFrame(loop); }
+  }
+  function loop(t){
+    ctx.clearRect(0,0,cv.width,cv.height);
+    parts = parts.filter(function(p){ return p.y < cv.height + 40 && t < p.until + 4000; });
+    parts.forEach(function(p){
+      p.x += p.vx; p.y += p.vy; p.vy += .05; p.a += p.va;
+      ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.a); ctx.fillStyle = p.c;
+      if(p.s){ ctx.beginPath(); ctx.arc(0,0,p.r/2,0,7); ctx.fill(); }   // "stickers" redondos
+      else ctx.fillRect(-p.r/2,-p.r/4,p.r,p.r/2);
+      ctx.restore();
+    });
+    if(parts.length) requestAnimationFrame(loop); else { running = false; ctx.clearRect(0,0,cv.width,cv.height); }
+  }
+
+  // ---------- Datos ----------
+  function status(msg, err){ var s=$('status'); s.textContent = msg; s.className = 'status' + (err?' err':''); }
+
+  function load(){
+    if(DEMO) return;
+    fetch(API, {cache:'no-store'})
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        if(d.error) throw new Error(d.error);
+        render(d);
+        status('Actualizado ' + new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'}));
+      })
+      .catch(function(e){ status('Sin conexión con Trello — reintentando (' + e.message + ')', true); });
+  }
+  load(); setInterval(load, POLL_MS);
+
+  // Modo demo: /contador?demo  (simula pedidos y un festejo)
+  if(DEMO){
+    var d = {total: 3509200, hoy: 1200, semana: 8400, mes: 23100};
+    render(d);
+    setInterval(function(){
+      var add = [200, 500, 800, 400][Math.floor(Math.random()*4)];
+      d = {total:d.total+add, hoy:d.hoy+add, semana:d.semana+add, mes:d.mes+add, ultimos:[{nombre:'#98' + Math.floor(Math.random()*10) + ' Pedido demo', stickers:add}]};
+      render(d);
+    }, 3500);
+    status('Modo demo');
+  }
+
+  // Pantalla completa con doble click y mantener la pantalla encendida
+  document.addEventListener('dblclick', function(){
+    if(!document.fullscreenElement) document.documentElement.requestFullscreen && document.documentElement.requestFullscreen();
+    else document.exitFullscreen();
+  });
+  function wake(){ try{ navigator.wakeLock && navigator.wakeLock.request('screen').catch(function(){}); }catch(e){} }
+  wake(); document.addEventListener('visibilitychange', function(){ if(!document.hidden) wake(); });
+})();
+</script>
+</body>
+</html>
