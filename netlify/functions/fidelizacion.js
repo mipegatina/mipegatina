@@ -31,7 +31,7 @@ const RECOMPRA_VENTANA = 5;                 // (si algún día no corre, lo mand
 const RECOMPRA_HORA = 11;                   // hora de Buenos Aires
 const PASO = 100000, PRIMER_HITO = 7400000; // mismas reglas que hitos.js
 const RX_PRUEBA = /prueba|test/i;
-const RX_EXCLUIR = /^(🎟️|🎁|📋)/;
+const RX_EXCLUIR = /^(#\d+\s*)?(🎟️|🎁|📋)/;
 const REGISTRO = '📋 Registro fidelización';
 const URL_RESENA = 'https://mipegatina.club/.netlify/functions/resena';
 
@@ -82,7 +82,8 @@ function detallePedido(desc) {
 
 // ───────────────────────── registro (tarjeta archivada) ─────────────────────────
 async function registro(todas) {
-  let card = todas.find((c) => c.name === REGISTRO);
+  // Butler le agrega el número de pedido adelante ("#1006 📋 Registro…"): se busca por contenido y se usa la más vieja
+  let card = todas.filter((c) => (c.name || '').includes(REGISTRO)).sort((a, b) => (a.id < b.id ? -1 : 1))[0];
   if (!card) {
     card = await trello('/cards', { idList: LISTA_PRE_TICKET, name: REGISTRO, desc: 'Registro automático de los mails de fidelización (contador, reseñas y recompra). No borrar ni desarchivar.' }, 'POST');
     await trello(`/cards/${card.id}`, { closed: 'true' }, 'PUT');
@@ -193,7 +194,7 @@ function mailRecompra({ nombre, numero, detalle }) {
 async function mailsContador({ cerradas, reg, log }) {
   const archivedAt = await archivadasDesde(C.CUTOFF);
   const cards = cerradas
-    .filter((c) => archivedAt.has(c.id) && !C.YA_CONTADAS.has(c.id) && !/^🎟️/.test(c.name))
+    .filter((c) => archivedAt.has(c.id) && !C.YA_CONTADAS.has(c.id) && !/^(#\d+\s*)?(🎟️|📋)/.test(c.name))
     .map((c) => { const e = C.estimate(c.desc); return { ...c, t: archivedAt.get(c.id), v: e.total, ll: e.llaveros || 0 }; })
     .sort((a, b) => a.t - b.t);
 
