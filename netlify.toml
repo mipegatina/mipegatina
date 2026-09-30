@@ -5,3 +5,7 @@
 # Premios por hitos del contador: revisa cada 15 minutos
 [functions."hitos"]
   schedule = "*/15 * * * *"
+
+# Mails de fidelización (contador + reseña): revisa cada 15 minutos
+[functions."fidelizacion"]
+  schedule = "*/15 * * * *"
