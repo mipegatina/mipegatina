@@ -205,7 +205,7 @@ async function compute() {
   const ultimos = [];
   for (const card of closed) {
     const t = archivedAt.get(card.id);
-    if (!t || YA_CONTADAS.has(card.id)) continue;
+    if (!t || YA_CONTADAS.has(card.id) || /^🎟️/.test(card.name)) continue;  // los cupones no son producción
     const e = estimate(card.desc);
     llaveros += e.llaveros;
     if (t >= starts.mes) llaverosMes += e.llaveros;
@@ -243,4 +243,4 @@ exports.handler = async () => {
   }
 };
 
-exports._internals = { estimate, periodStarts, compute };
+exports._internals = { estimate, periodStarts, compute, BASE, CUTOFF, BOARD_ID, YA_CONTADAS };
