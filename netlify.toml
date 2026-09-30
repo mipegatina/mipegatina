@@ -1,3 +1,7 @@
 [build]
   publish = "."
   functions = "netlify/functions"
+
+# Premios por hitos del contador: revisa cada 15 minutos
+[functions."hitos"]
+  schedule = "*/15 * * * *"
