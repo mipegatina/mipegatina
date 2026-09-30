@@ -51,6 +51,9 @@
   .party p{font-weight:700;font-size:clamp(18px,3vw,48px);color:var(--green);margin-top:2vh}
   .last{margin-top:3vh;color:var(--gray3);font-size:clamp(14px,1.6vw,24px);text-align:center;min-height:1.2em}
   .last b{color:var(--ink);font-weight:600} .last em{color:var(--green);font-style:normal;font-weight:800}
+  .prize{margin-top:2vh;background:rgba(0,194,100,.08);border:1px solid rgba(0,194,100,.3);border-radius:999px;padding:.55em 1.2em;color:var(--ink);font-weight:500;font-size:clamp(13px,1.5vw,24px);text-align:center}
+  .prize:empty{display:none} .prize b{color:var(--green);font-weight:800;white-space:nowrap}
+  @media (max-width:640px){.prize{font-size:12.5px;border-radius:14px;margin-top:14px}}
   .status{position:fixed;left:4vw;bottom:1.2vh;font-size:12px;color:var(--gray3);opacity:.7}
   .status.err{color:#e5484d;opacity:1}
   canvas{position:fixed;inset:0;pointer-events:none;z-index:6}
@@ -94,6 +97,7 @@
     <p><span id="nextLabel">Próximo festejo</span><span id="nextLeft"></span></p>
   </div>
   <div class="last" id="last"></div>
+  <div class="prize" id="prize"></div>
 </main>
 
 <section class="stats">
@@ -157,6 +161,8 @@
     $('bar').style.width = Math.max(2, Math.min(100, (d.total-from)/STEP*100)) + '%';
     $('nextLabel').textContent = 'Próximo festejo: ' + fmt(nm);
     $('nextLeft').textContent = 'faltan ' + fmt(nm - d.total);
+    var P = 100000, pm = (Math.floor(d.total/P)+1)*P;
+    $('prize').innerHTML = '🎁 El pedido que cruce el <b>' + fmt(pm) + '</b> gana ' + (pm%500000===0 ? '<b>200 stickers gratis</b>' : 'un cupón de <b>20% OFF</b>');
 
     if(prev && d.total > prev.total){
       var el = $('plus'), t = $('total');
