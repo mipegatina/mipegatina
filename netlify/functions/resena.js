@@ -26,7 +26,7 @@ exports.handler = async (event) => {
       const { email } = F.datosCliente(card);
       if (email && card.idBoard) {
         const cerradas = await trello(`/boards/${card.idBoard}/cards/closed`, { fields: 'name' });
-        const reg = cerradas.find((c) => c.name === REGISTRO);
+        const reg = cerradas.filter((c) => (c.name || '').includes(REGISTRO)).sort((x, y) => (x.id < y.id ? -1 : 1))[0];
         if (reg) {
           const coms = await trello(`/cards/${reg.id}/actions`, { filter: 'commentCard', limit: '1000' });
           if (!coms.some((a) => (a.data?.text || '').startsWith(`[resena-click:${email}]`))) {
