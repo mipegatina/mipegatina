@@ -205,7 +205,7 @@ async function compute() {
   const ultimos = [];
   for (const card of closed) {
     const t = archivedAt.get(card.id);
-    if (!t || YA_CONTADAS.has(card.id) || /^🎟️/.test(card.name)) continue;  // los cupones no son producción
+    if (!t || YA_CONTADAS.has(card.id) || /^(#\d+\s*)?(🎟️|📋)/.test(card.name)) continue;  // los cupones no son producción
     const e = estimate(card.desc);
     llaveros += e.llaveros;
     if (t >= starts.mes) llaverosMes += e.llaveros;
