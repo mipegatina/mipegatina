@@ -286,7 +286,7 @@ async function detectarGanadores() {
 
   const closed = await trello(`/boards/${BOARD_ID}/cards/closed`, { fields: 'name,desc,idShort,shortUrl', customFieldItems: 'true' });
   const cards = closed
-    .filter((c) => archivedAt.has(c.id) && !YA_CONTADAS.has(c.id) && !/^🎟️/.test(c.name))
+    .filter((c) => archivedAt.has(c.id) && !YA_CONTADAS.has(c.id) && !/^(#\d+\s*)?(🎟️|📋)/.test(c.name))
     .map((c) => ({ ...c, t: archivedAt.get(c.id), v: estimate(c.desc).total }))
     .filter((c) => c.v > 0)
     .sort((a, b) => a.t - b.t);
@@ -358,7 +358,7 @@ async function premiar({ m, card }) {
 // ───────────────────────── 2) recordatorios y vencimientos ─────────────────────────
 async function revisarVencimientos() {
   const abiertas = await trello(`/lists/${LISTA_PRE_TICKET}/cards`, { fields: 'name,desc,due,shortUrl' });
-  const premios = abiertas.filter((c) => /^(🎁 PREMIO|🎟️ CUPÓN)/.test(c.name) && c.due);
+  const premios = abiertas.filter((c) => /^(#\d+\s*)?(🎁 PREMIO|🎟️ CUPÓN)/.test(c.name) && c.due);
   const ahora = Date.now();
 
   for (const c of premios) {
@@ -369,7 +369,7 @@ async function revisarVencimientos() {
     const comentarios = await trello(`/cards/${c.id}/actions`, { filter: 'commentCard', limit: '100' });
     const tiene = (marca) => comentarios.some((a) => (a.data?.text || '').includes(marca));
 
-    const p = c.name.startsWith('🎁') ? premioDe(PASO_GRANDE) : premioDe(PASO);
+    const p = c.name.includes('🎁') ? premioDe(PASO_GRANDE) : premioDe(PASO);
     const codigo = (c.desc.match(/Código:\s*(\S+)/) || [])[1] || null;
     const email = (c.desc.match(/Email cliente:\s*([\w.+-]+@[\w-]+\.[\w.-]+)/) || [])[1] || null;
     const nombre = ((c.desc.match(/Cliente:\s*(.+)/) || [])[1] || 'cliente').trim();
