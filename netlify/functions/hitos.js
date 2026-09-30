@@ -404,4 +404,4 @@ exports.handler = async () => {
   }
 };
 
-exports._internals = { mailCliente, mailInterno, mailRecordatorioCliente, mailAvisoInterno, premioDe, codigoCupon, vencimiento, detectarGanadores, enviarMail, INTERNO, fmt };
+exports._internals = { mailCliente, mailInterno, mailRecordatorioCliente, mailAvisoInterno, premioDe, codigoCupon, vencimiento, detectarGanadores, enviarMail, INTERNO, fmt, layout, label, tituloSeccion };
