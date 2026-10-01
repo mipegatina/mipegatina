@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Lista de precios · Mi Pegatina®</title>
+<link rel="icon" href="/img/mi_pegatina_logo_r.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f4f4f5;--bg2:#fafafa;--panel:#fff;--border:#e2e2e5;--border2:#d4d4d8;
+  --ink:#0a0a0a;--gray2:#52525b;--gray3:#71717a;--gray4:#a1a1aa;
+  --green:#00c264;--green2:#00a855;--green-soft:rgba(0,194,100,.08);--green-line:rgba(0,194,100,.28);
+  --mono:'Space Grotesk',sans-serif;--sans:'Inter',sans-serif;
+}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5;padding-bottom:70px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding:0 20px}
+a{color:var(--green2)}
+/* header */
+.top{background:#fff;border-bottom:1px solid var(--border)}
+.top-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px 20px;max-width:1000px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:12px}
+.brand img{height:34px;filter:brightness(0)}
+.brand span{font-weight:700;font-size:1.02rem;color:var(--gray2);border-left:1px solid var(--border2);padding-left:12px}
+.badge{font-family:var(--mono);font-size:.64rem;letter-spacing:1.4px;font-weight:700;color:var(--green2);background:var(--green-soft);border:1px solid var(--green-line);padding:6px 11px;border-radius:7px;white-space:nowrap}
+.hero{padding:34px 0 8px}
+.hero h1{font-size:clamp(1.7rem,4.4vw,2.5rem);font-weight:900;letter-spacing:-1.2px;line-height:1.08}
+.hero p{color:var(--gray2);margin-top:10px;max-width:640px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.chip{background:#fff;border:1px solid var(--border);border-radius:999px;padding:6px 13px;font-size:.8rem;font-weight:600;color:var(--gray2)}
+.chip b{color:var(--green2)}
+/* tabs */
+.tabs{display:flex;gap:8px;margin:26px 0 18px;flex-wrap:wrap}
+.tab{border:1px solid var(--border2);background:#fff;border-radius:11px;padding:11px 20px;font-family:var(--sans);font-weight:700;font-size:.92rem;color:var(--gray2);cursor:pointer;transition:all .15s}
+.tab:hover{border-color:var(--green);color:var(--green2)}
+.tab.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.panel{display:none}.panel.on{display:block}
+.lbl{font-family:var(--mono);font-size:.66rem;letter-spacing:1.5px;color:var(--gray3);font-weight:700;text-transform:uppercase;margin:30px 0 13px;display:flex;align-items:center;gap:9px}
+.lbl::before{content:'';width:16px;height:1px;background:var(--green)}
+/* material cards */
+.mats{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:12px}
+.mat{background:#fff;border:1px solid var(--border);border-radius:14px;padding:16px 17px}
+.mat h3{font-size:.98rem;font-weight:800;letter-spacing:-.3px;margin-bottom:5px}
+.mat p{font-size:.84rem;color:var(--gray2)}
+.mat dl{margin-top:10px;font-size:.78rem}
+.mat dt{font-family:var(--mono);font-size:.6rem;letter-spacing:1.2px;color:var(--green2);font-weight:700;text-transform:uppercase;margin-top:7px}
+.mat dd{color:var(--gray2)}
+.dur{background:var(--green-soft);border:1px solid var(--green-line);border-radius:12px;padding:12px 16px;font-size:.84rem;color:var(--gray2);margin-top:12px}
+.dur b{color:var(--ink)}
+/* selectors */
+.pills{display:flex;gap:7px;flex-wrap:wrap}
+.pill{background:#fff;border:1px solid var(--border2);border-radius:9px;padding:9px 15px;font-size:.86rem;font-weight:600;cursor:pointer;font-family:var(--sans);color:var(--ink);transition:all .15s}
+.pill:hover{border-color:var(--green);color:var(--green2)}
+.pill.on{border-color:var(--green);background:linear-gradient(90deg,rgba(0,194,100,.14),rgba(0,194,100,.03));color:var(--green2)}
+/* table */
+.tw{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-top:12px;overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:420px}
+th{font-family:var(--mono);font-size:.62rem;letter-spacing:1.2px;text-transform:uppercase;color:var(--gray3);text-align:right;padding:12px 16px;border-bottom:1px solid var(--border);background:var(--bg2);font-weight:700}
+th:first-child,td:first-child{text-align:left}
+td{padding:12px 16px;text-align:right;border-bottom:1px solid var(--border);font-variant-numeric:tabular-nums;font-weight:600}
+tr:last-child td{border-bottom:0}
+tbody tr{cursor:pointer;transition:background .12s}
+tbody tr:hover{background:var(--bg2)}
+tbody tr.on{background:var(--green-soft)}
+td.q{font-weight:800}
+.save{display:inline-block;font-size:.72rem;font-weight:800;color:var(--green2);background:var(--green-soft);border:1px solid var(--green-line);border-radius:6px;padding:1px 7px}
+.none{color:var(--gray4);font-weight:500}
+.hint{font-size:.78rem;color:var(--gray3);margin-top:9px}
+/* calc */
+.calc{background:#fff;border:1px solid var(--green-line);border-radius:16px;padding:20px;box-shadow:0 4px 20px rgba(0,194,100,.06)}
+.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.fl{font-size:.76rem;color:var(--gray3);font-weight:600;margin-bottom:8px;display:block}
+.qin{width:130px;background:var(--bg2);border:1px solid var(--border2);border-radius:9px;padding:10px 13px;font-family:var(--mono);font-size:1.15rem;font-weight:700;outline:none}
+.qin:focus{border-color:var(--green)}
+.res{margin-top:18px;padding-top:18px;border-top:1px solid var(--border);display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.res small{display:block;font-family:var(--mono);font-size:.6rem;letter-spacing:1.2px;text-transform:uppercase;color:var(--gray3);font-weight:700}
+.res .u{font-size:1.9rem;font-weight:900;letter-spacing:-1px;line-height:1.1}
+.res .t{font-size:1.25rem;font-weight:800;color:var(--green2);line-height:1.2}
+.res .warn{color:#b45309;font-weight:600;font-size:.88rem}
+.btn{display:inline-block;background:var(--green);color:#fff;text-decoration:none;font-weight:700;font-size:.92rem;padding:13px 24px;border-radius:11px;font-family:var(--sans);border:0;cursor:pointer}
+.btn:hover{background:var(--green2)}
+.btn.off{background:var(--border2);pointer-events:none}
+.btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--border2)}
+/* ideas + conditions */
+.ideas{display:flex;gap:8px;flex-wrap:wrap}
+.idea{background:#fff;border:1px solid var(--border);border-radius:10px;padding:8px 14px;font-size:.84rem;color:var(--gray2)}
+.cond{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.cond>div{background:#fff;border:1px solid var(--border);border-radius:14px;padding:17px 19px}
+.cond h4{font-size:.92rem;font-weight:800;margin-bottom:8px}
+.cond ul{list-style:none;font-size:.84rem;color:var(--gray2)}
+.cond li{padding:3px 0 3px 15px;position:relative}
+.cond li::before{content:'';position:absolute;left:0;top:11px;width:6px;height:6px;border-radius:50%;background:var(--green)}
+.foot{margin-top:34px;text-align:center;color:var(--gray3);font-size:.84rem}
+.foot .btn{margin-top:14px}
+@media(max-width:700px){
+  .calc-grid{grid-template-columns:1fr}
+  .brand span{display:none}
+  th,td{padding:11px 11px}
+  .res .u{font-size:1.6rem}
+}
+</style>
+</head>
+<body>
+
+<div class="top"><div class="top-row">
+  <div class="brand"><img src="/img/img-01.png" alt="Mi Pegatina"><span>Lista de precios</span></div>
+  <span class="badge">OCTUBRE 2026</span>
+</div></div>
+
+<div class="wrap">
+
+  <div class="hero">
+    <h1>Lista de precios</h1>
+    <p>Stickers, planchas y acrílicos impresos en nuestro taller de Buenos Aires. Elegí el producto, mirá el precio por unidad según la cantidad y armá tu pedido.</p>
+    <div class="chips">
+      <span class="chip">Precios <b>sin IVA</b> · por unidad</span>
+      <span class="chip">Producción en <b>5 días hábiles</b></span>
+      <span class="chip">Envíos a todo el país</span>
+    </div>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <button class="tab on" data-t="sueltos">Stickers sueltos</button>
+    <button class="tab" data-t="planchas">Planchas de stickers</button>
+    <button class="tab" data-t="acrilicos">Acrílicos</button>
+  </div>
+
+  <div id="panels"></div>
+
+  <div class="lbl">Condiciones</div>
+  <div class="cond">
+    <div><h4>Plazo y precios</h4><ul>
+      <li>Producción: <b>5 días hábiles</b> desde que se aprueba el diseño y se acredita el pago.</li>
+      <li>Todos los precios son por unidad y <b>sin IVA</b>. Si necesitás factura A o B se suma el 21%.</li>
+      <li>Lista vigente: Octubre 2026.</li>
+    </ul></div>
+    <div><h4>Mínimos por producto</h4><ul>
+      <li>Stickers sueltos: 200 u en 5 y 6 cm · 100 u en 8 y 9 cm.</li>
+      <li>Planchas: 200 u (10×7) · 100 u (10×15) · 60 u (15×21).</li>
+      <li>Llaveros, imanes y dijes: 30 u en 5 y 6 cm · 100 u en 3 cm.</li>
+      <li>Posavasos: 12 u · Premios QR: desde 1 u.</li>
+    </ul></div>
+    <div><h4>Muestra, errores y archivos</h4><ul>
+      <li>Muestra de impresión previa: tiene un <b>cargo adicional</b>, la cotizamos aparte.</li>
+      <li>Nos hacemos cargo de los errores de taller (corte, impresión, material, cantidades). No de errores de diseño: colores pantalla/impresión, textos mal escritos, tipografías sin convertir a curvas.</li>
+      <li>Texto no menor a 6 pt y trazos no menores a 0,3 mm. En planchas, 3 mm de separación entre cortes.</li>
+    </ul></div>
+  </div>
+
+  <div class="foot">
+    <p>¿Otra cantidad, otro producto o un pedido grande? Escribinos y te armamos la propuesta.</p>
+    <a class="btn" href="mailto:mail@mipegatina.club?subject=Consulta%20de%20precios">mail@mipegatina.club</a>
+  </div>
+
+</div>
+
+<script>
+/* ============================================================================
+   PRECIOS — mismas reglas que /interno/lista-precios.html y que el cotizador de la web.
+   Cuando cambie el dólar o haya un ajuste, actualizar ACÁ LAS MISMAS constantes que en la lista interna.
+   (El dólar y los valores por m² NO se muestran en la página.)
+   ============================================================================ */
+var BNA_VENDEDOR = 1535;     // BNA vendedor al 11/09/2026
+var MARGEN_DOLAR = 0.045;    // +4,5%
+var COT = Math.round(BNA_VENDEDOR * (1 + MARGEN_DOLAR) / 5) * 5;
+var AJUSTE_LISTA = 1.03;     // Sep 2026 +3%
+var AJUSTE_ACRILICO = 1.05;  // Sep 2026 +5% solo acrílicos
+var AJUSTE_3CM = 1.4;        // Oct 2026: acrílicos de 3 cm +40% (la cadena del llavero queda fija)
+var RECARGO_SUNCATCHER = 1.15;
+var MAIL = 'mail@mipegatina.club';
+
+var r5 = function(n){ return Math.ceil(Math.round(n*100)/100/5)*5; };
+var $ = function(id){ return document.getElementById(id); };
+var money = function(n){ return '$' + Math.round(n).toLocaleString('es-AR'); };
+
+/* ---------- datos: stickers sueltos ---------- */
+var M2_STICKER = {
+  blancoPremium: { '5x5':40, '6x6':40, '8x8':32.1, '9x9':32.1 },
+  transparente:  { '5x5':44, '6x6':44, '8x8':35.31, '9x9':35.31 },
+  especial:      { '5x5':57.75, '6x6':57.75, '8x8':53.5, '9x9':53.5 }
+};
+M2_STICKER.suncatcher = { '8x8': 53.5*RECARGO_SUNCATCHER, '9x9': 53.5*RECARGO_SUNCATCHER };
+var QTY_SUELTO = {'5x5':[200,500,1200,3000,6000],'6x6':[200,500,1200,3000,6000],'8x8':[100,250,600,1500,3000],'9x9':[100,250,600,1500,3000]};
+function discSuelto(q, sz){
+  var chico = (sz==='5x5'||sz==='6x6'), d = 0;
+  if(q >= (chico?3000:1500)) d = .15; else if(q >= (chico?1200:600)) d = .10; else if(q >= (chico?500:250)) d = .05;
+  if(q >= (chico?6000:3000)) d += .05;
+  return Math.round(d*100)/100;
+}
+var COL_VINILO = {
+  blancoPremium: { label:'Blanco Premium' },
+  transparente:  { label:'Transparente Premium' },
+  especial:      { label:'Especial' },
+  suncatcher:    { label:'Suncatcher' }
+};
+
+/* ---------- datos: planchas ---------- */
+var M2_PLANCHA = {
+  '10x7':  { blancoPremium:32.1*1.10, transparente:35.31*1.10, especial:53.5*1.10 },
+  '10x15': { blancoPremium:32.1, transparente:35.31, especial:53.5 },
+  '15x21': { blancoPremium:32.1, transparente:35.31, especial:53.5 }
+};
+var DIM_PL = { '10x7':[10,7], '10x15':[10,15], '15x21':[15,21] };
+var QTY_PLANCHA = {'10x7':[200,500,1000,2000],'10x15':[100,250,500,1000],'15x21':[60,150,300,600]};
+function discPlancha(q, sz){
+  var t2={'10x7':1000,'10x15':500,'15x21':300}, t1={'10x7':500,'10x15':250,'15x21':150}, tope={'10x7':2000,'10x15':1000,'15x21':600};
+  var d = 0;
+  if(q >= t2[sz]) d = .10; else if(q >= t1[sz]) d = .05;
+  if(q >= tope[sz]) d += .05;
+  return Math.round(d*100)/100;
+}
+
+/* ---------- datos: acrílicos ---------- */
+var BR3  = [{q:100,d:0},{q:200,d:5},{q:300,d:10},{q:600,d:15}];
+var BR56 = [{q:30,d:0},{q:60,d:5},{q:200,d:10},{q:600,d:15}];
+var BRPOS = [{q:12,d:0},{q:36,d:5},{q:60,d:10},{q:84,d:15}];
+var BRPRE = [{q:1,d:0},{q:5,d:5},{q:10,d:10},{q:25,d:15},{q:50,d:20}];
+var AC = {
+  llavero:  { label:'Llavero', sub:'con cadena metálica', base:300, fijo:.143, area:{'3x3':.00108,'5x5':.0025,'6x6':.0036} },
+  iman:     { label:'Imán', sub:'en toda la superficie', base:300, fijo:.11, area:{'5x5':.0025,'6x6':.0036} },
+  dije:     { label:'Dije', sub:'sin accesorio', base:300, fijo:0, area:{'3x3':.00108,'5x5':.0025,'6x6':.0036} },
+  posavaso: { label:'Posavaso', sub:'', fixedUSD:{'9.5x9.5':1.75} },
+  premio:   { label:'Premio | QR', sub:'', fixedUSD:{'10x10':22,'15x21':50} }
+};
+function unitAc(prod, sz, d){
+  var p = AC[prod], aj = AJUSTE_LISTA * AJUSTE_ACRILICO, f = d/100;
+  if(p.fixedUSD) return r5(p.fixedUSD[sz] * (1-f) * aj * COT);
+  if(sz === '3x3') return r5(p.base * (1-f) * p.area[sz] * AJUSTE_3CM * aj * COT) + (p.fijo ? r5(p.fijo * aj * COT) : 0);
+  return r5((p.base * (1-f) * p.area[sz] + p.fijo) * aj * COT);
+}
+
+/* ---------- catálogo por pestaña ---------- */
+function brDisc(br){ return function(q){ var d = 0; br.forEach(function(b){ if(q >= b.q) d = b.d; }); return d; }; }
+
+var TABS = {
+  sueltos: {
+    unit:'sticker', title:'Vinilo',
+    mats: [
+      { h:'Vinilo Blanco Premium', p:'El clásico que no falla. Fondo blanco opaco de alta cobertura, ideal para colores vibrantes y textos nítidos.', acab:'Fondo blanco de alta cobertura.' },
+      { h:'Vinilo Transparente Premium', p:'Sin fondo visible. Perfecto para botellas, vidrios y superficies donde el material es parte del diseño.', acab:'Sin fondo: se ve la superficie.' },
+      { h:'Vinilo Especial', p:'Acabados únicos para destacar: holográfico, holo gold, glitter, glitter transparente y blanco con laca sectorizada.', acab:'Holográfico, metalizado, glitter. La laca sectorizada da brillo solo donde lo definas; el resto queda mate.' },
+      { h:'Suncatcher Adhesivo', p:'Adhesivo para vidrios que descompone la luz del sol en reflejos de arcoíris. Solo en 8 y 9 cm.', acab:'Reflejos de arcoíris con el sol.' }
+    ],
+    dur:'<b>Durabilidad:</b> todos nuestros vinilos son resistentes al agua y aptos para exterior. La tinta UV no se decolora con el sol ni se corre con el agua. Hay stickers nuestros pegados en la calle hace más de 4 años, en perfecto estado.',
+    ideas:['Packaging y envíos de emprendimientos','Merch de marca y eventos','Botellas y vidrios (transparente)','Vidrieras y ventanas (suncatcher)','Regalos y souvenirs'],
+    groups:(function(){
+      return ['5x5','6x6','8x8','9x9'].map(function(sz){
+        var cols = ['blancoPremium','transparente','especial'].concat(M2_STICKER.suncatcher[sz] ? ['suncatcher'] : []);
+        var cm = sz.split('x')[0];
+        return { id:sz, label:cm + ' cm', sub:'lado más largo', cols:cols.map(function(k){ return { k:k, label:COL_VINILO[k].label }; }),
+          qtys:QTY_SUELTO[sz], disc:function(q){ return discSuelto(q,sz)*100; },
+          unit:function(k,q){ var area=(+cm/100)*(+cm/100); var base=r5(M2_STICKER[k][sz]*AJUSTE_LISTA*area*COT); var d=discSuelto(q,sz); return d>0 ? r5(base*(1-d)) : base; },
+          title:function(k){ return 'Sticker suelto · ' + COL_VINILO[k].label; } };
+      });
+    })()
+  },
+  planchas: {
+    unit:'plancha', title:'Vinilo',
+    mats: [
+      { h:'Vinilo Blanco Premium', p:'Fondo blanco opaco de alta cobertura. Varios diseños en una misma plancha, cortados y listos para usar.', acab:'Fondo blanco de alta cobertura.' },
+      { h:'Vinilo Transparente Premium', p:'Sin fondo visible: el material es parte del diseño. Ideal para vidrio, botellas y superficies claras.', acab:'Sin fondo: se ve la superficie.' },
+      { h:'Vinilo Especial', p:'Holográfico, holo gold, glitter, glitter transparente y blanco con laca sectorizada.', acab:'Holográfico, metalizado, glitter. La laca sectorizada da brillo solo donde lo definas; el resto queda mate.' }
+    ],
+    dur:'<b>Durabilidad:</b> mismos vinilos premium que los stickers sueltos: resistentes al agua y aptos para exterior, con tinta UV que no se decolora al sol. En planchas, 3 mm de separación mínima entre cortes.',
+    ideas:['Packs de stickers para vender','Papelería, agendas y cuadernos','Kits de bienvenida y regalos empresariales','Merch para eventos'],
+    groups:['10x7','10x15','15x21'].map(function(sz){
+      return { id:sz, label:sz.replace('x',' × ') + ' cm', sub:'plancha', cols:['blancoPremium','transparente','especial'].map(function(k){ return { k:k, label:COL_VINILO[k].label }; }),
+        qtys:QTY_PLANCHA[sz], disc:function(q){ return discPlancha(q,sz)*100; },
+        unit:function(k,q){ var d=DIM_PL[sz]; var base=r5(M2_PLANCHA[sz][k]*AJUSTE_LISTA*(d[0]/100)*(d[1]/100)*COT); var dd=discPlancha(q,sz); return dd>0 ? r5(base*(1-dd)) : base; },
+        title:function(k){ return 'Plancha de stickers · ' + COL_VINILO[k].label; } };
+    })
+  },
+  acrilicos: {
+    unit:'unidad', title:'Producto',
+    mats: [
+      { h:'Llavero', p:'Acrílico impreso UV a todo color con cadena metálica reforzada.', acab:'Impresión UV directa, acabado premium.' },
+      { h:'Imán', p:'Acrílico con imán en toda la superficie. Para heladera, pizarras y góndolas.', acab:'Impresión UV directa, acabado premium.' },
+      { h:'Dije', p:'Acrílico impreso sin accesorio, listo para colgar, pegar o armar tu propio producto.', acab:'Impresión UV directa, acabado premium.' },
+      { h:'Posavaso', p:'9,5 × 9,5 cm, espesor de 2 mm, sin base antideslizante.', acab:'Impresión UV a todo color.' },
+      { h:'Premio | QR', p:'Acrílico macizo con impresión UV directa. 10 × 10 cm sin base, 15 × 21 cm con base acrílica.', acab:'Impresión UV directa, acabado premium.' }
+    ],
+    dur:'<b>Durabilidad:</b> impresión UV directa sobre acrílico en nuestra Mimaki de cama plana: colores vibrantes, acabado premium y durabilidad superior.',
+    ideas:['Souvenirs y llaveros para eventos','Merch de marca e imanes promocionales','Posavasos para bares y regalos corporativos','Premios y reconocimientos con QR','Dijes y colgantes'],
+    groups:[
+      { id:'3x3', label:'3 cm', sub:'llavero y dije', prods:['llavero','dije'], sz:'3x3', br:BR3 },
+      { id:'5x5', label:'5 cm', sub:'llavero, imán y dije', prods:['llavero','iman','dije'], sz:'5x5', br:BR56 },
+      { id:'6x6', label:'6 cm', sub:'llavero, imán y dije', prods:['llavero','iman','dije'], sz:'6x6', br:BR56 },
+      { id:'pos', label:'Posavaso', sub:'9,5 × 9,5 cm', prods:['posavaso'], sz:'9.5x9.5', br:BRPOS },
+      { id:'pre1', label:'Premio | QR', sub:'10 × 10 cm · sin base', prods:['premio'], sz:'10x10', br:BRPRE },
+      { id:'pre2', label:'Premio | QR', sub:'15 × 21 cm · con base', prods:['premio'], sz:'15x21', br:BRPRE }
+    ].map(function(g){
+      return { id:g.id, label:g.label, sub:g.sub, cols:g.prods.map(function(k){ return { k:k, label:AC[k].label }; }),
+        qtys:g.br.map(function(b){ return b.q; }), disc:brDisc(g.br),
+        unit:function(k,q){ return unitAc(k, g.sz, brDisc(g.br)(q)); },
+        title:function(k){ return AC[k].label + ' · ' + g.label + (g.sub && g.id.indexOf('pre')===0 ? ' (' + g.sub + ')' : ''); } };
+    })
+  }
+};
+
+/* ---------- render ---------- */
+var state = {};
+function mailLink(tab, g, col, qty, unit){
+  var subject = 'Presupuesto: ' + g.title(col.k) + (g.id.indexOf('pre')===0||g.id==='pos' ? '' : ' ' + g.label) + ' x ' + qty;
+  var body = 'Hola! Quiero pedir este presupuesto:\n\n' +
+    'Producto: ' + g.title(col.k) + '\n' +
+    'Medida: ' + g.label + (g.sub ? ' (' + g.sub + ')' : '') + '\n' +
+    'Cantidad: ' + qty.toLocaleString('es-AR') + '\n' +
+    'Precio por unidad: ' + money(unit) + ' (sin IVA)\n' +
+    'Total: ' + money(unit*qty) + ' (sin IVA)\n\n' +
+    'Nombre / empresa:\nCUIT (si necesitás factura):\nCiudad de envío:\n';
+  return 'mailto:' + MAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+}
+
+function build(tab){
+  var T = TABS[tab], st = state[tab] = { g:0, c:0, q:T.groups[0].qtys[0] };
+  var el = document.createElement('div'); el.className = 'panel' + (tab==='sueltos' ? ' on' : ''); el.id = 'p-' + tab;
+  el.innerHTML =
+    '<div class="lbl">Materiales y acabados</div><div class="mats">' + T.mats.map(function(m){
+      return '<div class="mat"><h3>' + m.h + '</h3><p>' + m.p + '</p><dl><dt>Acabado</dt><dd>' + m.acab + '</dd></dl></div>'; }).join('') + '</div>' +
+    '<div class="dur">' + T.dur + '</div>' +
+    '<div class="lbl">Precio por unidad según cantidad</div>' +
+    '<div class="pills" id="gp-' + tab + '"></div>' +
+    '<div class="tw"><table><thead id="th-' + tab + '"></thead><tbody id="tb-' + tab + '"></tbody></table></div>' +
+    '<p class="hint">Tocá una fila para cargarla en el pedido. Los precios son por ' + T.unit + ', sin IVA.</p>' +
+    '<div class="lbl">Armá tu pedido</div>' +
+    '<div class="calc"><div class="calc-grid"><div><span class="fl">' + T.title + '</span><div class="pills" id="cp-' + tab + '"></div></div>' +
+    '<div><span class="fl">Cantidad</span><input class="qin" id="qi-' + tab + '" type="number" min="1" step="1"> <div class="hint" id="qm-' + tab + '"></div></div></div>' +
+    '<div class="res" id="rs-' + tab + '"></div></div>' +
+    '<div class="lbl">Ideas de uso</div><div class="ideas">' + T.ideas.map(function(i){ return '<span class="idea">' + i + '</span>'; }).join('') + '</div>';
+  $('panels').appendChild(el);
+  $('qi-' + tab).addEventListener('input', function(){ var v = parseInt(this.value,10); st.q = isNaN(v) ? 0 : v; renderCalc(tab); markRow(tab); });
+  render(tab);
+}
+
+function render(tab){
+  var T = TABS[tab], st = state[tab], g = T.groups[st.g];
+  if(st.c >= g.cols.length) st.c = 0;
+  $('gp-' + tab).innerHTML = T.groups.map(function(x,i){
+    return '<button class="pill' + (i===st.g?' on':'') + '" data-i="' + i + '">' + x.label + (x.sub ? ' <span style="color:var(--gray3);font-weight:500;font-size:.78rem">· ' + x.sub + '</span>' : '') + '</button>'; }).join('');
+  $('gp-' + tab).querySelectorAll('button').forEach(function(b){ b.onclick = function(){ st.g = +b.dataset.i; st.c = 0; st.q = T.groups[st.g].qtys[0]; render(tab); }; });
+  $('th-' + tab).innerHTML = '<tr><th>Cantidad</th><th>Ahorro</th>' + g.cols.map(function(c){ return '<th>' + c.label + '</th>'; }).join('') + '</tr>';
+  $('tb-' + tab).innerHTML = g.qtys.map(function(q){
+    var d = g.disc(q);
+    return '<tr data-q="' + q + '"><td class="q">' + q.toLocaleString('es-AR') + '</td><td>' + (d>0 ? '<span class="save">−' + d + '%</span>' : '<span class="none">—</span>') + '</td>' +
+      g.cols.map(function(c){ return '<td>' + money(g.unit(c.k,q)) + '</td>'; }).join('') + '</tr>'; }).join('');
+  $('tb-' + tab).querySelectorAll('tr').forEach(function(tr){ tr.onclick = function(){ st.q = +tr.dataset.q; $('qi-' + tab).value = st.q; renderCalc(tab); markRow(tab); }; });
+  $('cp-' + tab).innerHTML = g.cols.map(function(c,i){ return '<button class="pill' + (i===st.c?' on':'') + '" data-i="' + i + '">' + c.label + '</button>'; }).join('');
+  $('cp-' + tab).querySelectorAll('button').forEach(function(b){ b.onclick = function(){ st.c = +b.dataset.i; render(tab); }; });
+  $('qi-' + tab).value = st.q; $('qi-' + tab).min = g.qtys[0];
+  $('qm-' + tab).textContent = 'Mínimo ' + g.qtys[0].toLocaleString('es-AR') + ' unidades';
+  renderCalc(tab); markRow(tab);
+}
+
+function markRow(tab){
+  var st = state[tab];
+  $('tb-' + tab).querySelectorAll('tr').forEach(function(tr){ tr.classList.toggle('on', +tr.dataset.q === st.q); });
+}
+
+function renderCalc(tab){
+  var T = TABS[tab], st = state[tab], g = T.groups[st.g], c = g.cols[st.c], min = g.qtys[0], q = st.q, out = $('rs-' + tab);
+  if(!q || q < min){
+    out.innerHTML = '<div><small>Precio por unidad</small><div class="warn">El mínimo para este producto es de ' + min.toLocaleString('es-AR') + ' unidades.</div></div><a class="btn off">Pedir este presupuesto</a>';
+    return;
+  }
+  var u = g.unit(c.k, q), d = g.disc(q);
+  out.innerHTML =
+    '<div><small>Precio por unidad · sin IVA</small><div class="u">' + money(u) + (d>0 ? ' <span class="save">−' + d + '%</span>' : '') + '</div></div>' +
+    '<div><small>Total · sin IVA</small><div class="t">' + money(u*q) + '</div></div>' +
+    '<a class="btn" href="' + mailLink(tab, g, c, q, u).replace(/"/g,'&quot;') + '">Pedir este presupuesto</a>';
+}
+
+Object.keys(TABS).forEach(build);
+document.querySelectorAll('#tabs .tab').forEach(function(b){
+  b.onclick = function(){
+    document.querySelectorAll('#tabs .tab').forEach(function(x){ x.classList.toggle('on', x===b); });
+    document.querySelectorAll('.panel').forEach(function(p){ p.classList.toggle('on', p.id === 'p-' + b.dataset.t); });
+  };
+});
+</script>
+</body>
+</html>
