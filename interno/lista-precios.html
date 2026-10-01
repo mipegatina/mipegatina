@@ -412,6 +412,8 @@ const AJUSTE_LISTA = 1.03;
 // Ajuste extra SOLO para acrílicos (llavero, imán, dije, posavaso, premio), encima de AJUSTE_LISTA.
 // Sep 2026: +5% = 1.05. Acrílico acumula AJUSTE_LISTA × AJUSTE_ACRILICO (1.03 × 1.05)
 const AJUSTE_ACRILICO = 1.05;
+// Oct 2026: acrilicos de 3 cm (llavero y dije) +40% sobre el acrilico; la cadena del llavero queda fija. 1.4 = +40%
+const AJUSTE_3CM = 1.4;
 
 // Unidades por pliego (con separación en cm)
 // unidadesPorPliego eliminado
@@ -867,6 +869,11 @@ let stAc = { prodKey:'llavero', size:'5x5', qty:30 };
 
 function unitAcrilico(prodKey, sz, rate, discount=0){
   const p = ACRILICOS[prodKey]; if(!p||!p.sizes[sz]) return null;
+  // 3 cm: el acrilico lleva su propio recargo (AJUSTE_3CM) y el accesorio fijo NO. Llavero 3 cm = dije 3 cm + cadena (cada parte redondeada). Igual que la web.
+  if (sz==='3x3' && p.baseUsdM2>0) {
+    const aj = AJUSTE_LISTA * AJUSTE_ACRILICO, fijo = p.fijoUSD||0;
+    return round5up(p.baseUsdM2 * (1 - discount/100) * p.sizes[sz] * AJUSTE_3CM * aj * rate) + (fijo ? round5up(fijo * aj * rate) : 0);
+  }
   const uU = (p.pricesUSD && p.pricesUSD[sz]!=null)
     ? p.pricesUSD[sz] * (1 - discount/100)
     : p.baseUsdM2 * (1 - discount/100) * p.sizes[sz] + (p.fijoUSD||0);
