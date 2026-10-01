@@ -1043,6 +1043,8 @@ const AJUSTE_LISTA = 1.03;
 // Ajuste extra SOLO para acrílicos (llavero, imán, dije, posavaso, premio), encima de AJUSTE_LISTA.
 // Sep 2026: +5% = 1.05. Acrílico acumula AJUSTE_LISTA × AJUSTE_ACRILICO (1.03 × 1.05)
 const AJUSTE_ACRILICO = 1.05;
+// Oct 2026: acrilicos de 3 cm (llavero y dije) +40% sobre el acrilico; la cadena del llavero queda fija. 1.4 = +40%
+const AJUSTE_3CM = 1.4;
 const materialesSuelto = {
 blancoPremium: {
 label:"Vinilo Blanco Premium",
@@ -1072,7 +1074,7 @@ sizes:{ "8x8":{area:.0064},"9x9":{area:.0081} }
 const materialesAcrilico = {
 llavero: {
 label:"Llavero", sub:"Incluye cadena metálica reforzada", baseUsdM2:300, fijoUSD:0.143,
-sizes:{ "3x3":{area:.00108},"5x5":{area:.0025},"6x6":{area:.0036} }
+sizes:{ "3x3":{area:.00108,ajuste:AJUSTE_3CM},"5x5":{area:.0025},"6x6":{area:.0036} }
 },
 iman: {
 label:"Imán", sub:"Imán en toda la superficie", baseUsdM2:300, fijoUSD:0.11,
@@ -1080,7 +1082,7 @@ sizes:{ "5x5":{area:.0025},"6x6":{area:.0036} }
 },
 dije: {
 label:"Dije", sub:"Sin accesorio, solo acrílico", baseUsdM2:300, fijoUSD:0,
-sizes:{ "3x3":{area:.00108},"5x5":{area:.0025},"6x6":{area:.0036} }
+sizes:{ "3x3":{area:.00108,ajuste:AJUSTE_3CM},"5x5":{area:.0025},"6x6":{area:.0036} }
 },
 posavaso: {
 label:"Posavaso", sub:"Espesor de 2 mm · sin base antideslizante", baseUsdM2:0, fijoUSD:0,
@@ -1900,6 +1902,12 @@ function precioUnitarioARS(cat, producto, matKey, sz, qty){
     if(sd){
       const fijo = m.fijoUSD || 0;
       // el descuento pega sobre el acrilico, no sobre el accesorio (cadena/iman)
+      // 3 cm: el acrilico lleva su propio recargo (AJUSTE_3CM) y el accesorio fijo NO. Llavero 3 cm = dije 3 cm + cadena (cada parte redondeada)
+      if(sd.ajuste){
+        const aj = AJUSTE_LISTA * AJUSTE_ACRILICO;
+        const uAcril = m.baseUsdM2*(1-d)*sd.area*sd.ajuste*aj;
+        return { uA: round5up(uAcril*COTIZACION) + (fijo ? round5up(fijo*aj*COTIZACION) : 0), dPct, uU: uAcril + fijo*aj };
+      }
       const uU = ((sd.priceUSD != null) ? sd.priceUSD*(1-d) : m.baseUsdM2*(1-d)*sd.area + fijo) * AJUSTE_LISTA * AJUSTE_ACRILICO;
       return { uA: round5up(uU*COTIZACION), dPct, uU };
     }
