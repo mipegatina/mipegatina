@@ -95,6 +95,15 @@
   .btn-ghost:hover{border-color:var(--red)}
 
   .closed{display:none}
+  .cot-lock{display:none}
+  body.cerrado .quoter-wrap{position:relative}
+  body.cerrado .quoter-wrap>*:not(.cot-lock){filter:grayscale(1);opacity:.38;pointer-events:none;user-select:none}
+  body.cerrado #cotizador .sec-head{filter:grayscale(1);opacity:.45}
+  body.cerrado .cot-lock{display:block;position:absolute;inset:0;z-index:5;padding:40px 20px;background:rgba(7,2,9,.5);border-radius:inherit}
+  .cot-lock-box{position:sticky;top:32vh;max-width:380px;margin:0 auto;text-align:center}
+  .cot-lock-box svg{color:var(--dim);margin-bottom:12px}
+  .cot-lock-box h3{font-size:clamp(22px,5.5vw,30px);font-weight:800;color:var(--ink);letter-spacing:-.5px;margin-bottom:8px}
+  .cot-lock-box p{font-size:15px;color:var(--dim);line-height:1.5}
   .closed h2{font-size:clamp(28px,8vw,48px);font-weight:900;background:linear-gradient(120deg,var(--red),var(--magenta));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px;letter-spacing:-1px}
 
   /* TRUST STRIP */
@@ -354,9 +363,8 @@
       <div class="countdown-card">
         <div class="cd-label">Ekoparty 2026</div>
         <h2>Pedidos cerrados</h2>
-        <p class="hero-sub" style="margin-bottom:0">Terminó el plazo con producción garantizada. Consultanos igual: según stock y tiempos, todavía podemos ayudarte.</p>
+        <p class="hero-sub" style="margin-bottom:0">Terminó el plazo con producción garantizada. El evento ya se realizó.</p>
       </div>
-      <div class="cta-row"><a href="#cotizador" class="btn btn-primary">Consultá disponibilidad →</a></div>
     </div>
   </div>
 </header>
@@ -385,6 +393,13 @@
       <p class="sec-desc">Elegí producto, material, medida y cantidad. Vas a ver directamente tu Precio Especial Ekoparty, reservado para expositores.</p>
     </div>
     <div class="quoter-wrap">
+      <div class="cot-lock" role="status">
+        <div class="cot-lock-box">
+          <svg viewBox="0 0 24 24" width="36" height="36" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10.5" width="16" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg>
+          <h3>Cotizador cerrado</h3>
+          <p>Ya no se pueden realizar encargos para este evento.</p>
+        </div>
+      </div>
       <div class="q-grid">
         <div class="q-field q-field-prod"><label>Producto</label><select id="q-producto"></select></div>
         <div class="q-field q-field-mat"><label>Material</label><div class="q-swatches" id="q-material-sw"></div></div>
@@ -1224,7 +1239,14 @@ if($pmForm){
   function pad(n){return String(n).padStart(2,'0')}
   function tick(){
     const diff = target - Date.now();
-    if(diff <= 0){ live.style.display='none'; closed.style.display='block'; return; }
+    if(diff <= 0){
+      live.style.display='none'; closed.style.display='block';
+      if(!document.body.classList.contains('cerrado')){
+        document.body.classList.add('cerrado');
+        document.querySelectorAll('.quoter-wrap > *:not(.cot-lock)').forEach(function(e){ e.setAttribute('inert',''); });
+      }
+      return;
+    }
     document.getElementById('d').textContent = pad(Math.floor(diff/86400000));
     document.getElementById('h').textContent = pad(Math.floor(diff%86400000/3600000));
     document.getElementById('m').textContent = pad(Math.floor(diff%3600000/60000));
