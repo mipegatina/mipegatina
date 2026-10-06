@@ -553,7 +553,7 @@ const IG_POSTS = [
       <p class="sec-desc">Escribinos y te respondemos a la brevedad. Si ya sabés qué querés, armá tu cotización arriba y mandala directo.</p>
       <a href="mailto:mail@mipegatina.club" class="contact-mail">✉ mail@mipegatina.club</a>
     </div>
-    <form class="contact-form" id="contact-form" action="https://formspree.io/f/mbgdlojz" method="POST">
+    <form class="contact-form" id="contact-form" action="https://formspree.io/f/xvzedjdy" method="POST">
       <input type="hidden" name="_origen" value="Web Expo CASACUSIA — Contacto">
       <input type="hidden" name="_subject" value="Nuevo contacto desde la web de la Expo CASACUSIA">
       <div class="cf-grid">
@@ -562,6 +562,7 @@ const IG_POSTS = [
       </div>
       <div class="q-field" style="margin-top:16px"><label>Mensaje</label><textarea name="mensaje" rows="4" required placeholder="Contanos qué necesitás producir para tu stand"></textarea></div>
       <button type="submit" class="btn btn-primary" id="cf-submit" style="margin-top:18px;width:100%">Enviar mensaje →</button>
+      <div class="cf-status" id="cf-status"></div>
     </form>
     <div class="success-box" id="cf-success">
       <div class="success-check">&#10003;</div>
@@ -1043,7 +1044,7 @@ $add.addEventListener('click', addToCart);
 fillProductos(); fillMateriales(); fillMedidas(); fillPacks(); recalc();
 
 /* ===== ENVÍO FORMSPREE ===== */
-const ENDPOINT = "https://formspree.io/f/mbgdlojz";
+const ENDPOINT = "https://formspree.io/f/xvzedjdy";
 
 // --- Formulario de contacto ---
 const cform = document.getElementById('contact-form');
