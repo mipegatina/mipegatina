@@ -103,6 +103,25 @@
   .case-link{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:.9rem;font-weight:700;color:#fff;background:linear-gradient(120deg,#e0224a,#ff2e6e);padding:13px 26px;border-radius:12px;transition:.18s;box-shadow:0 12px 30px -10px rgba(224,34,74,.6)}
   .case-link:hover{transform:translateY(-2px);box-shadow:0 18px 40px -12px rgba(255,46,110,.7)}
 
+  /* ===== CASO CASACUSIA ===== */
+  .case-cc{margin-top:16px;background:#1D3541;border-radius:24px;padding:36px 28px;position:relative;overflow:hidden;box-shadow:0 40px 90px -40px rgba(29,53,65,.55)}
+  .case-cc::before{content:"";position:absolute;top:-70px;right:-50px;width:190px;height:190px;border-radius:50%;background:#5035BB}
+  .case-cc::after{content:"";position:absolute;bottom:-60px;right:90px;width:120px;height:120px;border-radius:50%;background:#E15376}
+  .case-cc>*{position:relative;z-index:1}
+  .case-cc .cc-dot{position:absolute;z-index:0;top:46px;right:150px;width:44px;height:44px;border-radius:50%;background:#ECBB40}
+  .case-cc .case-tag{background:#58B780;color:#1D3541}
+  .case-cc h3{font-size:clamp(1.5rem,4.6vw,2.2rem);font-weight:900;letter-spacing:-1px;color:#fff;margin-bottom:14px;line-height:1.1;max-width:560px}
+  .case-cc .case-p{color:#c9d6db;font-size:.98rem;max-width:600px;margin-bottom:28px;line-height:1.6}
+  .case-cc .stat{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.12)}
+  .case-cc .stat .l{color:#c9d6db}
+  .case-cc .stat .n{background:none;-webkit-text-fill-color:currentColor}
+  .case-cc .stat:nth-child(1) .n{color:#58B780}
+  .case-cc .stat:nth-child(2) .n{color:#ECBB40}
+  .case-cc .stat:nth-child(3) .n{color:#E15376}
+  .case-cc .case-link{background:#58B780;color:#1D3541;box-shadow:0 12px 30px -10px rgba(88,183,128,.55)}
+  .case-cc .case-link:hover{box-shadow:0 18px 40px -12px rgba(88,183,128,.7)}
+  @media(min-width:760px){.case-cc{padding:48px}}
+
   /* PRÓXIMO CASO */
   .case-soon{margin-top:16px;border:1px solid rgba(255,106,61,.3);border-radius:24px;padding:36px 28px;text-align:center;background:linear-gradient(135deg,rgba(255,106,61,.14),rgba(255,140,80,.05) 60%,transparent);position:relative;overflow:hidden}
   .case-soon::before{content:"";position:absolute;top:-40%;right:-10%;width:280px;height:280px;background:radial-gradient(circle,rgba(255,106,61,.18),transparent 65%);pointer-events:none}
@@ -340,7 +359,7 @@
     <div class="sec-head left">
       <span class="eyebrow">Casos de éxito</span>
       <h2 class="sec-title">Lo que ya estamos haciendo.</h2>
-      <p class="sec-desc">Cada evento, su propia web a medida. Este es el primero.</p>
+      <p class="sec-desc">Cada evento, su propia web a medida.</p>
     </div>
 
     <div class="case-eko">
@@ -353,6 +372,19 @@
         <div class="stat"><div class="n">$0</div><div class="l">de costo y gestión para el evento</div></div>
       </div>
       <a href="https://mipegatina.club/eko" class="case-link">Ver la web de Ekoparty →</a>
+    </div>
+
+    <div class="case-cc">
+      <span class="cc-dot"></span>
+      <div class="case-tag">● Expo CASACUSIA · 17 de octubre</div>
+      <h3>Merch para los expositores de la Expo CASACUSIA</h3>
+      <p class="case-p">Para la expo de CASACUSIA armamos un portal propio donde cada expositor cotiza stickers, planchas, llaveros e imanes con precio especial, y recibe su pedido antes del evento. Todo online, con la identidad de la expo y pedidos abiertos hasta el 14 de octubre.</p>
+      <div class="case-stats">
+        <div class="stat"><div class="n">Precio</div><div class="l">especial exclusivo para expositores</div></div>
+        <div class="stat"><div class="n">100%</div><div class="l">online, cotización al instante</div></div>
+        <div class="stat"><div class="n">4</div><div class="l">productos: stickers, planchas, llaveros e imanes</div></div>
+      </div>
+      <a href="https://mipegatina.club/casacusia" class="case-link">Ver la web de CASACUSIA →</a>
     </div>
 
     <div class="case-soon">
