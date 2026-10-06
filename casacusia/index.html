@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18358544445"></script>
+    <script>
+        window.dataLayer=window.dataLayer||[];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config','AW-18358544445');
+    </script>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi Pegatina × CASACUSIA · Merch para expositores de la Expo</title>
+<meta name="description" content="Stickers, planchas, llaveros e imanes con precio especial para expositores de la Expo CASACUSIA.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green:#1DB97B; --green-d:#149462; --purple:#5A46B4; --pink:#F0447B; --yellow:#FFC000; --navy:#123642;
+    --n0:#fff; --n50:#F7F8F7; --n100:#EEF1EF; --n200:#DFE4E1; --n400:#9AA6A2; --n600:#5C6864;
+    --tint-green:#E8F7F0; --tint-purple:#EFECFA; --tint-pink:#FDEAF0;
+    --r-sm:8px; --r-md:16px; --r-lg:28px;
+    --shadow:0 2px 16px rgba(18,54,66,.08); --shadow-h:0 8px 24px rgba(18,54,66,.12);
+    --display:"Fredoka",ui-rounded,"Nunito Sans",sans-serif;
+    --font:"Nunito Sans","Segoe UI",Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth;background:var(--n0)}
+  body{background:var(--n0);color:var(--navy);font-family:var(--font);font-size:17px;line-height:1.55;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  ::selection{background:var(--green);color:#fff}
+  a{text-decoration:none;color:inherit}
+  :focus-visible{outline:3px solid var(--purple);outline-offset:3px;border-radius:var(--r-sm)}
+  h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.08}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 20px}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:60;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--n200)}
+  .nav-in{max-width:1160px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+  .brand{font-family:var(--display);font-weight:600;font-size:19px;display:flex;align-items:center;gap:8px}
+  .brand .x{color:var(--green)}
+  .nav-links{display:none;gap:26px;font-size:15px;color:var(--n600);font-weight:600}
+  .nav-links a:hover{color:var(--navy)}
+  .nav-cta{background:var(--green);color:#fff;padding:10px 22px;border-radius:999px;font-family:var(--display);font-weight:600;font-size:16px;transition:.18s;white-space:nowrap}
+  .nav-cta:hover{background:var(--green-d)}
+
+  /* HERO */
+  header{position:relative;padding:120px 0 64px;overflow:hidden;background:var(--tint-green)}
+  header::before,header::after{content:"";position:absolute;border-radius:50%;pointer-events:none}
+  header::before{width:360px;height:360px;right:-120px;top:-100px;background:var(--tint-purple)}
+  header::after{width:220px;height:220px;left:-80px;bottom:-90px;background:var(--tint-pink)}
+  .hero-in{position:relative;z-index:2;text-align:center}
+  .eyebrow{display:inline-block;font-size:15px;font-weight:700;color:var(--green-d);background:#fff;border-radius:999px;padding:7px 18px;margin-bottom:24px;box-shadow:var(--shadow)}
+  h1{font-size:clamp(40px,10vw,84px);letter-spacing:-.5px;margin-bottom:20px}
+  h1 .hl{color:var(--green-d)}
+  .hero-sub{font-size:clamp(17px,4.2vw,21px);color:var(--n600);max-width:620px;margin:0 auto 36px}
+
+  .countdown-card{display:block;position:relative;background:#fff;border-radius:var(--r-lg);padding:28px 14px;margin-bottom:36px;box-shadow:var(--shadow-h)}
+  .cd-label{font-size:15px;font-weight:700;color:var(--n600);margin-bottom:16px}
+  .cd-label b{color:var(--green-d)}
+  .clock{display:flex;gap:4px;align-items:flex-start;justify-content:center}
+  .unit{display:flex;flex-direction:column;align-items:center;min-width:0;flex:1}
+  .unit .num{font-family:var(--display);font-size:clamp(38px,12.5vw,76px);font-weight:700;line-height:.95;color:var(--navy);font-variant-numeric:tabular-nums}
+  .unit .num.pulse{color:var(--green-d)}
+  .unit .lbl{font-size:13px;font-weight:700;color:var(--n600);margin-top:8px}
+  .colon{font-family:var(--display);font-size:clamp(30px,9vw,56px);font-weight:600;color:var(--n200);line-height:1;padding-top:4px}
+
+  .cta-row{display:flex;flex-direction:column;gap:12px;align-items:stretch}
+  .btn{font-family:var(--display);font-weight:600;font-size:17px;padding:15px 30px;border-radius:999px;cursor:pointer;transition:.18s;display:inline-block;border:2px solid transparent;text-align:center}
+  .btn-primary{background:var(--green);color:#fff}
+  .btn-primary:hover{background:var(--green-d)}
+  .btn-ghost{background:#fff;border-color:var(--n200);color:var(--navy)}
+  .btn-ghost:hover{border-color:var(--navy)}
+  .closed{display:none}
+  .closed h2{font-size:clamp(28px,8vw,48px);color:var(--green-d);margin-bottom:12px}
+
+  /* SECTION */
+  section{padding:72px 0;position:relative;scroll-margin-top:80px}
+  header{scroll-margin-top:80px}
+  .sec-eyebrow{display:inline-block;font-size:14px;font-weight:700;color:var(--purple);background:var(--tint-purple);padding:5px 14px;border-radius:999px;margin-bottom:14px}
+  .sec-title{font-size:clamp(30px,7vw,52px);letter-spacing:-.3px;margin-bottom:14px}
+  .sec-desc{color:var(--n600);max-width:560px;font-size:17px}
+  .sec-link{display:inline-block;margin-top:18px;font-size:16px;font-weight:700;color:var(--green-d);transition:.18s}
+  .sec-link:hover{color:var(--navy)}
+  .sec-head{margin-bottom:40px}
+
+  /* STEPS */
+  .steps{display:grid;grid-template-columns:1fr;gap:16px}
+  .step{background:var(--n50);border:1px solid var(--n200);border-radius:var(--r-md);padding:28px;box-shadow:var(--shadow)}
+  .step .n{display:inline-flex;align-items:center;justify-content:center;font-family:var(--display);font-size:20px;font-weight:700;color:#fff;background:var(--green);border-radius:12px;min-width:44px;height:44px;margin-bottom:16px}
+  .step:nth-child(2) .n{background:var(--purple)}
+  .step:nth-child(3) .n{background:var(--pink)}
+  .step h3{font-size:22px;margin-bottom:8px}
+  .step p{color:var(--n600);font-size:16px}
+
+  /* COTIZADOR */
+  .quoter-wrap{background:var(--n50);border:1px solid var(--n200);border-radius:var(--r-lg);padding:24px 20px;position:relative;box-shadow:var(--shadow)}
+  .q-grid{display:grid;grid-template-columns:1fr;gap:16px}
+  .q-field label{font-size:15px;font-weight:700;color:var(--navy);display:block;margin-bottom:8px}
+  .q-field select,.q-field input{width:100%;background:#fff;border:1.5px solid var(--n200);color:var(--navy);font-family:inherit;font-size:16px;padding:14px 15px;border-radius:12px}
+  .q-field select:focus,.q-field input:focus{outline:none;border-color:var(--green)}
+.q-field-prod,.q-field-mat{grid-column:1/-1}
+.q-swatches{display:flex;flex-wrap:wrap;gap:10px}
+.q-sw-btn{display:flex;flex-direction:column;align-items:center;gap:7px;background:transparent;border:none;padding:0;cursor:pointer;min-width:88px;font-family:inherit}
+.q-sw{width:52px;height:52px;border-radius:14px;border:2px solid var(--n200);background-size:cover;background-position:center;background-repeat:no-repeat;position:relative;transition:transform .2s,border-color .2s,box-shadow .2s}
+.q-sw-btn:hover .q-sw{transform:translateY(-2px);border-color:var(--green)}
+.q-sw-btn.sel .q-sw{border-color:var(--green);box-shadow:0 0 0 4px rgba(29,185,123,.2)}
+.q-sw-btn.sel .q-sw::after{content:'\2713';position:absolute;top:-7px;right:-7px;width:20px;height:20px;background:var(--green);color:#fff;border-radius:50%;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.q-sw-lbl{font-size:13px;line-height:1.25;text-align:center;color:var(--n600);white-space:nowrap;transition:color .2s;font-weight:600}
+.q-sw-btn.sel .q-sw-lbl{color:var(--navy)}
+.q-swatches.single .q-sw-btn{cursor:default}
+.q-swatches.single .q-sw-btn:hover .q-sw{transform:none}
+.sw-blanco{background:#fff}
+.sw-blancoLaca{background:linear-gradient(135deg,#fff 40%,#e8e8e8 50%,#fff 60%)}
+.sw-transparente{background:repeating-conic-gradient(#aaa 0% 25%,#fff 0% 50%) 0 0/12px 12px}
+.sw-holografico{background:linear-gradient(135deg,#ff6b6b,#ffd93d,#6bcb77,#4d96ff,#c77dff,#ff6b6b);background-size:200% 200%;animation:holo-shift 3s linear infinite}
+.sw-holograficoGold{background:linear-gradient(135deg,#ffd700,#ffb347,#ffe066,#ffaa00,#ffd700);background-size:200% 200%;animation:holo-shift 2.5s linear infinite}
+.sw-acrilico{background:linear-gradient(135deg,#fdfdfd 35%,#e4ecf2 50%,#fdfdfd 65%)}
+@keyframes holo-shift{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+@media(prefers-reduced-motion:reduce){.sw-holografico,.sw-holograficoGold{animation:none}}
+@media(max-width:560px){.q-sw-btn{min-width:72px}.q-sw-lbl{white-space:normal}.q-sw{width:44px;height:44px;border-radius:12px}.q-sw-lbl{font-size:12px}}
+  .price-out{margin-top:24px;padding:24px;background:var(--tint-green);border-radius:var(--r-md);display:flex;flex-direction:column;align-items:stretch;gap:16px;text-align:center}
+  .price-out .price-block{display:flex;flex-direction:column;align-items:center;gap:10px}
+  .price-out .now{font-family:var(--display);font-size:clamp(40px,11vw,56px);font-weight:700;color:var(--navy);line-height:1}
+  .price-out .tag{display:inline-flex;align-items:center;font-size:14px;font-weight:700;color:#fff;background:var(--green-d);padding:6px 16px;border-radius:999px;white-space:nowrap}
+  @media(min-width:640px){ .price-out .price-block{align-items:flex-start} }
+  .iva-note{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:18px;padding:14px 16px;background:#fff;border:1px solid var(--n200);border-radius:12px;font-size:15px;color:var(--n600);text-align:center;flex-wrap:wrap}
+  .iva-badge{flex-shrink:0;font-size:13px;font-weight:700;color:var(--purple);background:var(--tint-purple);padding:4px 12px;border-radius:999px}
+  .ship-note{margin-top:12px;padding:14px 16px;background:#fff;border:1px solid var(--n200);border-radius:12px;display:flex;flex-direction:column;gap:9px}
+  .ship-row{display:flex;align-items:flex-start;gap:10px;font-size:15px;color:var(--n600);line-height:1.5}
+  .ship-row b{color:var(--navy);font-weight:700}
+  .ship-ico{flex-shrink:0;color:var(--green-d);font-size:16px;line-height:1.3}
+  .cart{margin-top:28px;background:#fff;border:2px solid var(--green);border-radius:var(--r-lg);padding:24px 20px;box-shadow:var(--shadow-h)}
+  .cart-head{font-family:var(--display);font-size:22px;font-weight:600;margin-bottom:16px}
+  .cart-item{display:flex;align-items:center;gap:12px;padding:14px 16px;background:var(--n50);border:1px solid var(--n200);border-radius:14px;margin-bottom:10px}
+  .cart-item-body{flex:1;min-width:0}
+  .cart-item-title{font-size:16px;font-weight:700;margin-bottom:3px}
+  .cart-item-meta{font-size:14px;color:var(--n600)}
+  .cart-item-price{font-size:17px;font-weight:700;color:var(--navy);white-space:nowrap;text-align:right}
+  .cart-item-price .cinorm{display:block;font-size:12px;color:var(--n400);text-decoration:line-through;font-weight:600}
+  .cart-item-del{flex-shrink:0;width:32px;height:32px;border-radius:10px;border:1.5px solid var(--n200);background:#fff;color:var(--n600);cursor:pointer;font-size:17px;line-height:1;transition:.15s}
+  .cart-item-del:hover{border-color:var(--pink);color:var(--pink);background:var(--tint-pink)}
+  .cart-total{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:18px;background:var(--tint-green);border-radius:16px;margin:16px 0;flex-wrap:wrap}
+  .cart-total-lbl{font-family:var(--display);font-size:18px;font-weight:600}
+  .cart-total-off{display:block;color:var(--green-d);font-family:var(--font);font-size:13px;font-weight:700;margin-top:3px}
+  .cart-total-nums{text-align:right}
+  .cart-actions{display:flex;gap:10px;flex-wrap:wrap}
+  .cart-actions .btn{flex:1 1 0;text-align:center;min-width:0;line-height:1.3}
+  .cart-add-more{background:#fff !important;color:var(--navy) !important;border:2px solid var(--n200) !important}
+  .cart-add-more:hover{border-color:var(--navy) !important}
+  @media(max-width:520px){ .cart-actions .btn{flex:1 1 100%} }
+  .cart-was{display:block;font-size:15px;color:var(--n400);text-decoration:line-through;font-weight:600}
+  .cart-now{font-family:var(--display);font-size:36px;font-weight:700;color:var(--navy);line-height:1}
+
+  /* PRODUCTOS */
+  .expo-list{display:grid;gap:14px}
+  .expo-row{display:flex;align-items:center;gap:18px;padding:22px;background:var(--n50);border:1px solid var(--n200);border-radius:var(--r-md);transition:.2s;cursor:pointer;box-shadow:var(--shadow)}
+  .expo-row:hover{box-shadow:var(--shadow-h);transform:translateY(-2px)}
+  .row-ico{flex-shrink:0;width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;color:var(--green-d);background:var(--tint-green)}
+  .expo-row:nth-child(2) .row-ico{color:var(--purple);background:var(--tint-purple)}
+  .expo-row:nth-child(3) .row-ico{color:var(--pink);background:var(--tint-pink)}
+  .expo-row:nth-child(4) .row-ico{color:#a67700;background:#FFF4D1}
+  .row-ico svg{width:26px;height:26px;stroke:currentColor;stroke-width:1.6;fill:none}
+  .row-body{flex:1;min-width:0}
+  .row-body h3{font-size:21px;margin-bottom:3px}
+  .row-body p{color:var(--n600);font-size:15px}
+  .row-consult{flex-shrink:0;font-size:15px;font-weight:700;color:var(--green-d);white-space:nowrap}
+  @media(min-width:760px){.expo-list{grid-template-columns:1fr 1fr}}
+
+  /* TRABAJOS / INSTAGRAM */
+  .ig-grid{column-count:1;column-gap:18px}
+  .ig-grid.is-empty{column-count:1;display:flex;justify-content:center}
+  .ig-card{break-inside:avoid;-webkit-column-break-inside:avoid;page-break-inside:avoid;display:inline-block;width:100%;margin:0 0 18px;border-radius:var(--r-md);overflow:hidden;border:1px solid var(--n200);background:#fff;box-shadow:var(--shadow);transition:.2s}
+  .ig-card:hover{box-shadow:var(--shadow-h)}
+  .ig-card .instagram-media{margin:0 !important;min-width:0 !important;width:100% !important;max-width:100% !important;border:0 !important;border-radius:0 !important;box-shadow:none !important}
+  .ig-card iframe{width:100% !important;border-radius:0 !important}
+  .ig-empty{width:100%;max-width:620px;text-align:center;background:var(--n50);border:2px dashed var(--n200);border-radius:var(--r-lg);padding:44px 26px}
+  .ig-empty .ig-ico{width:58px;height:58px;margin:0 auto 18px;border-radius:17px;display:flex;align-items:center;justify-content:center;color:var(--pink);background:var(--tint-pink)}
+  .ig-empty .ig-ico svg{width:28px;height:28px;stroke:currentColor;stroke-width:1.6;fill:none}
+  .ig-empty h3{font-size:22px;margin-bottom:8px}
+  .ig-empty p{color:var(--n600);font-size:16px;max-width:400px;margin:0 auto 22px}
+  .ig-cta{display:flex;justify-content:center;margin-top:30px}
+  .btn-ig{display:inline-flex;align-items:center;justify-content:center;gap:10px}
+  .btn-ig svg{width:18px;height:18px;stroke:currentColor;stroke-width:1.8;fill:none;flex-shrink:0}
+  @media(min-width:760px){ .ig-grid{column-count:2} }
+  @media(min-width:1040px){ .ig-grid{column-count:3} }
+
+  /* B2B */
+  .b2b{position:relative;overflow:hidden;background:var(--navy);color:#fff;border-radius:var(--r-lg);padding:48px 26px;text-align:center}
+  .b2b::before{content:"";position:absolute;width:260px;height:260px;border-radius:50%;background:rgba(29,185,123,.22);top:-110px;left:-80px}
+  .b2b::after{content:"";position:absolute;width:200px;height:200px;border-radius:50%;background:rgba(240,68,123,.18);bottom:-90px;right:-60px}
+  .b2b>*{position:relative;z-index:1}
+  .b2b .sec-eyebrow{background:rgba(255,255,255,.12);color:#fff}
+  .b2b h2{font-size:clamp(28px,7vw,46px);margin-bottom:14px}
+  .b2b p{color:#cfdadd;max-width:520px;margin:0 auto 28px}
+
+  footer{border-top:1px solid var(--n200);padding:40px 0;text-align:center;color:var(--n600);font-size:14px;line-height:1.7}
+  footer b{color:var(--green-d)}
+  /* CONTACT */
+  .contact-form{background:var(--n50);border:1px solid var(--n200);border-radius:var(--r-lg);padding:24px 20px;box-shadow:var(--shadow)}
+  .cf-grid{display:grid;grid-template-columns:1fr;gap:16px}
+  .contact-form textarea{width:100%;background:#fff;border:1.5px solid var(--n200);color:var(--navy);font-family:inherit;font-size:16px;padding:14px 15px;border-radius:12px;resize:vertical}
+  .contact-form textarea:focus,.contact-form input:focus{outline:none;border-color:var(--green)}
+  .contact-form input::placeholder,.contact-form textarea::placeholder{color:var(--n400)}
+  .cf-status{margin-top:14px;font-size:15px;text-align:center;font-weight:600;display:none}
+  .cf-status.ok{display:block;color:var(--green-d)}
+  .cf-status.err{display:block;color:var(--pink)}
+  .contact-mail{display:inline-block;margin-top:16px;font-size:17px;font-weight:700;color:var(--green-d);transition:.18s}
+  .contact-mail:hover{color:var(--navy)}
+  /* MODAL */
+  .pm-overlay{display:none;position:fixed;inset:0;z-index:4000;background:rgba(18,54,66,.6);backdrop-filter:blur(4px);overflow-y:auto;padding:20px}
+  .pm-overlay.open{display:block}
+  .pm-card{max-width:460px;margin:32px auto;background:#fff;border-radius:var(--r-lg);padding:24px;position:relative;box-shadow:0 30px 80px rgba(18,54,66,.3)}
+  .pm-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .pm-tag{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:var(--green-d)}
+  .pm-dot{width:8px;height:8px;border-radius:50%;background:var(--green)}
+  .pm-close{background:#fff;border:1.5px solid var(--n200);border-radius:10px;width:34px;height:34px;color:var(--n600);font-size:15px;cursor:pointer;transition:.15s}
+  .pm-close:hover{border-color:var(--navy);color:var(--navy)}
+  .pm-title{font-size:28px;margin-bottom:6px}
+  .pm-sub{font-size:15px;color:var(--n600);margin-bottom:20px}
+  .pm-resumen{background:var(--n50);border:1px solid var(--n200);border-radius:14px;padding:16px;margin-bottom:20px;display:flex;flex-direction:column;gap:10px}
+  .pm-res-item{display:flex;justify-content:space-between;gap:12px;font-size:14.5px}
+  .pm-res-item .pl{color:var(--n600);min-width:0}
+  .pm-res-item .pr{color:var(--navy);font-weight:700;white-space:nowrap;text-align:right}
+  .pm-res-total{border-top:1px solid var(--n200);margin-top:4px;padding-top:12px;display:flex;justify-content:space-between;align-items:center}
+  .pm-res-total .pl{font-size:14.5px;font-weight:700;color:var(--navy)}
+  .pm-res-total .pr{font-family:var(--display);font-size:26px;font-weight:700;color:var(--green-d)}
+  .pm-res-iva{font-size:13px;color:var(--n600);text-align:center;margin-top:4px}
+  .pm-envio{margin-bottom:20px}
+  .pm-envio-lbl{font-size:15px;font-weight:700;color:var(--navy);display:block;margin-bottom:10px}
+  .pm-envio-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .pm-envio-opt{display:flex;flex-direction:column;gap:3px;align-items:flex-start;text-align:left;background:#fff;border:2px solid var(--n200);border-radius:12px;padding:13px 14px;cursor:pointer;transition:.15s;color:var(--navy);font-family:inherit}
+  .pm-envio-opt:hover{border-color:var(--n400)}
+  .pm-envio-opt.sel{border-color:var(--green);background:var(--tint-green)}
+  .pm-envio-t{font-size:15px;font-weight:700}
+  .pm-envio-s{font-size:13px;color:var(--n600)}
+  .pm-card textarea{width:100%;background:#fff;border:1.5px solid var(--n200);color:var(--navy);font-family:inherit;font-size:16px;padding:14px;border-radius:12px;resize:vertical}
+  .pm-card input:focus,.pm-card textarea:focus{outline:none;border-color:var(--green)}
+  .pm-card input::placeholder,.pm-card textarea::placeholder{color:var(--n400)}
+  .success-box{display:none;flex-direction:column;align-items:center;text-align:center;padding:32px 20px;animation:successIn .5s cubic-bezier(.2,.8,.3,1)}
+  .success-box.show{display:flex}
+  @keyframes successIn{from{opacity:0;transform:translateY(12px) scale(.96)}to{opacity:1;transform:none}}
+  .success-check{width:84px;height:84px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;margin-bottom:20px;color:#fff;font-size:44px;line-height:1;font-weight:700}
+  .success-title{font-family:var(--display);font-size:26px;font-weight:600;margin-bottom:8px}
+  .success-msg{font-size:16px;color:var(--n600);max-width:340px}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+  @media(min-width:640px){
+    .wrap{padding:0 24px}
+    .cta-row{flex-direction:row;justify-content:center}
+    .btn{padding:15px 34px}
+    .countdown-card{padding:36px 44px;display:inline-block}
+    .clock{gap:16px}
+    .unit{min-width:88px;flex:none}
+    .q-grid{grid-template-columns:1fr 1fr}
+    .cf-grid{grid-template-columns:1fr 1fr}
+    .price-out{flex-direction:row;align-items:center;justify-content:space-between;text-align:left}
+    .b2b{padding:64px}
+  }
+  @media(min-width:900px){
+    header{padding:150px 0 96px}
+    section{padding:104px 0}
+    .nav-links{display:flex}
+    .sec-head{margin-bottom:52px}
+    .steps{grid-template-columns:repeat(3,1fr);gap:22px}
+    .quoter-wrap{padding:40px}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-in">
+    <div class="brand"><span>Mi Pegatina</span><span class="x">×</span><span>CASACUSIA</span></div>
+    <div class="nav-links">
+      <a href="#proceso">Cómo funciona</a>
+      <a href="#cotizador">Cotizador</a>
+      <a href="#trabajos">Trabajos</a>
+      <a href="#expo">Productos</a>
+      <a href="#b2b">B2B</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+    <a href="#cotizador" class="nav-cta">Cotizar</a>
+  </div>
+</nav>
+
+<header>
+  <div class="wrap hero-in">
+    <div id="live">
+      <div class="eyebrow">Expo CASACUSIA · 17 de octubre</div>
+      <h1>Llevá tu marca<br>a la <span class="hl">Expo CASACUSIA</span>.</h1>
+      <p class="hero-sub">Stickers, planchas, llaveros e imanes con precio especial para expositores, para que tu stand se lleve a casa en cada mano.</p>
+
+      <div class="countdown-card" id="cd-card">
+        <div class="cd-label">Pedidos hasta el <b id="cd-fecha"></b></div>
+        <div class="clock">
+          <div class="unit"><span class="num pulse" id="d">00</span><span class="lbl">Días</span></div>
+          <span class="colon">:</span>
+          <div class="unit"><span class="num" id="h">00</span><span class="lbl">Horas</span></div>
+          <span class="colon">:</span>
+          <div class="unit"><span class="num" id="m">00</span><span class="lbl">Min</span></div>
+          <span class="colon">:</span>
+          <div class="unit"><span class="num" id="s">00</span><span class="lbl">Seg</span></div>
+        </div>
+      </div>
+
+      <div class="cta-row">
+        <a href="#cotizador" class="btn btn-primary">Cotizar ahora →</a>
+        <a href="#expo" class="btn btn-ghost">Ver productos</a>
+      </div>
+    </div>
+
+    <div class="closed" id="closed">
+      <div class="countdown-card">
+        <div class="cd-label">Expo CASACUSIA</div>
+        <h2>Pedidos cerrados</h2>
+        <p class="hero-sub" style="margin-bottom:0">Terminó el plazo con producción garantizada. Escribinos y vemos qué se puede hacer.</p>
+      <div class="cta-row"><a href="#contacto" class="btn btn-primary">Escribinos</a></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<section id="proceso">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Cómo funciona</div>
+      <h2 class="sec-title">Cotizás, confirmás, exponés.</h2>
+      <p class="sec-desc">El mismo proceso simple de siempre, ahora con un precio especial para quienes exponen en la Expo CASACUSIA.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="n">01</div><h3>Cotizá online</h3><p>Elegí material, medida y cantidad. Tu Precio especial expositor aparece al instante.</p></div>
+      <div class="step"><div class="n">02</div><h3>Confirmamos el arte</h3><p>Revisamos tu diseño por mail y coordinamos detalles antes de imprimir. Sin sorpresas.</p></div>
+      <div class="step"><div class="n">03</div><h3>Producimos a tiempo</h3><p>3 a 5 días hábiles. Todo listo para que llegue antes de la Expo.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="cotizador" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Cotizador expositor</div>
+      <h2 class="sec-title">Tu precio de expositor, en segundos.</h2>
+      <p class="sec-desc">Elegí producto, material, medida y cantidad. Vas a ver directamente tu precio especial, reservado para expositores de la Expo.</p>
+    </div>
+    <div class="quoter-wrap">
+      <div class="q-grid">
+        <div class="q-field q-field-prod"><label>Producto</label><select id="q-producto"></select></div>
+        <div class="q-field q-field-mat"><label>Material</label><div class="q-swatches" id="q-material-sw"></div></div>
+        <div class="q-field"><label>Medida</label><select id="q-medida"></select></div>
+        <div class="q-field"><label>Cantidad</label><select id="q-cantidad"></select></div>
+      </div>
+      <div class="price-out">
+        <div class="price-block">
+          <span class="tag">Precio especial expositor</span>
+          <span class="now" id="q-now">$ 0</span>
+        </div>
+        <button class="btn btn-primary" id="q-add" type="button">+ Agregar a la cotización</button>
+      </div>
+
+      <div class="iva-note">
+        <span class="iva-badge">Facturamos A / B</span>
+        <span>Los precios no incluyen IVA.</span>
+      </div>
+      <div class="ship-note">
+        <div class="ship-row"><span class="ship-ico">⛟</span><span><b>Envío a la fundación</b> — $15.000 + IVA. Llevamos tu pedido a CASACUSIA antes del evento, a coordinar con ellos (se suma al total).</span></div>
+      </div>
+      </div>
+
+      <div class="cart" id="cart" style="display:none">
+        <div class="cart-head">Tu cotización</div>
+        <div id="cart-items"></div>
+        <div class="cart-total">
+          <div class="cart-total-lbl">Total <span class="cart-total-off">Precio especial expositor · sin IVA</span></div>
+          <div class="cart-total-nums"><span class="cart-now" id="cart-now">$ 0</span></div>
+        </div>
+        <div class="cart-actions">
+          <a href="#cotizador" class="btn cart-add-more" id="cart-add-more">+ Agregar otro producto</a>
+          <a href="#" class="btn btn-primary" id="cart-send">Pedir esta cotización →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="trabajos" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Trabajos reales</div>
+      <h2 class="sec-title">Lo que sale de<br>nuestra imprenta.</h2>
+      <p class="sec-desc">Producimos todos los días para marcas, eventos y comunidades. Esto es lo último que salió del taller.</p>
+      <a href="https://www.instagram.com/mipegatina/" target="_blank" rel="noopener" class="sec-link">Ver todo en @mipegatina →</a>
+    </div>
+
+    <div class="ig-grid" id="ig-grid"></div>
+
+    <div class="ig-cta">
+      <a href="https://www.instagram.com/mipegatina/" target="_blank" rel="noopener" class="btn btn-ghost btn-ig">
+        <svg viewBox="0 0 24 24"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg>
+        Seguinos en @mipegatina
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+/* ================================================================
+   TRABAJOS · Galería masonry con embeds oficiales de Instagram
+   ----------------------------------------------------------------
+   Para cambiar los posts: editá la lista de abajo.
+   El link se saca del post → botón "..." → "Copiar enlace".
+   Sirve cualquier formato (/p/, /reel/, con o sin el usuario adelante).
+
+   TIP de armado: intercalá reels y fotos en vez de agruparlos.
+   Los reels son verticales y las fotos cuadradas: alternándolos, las
+   columnas quedan escalonadas (efecto masonry). Si ponés todos los
+   reels juntos, las filas se alinean y parece una grilla común.
+   ================================================================ */
+const IG_POSTS = [
+  "https://www.instagram.com/mipegatina/reel/Db3P6rORRN8/",
+  "https://www.instagram.com/mipegatina/p/DY8CahwmOfa/",
+  "https://www.instagram.com/mipegatina/p/DRkgasokW3X/",
+
+  "https://www.instagram.com/mipegatina/p/DWhbWy8mH0E/",
+  "https://www.instagram.com/mipegatina/reel/DaQcSumwDVw/",
+  "https://www.instagram.com/mipegatina/p/DTSxqA7EUrS/",
+
+  "https://www.instagram.com/mipegatina/p/DVMBlI9EQf9/",
+  "https://www.instagram.com/mipegatina/p/DObHO-AkdhD/",
+  "https://www.instagram.com/mipegatina/reel/DaBgoX5PnlX/",
+];
+
+(function(){
+  const grid = document.getElementById('ig-grid');
+  const seccion = document.getElementById('trabajos');
+  if(!grid || !seccion) return;
+
+  let listo = false;
+
+  function mostrarFallback(){
+    if(listo) return;
+    listo = true;
+    grid.classList.add('is-empty');
+    grid.innerHTML =
+      '<div class="ig-empty">'
+      + '<div class="ig-ico"><svg viewBox="0 0 24 24"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg></div>'
+      + '<h3>Mirá nuestros trabajos en Instagram</h3>'
+      + '<p>Subimos producción real todas las semanas: stickers, planchas, llaveros e imanes para marcas y eventos.</p>'
+      + '<a href="https://www.instagram.com/mipegatina/" target="_blank" rel="noopener" class="btn btn-primary">Ver @mipegatina →</a>'
+      + '</div>';
+  }
+
+  // Normaliza cualquier formato de link al permalink canónico que espera Instagram:
+  // .../mipegatina/reel/CODIGO/  ->  https://www.instagram.com/reel/CODIGO/
+  function normalizar(url){
+    if(typeof url !== 'string') return null;
+    const m = url.split('?')[0].match(/instagram\.com\/(?:[^\/]+\/)?(p|reel|reels|tv)\/([A-Za-z0-9_-]+)/);
+    if(!m) return null;
+    return 'https://www.instagram.com/' + (m[1] === 'reels' ? 'reel' : m[1]) + '/' + m[2] + '/';
+  }
+
+  const posts = IG_POSTS.map(normalizar).filter(Boolean);
+  if(posts.length === 0){ mostrarFallback(); return; }
+
+  function cargar(){
+    posts.forEach(link=>{
+      const card = document.createElement('div');
+      card.className = 'ig-card';
+      card.innerHTML =
+        '<blockquote class="instagram-media" data-instgrm-permalink="'+link+'" data-instgrm-version="14">'
+        + '<a href="'+link+'" target="_blank" rel="noopener">Ver esta publicación en Instagram</a>'
+        + '</blockquote>';
+      grid.appendChild(card);
+    });
+
+    const sc = document.createElement('script');
+    sc.async = true;
+    sc.src = 'https://www.instagram.com/embed.js';
+    sc.onload = ()=>{ if(window.instgrm && window.instgrm.Embeds) window.instgrm.Embeds.process(); };
+    sc.onerror = mostrarFallback;
+    document.body.appendChild(sc);
+
+    // Si Instagram no responde (script bloqueado, post borrado), mostramos el bloque alternativo
+    setTimeout(()=>{
+      if(grid.querySelector('iframe')) listo = true;
+      else mostrarFallback();
+    }, 6000);
+  }
+
+  // Carga diferida: los embeds se piden recién cuando la sección se acerca a pantalla
+  if('IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries, obs)=>{
+      if(entries.some(e=>e.isIntersecting)){ obs.disconnect(); cargar(); }
+    }, { rootMargin: '600px 0px' });
+    io.observe(seccion);
+  } else {
+    cargar();
+  }
+})();
+</script>
+
+<section id="expo" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Ideales para regalar</div>
+      <h2 class="sec-title">El merch perfecto para tu stand.</h2>
+      <p class="sec-desc">Los 4 productos que hacemos: los favoritos para regalar en el evento y que se lleven tu marca puesta.</p>
+      <a href="#cotizador" class="sec-link">Cotizá tu producto →</a>
+    </div>
+    <div class="expo-list">
+      <a href="#cotizador" class="expo-row">
+        <div class="row-ico"><svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><circle cx="7" cy="7" r="1.2"/></svg></div>
+        <div class="row-body"><h3>Stickers sueltos</h3><p>El clásico que todos se llevan. Tu logo pegado en cada notebook del evento.</p></div>
+        <div class="row-consult">Cotizar →</div>
+      </a>
+      <a href="#cotizador" class="expo-row">
+        <div class="row-ico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg></div>
+        <div class="row-body"><h3>Plancha de stickers</h3><p>Varios diseños en una. Más valor percibido por regalo, ideal para packs.</p></div>
+        <div class="row-consult">Cotizar →</div>
+      </a>
+      <a href="#cotizador" class="expo-row">
+        <div class="row-ico"><svg viewBox="0 0 24 24"><circle cx="8" cy="8" r="5"/><path d="M11.5 11.5L20 20M17 17l3-1-1 3"/></svg></div>
+        <div class="row-body"><h3>Llaveros</h3><p>Un regalo que queda. Acrílico premium que la gente usa todos los días.</p></div>
+        <div class="row-consult">Cotizar →</div>
+      </a>
+      <a href="#cotizador" class="expo-row">
+        <div class="row-ico"><svg viewBox="0 0 24 24"><path d="M6 3v7a6 6 0 0 0 12 0V3M6 3H3M6 3h3M18 3h3M18 3h-3M9 21h6"/></svg></div>
+        <div class="row-body"><h3>Imanes</h3><p>Van directo a la heladera. Tu marca visible mucho después de la expo.</p></div>
+        <div class="row-consult">Cotizar →</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="b2b" style="padding-top:0">
+  <div class="wrap">
+    <div class="b2b">
+      <div class="sec-eyebrow">Print Partner® oficial</div>
+      <h2>¿Exponés en la Expo CASACUSIA?<br>Hagámoslo juntos.</h2>
+      <p>Somos el socio de producción de los expositores: precio especial, prioridad en la cola de producción y un contacto directo para todo lo que necesites imprimir.</p>
+      <a href="#cotizador" class="btn btn-primary">Empezar mi cotización →</a>
+    </div>
+  </div>
+</section>
+
+<section id="contacto" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Contacto</div>
+      <h2 class="sec-title">¿Tenés una duda?</h2>
+      <p class="sec-desc">Escribinos y te respondemos a la brevedad. Si ya sabés qué querés, armá tu cotización arriba y mandala directo.</p>
+      <a href="mailto:mail@mipegatina.club" class="contact-mail">✉ mail@mipegatina.club</a>
+    </div>
+    <form class="contact-form" id="contact-form" action="https://formspree.io/f/xvzedjdy" method="POST">
+      <input type="hidden" name="_origen" value="Web Expo CASACUSIA — Contacto">
+      <input type="hidden" name="_subject" value="Nuevo contacto desde la web de la Expo CASACUSIA">
+      <div class="cf-grid">
+        <div class="q-field"><label>Nombre</label><input type="text" name="nombre" required placeholder="Tu nombre o el de tu empresa"></div>
+        <div class="q-field"><label>Email</label><input type="email" name="email" required placeholder="tu@email.com"></div>
+      </div>
+      <div class="q-field" style="margin-top:16px"><label>Mensaje</label><textarea name="mensaje" rows="4" required placeholder="Contanos qué necesitás producir para tu stand"></textarea></div>
+      <button type="submit" class="btn btn-primary" id="cf-submit" style="margin-top:18px;width:100%">Enviar mensaje →</button>
+    </form>
+    <div class="success-box" id="cf-success">
+      <div class="success-check">&#10003;</div>
+      <div class="success-title">¡Mensaje enviado!</div>
+      <div class="success-msg">Recibimos tu consulta. Te respondemos a la brevedad al mail que dejaste.</div>
+    </div>
+  </div>
+</section>
+
+<!-- MODAL DE PEDIDO -->
+<div class="pm-overlay" id="pm-overlay">
+  <div class="pm-card">
+    <div class="pm-top">
+      <div class="pm-tag"><span class="pm-dot"></span>Finalizar cotización</div>
+      <button class="pm-close" id="pm-close" type="button">✕</button>
+    </div>
+    <h3 class="pm-title">¡Casi listo!</h3>
+    <p class="pm-sub">Revisá tu cotización y dejanos tus datos. Te confirmamos a la brevedad tu precio especial final.</p>
+    <div class="pm-resumen" id="pm-resumen"></div>
+    <div class="pm-envio">
+      <label class="pm-envio-lbl">Envío</label>
+      <div class="pm-envio-opt sel" style="cursor:default">
+        <span class="pm-envio-t">A la fundación · +$15.000</span>
+        <span class="pm-envio-s">Entrega antes del evento, a coordinar con CASACUSIA</span>
+      </div>
+    </div>
+    <form id="pm-form">
+      <div class="q-field"><label>Tu nombre o empresa *</label><input type="text" id="pm-nombre" required placeholder="Nombre o empresa"></div>
+      <div class="q-field" style="margin-top:14px"><label>Tu mail *</label><input type="email" id="pm-email" required placeholder="tucorreo@ejemplo.com"></div>
+      <div class="q-field" style="margin-top:14px"><label>Link de tus diseños <span style="opacity:.5">(opcional)</span></label><input type="url" id="pm-link" placeholder="Drive, WeTransfer, Dropbox..."></div>
+      <div class="q-field" style="margin-top:14px"><label>Comentarios <span style="opacity:.5">(opcional)</span></label><textarea id="pm-notes" rows="2" placeholder="Algo que tengamos que saber..."></textarea></div>
+      <button type="submit" class="btn btn-primary" id="pm-send" style="width:100%;margin-top:18px">Enviar cotización →</button>
+      <div class="cf-status" id="pm-status"></div>
+    </form>
+    <div class="success-box" id="pm-success">
+      <div class="success-check">&#10003;</div>
+      <div class="success-title">¡Cotización enviada!</div>
+      <div class="success-msg">La recibimos con todos tus productos. Te contactamos pronto con tu precio especial final.</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <b>Mi Pegatina</b> × CASACUSIA · Merch para expositores de la Expo · Con el respaldo de Mi Pegatina SRL<br>
+    <span style="opacity:.6">Buenos Aires, Argentina</span>
+  </div>
+</footer>
+
+<script>
+/* ================================================================
+   COTIZADOR PARTNER · Mi Pegatina
+   ----------------------------------------------------------------
+   Este archivo tiene DOS bloques bien separados:
+
+   BLOQUE 1 · MOTOR MI PEGATINA
+     Copia literal del cotizador de mipegatina.club. NO se edita acá.
+     Para actualizarlo: abrir index.html de Mi Pegatina, copiar el
+     bloque equivalente y pegarlo tal cual encima de este.
+     Precios por m2, tramos de descuento y redondeos viven SOLO acá.
+
+   BLOQUE 2 · CAPA PARTNER
+     Lo unico que cambia por marca: que cantidades se muestran y
+     cuanto descuento extra tiene el partner sobre el precio de lista.
+     El descuento POR CANTIDAD nunca se define acá: sale de TRAMOS.
+   ================================================================ */
+
+
+/* ================================================================
+   BLOQUE 1 · MOTOR MI PEGATINA  —  copiado verbatim, no editar
+   ================================================================ */
+// ===== COTIZACION DEL DOLAR =====
+// Solo se actualiza cuando se mueve el dolar: cambiar BNA_VENDEDOR con el valor del dia.
+const BNA_VENDEDOR = 1535;   // BNA vendedor al 11/09/2026
+const MARGEN_DOLAR = 0.045;  // +4,5% sobre BNA
+const COTIZACION = Math.round(BNA_VENDEDOR * (1 + MARGEN_DOLAR) / 5) * 5; // = 1605
+
+// ===== AJUSTE DE LISTA (USD) =====
+// Aumentos por inflacion en pesos, sin tocar el dolar. Multiplica TODOS los valores en USD.
+// Acumulativo: Sep 2026 +3% = 1.03. Si el proximo es +2% -> 1.03 * 1.02
+const AJUSTE_LISTA = 1.03;
+// +5% extra solo para acrilicos (llavero, iman, dije, premio). Va encima de AJUSTE_LISTA.
+const AJUSTE_ACRILICO = 1.05;
+
+// Redondea a centavos antes de subir a multiplo de 5: evita que 160.00000000000003 salte a 165
+function round5up(n){ return Math.ceil(Math.round(n*100)/100/5)*5; }
+
+// Precio por m2 de plancha (USD) — fuente de verdad
+// Sep 2026 (comparativa competencia): 8-9 cm y planchas +7% en los 3 materiales; Especial 5-6 cm +5%
+const M2_PLANCHA = {
+  '10x7':  { blancoPremium:32.1, transparentePremium:35.31, viniloEspecial:53.5 },
+  '10x15': { blancoPremium:32.1, transparentePremium:35.31, viniloEspecial:53.5 },
+  '15x21': { blancoPremium:32.1, transparentePremium:35.31, viniloEspecial:53.5 },
+};
+const DIMS_PLANCHA_CM = { '10x7':[10,7], '10x15':[10,15], '15x21':[15,21] };
+
+// Precio por m2 de sticker (USD) — fuente de verdad
+// Sep 2026 (comparativa competencia): 8-9 cm y planchas +7% en los 3 materiales; Especial 5-6 cm +5%
+const M2_STICKER = {
+  blancoPremium:       { '5x5':40, '6x6':40, '8x8':32.1, '9x9':32.1 },
+  transparentePremium: { '5x5':44, '6x6':44, '8x8':35.31, '9x9':35.31 },
+  viniloEspecial:      { '5x5':57.75, '6x6':57.75, '8x8':53.5, '9x9':53.5 },
+};
+
+const materialesAcrilico = {
+  llavero: { baseUsdM2:300, fijoUSD:0.143, sizes:{ '3x3':{area:.00108}, '5x5':{area:.0025}, '6x6':{area:.0036} } },
+  iman:    { baseUsdM2:300, fijoUSD:0.11,  sizes:{ '5x5':{area:.0025}, '6x6':{area:.0036} } },
+  dije:    { baseUsdM2:300, fijoUSD:0,     sizes:{ '3x3':{area:.00108}, '5x5':{area:.0025}, '6x6':{area:.0036} } },
+  premio:  { baseUsdM2:0,   fijoUSD:0,     sizes:{ '10x10':{area:.01, priceUSD:22}, '15x21':{area:.0315, priceUSD:50} } },
+};
+
+const TRAMOS = {
+  suelto: {
+    '5x5':  { qtys:[200,500,1200,3000,6000], desc:[{q:500,d:5},{q:1200,d:10},{q:3000,d:15}], mayorista:6000 },
+    '6x6':  { qtys:[200,500,1200,3000,6000], desc:[{q:500,d:5},{q:1200,d:10},{q:3000,d:15}], mayorista:6000 },
+    '8x8':  { qtys:[100,250,600,1500,3000], desc:[{q:250,d:5},{q:600,d:10},{q:1500,d:15}], mayorista:3000 },
+    '9x9':  { qtys:[100,250,600,1500,3000], desc:[{q:250,d:5},{q:600,d:10},{q:1500,d:15}], mayorista:3000 },
+  },
+  plancha: {
+    '10x7':  { qtys:[200,500,1000,2000], desc:[{q:500,d:5},{q:1000,d:10}], mayorista:2000 },
+    '10x15': { qtys:[100,250,500,1000], desc:[{q:250,d:5},{q:500,d:10}], mayorista:1000 },
+    '15x21': { qtys:[60,150,300,600], desc:[{q:150,d:5},{q:300,d:10}], mayorista:600 },
+  },
+  acrilico: {
+    llavero: {
+      '3x3': { qtys:[100,200,300,600], desc:[{q:200,d:5},{q:300,d:10}], mayorista:600 },
+      '5x5': { qtys:[30,60,200,600], desc:[{q:60,d:5},{q:200,d:10}], mayorista:600 },
+      '6x6': { qtys:[30,60,200,600], desc:[{q:60,d:5},{q:200,d:10}], mayorista:600 },
+    },
+    iman: {
+      '5x5': { qtys:[30,60,200,600], desc:[{q:60,d:5},{q:200,d:10}], mayorista:600 },
+      '6x6': { qtys:[30,60,200,600], desc:[{q:60,d:5},{q:200,d:10}], mayorista:600 },
+    },
+    dije: {
+      '3x3': { qtys:[100,200,300,600], desc:[{q:200,d:5},{q:300,d:10}], mayorista:600 },
+      '5x5': { qtys:[30,60,200,600], desc:[{q:60,d:5},{q:200,d:10}], mayorista:600 },
+      '6x6': { qtys:[30,60,200,600], desc:[{q:60,d:5},{q:200,d:10}], mayorista:600 },
+    },
+    premio: {
+      '10x10': { qtys:[1,5,10,25,50], desc:[{q:5,d:5},{q:10,d:10},{q:25,d:15}], mayorista:50 },
+      '15x21': { qtys:[1,5,10,25,50], desc:[{q:5,d:5},{q:10,d:10},{q:25,d:15}], mayorista:50 },
+    },
+  },
+};
+
+function tramoFor(cat, producto, matKey, sz){
+  if(!sz) return null;
+  if(cat === 'acrilicos') return (TRAMOS.acrilico[matKey] || {})[sz] || null;
+  return (TRAMOS[producto] || {})[sz] || null;
+}
+function descFor(qty, tr){
+  if(!tr || !tr.desc) return 0;
+  let d = 0;
+  for(const t of tr.desc) if(qty >= t.q) d = t.d;
+  // Tramo tope (antes "consultar"): 5 puntos extra sobre el escalon anterior
+  if(tr.mayorista != null && qty >= tr.mayorista) d += 5;
+  return d;
+}
+
+function precioUnitarioPlancha(matKey, sz){
+  const m2Tbl = M2_PLANCHA[sz];
+  if(!m2Tbl) return null;
+  const dims = DIMS_PLANCHA_CM[sz];
+  const areaPlancha = (dims[0]/100)*(dims[1]/100);
+  return round5up(m2Tbl[matKey] * AJUSTE_LISTA * areaPlancha * COTIZACION);
+}
+function precioUnitarioPliego(matKey, sz){
+  const m2Table = M2_STICKER[matKey];
+  if(!m2Table || !m2Table[sz]) return null;
+  const sizeCm = parseFloat(sz);
+  const areaStickerM2 = (sizeCm/100)*(sizeCm/100);
+  return round5up(m2Table[sz] * AJUSTE_LISTA * areaStickerM2 * COTIZACION);
+}
+
+// ===== PRECIO UNITARIO EN ARS — funcion pura =====
+// Mismo redondeo en todos los canales: round5up SIEMPRE despues del descuento.
+function precioUnitarioARS(cat, producto, matKey, sz, qty){
+  const dPct = descFor(qty, tramoFor(cat, producto, matKey, sz));
+  const d = dPct/100;
+  if(cat === 'stickers' && producto === 'suelto'){
+    const uA = precioUnitarioPliego(matKey, sz);
+    if(uA != null) return { uA: round5up(uA*(1-d)), dPct };
+  }
+  if(cat === 'stickers' && producto === 'plancha'){
+    const uA = precioUnitarioPlancha(matKey, sz);
+    if(uA != null) return { uA: round5up(uA*(1-d)), dPct };
+  }
+  if(cat === 'acrilicos'){
+    const m = materialesAcrilico[matKey];
+    const sd = m && m.sizes[sz];
+    if(sd){
+      const fijo = m.fijoUSD || 0;
+      // el descuento pega sobre el acrilico, no sobre el accesorio (cadena/iman)
+      const uU = (sd.priceUSD != null) ? sd.priceUSD*(1-d) : m.baseUsdM2*(1-d)*sd.area + fijo;
+      return { uA: round5up(uU*AJUSTE_LISTA*AJUSTE_ACRILICO*COTIZACION), dPct, uU };
+    }
+  }
+  return { uA: 0, dPct: 0 };
+}
+/* ================= FIN BLOQUE 1 · MOTOR ========================= */
+
+
+/* ================================================================
+   BLOQUE 2 · CAPA PARTNER  —  lo unico que se edita por marca
+   ----------------------------------------------------------------
+   extra      : descuento adicional del partner sobre el precio de lista
+   materiales : nombre visible  ->  clave del motor
+   cantidades : los botones que ve ESTE partner, por medida.
+                Pueden ser distintos a los de Mi Pegatina; el descuento
+                por cantidad lo resuelve TRAMOS igual, buscando por numero.
+   ================================================================ */
+const PARTNER = {
+  nombre: 'Expo CASACUSIA',
+  extra: 0.07,   // descuento especial de expositor (el % no se menciona en la web)
+  // Materiales de sticker y plancha. label = lo que ve el cliente,
+  // mat = clave del motor, swatch = clase CSS de la textura.
+  // label = nombre completo (va al carrito y al mail) · corto = lo que se lee
+  // debajo del swatch · swatch = clase CSS de la textura
+  materialesVinilo: [
+    { label:'Vinilo Blanco Premium',       corto:'Blanco',        mat:'blancoPremium',       swatch:'blanco' },
+    { label:'Blanco Premium con Laca',     corto:'Blanco + Laca', mat:'viniloEspecial',      swatch:'blancoLaca' },
+    { label:'Vinilo Transparente Premium', corto:'Transparente',  mat:'transparentePremium', swatch:'transparente' },
+    { label:'Vinilo Holográfico',          corto:'Holográfico',   mat:'viniloEspecial',      swatch:'holografico' },
+    { label:'Vinilo Holográfico Gold',     corto:'Holo Gold',     mat:'viniloEspecial',      swatch:'holograficoGold' },
+  ],
+
+  // Fotos reales que se superponen al gradiente CSS. Si no cargan, queda el
+  // gradiente: nunca se ve un swatch vacio. El resto de los materiales
+  // (blanco, transparente, laca) son CSS puro y no necesitan imagen.
+  texturas: {
+    base: '../img/',   // carpeta /img/ de Mi Pegatina (raiz). Para que la web
+                       // sea autocontenida: copiar las fotos a /eko/img/ y poner 'img/'
+    fotos: {
+      holografico: 'img-39.jpg',
+    },
+    // Holo Gold no tiene foto propia: se genera tintando la del holografico,
+    // igual que en el index de Mi Pegatina. Usar img-40.jpg da un crema palido.
+    tintados: {
+      holograficoGold: { desde:'holografico', tinte:'#dbb68a' },
+    },
+  },
+
+  productos: {
+    suelto: {
+      label: 'Stickers sueltos',
+      cat: 'stickers', producto: 'suelto',
+      cantidades: { '5x5':[500,1200,3000], '6x6':[500,1200,3000], '8x8':[300,600,1500], '9x9':[300,600,1500] },
+    },
+    plancha: {
+      label: 'Plancha de stickers',
+      cat: 'stickers', producto: 'plancha',
+      cantidades: { '10x15':[200,500,1000], '15x21':[100,300,600] },
+    },
+    llaveros: {
+      label: 'Llaveros',
+      cat: 'acrilicos', producto: 'llavero',
+      materiales: [{ label:'Acrílico impreso', corto:'Acrílico', mat:'llavero', swatch:'acrilico' }],
+      cantidades: { '5x5':[60,150,300], '6x6':[60,150,300] },
+    },
+    imanes: {
+      label: 'Imanes',
+      cat: 'acrilicos', producto: 'iman',
+      materiales: [{ label:'Acrílico impreso', corto:'Acrílico', mat:'iman', swatch:'acrilico' }],
+      cantidades: { '5x5':[60,150,300], '6x6':[60,150,300] },
+    },
+  }
+};
+// Los productos de vinilo comparten la misma lista de materiales
+PARTNER.productos.suelto.materiales  = PARTNER.materialesVinilo;
+PARTNER.productos.plancha.materiales = PARTNER.materialesVinilo;
+
+const r100 = n => Math.ceil(n/100)*100;
+
+// Precio del partner: precio de lista de Mi Pegatina (ya con su descuento
+// por cantidad) y encima el extra del partner. Redondeo final a $100.
+function precioPartner(prodKey, mat, sz, qty){
+  const p = PARTNER.productos[prodKey];
+  const matKey = (p.cat === 'acrilicos') ? p.producto : mat.mat;
+  const { uA, dPct } = precioUnitarioARS(p.cat, p.producto, matKey, sz, qty);
+  const lista = uA * qty;
+  return { lista, partner: r100(lista * (1 - PARTNER.extra)), dPct, unit: uA };
+}
+
+/* --- Validacion: ninguna cantidad del partner puede quedar por debajo
+       del minimo de Mi Pegatina para esa medida. Avisa por consola. --- */
+(function validarCantidadesPartner(){
+  const errores = [];
+  for(const k in PARTNER.productos){
+    const p = PARTNER.productos[k];
+    for(const sz in p.cantidades){
+      const matKey = (p.cat === 'acrilicos') ? p.producto : p.materiales[0].mat;
+      const tr = tramoFor(p.cat, p.producto, matKey, sz);
+      if(!tr){ errores.push('· ' + p.label + ' ' + sz + ': la medida no existe en TRAMOS de Mi Pegatina'); continue; }
+      const minMP = tr.qtys ? tr.qtys[0] : null;
+      if(minMP == null) continue;
+      p.cantidades[sz].forEach(q=>{
+        if(q < minMP) errores.push('· ' + p.label + ' ' + sz + ': ' + q + ' u está por debajo del mínimo de Mi Pegatina (' + minMP + ' u)');
+      });
+    }
+  }
+  if(errores.length){
+    console.warn('%c⚠ COTIZADOR ' + PARTNER.nombre.toUpperCase() + ' — cantidades inválidas\n' + errores.join('\n')
+      + '\nCorregí PARTNER.productos[...].cantidades: nunca por debajo del mínimo de Mi Pegatina.',
+      'color:#ff6a3d;font-weight:bold');
+  }
+})();
+/* ================ FIN BLOQUE 2 · CAPA PARTNER =================== */
+
+
+const $prod = document.getElementById('q-producto');
+const $matSw = document.getElementById('q-material-sw');
+const $med  = document.getElementById('q-medida');
+const $cant = document.getElementById('q-cantidad');
+const $now  = document.getElementById('q-now');
+const $add  = document.getElementById('q-add');
+const $cart = document.getElementById('cart');
+const $cartItems = document.getElementById('cart-items');
+const $cartNow = document.getElementById('cart-now');
+
+let carrito = [];
+let matSel = null;   // material elegido (objeto de PARTNER.materialesVinilo)
+
+function money(n){ return "$ " + Math.round(n).toLocaleString('es-AR'); }
+function sizeLabel(sz){ return sz.replace('x',' × ') + ' cm'; }
+
+function fillProductos(){
+  $prod.innerHTML = '';
+  for(const k in PARTNER.productos){
+    const o = document.createElement('option');
+    o.value = k; o.textContent = PARTNER.productos[k].label;
+    $prod.appendChild(o);
+  }
+}
+function fillMateriales(){
+  const p = PARTNER.productos[$prod.value];
+  const unico = p.materiales.length <= 1;
+  $matSw.innerHTML = '';
+  $matSw.classList.toggle('single', unico);
+  p.materiales.forEach((m, i)=>{
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'q-sw-btn' + (i === 0 ? ' sel' : '');
+    b.setAttribute('aria-pressed', i === 0 ? 'true' : 'false');
+    b.title = m.label;
+    b.innerHTML = '<span class="q-sw sw-'+m.swatch+'"></span><span class="q-sw-lbl">'+(m.corto || m.label)+'</span>';
+    if(!unico){
+      b.addEventListener('click', ()=>{
+        $matSw.querySelectorAll('.q-sw-btn').forEach(x=>{ x.classList.remove('sel'); x.setAttribute('aria-pressed','false'); });
+        b.classList.add('sel'); b.setAttribute('aria-pressed','true');
+        matSel = m;
+        recalc();
+      });
+    }
+    $matSw.appendChild(b);
+  });
+  matSel = p.materiales[0];
+  aplicarTexturas();
+}
+
+/* Superpone las fotos reales sobre el gradiente CSS. Si una imagen no carga,
+   queda el gradiente: nunca se ve un swatch vacio. */
+function aplicarTexturas(){
+  const t = PARTNER.texturas || {};
+  const base = t.base || '';
+  const fotos = t.fotos || {};
+  const tintados = t.tintados || {};
+  const cargadas = {};
+
+  function pintar(swatchKey, url){
+    const nodos = $matSw.querySelectorAll('.sw-' + swatchKey);
+    nodos.forEach(el=>{
+      el.style.setProperty('background-image', "url('" + url + "')", 'important');
+      el.style.setProperty('background-size', 'cover', 'important');
+      el.style.setProperty('background-position', 'center', 'important');
+      el.style.setProperty('background-repeat', 'no-repeat', 'important');
+      el.style.setProperty('animation', 'none', 'important');
+    });
+  }
+
+  // Tinta una foto ya cargada con un color en modo multiply (via canvas)
+  function tintar(img, color){
+    const c = document.createElement('canvas');
+    c.width = img.naturalWidth; c.height = img.naturalHeight;
+    const cx = c.getContext('2d');
+    cx.drawImage(img, 0, 0);
+    cx.globalCompositeOperation = 'multiply';
+    cx.fillStyle = color;
+    cx.fillRect(0, 0, c.width, c.height);
+    cx.globalCompositeOperation = 'source-over';
+    try { return c.toDataURL('image/png'); } catch(e){ return null; }
+  }
+
+  Object.keys(fotos).forEach(k=>{
+    const src = base + fotos[k];
+    const im = new Image();
+    im.onload = ()=>{
+      cargadas[k] = im;
+      pintar(k, src);
+      // los que derivan de esta foto
+      Object.keys(tintados).forEach(tk=>{
+        const cfg = tintados[tk];
+        if(cfg.desde !== k) return;
+        const data = tintar(im, cfg.tinte);
+        if(data) pintar(tk, data);
+      });
+    };
+    im.src = src;
+  });
+}
+
+function fillMedidas(){
+  const p = PARTNER.productos[$prod.value];
+  $med.innerHTML = '';
+  for(const sz in p.cantidades){
+    const o = document.createElement('option');
+    o.value = sz; o.textContent = sizeLabel(sz);
+    $med.appendChild(o);
+  }
+}
+function fillPacks(){
+  const p = PARTNER.productos[$prod.value];
+  const packs = p.cantidades[$med.value] || [];
+  $cant.innerHTML = '';
+  packs.forEach(q=>{
+    const o = document.createElement('option');
+    o.value = q; o.textContent = q.toLocaleString('es-AR') + ' unidades';
+    $cant.appendChild(o);
+  });
+}
+function currentPrice(){
+  const r = precioPartner($prod.value, matSel, $med.value, parseInt($cant.value, 10));
+  return { eko: r.partner, lista: r.lista, dPct: r.dPct };
+}
+function recalc(){
+  $now.textContent = money(currentPrice().eko);
+}
+function renderCart(){
+  if(carrito.length === 0){ $cart.style.display = 'none'; return; }
+  $cart.style.display = '';
+  $cartItems.innerHTML = '';
+  let totEko = 0;
+  carrito.forEach((it, i)=>{
+    totEko += it.eko;
+    const row = document.createElement('div');
+    row.className = 'cart-item';
+    row.innerHTML =
+      '<div class="cart-item-body">'
+      + '<div class="cart-item-title">'+it.prodLabel+' — '+it.matLabel+'</div>'
+      + '<div class="cart-item-meta">'+sizeLabel(it.size)+' · '+it.qty.toLocaleString('es-AR')+' u</div>'
+      + '</div>'
+      + '<div class="cart-item-price">'+money(it.eko)+'</div>'
+      + '<button class="cart-item-del" data-i="'+i+'" title="Quitar">×</button>';
+    $cartItems.appendChild(row);
+  });
+  $cartNow.textContent = money(totEko);
+  $cartItems.querySelectorAll('.cart-item-del').forEach(b=>{
+    b.addEventListener('click', ()=>{ carrito.splice(parseInt(b.dataset.i,10),1); renderCart(); });
+  });
+}
+function addToCart(){
+  const p = PARTNER.productos[$prod.value];
+  const pr = currentPrice();
+  carrito.push({
+    prodLabel: p.label,
+    matLabel: matSel.label,
+    size: $med.value,
+    qty: parseInt($cant.value,10),
+    eko: pr.eko
+  });
+  renderCart();
+  document.getElementById('cart').scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+$prod.addEventListener('change', ()=>{ fillMateriales(); fillMedidas(); fillPacks(); recalc(); });
+$med.addEventListener('change', ()=>{ fillPacks(); recalc(); });
+$cant.addEventListener('change', recalc);
+$add.addEventListener('click', addToCart);
+
+fillProductos(); fillMateriales(); fillMedidas(); fillPacks(); recalc();
+
+/* ===== ENVÍO FORMSPREE ===== */
+const ENDPOINT = "https://formspree.io/f/xvzedjdy";
+
+// --- Formulario de contacto ---
+const cform = document.getElementById('contact-form');
+const cstatus = document.getElementById('cf-status');
+if(cform){
+  cform.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const btn = document.getElementById('cf-submit');
+    btn.textContent = 'Enviando...'; btn.disabled = true;
+    try{
+      const res = await fetch(ENDPOINT, { method:'POST', body:new FormData(cform), headers:{'Accept':'application/json'} });
+      if(res.ok){
+        cform.style.display = 'none';
+        document.getElementById('cf-success').classList.add('show');
+      } else { throw new Error(); }
+    } catch(err){
+      cstatus.className = 'cf-status err';
+      cstatus.textContent = 'Hubo un problema. Escribinos a mail@mipegatina.club';
+      btn.textContent = 'Enviar mensaje →';
+    }
+    btn.disabled = false;
+  });
+}
+
+// --- Botón "Pedir esta cotización" → abre el modal ---
+const $cartSend = document.getElementById('cart-send');
+const $pmOverlay = document.getElementById('pm-overlay');
+const $pmResumen = document.getElementById('pm-resumen');
+const $pmForm = document.getElementById('pm-form');
+const $pmStatus = document.getElementById('pm-status');
+
+const ENVIO_FUNDACION = 15000; // sin IVA · entrega a CASACUSIA antes del evento (único envío de esta Expo)
+
+function renderResumen(){
+  let html = '';
+  carrito.forEach(it=>{
+    html += '<div class="pm-res-item"><span class="pl">'+it.prodLabel+' · '+it.matLabel+' · '+sizeLabel(it.size)+' · '+it.qty+'u</span><span class="pr">'+money(it.eko)+'</span></div>';
+  });
+  const totEko = carrito.reduce((a,i)=>a+i.eko,0);
+  html += '<div class="pm-res-item"><span class="pl">Envío a la fundación</span><span class="pr">'+money(ENVIO_FUNDACION)+'</span></div>';
+  const totFinal = totEko + ENVIO_FUNDACION;
+  html += '<div class="pm-res-total"><span class="pl">Total · Precio especial expositor</span><span class="pr">'+money(totFinal)+'</span></div>';
+  let ivaLine = 'Precios sin IVA · Facturamos A / B';
+  html += '<div class="pm-res-iva">'+ivaLine+'</div>';
+  $pmResumen.innerHTML = html;
+}
+
+function openPedidoModal(){
+  if(carrito.length === 0) return;
+  renderResumen();
+  $pmOverlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closePedidoModal(){
+  $pmOverlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+if($cartSend){
+  $cartSend.addEventListener('click', (e)=>{ e.preventDefault(); openPedidoModal(); });
+}
+document.getElementById('pm-close').addEventListener('click', closePedidoModal);
+$pmOverlay.addEventListener('click', (e)=>{ if(e.target === $pmOverlay) closePedidoModal(); });
+
+if($pmForm){
+  $pmForm.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const btn = document.getElementById('pm-send');
+    btn.textContent = 'Enviando...'; btn.disabled = true;
+    let detalle = carrito.map((it,i)=>{
+      return `${i+1}) ${it.prodLabel} — ${it.matLabel} · ${sizeLabel(it.size)} · ${it.qty} u  →  ${money(it.eko)}`;
+    }).join('\n');
+    const totEko = carrito.reduce((a,i)=>a+i.eko,0);
+    const envioTxt = 'A la fundación — ' + money(ENVIO_FUNDACION) + ' + IVA (entrega antes del evento, a coordinar con CASACUSIA)';
+    const totFinal = totEko + ENVIO_FUNDACION;
+    const fd = new FormData();
+    fd.append('_origen', 'Web Expo CASACUSIA — Cotización');
+    fd.append('_subject', 'Nueva cotización desde la web de la Expo CASACUSIA');
+    fd.append('nombre', document.getElementById('pm-nombre').value);
+    fd.append('email', document.getElementById('pm-email').value);
+    fd.append('link_disenos', document.getElementById('pm-link').value || '—');
+    fd.append('comentarios', document.getElementById('pm-notes').value || '—');
+    fd.append('productos', detalle);
+    fd.append('envio', envioTxt);
+    fd.append('total_productos', money(totEko) + ' (Precio especial expositor, sin IVA)');
+    fd.append('total_final', money(totFinal) + ' (incluye envío a la fundación, sin IVA)');
+    try{
+      const res = await fetch(ENDPOINT, { method:'POST', body:fd, headers:{'Accept':'application/json'} });
+      if(res.ok){
+        $pmForm.style.display = 'none';
+        $pmResumen.style.display = 'none';
+        document.getElementById('pm-success').classList.add('show');
+        carrito = [];
+        setTimeout(()=>{
+          closePedidoModal();
+          renderCart();
+          $pmForm.reset(); $pmForm.style.display=''; $pmResumen.style.display='';
+          document.getElementById('pm-success').classList.remove('show');
+          btn.textContent='Enviar cotización →'; btn.disabled=false;
+        }, 3000);
+      } else { throw new Error(); }
+    } catch(err){
+      $pmStatus.className = 'cf-status err';
+      $pmStatus.textContent = 'Hubo un problema. Escribinos a mail@mipegatina.club';
+      btn.textContent = 'Enviar cotización →'; btn.disabled = false;
+    }
+  });
+}
+</script>
+<script>
+  /* FECHA DE CIERRE DE PRODUCCIÓN — editar acá. null = sin cuenta regresiva · Expo: 17/10/2026
+     Formato: '2026-12-15T00:00:00-03:00' */
+  const CIERRE = '2026-10-14T23:59:59-03:00';
+  const live = document.getElementById('live');
+  const closed = document.getElementById('closed');
+  const cdCard = document.getElementById('cd-card');
+  const target = CIERRE ? new Date(CIERRE).getTime() : null;
+  if(!target && cdCard) cdCard.style.display = 'none';
+  if(target){
+    const f = new Date(target).toLocaleDateString('es-AR',{day:'numeric',month:'long',timeZone:'America/Argentina/Buenos_Aires'});
+    const el = document.getElementById('cd-fecha'); if(el) el.textContent = f;
+  }
+  function pad(n){return String(n).padStart(2,'0')}
+  function tick(){
+    if(!target) return;
+    const diff = target - Date.now();
+    if(diff <= 0){ live.style.display='none'; closed.style.display='block'; return; }
+    document.getElementById('d').textContent = pad(Math.floor(diff/86400000));
+    document.getElementById('h').textContent = pad(Math.floor(diff%86400000/3600000));
+    document.getElementById('m').textContent = pad(Math.floor(diff%3600000/60000));
+    document.getElementById('s').textContent = pad(Math.floor(diff%60000/1000));
+  }
+  tick(); if(target) setInterval(tick,1000);
+</script>
+</body>
+</html>
