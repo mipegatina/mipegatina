@@ -1108,8 +1108,8 @@ sizes:{ "S":{label:"S",priceUSD:21.17},"M":{label:"M",priceUSD:21.17},"L":{label
 const materialesMerchP = {
 libreta: { label:"Libreta de bolsillo", unit:"libreta", sub:"Tapa dura, hojas lisas · mín. 20 u", info:"Impresión UV full color · Producto 90 × 140 mm · Área de impresión máx. 70 × 120 mm", baseUsdM2:0, fijoUSD:0,
   sizes:{ "unico":{label:"90 × 140 mm", priceUSD:4.1738} } },
-lapicera: { label:"Lapicera Eco", unit:"lapicera", sub:"ABS + compuesto de madera · mín. 100 u", info:"Impresión UV full color · Largo 14 cm · Área de impresión 5 cm de ancho × 0,7 cm de alto", baseUsdM2:0, fijoUSD:0,
-  sizes:{ "unico":{label:"14 cm", priceUSD:0.4234} } }
+lapicera: { label:"Lapicera Eco", unit:"lapicera", sub:"ABS + compuesto de madera · Impresión UV full color · Área de impresión 5 × 0,7 cm · mín. 100 u", noSize:true, baseUsdM2:0, fijoUSD:0,
+  sizes:{ "unico":{label:"", priceUSD:0.4234} } }
 };
 // Tabla de talles (remeras clásicas), en cm
 const TALLES_REMERA = [ ['S',50,68], ['M',52,70], ['L',54,72], ['XL',56,74], ['XXL',58,76] ];
@@ -1350,6 +1350,8 @@ unlockAcril(2); showPending();
 };
 sp.appendChild(b);
 });
+const _s3=document.getElementById('step3-block'); if(_s3) _s3.style.display = m.noSize ? 'none' : '';
+if(m.noSize){ cot.size=Object.keys(m.sizes)[0]; cot.qty=null; populateAcrilQty(); unlockAcril(2); showPending(); return; }
 document.getElementById('step3-block').classList.remove('locked');
 document.getElementById('step4-block').classList.add('locked');
 unlockAcril(1); showPending();
@@ -1431,7 +1433,7 @@ const sizeDisplay = (cot.cat==='acrilicos' || cot.cat==='merch' || cot.cat==='me
   : ((cot.cat==='stickers' && cot.producto==='suelto')
     ? (Math.max(...cot.size.split('x').map(Number))+' cm')
     : (cot.size+' cm'));
-if(sizePill){ sizePill.style.display=''; sizePill.textContent = sizeDisplay; }
+if(sizePill){ sizePill.style.display = sizeDisplay ? '' : 'none'; sizePill.textContent = sizeDisplay; }
 } else {
 if(sizePill) sizePill.style.display='none';
 }
@@ -3051,6 +3053,7 @@ materialKey: cot.materialKey || '',
 borde: ''
 };
 if(cot.cat==='merch'){ const _ts=tallesElegidos().filter(t=>cot.talles[t]>0); item.talles={}; _ts.forEach(t=>item.talles[t]=cot.talles[t]); item.size=_ts[0]; item.qtyNum=cot.qty; item.colores={}; _ts.forEach(t=>item.colores[t]={Negro:(cot.tc&&cot.tc[t]&&cot.tc[t].Negro)||0,Blanco:(cot.tc&&cot.tc[t]&&cot.tc[t].Blanco)||0}); item.medida=_ts.map(t=>{const c=item.colores[t]; return t+': '+COLORES_REMERA.filter(k=>c[k]>0).map(k=>k+' ×'+c[k]).join(' + ');}).join(' · '); }
+if(cot.cat==='merchp' && !acrilSizeLabel(cot.size,cot.materialKey)) item.medida='';
 carrito.push(item);
 if(cot.cat==='merch') recalcRemerasCarrito();
 if(window.mpConv){ mpConv('carrito', subtotal||1.0); }
