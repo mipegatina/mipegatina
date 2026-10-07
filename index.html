@@ -1103,7 +1103,7 @@ sizes:{ "S":{label:"S",priceUSD:21.17},"M":{label:"M",priceUSD:21.17},"L":{label
 }
 };
 // ===== MERCH PERSONALIZADO (lapiceras y libretas) =====
-// Oct 2026: precio en USD por unidad; pasa por AJUSTE_LISTA y COTIZACION (se actualiza con el dolar). Sin descuentos por cantidad.
+// Oct 2026: precio en USD por unidad; pasa por AJUSTE_LISTA y COTIZACION (se actualiza con el dolar). Descuento por cantidad: 5% en el 3er escalon y 10% en el ultimo.
 // Libreta 4,1738 x 1,03 x 1605 = 6.900 | Lapicera 0,4234 x 1,03 x 1605 = 700
 const materialesMerchP = {
 libreta: { label:"Libreta de bolsillo", unit:"libreta", sub:"Tapa dura, hojas lisas · mín. 20 u", info:"Impresión UV full color · Producto 90 × 140 mm · Área de impresión máx. 70 × 120 mm", baseUsdM2:0, fijoUSD:0,
@@ -1815,8 +1815,8 @@ const TRAMOS = {
     },
   },
   merchp: {
-    libreta:  { 'unico': { qtys:[20,50,100,200] } },
-    lapicera: { 'unico': { qtys:[100,250,500,1000] } },
+    libreta:  { 'unico': { qtys:[20,50,100,200], desc:[{q:100,d:5},{q:200,d:10}] } },
+    lapicera: { 'unico': { qtys:[100,250,500,1000], desc:[{q:500,d:5},{q:1000,d:10}] } },
   },
   merch: {
     remera2: {
