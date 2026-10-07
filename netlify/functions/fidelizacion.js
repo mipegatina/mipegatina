@@ -2,11 +2,10 @@
 // Mails de fidelización — Mi Pegatina
 //
 // Corre sola cada 15 minutos (ver netlify.toml). En cada corrida:
-//  1) "Tus stickers ya son parte del contador": a cada pedido archivado (con mail) le llega un mail con
-//     cuántos stickers sumó y el total del contador. Si corresponde, suma el botón para dejar reseña en Google:
+//  1) "Gracias por tu pedido": a cada pedido archivado (con mail) le llega un mail de agradecimiento con el botón para
+//     dejar reseña en Google, SOLO si corresponde pedirla (el contador de stickers se retiró de la web, oct 2026):
 //       · solo si pasaron más de 3 meses desde la última vez que se lo pedimos a ese cliente
 //       · y nunca, si ya hizo clic en "Dejar mi reseña" (lo registra la función resena.js)
-//     El pedido que gana un premio del contador no recibe este mail (ya le llega el del premio).
 //  2) "¿Se te están terminando?": a los 75 días de archivado un pedido, si el cliente no volvió a pedir,
 //     le llega el detalle de lo que pidió con un botón "Repetir pedido" (mail pre-armado a mail@).
 //     Sale entre las 11 y las 12 de Buenos Aires, una sola vez por pedido. (PAUSADO: RECOMPRA_ACTIVA = false)
@@ -134,28 +133,22 @@ function proximoPremio(total) {
   return `🎁 El pedido que cruce el <strong style="color:#0a0a0a;">${fmt(m)}</strong> gana ${regalo}. ¡Faltan ${fmt(m - total)}!`;
 }
 
-function mailContador({ nombre, numero, cantidad, total, cardId, conResena }) {
-  const bloque = H.label('EL CONTADOR DE MI PEGATINA') +
-    `<p style="margin:0;font-size:30px;font-weight:800;letter-spacing:-1px;color:#0a0a0a;font-family:Arial,sans-serif;">${fmt(total)}</p>
-     <p style="margin:2px 0 0;font-size:13px;color:#71717a;font-family:Arial,sans-serif;">stickers impresos desde 2020 · <strong style="color:#00a855;">tu pedido: +${cantidad}</strong></p>`;
-  const premio = p(proximoPremio(total), 'font-size:13px;margin:0;');
-  const cuerpo = conResena
-    ? H.tituloSeccion('¿NOS DEJÁS UNA RESEÑA?') +
-      p('Si te gustó cómo quedaron, nos ayudás muchísimo contándolo en Google. Te lleva un minuto y hace que más gente nos encuentre.') +
-      p(`${linkVerde('https://mipegatina.club/contador', 'Ver el contador en vivo →')}`, 'font-size:13px;margin:14px 0 0;')
-    : premio + p(`${linkVerde('https://mipegatina.club/contador', 'Ver el contador en vivo →')}`, 'font-size:13px;margin:12px 0 0;');
+function mailContador({ nombre, numero, cardId }) {
+  // Mail de agradecimiento + pedido de reseña (el contador de stickers se retiró de la web)
+  const bloque = H.label('TU PEDIDO') +
+    `<p style="margin:0;font-size:22px;font-weight:800;letter-spacing:-.5px;color:#0a0a0a;font-family:Arial,sans-serif;">Pedido #${numero}</p>`;
+  const cuerpo = H.tituloSeccion('¿NOS DEJÁS UNA RESEÑA?') +
+    p('Si te gustó cómo quedó, nos ayudás muchísimo contándolo en Google. Te lleva un minuto y hace que más gente nos encuentre.', 'margin:0;');
   return {
-    subject: `Tus ${cantidad} ya son parte del contador 🎉 — Mi Pegatina®`,
+    subject: `Gracias por tu pedido #${numero} — Mi Pegatina®`,
     html: H.layout({
-      titulo: 'Tu pedido ya es parte del contador',
-      eyebrow: `PEDIDO #${numero} · CONTADOR`,
-      h1: `Tus ${cantidad} se sumaron a los ${fmt(total)} 🎉`,
-      intro: `Hola${nombre ? ` <strong>${nombre}</strong>` : ''}, tu pedido <strong>#${numero}</strong> ya salió del taller y pasó a ser parte de todo lo que imprimimos desde 2020. ¡Gracias por sumar!`,
+      titulo: 'Gracias por tu pedido',
+      eyebrow: `PEDIDO #${numero} · GRACIAS`,
+      h1: 'Gracias por confiar en Mi Pegatina 💚',
+      intro: `Hola${nombre ? ` <strong>${nombre}</strong>` : ''}, tu pedido <strong>#${numero}</strong> ya salió del taller. ¡Gracias por elegirnos!`,
       bloque,
       cuerpo,
-      boton: conResena
-        ? { href: `${URL_RESENA}?c=${cardId}`, texto: 'Dejar mi reseña ⭐' }
-        : null,
+      boton: { href: `${URL_RESENA}?c=${cardId}`, texto: 'Dejar mi reseña ⭐' },
     }),
   };
 }
@@ -210,7 +203,7 @@ async function mailsContador({ cerradas, reg, log }) {
 
   const desde = new Date(DESDE);
   for (const c of cards) {
-    if (c.t < desde || c.ganador || RX_PRUEBA.test(c.name) || RX_EXCLUIR.test(c.name)) continue;
+    if (c.t < desde || RX_PRUEBA.test(c.name) || RX_EXCLUIR.test(c.name)) continue;
     if (c.v <= 0 && c.ll <= 0) continue;
     if (reg.tiene(`contador:${c.id}`)) continue;
     const { email, nombre } = datosCliente(c);
@@ -219,12 +212,13 @@ async function mailsContador({ cerradas, reg, log }) {
     const ultimaResena = reg.ultima(`resena-enviada:${email}`);
     const conResena = !reg.tiene(`resena-click:${email}`) &&
       (!ultimaResena || Date.now() - ultimaResena > RESENA_CADA_DIAS * 864e5);
-    const cantidad = c.v > 0 ? `${fmt(c.v)} stickers` : `${fmt(c.ll)} llaveros`;
+    // Sin contador, el mail solo sale si corresponde pedir la reseña; si no, se anota para no revisarlo de nuevo
+    if (!conResena) { await reg.anotar(`contador:${c.id}`, `#${c.idShort} · ${email} · sin mail (reseña no corresponde)`); continue; }
 
-    await H.enviarMail({ to: email, ...mailContador({ nombre, numero: c.idShort, cantidad, total: c.total, cardId: c.id, conResena }) });
-    await reg.anotar(`contador:${c.id}`, `#${c.idShort} · ${email} · +${cantidad} · total ${fmt(c.total)}${conResena ? ' · con reseña' : ''}`);
-    if (conResena) await reg.anotar(`resena-enviada:${email}`, `#${c.idShort}`);
-    log.push(`contador #${c.idShort} → ${email}${conResena ? ' (+reseña)' : ''}`);
+    await H.enviarMail({ to: email, ...mailContador({ nombre, numero: c.idShort, cardId: c.id }) });
+    await reg.anotar(`contador:${c.id}`, `#${c.idShort} · ${email} · reseña`);
+    await reg.anotar(`resena-enviada:${email}`, `#${c.idShort}`);
+    log.push(`resena #${c.idShort} → ${email}`);
     await esperar(600);
   }
 }
