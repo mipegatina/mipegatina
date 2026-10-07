@@ -2,16 +2,14 @@
   publish = "."
   functions = "netlify/functions"
 
-# Contador de stickers: retirado de la web (oct 2026). Se desactivan las corridas automaticas.
-# Para reactivarlo, descomentar estos bloques y quitar la redireccion de abajo.
-
-# Premios por hitos del contador: revisa cada 15 minutos
+# Contador de stickers: retirado de la web (oct 2026). Los premios por hito quedan apagados.
+# Para reactivarlos, descomentar este bloque y quitar la redireccion de abajo.
 # [functions."hitos"]
 #   schedule = "*/15 * * * *"
 
-# Mails de fidelización (contador + reseña): revisa cada 15 minutos
-# [functions."fidelizacion"]
-#   schedule = "*/15 * * * *"
+# Mails de fidelización (agradecimiento + pedido de reseña): revisa cada 15 minutos
+[functions."fidelizacion"]
+  schedule = "*/15 * * * *"
 
 [[redirects]]
   from = "/contador"
