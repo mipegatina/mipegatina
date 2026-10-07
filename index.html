@@ -4401,7 +4401,7 @@ function draw(){
   var mk=mockKey(); if(mk){ drawMerch(cv,mk); return; }
   cv.style.aspectRatio='300/190';
   var key=effectKey(); if(!key) return;
-  var W=CW*DPR,H=CH*DPR; if(cv.width!==W){ cv.width=W; cv.height=H; }
+  var W=CW*DPR,H=CH*DPR; if(cv.width!==W||cv.height!==H){ cv.width=W; cv.height=H; }
   var c=cv.getContext('2d'); c.setTransform(DPR,0,0,DPR,0,0); c.clearRect(0,0,CW,CH);
   var X=14,Y=14,SW=CW-28,SH=CH-28,R=22;
   // sombra suave
