@@ -4396,17 +4396,27 @@ function effectKey(){
   return null;
 }
 function rr(c,x,y,w,h,r){ c.beginPath(); if(c.roundRect){ c.roundRect(x,y,w,h,r); } else { c.rect(x,y,w,h); } }
+var _mc=null,_mk=null,_mkKey='';
+function dieMask(W,H,lx,ly,lw,lh){
+  var k=W+'x'+H+'|'+Math.round(lx)+'|'+Math.round(lw)+'|'+(logoInk.width);
+  if(_mk&&_mkKey===k) return _mk;
+  var m=document.createElement('canvas'); m.width=W; m.height=H; var x=m.getContext('2d');
+  var R=0.06*lw*DPR, rings=[0.5,0.8,1];
+  for(var ri=0;ri<rings.length;ri++){ var n=ri===0?24:(ri===1?36:48); for(var a=0;a<n;a++){ var t=a/n*Math.PI*2+ri*0.2; x.drawImage(logoInk,lx*DPR+Math.cos(t)*R*rings[ri],ly*DPR+Math.sin(t)*R*rings[ri],lw*DPR,lh*DPR); } }
+  x.drawImage(logoInk,lx*DPR,ly*DPR,lw*DPR,lh*DPR);
+  _mk=m; _mkKey=k; return m;
+}
 function draw(){
   var cv=document.getElementById('cot-sample-canvas'); if(!cv||!logoInk) return;
   var mk=mockKey(); if(mk){ drawMerch(cv,mk); return; }
   cv.style.aspectRatio='300/190';
   var key=effectKey(); if(!key) return;
   var W=CW*DPR,H=CH*DPR; if(cv.width!==W||cv.height!==H){ cv.width=W; cv.height=H; }
-  var c=cv.getContext('2d'); c.setTransform(DPR,0,0,DPR,0,0); c.clearRect(0,0,CW,CH);
-  var X=14,Y=14,SW=CW-28,SH=CH-28,R=22;
-  // sombra suave
-  c.save(); c.shadowColor='rgba(0,0,0,.22)'; c.shadowBlur=14; c.shadowOffsetY=6; rr(c,X,Y,SW,SH,R); c.fillStyle='#fff'; c.fill(); c.restore();
-  c.save(); rr(c,X,Y,SW,SH,R); c.clip();
+  if(!_mc||_mc.width!==W||_mc.height!==H){ _mc=document.createElement('canvas'); _mc.width=W; _mc.height=H; }
+  var c=_mc.getContext('2d'); c.setTransform(1,0,0,1,0,0); c.clearRect(0,0,W,H); c.setTransform(DPR,0,0,DPR,0,0);
+  var X=0,Y=0,SW=CW,SH=CH;
+  var lw=CW*0.76, lh=lw*logoInk.height/logoInk.width; if(lh>CH*0.7){ lh=CH*0.7; lw=lh*logoInk.width/logoInk.height; }
+  var lx=(CW-lw)/2, ly=(CH-lh)/2;
   var tex=texFor(key);
   if(key==='blanco'||key==='laca'){ c.fillStyle='#fff'; c.fillRect(X,Y,SW,SH); }
   else if(key==='transparente'){ var s=10; for(var yy=Y;yy<Y+SH;yy+=s){ for(var xx=X;xx<X+SW;xx+=s){ c.fillStyle=(((xx-X)/s+(yy-Y)/s)%2===0)?'#ecedee':'#fafafa'; c.fillRect(xx,yy,s,s); } } }
@@ -4418,23 +4428,21 @@ function draw(){
     try{ if(pat&&pat.setTransform&&window.DOMMatrix){ var m=new DOMMatrix(); m.e=shift.x*tw*f*3; m.f=shift.y*th*f*3; pat.setTransform(m); } }catch(e){}
     c.fillStyle=pat; c.fillRect(X,Y,SW,SH);
   } else { c.fillStyle='#e6e6ee'; c.fillRect(X,Y,SW,SH); }
-  // logo centrado
-  var lw=SW*0.72, lh=lw*logoInk.height/logoInk.width; if(lh>SH*0.72){ lh=SH*0.72; lw=lh*logoInk.width/logoInk.height; }
-  var lx=X+(SW-lw)/2, ly=Y+(SH-lh)/2;
+  // brillo del sticker segun inclinacion (sobre todo para efectos)
+  if(key!=='blanco' && key!=='transparente'){ c.save(); c.globalCompositeOperation='screen'; var gg=c.createRadialGradient(X+SW*(0.5+shift.x*0.8),Y+SH*(0.3+shift.y*0.8),0,X+SW*(0.5+shift.x*0.8),Y+SH*(0.3+shift.y*0.8),SW*0.7); gg.addColorStop(0,'rgba(255,255,255,.28)'); gg.addColorStop(1,'rgba(255,255,255,0)'); c.fillStyle=gg; c.fillRect(X,Y,SW,SH); c.restore(); }
+  // logo
   c.drawImage(logoInk,lx,ly,lw,lh);
   if(key==='laca'){
-    // brillo glossy solo sobre el logo (zona con laca), se mueve con la inclinacion
     var g=document.createElement('canvas'); g.width=Math.ceil(lw); g.height=Math.ceil(lh); var gx=g.getContext('2d');
     gx.drawImage(logoInk,0,0,g.width,g.height); gx.globalCompositeOperation='source-in';
     var p=(shift.x*0.9+0.5); var gr=gx.createLinearGradient(g.width*(p-0.45),0,g.width*(p+0.05),g.height);
     gr.addColorStop(0,'rgba(255,255,255,0)'); gr.addColorStop(.45,'rgba(255,255,255,.85)'); gr.addColorStop(.55,'rgba(255,255,255,.85)'); gr.addColorStop(1,'rgba(255,255,255,0)');
     gx.fillStyle=gr; gx.fillRect(0,0,g.width,g.height); c.drawImage(g,lx,ly);
   }
-  c.restore();
-  // borde sutil
-  c.save(); rr(c,X+.5,Y+.5,SW-1,SH-1,R); c.strokeStyle='rgba(10,10,10,.12)'; c.lineWidth=1; c.stroke(); c.restore();
-  // brillo del sticker segun inclinacion (sobre todo para efectos)
-  if(key!=='blanco' && key!=='transparente'){ c.save(); rr(c,X,Y,SW,SH,R); c.clip(); c.globalCompositeOperation='screen'; var gg=c.createRadialGradient(X+SW*(0.5+shift.x*0.8),Y+SH*(0.3+shift.y*0.8),0,X+SW*(0.5+shift.x*0.8),Y+SH*(0.3+shift.y*0.8),SW*0.7); gg.addColorStop(0,'rgba(255,255,255,.28)'); gg.addColorStop(1,'rgba(255,255,255,0)'); c.fillStyle=gg; c.fillRect(X,Y,SW,SH); c.restore(); }
+  // recorte troquelado: el material toma la forma del logo
+  c.setTransform(1,0,0,1,0,0); c.globalCompositeOperation='destination-in'; c.drawImage(dieMask(W,H,lx,ly,lw,lh),0,0); c.globalCompositeOperation='source-over';
+  var o=cv.getContext('2d'); o.setTransform(1,0,0,1,0,0); o.clearRect(0,0,W,H);
+  o.save(); o.shadowColor='rgba(0,0,0,.25)'; o.shadowBlur=16*DPR; o.shadowOffsetY=6*DPR; o.drawImage(_mc,0,0); o.restore();
   var wrap=document.getElementById('cot-sample-tilt'); if(wrap) wrap.style.transform='perspective(700px) rotateY('+(shift.x*14).toFixed(1)+'deg) rotateX('+(-shift.y*14).toFixed(1)+'deg)';
 }
 function loop(ts){
