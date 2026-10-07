@@ -1050,6 +1050,11 @@ blancoPremium: {
 label:"Vinilo Blanco Premium",
 sizes:{ "5x5":{area:.0025},"6x6":{area:.0036},"8x8":{area:.0064},"9x9":{area:.0081} }
 },
+// Oct 2026: "Agregar laca" dentro del blanco. Material oculto (no es card): se activa con el interruptor y cotiza como Vinilo Especial
+blancoLaca: {
+label:"Vinilo Blanco Premium + laca", hidden:true,
+sizes:{ "5x5":{area:.0025},"6x6":{area:.0036},"8x8":{area:.0064},"9x9":{area:.0081} }
+},
 transparentePremium: {
 label:"Vinilo Transparente Premium",
 sizes:{ "5x5":{area:.0025},"6x6":{area:.0036},"8x8":{area:.0064},"9x9":{area:.0081} }
@@ -1058,7 +1063,6 @@ viniloEspecial: {
 label:"Vinilo Especial",
 sizes:{ "5x5":{area:.0025},"6x6":{area:.0036},"8x8":{area:.0064},"9x9":{area:.0081} },
 subOptions:[
-{id:"blancoLaca",       label:"Blanco Premium con Laca"},
 {id:"holografico",      label:"Holográfico"},
 {id:"holograficoGold",  label:"Holográfico Gold"},
 {id:"glitter",          label:"Glitter"},
@@ -1243,6 +1247,10 @@ blancoPremium: {
 label:"Vinilo Blanco Premium",
 sizes:{"10x7":{area:0.0070},"10x15":{area:0.015},"15x21":{area:0.0315}}
 },
+blancoLaca: {
+label:"Vinilo Blanco Premium + laca", hidden:true,
+sizes:{"10x7":{area:0.0070},"10x15":{area:0.015},"15x21":{area:0.0315}}
+},
 transparentePremium: {
 label:"Vinilo Transparente Premium",
 sizes:{"10x7":{area:0.0070},"10x15":{area:0.015},"15x21":{area:0.0315}}
@@ -1251,7 +1259,6 @@ viniloEspecial: {
 label:"Vinilo Especial",
 sizes:{"10x7":{area:0.0070},"10x15":{area:0.015},"15x21":{area:0.0315}},
 subOptions:[
-{id:"blancoLaca",       label:"Blanco Premium con Laca"},
 {id:"holografico",      label:"Holográfico"},
 {id:"holograficoGold",  label:"Holográfico Gold"},
 {id:"glitter",          label:"Glitter"},
@@ -1573,7 +1580,7 @@ window.scrollTo({top:targetTop,behavior:'smooth'});
 function resetFrom(step){
 if(typeof _lastStep!=='undefined' && _lastStep >= step){ _lastStep = step - 1; }
 if(step <= 1){ cot.producto=''; }
-if(step <= 2){ cot.materialKey=''; document.getElementById('mat-cards').innerHTML=''; }
+if(step <= 2){ cot.materialKey=''; document.getElementById('mat-cards').innerHTML=''; const _lt=document.getElementById('laca-toggle'); if(_lt) _lt.style.display='none'; }
 if(step <= 3){ cot.size=''; document.getElementById('size-pills').innerHTML=''; const sp=document.getElementById('sub-options-panel'); if(sp) sp.style.display='none'; document.getElementById('sub-options-list').innerHTML=''; }
 if(step <= 4){ cot.qty=null; document.getElementById('qty-grid').innerHTML=''; }
 if(step <= 2){ cot.subOption=''; cot.subOptionLabel=''; }
@@ -1600,6 +1607,7 @@ const matCards = document.getElementById('mat-cards');
 matCards.innerHTML='';
 const mats = getActiveMaterials();
 Object.entries(mats).forEach(([k,m])=>{
+if(m.hidden) return;
 const btn2=document.createElement('button');
 btn2.className='opt-card';
 btn2.innerHTML=`<span style="font-weight:600">${m.label}</span>`;
@@ -1616,11 +1624,33 @@ const thumb=document.getElementById('cot-border-thumb');
 if(track) track.style.background = cot.borde ? 'var(--green)' : '#ccc';
 if(thumb) thumb.style.left = cot.borde ? '23px' : '3px';
 }
+function cotSetLaca(on){
+if(!cot.materialKey || (cot.materialKey!=='blancoPremium' && cot.materialKey!=='blancoLaca')) return;
+cot.materialKey = on ? 'blancoLaca' : 'blancoPremium';
+renderLacaToggle(true);
+showPending();
+}
+function renderLacaToggle(show){
+let box=document.getElementById('laca-toggle');
+const mc=document.getElementById('mat-cards');
+if(!box){
+if(!mc) return;
+box=document.createElement('button');
+box.id='laca-toggle'; box.type='button';
+box.onclick=function(){ cotSetLaca(cot.materialKey!=='blancoLaca'); };
+mc.parentNode.insertBefore(box, mc.nextSibling);
+}
+if(!show){ box.style.display='none'; return; }
+const on = cot.materialKey==='blancoLaca';
+box.style.cssText='display:flex;align-items:center;gap:12px;width:100%;margin-top:10px;padding:12px 14px;background:'+(on?'rgba(0,194,100,.07)':'transparent')+';border:1px solid '+(on?'var(--green)':'rgba(10,10,10,.15)')+';border-radius:12px;cursor:pointer;text-align:left;font-family:var(--sans);transition:all .15s;';
+box.innerHTML='<span style="flex-shrink:0;width:42px;height:22px;border-radius:11px;position:relative;background:'+(on?'var(--green)':'#ccc')+';transition:background .15s;"><span style="position:absolute;top:3px;left:'+(on?'23px':'3px')+';width:16px;height:16px;border-radius:50%;background:#fff;transition:left .15s;"></span></span><span><span style="display:block;font-size:.88rem;font-weight:700;color:#0a0a0a;">Agregar laca sectorizada</span><span style="display:block;font-size:.74rem;color:rgba(10,10,10,.55);margin-top:2px;line-height:1.35;">Brillo localizado en las zonas que elijas. Se cotiza al valor del Vinilo Especial.</span></span>';
+}
 function selectMaterial(val, btn){
 document.querySelectorAll('#mat-cards .opt-card').forEach(b=>b.classList.remove('selected'));
 btn.classList.add('selected');
 resetFrom(3);
 cot.materialKey=val;
+renderLacaToggle(val==='blancoPremium' && cot.cat==='stickers' && (cot.producto==='suelto'||cot.producto==='plancha'));
 // control de borde: solo para vinilo blanco en sticker SUELTO (no plancha)
 const bc=document.getElementById('cot-border-control');
 if(bc) bc.style.display = 'none';
@@ -1868,6 +1898,7 @@ const M2_PLANCHA = {
   '10x15': { blancoPremium:32.1, transparentePremium:35.31, viniloEspecial:53.5 },
   '15x21': { blancoPremium:32.1, transparentePremium:35.31, viniloEspecial:53.5 },
 };
+Object.keys(M2_PLANCHA).forEach(function(k){ M2_PLANCHA[k].blancoLaca = M2_PLANCHA[k].viniloEspecial; });
 const DIMS_PLANCHA_CM = { '10x7':[10,7], '10x15':[10,15], '15x21':[15,21] };
 function precioUnitarioPlancha(matKey, sz){
   const m2Tbl = M2_PLANCHA[sz];
@@ -1889,6 +1920,8 @@ const M2_STICKER = {
 // Suncatcher Adhesivo = Vinilo Especial + 15%, en las medidas que tiene (8 y 9 cm).
 // Se calcula solo: si cambia el valor del especial, el suncatcher lo sigue.
 const RECARGO_SUNCATCHER = 1.15;
+// Blanco + laca cotiza igual que el Vinilo Especial (se sigue solo si cambia el especial)
+M2_STICKER.blancoLaca = M2_STICKER.viniloEspecial;
 M2_STICKER.suncatcher = {
   '8x8': M2_STICKER.viniloEspecial['8x8'] * RECARGO_SUNCATCHER,
   '9x9': M2_STICKER.viniloEspecial['9x9'] * RECARGO_SUNCATCHER,
@@ -2596,8 +2629,8 @@ if(typeof pvMode!=='undefined'&&pvMode==='acrilico'){
   } else { closePreviewModal(); }
   return;
 }
-const matMap={blanco:'blancoPremium',transparente:'transparentePremium',holografico:'viniloEspecial','holografico-gold':'viniloEspecial',glitter:'viniloEspecial',glitterTrans:'viniloEspecial',blancoLaca:'viniloEspecial',suncatcher:'suncatcher'};
-const subMap={holografico:'holografico','holografico-gold':'holograficoGold',glitter:'glitter',glitterTrans:'glitterTrans',blancoLaca:'blancoLaca'};
+const matMap={blanco:'blancoPremium',transparente:'transparentePremium',holografico:'viniloEspecial','holografico-gold':'viniloEspecial',glitter:'viniloEspecial',glitterTrans:'viniloEspecial',blancoLaca:'blancoPremium',suncatcher:'suncatcher'};
+const subMap={holografico:'holografico','holografico-gold':'holograficoGold',glitter:'glitter',glitterTrans:'glitterTrans'};
 const matLabels={blanco:'Blanco Premium',transparente:'Transparente',holografico:'Holográfico','holografico-gold':'Holo Gold',glitter:'Glitter',glitterTrans:'Glitter Transparente',blancoLaca:'Blanco con Laca',suncatcher:'Suncatcher Adhesivo'};
 const mat=pvMat;
 const mk=matMap[mat]||'blancoPremium';
@@ -2621,9 +2654,10 @@ if(pb) selectProducto('suelto',pb);
 // 3) material (esperar a que se rendericen las cards de material)
 waitFor(()=>document.querySelectorAll('#mat-cards .opt-card').length>0, ()=>{
 const mbs=document.querySelectorAll('#mat-cards .opt-card');
-const keys=Object.keys(getActiveMaterials());
+const keys=Object.keys(getActiveMaterials()).filter(function(k){return !getActiveMaterials()[k].hidden;});
 let clicked=false;
 keys.forEach((k,i)=>{ if(k===mk && mbs[i]){ selectMaterial(k,mbs[i]); clicked=true; } });
+if(mat==='blancoLaca' && clicked) cotSetLaca(true);
 const finish=()=>{
 const step=document.getElementById('step4-block');
 if(step){ step.scrollIntoView({behavior:'smooth',block:'center'}); step.classList.remove('step-flash'); void step.offsetWidth; step.classList.add('step-flash'); }
@@ -3012,6 +3046,7 @@ document.querySelectorAll('#prod-cards .opt-card, #mat-cards .opt-card, .mat-sub
 ['mat-cards','size-pills','qty-grid','custom-size-zone'].forEach(id=>{ const el=document.getElementById(id); if(el) el.innerHTML=''; });
 const sp=document.getElementById('sub-options-panel'); if(sp) sp.style.display='none';
 const sl=document.getElementById('sub-options-list'); if(sl) sl.innerHTML='';
+const _lt2=document.getElementById('laca-toggle'); if(_lt2) _lt2.style.display='none';
 // Ocultar resultados / mensajes / errores
 ['results-area','wholesale-msg','ship-banner','fp-note'].forEach(id=>{ const el=document.getElementById(id); if(el) el.style.display='none'; });
 // Restaurar el paso 1 (categoría) como paso activo
@@ -3635,7 +3670,7 @@ const MPC = {
     viniloEspecial:'Vinilo Especial / Holográfico',
     suncatcher:'Suncatcher Adhesivo',
   },
-  materialesEsp: ['Holográfico','Holográfico Gold','Glitter','Glitter Transparente','Blanco con Laca'],
+  materialesEsp: ['Holográfico','Holográfico Gold','Glitter','Glitter Transparente'],
 };
 
 // ===== ESTADO =====
