@@ -4406,9 +4406,65 @@ function dieMask(W,H,lx,ly,lw,lh){
   x.drawImage(logoInk,lx*DPR,ly*DPR,lw*DPR,lh*DPR);
   _mk=m; _mkKey=k; return m;
 }
+var _ac=null;
+function acrKind(){ return (typeof cot!=='undefined' && cot.cat==='acrilicos' && (cot.materialKey==='llavero'||cot.materialKey==='dije'||cot.materialKey==='iman'||cot.materialKey==='posavaso')) ? cot.materialKey : null; }
+function acrBuild(kind,W,H){
+  var k=kind+'|'+W+'x'+H; if(_ac&&_ac.k===k) return _ac;
+  var iman=(kind==='iman'), pos=(kind==='posavaso'), hole=(kind==='llavero'||kind==='dije');
+  var lw=CW*(pos?0.4:0.62), lh=lw*logoInk.height/logoInk.width; if(lh>CH*0.5){ lh=CH*0.5; lw=lh*logoInk.width/logoInk.height; }
+  var lx=(CW-lw)/2, ly=(CH-lh)/2+(hole?12:0);
+  var sh=document.createElement('canvas'); sh.width=W; sh.height=H; var sx=sh.getContext('2d');
+  var ox=0,oy=0,tabR=0;
+  if(pos){ var S=CH-34, r=S*0.14; sx.fillStyle='#000'; sx.beginPath(); if(sx.roundRect) sx.roundRect((W-S*DPR)/2,(H-S*DPR)/2,S*DPR,S*DPR,r*DPR); else sx.rect((W-S*DPR)/2,(H-S*DPR)/2,S*DPR,S*DPR); sx.fill(); }
+  else {
+    var m=document.createElement('canvas'); m.width=W; m.height=H; var mx=m.getContext('2d');
+    var R=(iman?0.075:0.06)*lw*DPR, rings=[0.5,0.8,1];
+    for(var ri=0;ri<3;ri++){ var n=ri===0?24:(ri===1?36:48); for(var a=0;a<n;a++){ var t=a/n*Math.PI*2+ri*0.2; mx.drawImage(logoInk,lx*DPR+Math.cos(t)*R*rings[ri],ly*DPR+Math.sin(t)*R*rings[ri],lw*DPR,lh*DPR); } }
+    mx.drawImage(logoInk,lx*DPR,ly*DPR,lw*DPR,lh*DPR);
+    sx.drawImage(m,0,0);
+    if(hole){
+      var d=mx.getImageData(0,0,W,H).data, top=-1, sum=0, cnt=0;
+      for(var y=0;y<H&&top<0;y++){ for(var x=0;x<W;x++){ if(d[(y*W+x)*4+3]>128){ top=y; break; } } }
+      for(var y2=top;y2<top+4&&y2<H;y2++){ for(var x2=0;x2<W;x2++){ if(d[(y2*W+x2)*4+3]>128){ sum+=x2; cnt++; } } }
+      var cx=cnt?sum/cnt:W/2; tabR=0.05*CW*DPR; var cy=top+tabR*0.15;
+      sx.fillStyle='#000'; sx.beginPath(); sx.arc(cx,cy,tabR,0,Math.PI*2); sx.fill();
+      ox=cx; oy=cy;
+    }
+  }
+  var base=document.createElement('canvas'); base.width=W; base.height=H; var b=base.getContext('2d');
+  // relleno
+  b.drawImage(sh,0,0); b.globalCompositeOperation='source-in';
+  if(iman){ b.fillStyle='#fff'; } else { var g=b.createLinearGradient(0,0,W,H); g.addColorStop(0,'rgba(235,242,250,.80)'); g.addColorStop(1,'rgba(205,220,236,.55)'); b.fillStyle=g; }
+  b.fillRect(0,0,W,H); b.globalCompositeOperation='source-over';
+  // bordes: luz arriba-izq, sombra abajo-der
+  var e=Math.max(1.5,2*DPR), rim=function(dx,dy,col){ var t=document.createElement('canvas'); t.width=W; t.height=H; var x=t.getContext('2d'); x.drawImage(sh,0,0); x.globalCompositeOperation='destination-out'; x.drawImage(sh,dx,dy); x.globalCompositeOperation='source-in'; x.fillStyle=col; x.fillRect(0,0,W,H); b.drawImage(t,0,0); };
+  rim(e,e,iman?'rgba(255,255,255,0)':'rgba(255,255,255,.95)'); rim(-e,-e,iman?'rgba(0,0,0,.10)':'rgba(70,95,125,.38)');
+  if(!iman) rim(-e*0.5,e*0.5,'rgba(255,255,255,.35)');
+  // logo
+  var lg=document.createElement('canvas'); lg.width=W; lg.height=H; lg.getContext('2d').drawImage(logoInk,lx*DPR,ly*DPR,lw*DPR,lh*DPR);
+  if(hole){ b.globalCompositeOperation='destination-out'; b.beginPath(); b.arc(ox,oy,tabR*0.46,0,Math.PI*2); b.fill(); b.globalCompositeOperation='source-over';
+    var hs=document.createElement('canvas'); hs.width=W; hs.height=H; var hx=hs.getContext('2d'); hx.fillStyle='#000'; hx.beginPath(); hx.arc(ox,oy,tabR*0.46,0,Math.PI*2); hx.fill(); hx.globalCompositeOperation='destination-out'; hx.beginPath(); hx.arc(ox+e*0.8,oy+e*0.8,tabR*0.46,0,Math.PI*2); hx.fill(); hx.globalCompositeOperation='source-in'; hx.fillStyle='rgba(70,95,125,.45)'; hx.fillRect(0,0,W,H); b.drawImage(hs,0,0); }
+  // forma final (con agujero) para el brillo
+  var fs=document.createElement('canvas'); fs.width=W; fs.height=H; var fx=fs.getContext('2d'); fx.drawImage(sh,0,0); if(hole){ fx.globalCompositeOperation='destination-out'; fx.beginPath(); fx.arc(ox,oy,tabR*0.46,0,Math.PI*2); fx.fill(); }
+  _ac={k:k,base:base,shape:fs,logo:lg}; return _ac;
+}
+function drawAcril(cv,kind){
+  var W=CW*DPR,H=CH*DPR; if(cv.width!==W||cv.height!==H){ cv.width=W; cv.height=H; }
+  cv.style.aspectRatio='300/190';
+  var A=acrBuild(kind,W,H);
+  var o=cv.getContext('2d'); o.setTransform(1,0,0,1,0,0); o.clearRect(0,0,W,H);
+  o.save(); o.shadowColor='rgba(0,0,0,.22)'; o.shadowBlur=16*DPR; o.shadowOffsetY=6*DPR; o.drawImage(A.base,0,0); o.restore();
+  // brillo que se mueve con el mouse / dedo
+  if(kind!=='iman'){ var gc=document.createElement('canvas'); gc.width=W; gc.height=H; var g=gc.getContext('2d'); var p=0.5+shift.x*0.9;
+    var gr=g.createLinearGradient(W*(p-0.35),0,W*(p+0.05),H*0.8); gr.addColorStop(0,'rgba(255,255,255,0)'); gr.addColorStop(.5,'rgba(255,255,255,.55)'); gr.addColorStop(1,'rgba(255,255,255,0)'); g.fillStyle=gr; g.fillRect(0,0,W,H);
+    g.globalCompositeOperation='destination-in'; g.drawImage(A.shape,0,0); o.drawImage(gc,0,0); }
+  o.drawImage(A.logo,0,0);
+  var wrap=document.getElementById('cot-sample-tilt'); if(wrap) wrap.style.transform='perspective(700px) rotateY('+(shift.x*14).toFixed(1)+'deg) rotateX('+(-shift.y*14).toFixed(1)+'deg)';
+}
 function draw(){
   var cv=document.getElementById('cot-sample-canvas'); if(!cv||!logoInk) return;
   var mk=mockKey(); if(mk){ drawMerch(cv,mk); return; }
+  var ak=acrKind(); if(ak){ drawAcril(cv,ak); return; }
   cv.style.aspectRatio='300/190';
   var key=effectKey(); if(!key) return;
   var W=CW*DPR,H=CH*DPR; if(cv.width!==W||cv.height!==H){ cv.width=W; cv.height=H; }
@@ -4465,14 +4521,16 @@ function leave(){ userUntil=performance.now()+400; }
 window.cotSampleUpdate=function(){
   var box=document.getElementById('cot-sample'); if(!box) return;
   var ra=document.getElementById('results-area');
-  var key=mockKey() || ((typeof cot!=='undefined' && cot.cat==='stickers' && (cot.producto==='suelto'||cot.producto==='plancha')) ? effectKey() : null);
+  var key=mockKey() || acrKind() || ((typeof cot!=='undefined' && cot.cat==='stickers' && (cot.producto==='suelto'||cot.producto==='plancha')) ? effectKey() : null);
   if(!key || !ra || ra.style.display==='none'){ box.style.display='none'; return; }
   box.style.display='flex';
   box.style.background=mockKey()?'#fff':'#f6f6f7';
   var _t=document.getElementById('cot-sample-title'); if(_t) _t.textContent=mockKey()?'Así queda tu producto':'Muestra con tu material';
+  var _ak=acrKind(); if(_ak&&_t) _t.textContent='Así queda tu producto';
   var _h=document.getElementById('cot-sample-hint'); if(_h) _h.textContent=mockKey()?'Imagen ilustrativa con el logo de Mi Pegatina. Tu diseño se imprime a todo color en esta zona.':'Imagen ilustrativa con el logo de Mi Pegatina. Pasá el mouse o deslizá el dedo para ver el efecto.';
+  var _hh=document.getElementById('cot-sample-hint'); if(_ak&&_hh){ _hh.textContent={llavero:'Imagen ilustrativa con el logo de Mi Pegatina (se muestra sin cadenita). Pasá el mouse o deslizá el dedo para ver el brillo.',dije:'Imagen ilustrativa con el logo de Mi Pegatina. Pasá el mouse o deslizá el dedo para ver el brillo.',iman:'Imagen ilustrativa con el logo de Mi Pegatina, con perímetro blanco.',posavaso:'Imagen ilustrativa con el logo de Mi Pegatina, con margen transparente.'}[_ak]; }
   var lbl=document.getElementById('cot-sample-label');
-  if(lbl){ var nm=(typeof cotEC!=='undefined'&&cotEC[cot.materialKey])?cotEC[cot.materialKey].label:''; if(cot.materialKey==='viniloEspecial'&&cot.subOptionLabel) nm=nm+' · '+cot.subOptionLabel; lbl.textContent=nm; }
+  if(lbl){ var nm=(typeof cotEC!=='undefined'&&cotEC[cot.materialKey])?cotEC[cot.materialKey].label:''; if(cot.materialKey==='viniloEspecial'&&cot.subOptionLabel) nm=nm+' · '+cot.subOptionLabel; lbl.textContent=nm; if(_ak) lbl.textContent={llavero:'Llavero de acrílico',dije:'Dije de acrílico',iman:'Imán de acrílico',posavaso:'Posavasos de acrílico'}[_ak]; }
   var cv=document.getElementById('cot-sample-canvas');
   if(cv && !cv._bound){ cv._bound=1; cv.addEventListener('pointermove',pointer); cv.addEventListener('pointerleave',leave); cv.addEventListener('touchmove',function(e){pointer(e);},{passive:true}); cv.addEventListener('touchend',leave); }
   draw(); if(!raf && !mockKey()) raf=requestAnimationFrame(loop);
