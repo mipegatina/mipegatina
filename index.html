@@ -4373,8 +4373,9 @@ function drawMerch(cv,key){
       drawTri(c,logoInk,S(a1,b0),S(a1,b1),S(a0,b1),D(a1,b0),D(a1,b1),D(a0,b1));
     } }
   } else {
-    var hh=M.h*s, ww=hh*logoInk.width/logoInk.height;
-    c.translate(M.c[0]*s,M.c[1]*s); c.rotate(M.ang*Math.PI/180); c.drawImage(logoInk,-ww/2,-hh/2,ww,hh);
+    var txt='Mi Pegatina - Print Partner', fs=26*s, fam='Helvetica, Arial, sans-serif';
+    c.font='500 '+fs+'px '+fam; var tw0=c.measureText(txt).width, maxW=366*s; if(tw0>maxW){ fs=fs*maxW/tw0; c.font='500 '+fs+'px '+fam; }
+    c.translate(M.c[0]*s,M.c[1]*s); c.rotate(M.ang*Math.PI/180); c.fillStyle='#0a0a0a'; c.textAlign='center'; c.textBaseline='middle'; c.fillText(txt,0,0);
   }
   c.setTransform(1,0,0,1,0,0); c.globalAlpha=1; c.globalCompositeOperation='source-over';
   var wrap=document.getElementById('cot-sample-tilt'); if(wrap) wrap.style.transform='none';
