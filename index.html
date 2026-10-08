@@ -805,7 +805,7 @@ position:relative;overflow:hidden;
 box-shadow:0 0 16px rgba(0,194,100,.2),inset 0 0 16px rgba(0,194,100,.04);
 animation:btn-glow-pulse 2.5s infinite;
 white-space:nowrap;letter-spacing:.3px;
-">Ver precios →</a></div><div class="mats-grid"><div class="mat-card reveal visible"><h3>Vinilo Blanco Premium</h3><p>El clásico que no falla. Fondo blanco opaco de alta cobertura, ideal para colores vibrantes y textos nítidos.</p></div><div class="mat-card reveal visible" style="transition-delay:.1s"><h3>Vinilo Transparente Premium</h3><p>Sin fondo visible. Perfecto para botellas, vidrios y superficies donde el material es parte del diseño.</p></div><div class="mat-card reveal visible" style="transition-delay:.2s"><h3>Vinilo Especial</h3><p>Acabados únicos para destacar. Consultanos por opciones holográficas, metalizadas y texturas especiales.</p></div><div class="mat-card reveal visible" style="transition-delay:.3s"><h3>Suncatcher Adhesivo</h3><p>Adhesivo para vidrios que descompone la luz del sol en reflejos de arcoíris. Disponible en 8 y 9 cm.</p></div><div class="mat-card reveal visible" style="transition-delay:.4s"><h3>Acrílico impreso UV</h3><p>Impresión de alta calidad directamente sobre acrílico. Colores vibrantes, acabado premium y durabilidad superior para señalética, decoración y productos personalizados.</p></div><div class="mat-card reveal visible" style="transition-delay:.5s"><h3>Remera estampada DTF</h3><p>Remera de algodón con estampa DTF full color en frente y dorso. Colores intensos, tacto suave y gran resistencia al lavado. Ideal para eventos, equipos y merch de marca.</p></div></div></div></section><section id="cotizador"><div class="wrap"><div class="cot-header reveal visible"><span class="eyebrow">Cotizador online</span><div class="cot-title">Tu precio, en segundos.</div><p class="cot-sub">Elegí producto, material, medida y cantidad.</p><button onclick="openPreviewModal()" class="btn-preview-tech" style="margin-top:28px;font-size:.82rem;padding:10px 22px;"><span class="bpt-dot"></span> Ver preview de mi sticker</button></div><div class="cot-wrap reveal visible"><div class="cot-inner"><aside class="cot-sidebar"><div class="cot-block" id="step0-block"><div class="step-header"><div class="step-num active" id="stepnum-0">1</div><div class="sec-label" style="margin-bottom:0;">¿Qué querés cotizar?</div></div><div class="cat-cards" style="margin-top:12px;"><button class="cat-card" id="cat-stickers" onclick="onCatSelect(&#39;stickers&#39;)"><div class="cat-title">Stickers</div><div class="cat-desc">Stickers y Planchas de stickers</div></button><button class="cat-card acrilicos-card" id="cat-acrilicos" onclick="onCatSelect(&#39;acrilicos&#39;)"><div class="cat-title">Acrílicos</div><div class="cat-desc">Llaveros, Imanes, Dijes y Posavasos</div></button><button class="cat-card merch-card" id="cat-merch" onclick="onCatSelect(&#39;merch&#39;)"><div class="cat-title">Remeras Personalizadas</div><div class="cat-desc">Impresas frente y dorso con tu diseño</div></button><button class="cat-card merchp-card" id="cat-merchp" onclick="onCatSelect(&#39;merchp&#39;)"><div class="cat-title">Merch personalizado</div><div class="cat-desc">Lapiceras y libretas con tu diseño</div></button></div></div><div class="cot-block step-block locked" id="step1-block"><div class="step-header"><div class="step-num" id="stepnum-1">2</div><div class="sec-label" style="margin-bottom:0;">Producto</div></div><div class="opt-cards" id="prod-cards" style="margin-top:10px;"><button class="opt-card" onclick="selectProducto(&#39;suelto&#39;, this)"><div><div>Sticker suelto</div><div class="opt-card-sub">Unidades individuales</div></div></button><button class="opt-card" onclick="selectProducto(&#39;plancha&#39;, this)"><div><div>Plancha de stickers</div><div class="opt-card-sub">Múltiples diseños en una plancha</div></div></button></div></div><div class="cot-block step-block locked" id="step2-block"><div class="step-header"><div class="step-num" id="stepnum-2">3</div><div class="sec-label" style="margin-bottom:0;">Material</div></div><div class="opt-cards" id="mat-cards" style="margin-top:10px;"></div><div id="cot-border-control" style="display:none;align-items:center;justify-content:space-between;gap:12px;margin-top:12px;padding:13px 15px;background:#fff;border:1px solid var(--border);border-radius:12px;"><div style="display:flex;flex-direction:column;gap:2px;"><span style="font-family:var(--sans);font-size:.88rem;font-weight:700;color:#0a0a0a;">Borde blanco</span><span style="font-family:var(--sans);font-size:.74rem;color:rgba(10,10,10,.5);">Margen blanco alrededor del diseño · opcional</span></div><div onclick="cotToggleBorde()" style="position:relative;width:46px;height:26px;flex-shrink:0;cursor:pointer;"><div id="cot-border-track" style="position:absolute;inset:0;background:var(--green);border-radius:99px;transition:background .2s;"></div><div id="cot-border-thumb" style="position:absolute;top:3px;left:23px;width:20px;height:20px;background:#fff;border-radius:50%;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:left .2s;"></div></div></div></div><div id="sub-options-panel" style="display:none;padding:16px 0;border-bottom:1px solid var(--border);"><div class="sec-label" style="margin-bottom:10px;">Tipo de acabado</div><div class="mat-suboptions" id="sub-options-list"></div></div><div class="cot-block step-block locked" id="step3-block"><div class="step-header"><div class="step-num" id="stepnum-3">4</div><div style="display:flex;flex-direction:column;gap:2px;"><div class="sec-label" id="lbl-size-title" style="margin-bottom:0;">Medida</div><div id="lbl-size-sub" style="font-family:var(--sans);font-size:.72rem;color:rgba(10,10,10,.45);line-height:1.3;">Lado más largo del diseño</div></div></div><div class="opt-pills" id="size-pills" style="margin-top:10px;"></div><div id="custom-size-zone" style="margin-top:10px;"></div></div><div class="cot-block step-block locked" id="step4-block"><div class="step-header"><div class="step-num" id="stepnum-4">5</div><div class="sec-label" style="margin-bottom:0;">Cantidad</div></div><div id="qty-grid" class="opt-pills" style="margin-top:10px;"></div></div></aside><div class="cot-main"><div class="res-context" style="padding-bottom:16px;margin-bottom:0;"><div class="res-badge" id="badge-mat" style="display:none;">Material — <strong id="r-mat"></strong></div><div class="res-size-pill" id="r-size" style="display:none;"></div><div class="res-badge" id="badge-qty" style="display:none;">Cantidad — <strong id="r-qty"></strong></div></div><div id="pending-msg" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:48px 20px;text-align:center;"><div style="font-family:var(--sans);font-size:1.1rem;font-weight:700;color:var(--white);">Completá los pasos para ver tu precio →</div><div style="font-size:.85rem;color:rgba(10,10,10,.6);">Elegí producto, material, medida y cantidad.</div></div><div id="wholesale-msg" style="display:none;flex-direction:column;gap:16px;padding:32px 24px;">
+">Ver precios →</a></div><div class="mats-grid"><div class="mat-card reveal visible"><h3>Vinilo Blanco Premium</h3><p>El clásico que no falla. Fondo blanco opaco de alta cobertura, ideal para colores vibrantes y textos nítidos.</p></div><div class="mat-card reveal visible" style="transition-delay:.1s"><h3>Vinilo Transparente Premium</h3><p>Sin fondo visible. Perfecto para botellas, vidrios y superficies donde el material es parte del diseño.</p></div><div class="mat-card reveal visible" style="transition-delay:.2s"><h3>Vinilo Especial</h3><p>Acabados únicos para destacar. Consultanos por opciones holográficas, metalizadas y texturas especiales.</p></div><div class="mat-card reveal visible" style="transition-delay:.3s"><h3>Suncatcher Adhesivo</h3><p>Adhesivo para vidrios que descompone la luz del sol en reflejos de arcoíris. Disponible en 8 y 9 cm.</p></div><div class="mat-card reveal visible" style="transition-delay:.4s"><h3>Acrílico impreso UV</h3><p>Impresión de alta calidad directamente sobre acrílico. Colores vibrantes, acabado premium y durabilidad superior para señalética, decoración y productos personalizados.</p></div><div class="mat-card reveal visible" style="transition-delay:.5s"><h3>Remera estampada DTF</h3><p>Remera de algodón con estampa DTF full color en frente y dorso. Colores intensos, tacto suave y gran resistencia al lavado. Ideal para eventos, equipos y merch de marca.</p></div></div></div></section><section id="cotizador"><div class="wrap"><div class="cot-header reveal visible"><span class="eyebrow">Cotizador online</span><div class="cot-title">Tu precio, en segundos.</div><p class="cot-sub">Elegí producto, material, medida y cantidad.</p><button onclick="openPreviewModal()" class="btn-preview-tech" style="margin-top:28px;font-size:.82rem;padding:10px 22px;"><span class="bpt-dot"></span> Ver preview de mi sticker</button></div><div class="cot-wrap reveal visible"><div class="cot-inner"><aside class="cot-sidebar"><div class="cot-block" id="step0-block"><div class="step-header"><div class="step-num active" id="stepnum-0">1</div><div class="sec-label" style="margin-bottom:0;">¿Qué querés cotizar?</div></div><div class="cat-cards" style="margin-top:12px;"><button class="cat-card" id="cat-stickers" onclick="onCatSelect(&#39;stickers&#39;)"><div class="cat-title">Stickers</div><div class="cat-desc">Stickers y Planchas de stickers</div></button><button class="cat-card acrilicos-card" id="cat-acrilicos" onclick="onCatSelect(&#39;acrilicos&#39;)"><div class="cat-title">Acrílicos</div><div class="cat-desc">Llaveros, Imanes, Dijes y Posavasos</div></button><button class="cat-card merch-card" id="cat-merch" onclick="onCatSelect(&#39;merch&#39;)"><div class="cat-title">Remeras Personalizadas</div><div class="cat-desc">Impresas frente y dorso con tu diseño</div></button><button class="cat-card merchp-card" id="cat-merchp" onclick="onCatSelect(&#39;merchp&#39;)"><div class="cat-title">Merch personalizado</div><div class="cat-desc">Lapiceras y libretas con tu diseño</div></button></div></div><div class="cot-block step-block locked" id="step1-block"><div class="step-header"><div class="step-num" id="stepnum-1">2</div><div class="sec-label" style="margin-bottom:0;">Producto</div></div><div class="opt-cards" id="prod-cards" style="margin-top:10px;"><button class="opt-card" onclick="selectProducto(&#39;suelto&#39;, this)"><div><div>Sticker suelto</div><div class="opt-card-sub">Unidades individuales</div></div></button><button class="opt-card" onclick="selectProducto(&#39;plancha&#39;, this)"><div><div>Plancha de stickers</div><div class="opt-card-sub">Múltiples diseños en una plancha</div></div></button></div></div><div class="cot-block step-block locked" id="step2-block"><div class="step-header"><div class="step-num" id="stepnum-2">3</div><div class="sec-label" style="margin-bottom:0;">Material</div></div><div class="opt-cards" id="mat-cards" style="margin-top:10px;"></div><div id="cot-border-control" style="display:none;align-items:center;justify-content:space-between;gap:12px;margin-top:12px;padding:13px 15px;background:#fff;border:1px solid var(--border);border-radius:12px;"><div style="display:flex;flex-direction:column;gap:2px;"><span style="font-family:var(--sans);font-size:.88rem;font-weight:700;color:#0a0a0a;">Borde blanco</span><span style="font-family:var(--sans);font-size:.74rem;color:rgba(10,10,10,.5);">Margen blanco alrededor del diseño · opcional</span></div><div onclick="cotToggleBorde()" style="position:relative;width:46px;height:26px;flex-shrink:0;cursor:pointer;"><div id="cot-border-track" style="position:absolute;inset:0;background:var(--green);border-radius:99px;transition:background .2s;"></div><div id="cot-border-thumb" style="position:absolute;top:3px;left:23px;width:20px;height:20px;background:#fff;border-radius:50%;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:left .2s;"></div></div></div></div><div id="sub-options-panel" style="display:none;padding:16px 0;border-bottom:1px solid var(--border);"><div class="sec-label" style="margin-bottom:10px;">Tipo de acabado</div><div class="mat-suboptions" id="sub-options-list"></div></div><div class="cot-block step-block locked" id="step3-block"><div class="step-header"><div class="step-num" id="stepnum-3">4</div><div style="display:flex;flex-direction:column;gap:2px;"><div class="sec-label" id="lbl-size-title" style="margin-bottom:0;">Medida</div><div id="lbl-size-sub" style="font-family:var(--sans);font-size:.72rem;color:rgba(10,10,10,.45);line-height:1.3;">Lado más largo del diseño</div></div></div><div class="opt-pills" id="size-pills" style="margin-top:10px;"></div><div id="custom-size-zone" style="margin-top:10px;"></div></div><div class="cot-block step-block locked" id="stepcut-block" style="display:none"><div class="step-header"><div class="step-num" id="stepnum-cut">5</div><div style="display:flex;flex-direction:column;gap:2px;"><div class="sec-label" style="margin-bottom:0;">Tipo de corte</div><div style="font-family:var(--sans);font-size:.72rem;color:rgba(10,10,10,.45);line-height:1.3;">Cómo se recorta tu sticker. Mismo precio en los tres.</div></div></div><div class="opt-pills cut-pills" id="cut-pills" style="margin-top:10px;"></div></div><div class="cot-block step-block locked" id="step4-block"><div class="step-header"><div class="step-num" id="stepnum-4">5</div><div class="sec-label" style="margin-bottom:0;">Cantidad</div></div><div id="qty-grid" class="opt-pills" style="margin-top:10px;"></div></div></aside><div class="cot-main"><div class="res-context" style="padding-bottom:16px;margin-bottom:0;"><div class="res-badge" id="badge-mat" style="display:none;">Material — <strong id="r-mat"></strong></div><div class="res-size-pill" id="r-size" style="display:none;"></div><div class="res-size-pill" id="r-corte" style="display:none;"></div><div class="res-badge" id="badge-qty" style="display:none;">Cantidad — <strong id="r-qty"></strong></div></div><div id="pending-msg" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:48px 20px;text-align:center;"><div style="font-family:var(--sans);font-size:1.1rem;font-weight:700;color:var(--white);">Completá los pasos para ver tu precio →</div><div style="font-size:.85rem;color:rgba(10,10,10,.6);">Elegí producto, material, medida y cantidad.</div></div><div id="wholesale-msg" style="display:none;flex-direction:column;gap:16px;padding:32px 24px;">
   <div style="text-align:center;">
     <div id="whs-title" style="font-family:var(--sans);font-size:1.1rem;font-weight:700;color:var(--white);margin-bottom:6px;">Precio especial por volumen</div>
     <div id="whs-sub" style="font-size:.85rem;color:rgba(10,10,10,.6);">Dejanos tus datos y te enviamos una propuesta en menos de 24 hs.</div>
@@ -2065,7 +2065,7 @@ function whsEnviar(){
   const sz   = cot.size  || '';
   const qty  = cot.qty   ? cot.qty.toLocaleString('es-AR')+' u' : '';
   const cat  = cot.cat === 'merch' ? 'Remeras Personalizadas' : cot.cat === 'merchp' ? 'Merch personalizado' : cot.cat === 'acrilicos' ? (cotEC[cot.materialKey]?.label||'Acrílico') : (cot.producto==='plancha'?'Plancha':'Sticker suelto');
-  const detalle = [cat, mat, sz ? sz+' cm' : '', qty].filter(Boolean).join(' · ');
+  const detalle = [cat, mat, sz ? sz+' cm' : '', (typeof cotCutLabel==='function'?cotCutLabel():''), qty].filter(Boolean).join(' · ');
   if(btn){ btn.disabled=true; btn.textContent='Enviando…'; }
   if(status){ status.style.color='rgba(10,10,10,.5)'; status.textContent='Enviando…'; }
   const mensaje = (document.getElementById('whs-mensaje')?.style.display !== 'none' ? document.getElementById('whs-mensaje')?.value : '') || '';
@@ -2185,9 +2185,69 @@ animation:pv-sun-drift 18s ease-in-out infinite alternate}
 #pv-sun-proj .pv-sp-dots{filter:blur(6px) saturate(1.9)}
 }
 </style>
+<style id="pv-v2">
+/* v40: previewer rediseñado (etapa 1) */
+#preview-modal{background:#f4f4f5 !important;font-family:var(--sans) !important;-webkit-font-smoothing:antialiased}
+#preview-modal .pv-head{padding:16px 22px;background:#fff;border-bottom:1px solid rgba(10,10,10,.08)}
+#preview-modal .pv-head-title{font-family:var(--sans);font-size:.95rem;font-weight:800;letter-spacing:-.2px;text-transform:none;color:#0a0a0a}
+#preview-modal .pv-head-sub{font-family:var(--sans);font-size:.76rem;letter-spacing:0;text-transform:none;color:rgba(10,10,10,.55);font-weight:500}
+#preview-modal .pv-head-dot{width:9px;height:9px}
+#preview-modal .pv-stage::after{display:none}
+#preview-modal #pv-sun-proj{z-index:1}
+#preview-modal #pv-canvas-wrap{background:#ececef;transition:background .25s}
+#preview-modal #pv-canvas-wrap[data-bg="blanco"]{background:#fff}
+#preview-modal #pv-canvas-wrap[data-bg="oscuro"]{background:#16181d}
+#preview-modal #pv-canvas-wrap[data-bg="notebook"]{background:linear-gradient(135deg,#c4c8ce 0%,#eceef0 45%,#d3d6db 70%,#b9bdc4 100%)}
+#preview-modal .pv-bgs{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.88);border:1px solid rgba(10,10,10,.1);border-radius:99px;padding:6px 12px 6px 14px;z-index:4;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+#preview-modal .pv-bgs-l{font-size:.68rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:rgba(10,10,10,.55);margin-right:3px}
+#preview-modal .pv-bgs button{width:24px;height:24px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px rgba(10,10,10,.22);cursor:pointer;padding:0;transition:box-shadow .15s}
+#preview-modal .pv-bgs button.on{box-shadow:0 0 0 2px var(--green)}
+#preview-modal .pv-panel{background:#fff}
+#preview-modal .pv-panel-label{font-family:var(--sans);font-size:.74rem;font-weight:800;letter-spacing:1px;color:rgba(10,10,10,.6)}
+#preview-modal .pv-mat-btn .pv-lbl{font-family:var(--sans);font-size:.7rem;font-weight:600;color:rgba(10,10,10,.6)}
+#preview-modal .pv-mat-btn.selected .pv-lbl{color:#0a0a0a;font-weight:700}
+#preview-modal .pv-desc{display:none}
+#preview-modal .pv-cta{font-family:var(--sans);font-size:.95rem;border-radius:12px;letter-spacing:0}
+#preview-modal .pv-dz-title{font-family:var(--sans)}
+@media(min-width:1000px){
+#preview-modal .pv-shell{max-width:none}
+#preview-modal .pv-head{padding:18px max(32px,calc((100% - 1240px)/2 + 32px))}
+#preview-modal #pv-preview:not([style*="display: none"]):not([style*="display:none"]){display:grid !important;grid-template-columns:minmax(0,1fr) 420px;gap:0 28px;padding:22px 32px 32px;align-items:start;width:100%;max-width:1240px;margin:0 auto;box-sizing:border-box}
+#preview-modal #pv-canvas-wrap{grid-column:1;grid-row:1;border-radius:22px;border:1px solid rgba(10,10,10,.07);height:calc(100vh - 150px) !important;min-height:560px !important;max-height:none !important;padding:44px 44px 64px !important;overflow:hidden !important}
+#preview-modal .pv-panel{grid-column:2;grid-row:1;border:1px solid rgba(10,10,10,.07);border-radius:22px;padding:24px !important;max-height:calc(100vh - 150px);overflow-y:auto;gap:14px !important}
+#preview-modal #pv-sun-proj{left:0;right:448px;top:22px;height:calc(100vh - 150px)}
+#preview-modal .pv-swatches{display:flex;flex-direction:column;gap:6px;padding-bottom:0}
+#preview-modal .pv-mat-btn{flex-direction:row;align-items:center;justify-content:flex-start;gap:14px;padding:8px 12px;border-radius:14px;border:1px solid transparent;text-align:left;transition:background .15s,border-color .15s}
+#preview-modal .pv-mat-btn:hover{background:rgba(10,10,10,.03)}
+#preview-modal .pv-mat-btn.selected{background:rgba(0,194,100,.07);border-color:rgba(0,194,100,.4)}
+#preview-modal .pv-mat-btn:hover .pv-sw{transform:none}
+#preview-modal .pv-sw{width:46px;height:46px;flex:none;border-radius:12px}
+#preview-modal .pv-mat-btn.selected .pv-sw{box-shadow:none;border-color:rgba(10,10,10,.12)}
+#preview-modal .pv-mat-btn.selected .pv-sw::after{top:-5px;right:-5px}
+#preview-modal .pv-tx{display:flex;flex-direction:column;gap:2px;text-align:left}
+#preview-modal .pv-mat-btn .pv-lbl{font-size:.92rem;white-space:nowrap;text-align:left}
+#preview-modal .pv-desc{display:block;font-size:.76rem;line-height:1.3;color:rgba(10,10,10,.5)}
+#preview-modal .pv-cta{align-self:stretch;margin-top:4px;padding:15px 24px;position:sticky;bottom:0;z-index:5}
+#preview-modal #pv-sun-proj{clip-path:inset(0 round 22px)}
+}
+@media(min-width:1000px) and (max-height:800px){
+#preview-modal .pv-mat-btn{padding:5px 10px}
+#preview-modal .pv-sw{width:38px;height:38px;border-radius:10px}
+#preview-modal .pv-desc{font-size:.7rem}
+#preview-modal .pv-panel{padding:16px 18px !important;gap:8px !important}
+#preview-modal .pv-swatches{gap:3px}
+#preview-modal .pv-cta{padding:12px 20px}
+}
+@media(max-width:999px){
+#preview-modal .pv-sw{width:52px;height:52px}
+#preview-modal .pv-mat-btn .pv-lbl{font-size:.66rem}
+#preview-modal #pv-canvas-wrap{padding-bottom:58px !important}
+}
+</style>
+<script>window.pvSetBg=function(k,b){var w=document.getElementById('pv-canvas-wrap');if(!w)return;w.setAttribute('data-bg',k);document.querySelectorAll('#preview-modal .pv-bgs button').forEach(function(x){x.classList.toggle('on',x===b);});};document.addEventListener('DOMContentLoaded',function(){var c=document.querySelector('#preview-modal .pv-cta'),pn=document.querySelector('#preview-modal .pv-panel');if(c&&pn)pn.appendChild(c);});</script>
 <div id="preview-modal" style="display:none;position:fixed;inset:0;z-index:3000;background:#f4f4f5;overflow-x:hidden;overflow-y:auto;"><div class="pv-shell"><div class="pv-head"><div class="pv-head-l"><span class="pv-head-dot"></span><div><div class="pv-head-title">Vista previa</div><div class="pv-head-sub">Simulador de material</div></div></div><button onclick="closePreviewModal()" class="pv-close">×</button></div><div id="pv-upload" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 28px;"><div id="pv-dropzone" onclick="pvAskConfirm()" class="pv-dropzone"><div class="pv-dz-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div><div class="pv-dz-title">Subí tu diseño</div><div class="pv-dz-sub">PNG, JPG, SVG o PDF · cualquier tamaño</div><input id="pv-file" type="file" accept="image/*,application/pdf,.pdf" style="display:none;" onchange="pvLoadImage(this)"></div></div><div id="pv-preview" style="display:none;flex:1;flex-direction:column;position:relative;"><div id="pv-sun-proj" aria-hidden="true"><div class="pv-sp-in"><div class="pv-sp-halo"></div><div class="pv-sp-dots"></div></div></div><div id="pv-canvas-wrap" class="pv-stage"><button onclick="pvChangeFile()" style="position:absolute;top:14px;right:18px;z-index:3;display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.6);border:1px solid rgba(0,194,100,.3);border-radius:8px;padding:6px 12px;color:var(--green);font-family:var(--sans);font-size:.72rem;font-weight:600;cursor:pointer;transition:all .2s;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);" onmouseover="this.style.background='rgba(0,194,100,.12)';this.style.borderColor='var(--green)'" onmouseout="this.style.background='rgba(255,255,255,.6)';this.style.borderColor='rgba(0,194,100,.3)'"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
 Cambiar diseño
-</button><canvas id="pv-canvas" style="max-width:100%;height:auto;display:block;border-radius:8px;position:relative;z-index:1;filter:drop-shadow(0 14px 24px rgba(0,0,0,.18)) drop-shadow(0 5px 10px rgba(0,0,0,.10));"></canvas><canvas id="pv-effect" style="position:absolute;pointer-events:none;border-radius:8px;z-index:1;max-width:100%;height:auto;"></canvas></div><div class="pv-panel">
+</button><div class="pv-bgs" role="group" aria-label="Fondo del preview"><span class="pv-bgs-l">Fondo</span><button type="button" class="on" data-k="claro" onclick="pvSetBg('claro',this)" title="Claro" style="background:#ececef"></button><button type="button" data-k="blanco" onclick="pvSetBg('blanco',this)" title="Blanco" style="background:#fff"></button><button type="button" data-k="oscuro" onclick="pvSetBg('oscuro',this)" title="Oscuro" style="background:#16181d"></button><button type="button" data-k="notebook" onclick="pvSetBg('notebook',this)" title="Notebook" style="background:linear-gradient(135deg,#cfd2d7,#eceef0 50%,#bfc3ca)"></button></div><canvas id="pv-canvas" style="max-width:100%;height:auto;display:block;border-radius:8px;position:relative;z-index:1;filter:drop-shadow(0 14px 24px rgba(0,0,0,.18)) drop-shadow(0 5px 10px rgba(0,0,0,.10));"></canvas><canvas id="pv-effect" style="position:absolute;pointer-events:none;border-radius:8px;z-index:1;max-width:100%;height:auto;"></canvas></div><div class="pv-panel">
   <div class="pv-mode-row">
     <button id="pvbtn-sticker" class="pv-mode-btn active" onclick="pvSetMode('sticker',this)">🏷 Sticker</button>
     <button id="pvbtn-acril" class="pv-mode-btn" onclick="pvSetMode('acrilico',this)">💎 Acrílico</button>
@@ -2204,8 +2264,58 @@ Cambiar diseño
       <span style="font-family:var(--sans);font-size:.73rem;color:rgba(10,10,10,.45);line-height:1.5;">El orificio se define en taller según el producto final.</span>
     </div>
   </div>
-  <div id="pv-panel-sticker"><div><div class="pv-panel-label">Vinilo de tu Sticker</div><div class="pv-swatches"><button onclick="pvSelectMat('blanco',this)" class="pv-mat-btn selected"><div class="pv-sw" style="background:#fff;"></div><span class="pv-lbl">Blanco</span></button><button onclick="pvSelectMat('blancoLaca',this)" class="pv-mat-btn"><div class="pv-sw" style="background:linear-gradient(135deg,#fff 40%,#e8e8e8 50%,#fff 60%);"></div><span class="pv-lbl">Blanco + Laca</span></button><button onclick="pvSelectMat('transparente',this)" class="pv-mat-btn"><div class="pv-sw" style="background:repeating-conic-gradient(#aaa 0% 25%,#fff 0% 50%) 0 0/12px 12px;"></div><span class="pv-lbl">Transparente</span></button><button onclick="pvSelectMat('holografico',this)" class="pv-mat-btn"><div class="pv-sw pv-sw-holografico"></div><span class="pv-lbl">Holográfico</span></button><button onclick="pvSelectMat('holografico-gold',this)" class="pv-mat-btn"><div class="pv-sw pv-sw-holografico-gold"></div><span class="pv-lbl">Holo Gold</span></button><button onclick="pvSelectMat('glitter',this)" class="pv-mat-btn"><div class="pv-sw pv-sw-glitter"></div><span class="pv-lbl">Glitter</span></button><button onclick="pvSelectMat('glitterTrans',this)" class="pv-mat-btn"><div class="pv-sw pv-sw-glitterTrans"></div><span class="pv-lbl">Glitter Transp.</span></button><button onclick="pvSelectMat('suncatcher',this)" class="pv-mat-btn"><div class="pv-sw pv-sw-suncatcher"></div><span class="pv-lbl">Suncatcher</span></button></div></div><div id="pv-laca-controls" style="display:none;margin:4px 0 12px;"><div style="background:linear-gradient(90deg,rgba(0,194,100,.06),rgba(0,194,100,.01) 80%);border:1px solid rgba(0,194,100,.2);border-radius:12px;padding:13px 15px;"><div style="font-family:var(--mono);font-size:.58rem;letter-spacing:1.3px;color:rgba(10,10,10,.45);font-weight:700;margin-bottom:8px;">CÓMO FUNCIONA LA LACA</div><div style="font-family:var(--sans);font-size:.78rem;color:rgba(10,10,10,.7);line-height:1.5;margin-bottom:12px;">Necesitás <strong>2 archivos</strong>:<br>1) Tu <strong>diseño a color</strong> (el que ya subiste arriba).<br>2) Una <strong>máscara PNG</strong> con fondo transparente, donde lo que esté <strong>relleno/sólido marca dónde va la laca brillante</strong>. El resto queda mate.</div><label id="pv-laca-mask-label" style="display:inline-flex;align-items:center;gap:7px;width:100%;justify-content:center;background:#0a0a0a;color:#fff;border-radius:12px;padding:11px;font-family:var(--sans);font-size:.82rem;font-weight:700;cursor:pointer;box-sizing:border-box;">Subir máscara de laca (PNG)<input type="file" accept="image/png,image/*" style="display:none;" onchange="pvLoadMask(this)"></label><div id="pv-laca-mask-status" style="display:none;align-items:center;justify-content:space-between;gap:8px;margin-top:9px;"><span style="font-family:var(--mono);font-size:.68rem;color:var(--green);font-weight:700;display:flex;align-items:center;gap:6px;"><span style="width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);"></span>Máscara cargada</span><button id="pv-laca-mask-clear" onclick="pvLacaClearMask()" style="display:none;background:#fff;border:1px solid var(--border2);border-radius:8px;padding:5px 11px;font-family:var(--mono);font-size:.66rem;font-weight:700;color:rgba(10,10,10,.6);cursor:pointer;">Quitar</button></div><div style="font-family:var(--sans);font-size:.7rem;color:rgba(10,10,10,.45);margin-top:9px;line-height:1.4;">El brillo del preview es ilustrativo. La laca real se produce según tu máscara.</div></div></div><div id="pv-border-control" style="display:none;align-items:center;justify-content:space-between;gap:12px;margin:2px 0 12px;padding:11px 14px;background:#fff;border:1px solid var(--border2);border-radius:12px;"><div style="display:flex;flex-direction:column;gap:2px;"><span style="font-family:var(--sans);font-size:.85rem;font-weight:700;color:#0a0a0a;">Borde blanco</span><span style="font-family:var(--sans);font-size:.72rem;color:rgba(10,10,10,.5);">Margen blanco alrededor del diseño</span></div><div onclick="pvToggleBorder(pvBorderSize===0)" style="position:relative;width:44px;height:24px;flex-shrink:0;cursor:pointer;"><div id="pv-border-track" style="position:absolute;inset:0;background:var(--green);border-radius:99px;transition:background .2s;"></div><div id="pv-border-thumb" style="position:absolute;top:3px;left:21px;width:18px;height:18px;background:#fff;border-radius:50%;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:left .2s;"></div></div></div></div></div></div><!-- /pv-panel-sticker -->
+  <div id="pv-panel-sticker"><div><div class="pv-panel-label">Vinilo de tu Sticker</div><div class="pv-swatches"><button onclick="pvSelectMat('blanco',this)" class="pv-mat-btn selected"><div class="pv-sw" style="background:#fff;"></div><span class="pv-tx"><span class="pv-lbl">Blanco</span><span class="pv-desc">Fondo blanco opaco, colores vibrantes</span></span></button><button onclick="pvSelectMat('blancoLaca',this)" class="pv-mat-btn"><div class="pv-sw" style="background:linear-gradient(135deg,#fff 40%,#e8e8e8 50%,#fff 60%);"></div><span class="pv-tx"><span class="pv-lbl">Blanco + Laca</span><span class="pv-desc">Brillo localizado donde elijas</span></span></button><button onclick="pvSelectMat('transparente',this)" class="pv-mat-btn"><div class="pv-sw" style="background:repeating-conic-gradient(#aaa 0% 25%,#fff 0% 50%) 0 0/12px 12px;"></div><span class="pv-tx"><span class="pv-lbl">Transparente</span><span class="pv-desc">Muestra el color del soporte</span></span></button><button onclick="pvSelectMat('holografico',this)" class="pv-mat-btn"><div class="pv-sw pv-sw-holografico"></div><span class="pv-tx"><span class="pv-lbl">Holográfico</span><span class="pv-desc">Efecto arcoíris que cambia con la luz</span></span></button><button onclick="pvSelectMat('holografico-gold',this)" class="pv-mat-btn"><div class="pv-sw pv-sw-holografico-gold"></div><span class="pv-tx"><span class="pv-lbl">Holo Gold</span><span class="pv-desc">Holográfico en tono dorado</span></span></button><button onclick="pvSelectMat('glitter',this)" class="pv-mat-btn"><div class="pv-sw pv-sw-glitter"></div><span class="pv-tx"><span class="pv-lbl">Glitter</span><span class="pv-desc">Destellos de brillo en toda la superficie</span></span></button><button onclick="pvSelectMat('glitterTrans',this)" class="pv-mat-btn"><div class="pv-sw pv-sw-glitterTrans"></div><span class="pv-tx"><span class="pv-lbl">Glitter Transp.</span><span class="pv-desc">Glitter sobre base transparente</span></span></button><button onclick="pvSelectMat('suncatcher',this)" class="pv-mat-btn"><div class="pv-sw pv-sw-suncatcher"></div><span class="pv-tx"><span class="pv-lbl">Suncatcher</span><span class="pv-desc">Refleja y proyecta destellos de luz</span></span></button></div></div><div id="pv-laca-controls" style="display:none;margin:4px 0 12px;"><div style="background:linear-gradient(90deg,rgba(0,194,100,.06),rgba(0,194,100,.01) 80%);border:1px solid rgba(0,194,100,.2);border-radius:12px;padding:13px 15px;"><div style="font-family:var(--mono);font-size:.58rem;letter-spacing:1.3px;color:rgba(10,10,10,.45);font-weight:700;margin-bottom:8px;">CÓMO FUNCIONA LA LACA</div><div style="font-family:var(--sans);font-size:.78rem;color:rgba(10,10,10,.7);line-height:1.5;margin-bottom:12px;">Necesitás <strong>2 archivos</strong>:<br>1) Tu <strong>diseño a color</strong> (el que ya subiste arriba).<br>2) Una <strong>máscara PNG</strong> con fondo transparente, donde lo que esté <strong>relleno/sólido marca dónde va la laca brillante</strong>. El resto queda mate.</div><label id="pv-laca-mask-label" style="display:inline-flex;align-items:center;gap:7px;width:100%;justify-content:center;background:#0a0a0a;color:#fff;border-radius:12px;padding:11px;font-family:var(--sans);font-size:.82rem;font-weight:700;cursor:pointer;box-sizing:border-box;">Subir máscara de laca (PNG)<input type="file" accept="image/png,image/*" style="display:none;" onchange="pvLoadMask(this)"></label><div id="pv-laca-mask-status" style="display:none;align-items:center;justify-content:space-between;gap:8px;margin-top:9px;"><span style="font-family:var(--mono);font-size:.68rem;color:var(--green);font-weight:700;display:flex;align-items:center;gap:6px;"><span style="width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);"></span>Máscara cargada</span><button id="pv-laca-mask-clear" onclick="pvLacaClearMask()" style="display:none;background:#fff;border:1px solid var(--border2);border-radius:8px;padding:5px 11px;font-family:var(--mono);font-size:.66rem;font-weight:700;color:rgba(10,10,10,.6);cursor:pointer;">Quitar</button></div><div style="font-family:var(--sans);font-size:.7rem;color:rgba(10,10,10,.45);margin-top:9px;line-height:1.4;">El brillo del preview es ilustrativo. La laca real se produce según tu máscara.</div></div></div><div id="pv-border-control" style="display:none;align-items:center;justify-content:space-between;gap:12px;margin:2px 0 12px;padding:11px 14px;background:#fff;border:1px solid var(--border2);border-radius:12px;"><div style="display:flex;flex-direction:column;gap:2px;"><span style="font-family:var(--sans);font-size:.85rem;font-weight:700;color:#0a0a0a;">Borde blanco</span><span style="font-family:var(--sans);font-size:.72rem;color:rgba(10,10,10,.5);">Margen blanco alrededor del diseño</span></div><div onclick="pvToggleBorder(pvBorderSize===0)" style="position:relative;width:44px;height:24px;flex-shrink:0;cursor:pointer;"><div id="pv-border-track" style="position:absolute;inset:0;background:var(--green);border-radius:99px;transition:background .2s;"></div><div id="pv-border-thumb" style="position:absolute;top:3px;left:21px;width:18px;height:18px;background:#fff;border-radius:50%;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:left .2s;"></div></div></div></div></div></div><!-- /pv-panel-sticker -->
 <button onclick="pvUseMaterial()" class="pv-cta">Usar este material en el cotizador →</button></div></div><div id="pv-confirm" style="display:none;position:fixed;inset:0;z-index:3100;background:rgba(255,255,255,.75);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:24px;"><div style="max-width:380px;width:100%;background:#fff;border:1px solid var(--border2);border-radius:16px;padding:28px 26px;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.18);"><div style="width:48px;height:48px;border-radius:12px;background:rgba(0,194,100,.1);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:1.4rem;">⚠️</div><div style="font-family:var(--sans);font-size:1.05rem;font-weight:800;color:#0a0a0a;margin-bottom:10px;letter-spacing:-.3px;">Vista ilustrativa</div><p style="font-size:.84rem;color:rgba(10,10,10,.6);line-height:1.55;margin:0 0 22px;font-family:var(--sans);">Este preview es <strong>solo ilustrativo</strong> y el resultado final puede variar. Para producir tu pedido, recordá adjuntar tu archivo en el cotizador o enviarlo por mail.</p><div style="display:flex;flex-direction:column;gap:8px;"><button onclick="pvConfirmUpload()" class="btn-primary" style="width:100%;justify-content:center;border:none;cursor:pointer;box-sizing:border-box;">Entendido, subir mi diseño</button><button onclick="pvCancelConfirm()" style="width:100%;background:transparent;border:none;color:rgba(10,10,10,.5);font-family:var(--sans);font-size:.82rem;font-weight:600;padding:8px;cursor:pointer;">Cancelar</button></div></div></div></div></div>
+<style id="cut-css">
+.cut-pills{display:grid !important;grid-template-columns:repeat(3,1fr);gap:8px}
+.cut-pill{display:flex !important;flex-direction:column;align-items:center;justify-content:flex-start;gap:7px;padding:12px 6px 10px !important;height:auto !important;min-height:96px;text-align:center;line-height:1.2}
+.cut-pill .cp-art{width:46px;height:46px;display:flex;align-items:center;justify-content:center}
+.cut-pill .cp-art svg{width:100%;height:100%;display:block}
+.cut-pill .cp-l{font-size:.74rem;font-weight:700;font-family:var(--sans)}
+@media(max-width:480px){.cut-pill{min-height:104px}.cut-pill .cp-l{font-size:.7rem}}
+</style>
+<script id="cut-js">(function(){
+var P='fill="#e9eef2" stroke="#0a0a0a" stroke-width="2" stroke-linejoin="round"';
+window.MP_CUTS=[
+ {k:'cuadrado',l:'Cuadrado con puntas redondeadas',svg:'<svg viewBox="0 0 48 48"><rect x="6" y="6" width="36" height="36" rx="4.5" '+P+'/></svg>'},
+ {k:'circular',l:'Circular',svg:'<svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="18.5" '+P+'/></svg>'},
+ {k:'forma',l:'Siguiendo la forma',svg:'<svg viewBox="0 0 48 48"><path d="M12 14c3-7 12-8 16-3 5-2 11 2 9 8 5 3 3 11-3 12-2 7-12 8-15 2-7 1-12-5-7-11-3-2-2-6 0-8z" '+P+'/></svg>'}
+];
+function lab(k){var c=MP_CUTS.filter(function(x){return x.k===k})[0];return c?c.l:'';}
+window.cotCutLabel=function(){
+ if(typeof cot==='undefined'||cot.cat!=='stickers'||cot.producto!=='suelto') return '';
+ return 'Corte '+({cuadrado:'cuadrado redondeado',circular:'circular',forma:'siguiendo la forma'})[cot.corte||'forma'];
+};
+function build(){
+ var box=document.getElementById('cut-pills'); if(!box||box.children.length) return;
+ if(typeof cot!=='undefined'&&!cot.corte) cot.corte='forma';
+ MP_CUTS.forEach(function(c){
+  var b=document.createElement('button'); b.type='button'; b.className='opt-pill cut-pill'; b.dataset.cut=c.k;
+  b.innerHTML='<span class="cp-art">'+c.svg+'</span><span class="cp-l">'+c.l+'</span>';
+  b.onclick=function(){cot.corte=c.k;cotCutSync();};
+  box.appendChild(b);
+ });
+ cotCutSync();
+}
+window.cotCutSync=function(){
+ var b=document.getElementById('stepcut-block'); if(!b||typeof cot==='undefined') return;
+ var show=cot.cat==='stickers'&&cot.producto==='suelto';
+ b.style.display=show?'':'none';
+ var n4=document.getElementById('stepnum-4');
+ if(n4){ if(show) n4.textContent='6'; else if(n4.textContent==='6') n4.textContent='5'; }
+ var open=show&&!!cot.size;
+ b.classList.toggle('locked',!open);
+ var nc=document.getElementById('stepnum-cut'); if(nc){nc.classList.toggle('done',open);nc.classList.remove('active');}
+ var cur=cot.corte||'forma';
+ document.querySelectorAll('#cut-pills .cut-pill').forEach(function(p){p.classList.toggle('selected',open&&p.dataset.cut===cur);});
+ var bd=document.getElementById('r-corte');
+ if(bd){ if(open){bd.style.display='';bd.textContent=cotCutLabel();} else bd.style.display='none'; }
+};
+function wrapAll(){['showPending','resetCotizador'].forEach(function(n){var o=window[n]; if(typeof o!=='function')return; window[n]=function(){ if(n==='resetCotizador'&&typeof cot!=='undefined') cot.corte='forma'; var r=o.apply(this,arguments); cotCutSync(); return r;};});
+var rf=window.resetFrom; if(typeof rf==='function') window.resetFrom=function(step){ if(step<=3&&typeof cot!=='undefined') cot.corte='forma'; return rf.apply(this,arguments); };}
+function init(){wrapAll();build();}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();</script>
 <script id="preview-js">let pvImg=null,pvMat='blanco',pvBorderSize=1,pvHoloAnim=null,pvHoloAngle=0;
 let pvMode='sticker', pvAcrilProd='llavero';
 
@@ -2698,6 +2808,7 @@ const matMap={blanco:'blancoPremium',transparente:'transparentePremium',holograf
 const subMap={holografico:'holografico','holografico-gold':'holograficoGold',glitter:'glitter',glitterTrans:'glitterTrans'};
 const matLabels={blanco:'Blanco Premium',transparente:'Transparente',holografico:'Holográfico','holografico-gold':'Holo Gold',glitter:'Glitter',glitterTrans:'Glitter Transparente',blancoLaca:'Blanco con Laca',suncatcher:'Suncatcher Adhesivo'};
 const mat=pvMat;
+const pvC=(typeof window.pvChosen==='function')?window.pvChosen():null;
 const mk=matMap[mat]||'blancoPremium';
 const sub=subMap[mat];
 // espera activa: reintenta hasta que la condición se cumpla (o se agota el tiempo)
@@ -2724,9 +2835,23 @@ let clicked=false;
 keys.forEach((k,i)=>{ if(k===mk && mbs[i]){ selectMaterial(k,mbs[i]); clicked=true; } });
 if(mat==='blancoLaca' && clicked) cotSetLaca(true);
 const finish=()=>{
+if(!pvC){ finish2(); return; }
+const szTxt=pvC.size+' cm';
+waitFor(()=>[...document.querySelectorAll('#size-pills .opt-pill')].some(b=>{const c=b.querySelector('.ph-cm');return c&&c.textContent.trim()===szTxt;}),()=>{
+const sb=[...document.querySelectorAll('#size-pills .opt-pill')].find(b=>{const c=b.querySelector('.ph-cm');return c&&c.textContent.trim()===szTxt;});
+if(sb) sb.click();
+waitFor(()=>document.querySelectorAll('#qty-grid .opt-pill').length>0,()=>{
+const qb=[...document.querySelectorAll('#qty-grid .opt-pill')].find(b=>{const n=b.querySelector('.qp-n');return n&&n.textContent.replace(/\D/g,'')===String(pvC.qty);});
+if(qb) qb.click();
+const cb=document.querySelector('#cut-pills .cut-pill[data-cut="'+(pvC.cut||'forma')+'"]'); if(cb) cb.click();
+finish2();
+},40);
+},40);
+};
+const finish2=()=>{
 const step=document.getElementById('step4-block');
 if(step){ step.scrollIntoView({behavior:'smooth',block:'center'}); step.classList.remove('step-flash'); void step.offsetWidth; step.classList.add('step-flash'); }
-pvShowToast('Material aplicado: '+(matLabels[mat]||'')+'. Ahora elegí la medida y la cantidad.');
+pvShowToast(pvC?('Cargamos '+(matLabels[mat]||'')+' · '+pvC.size+' cm · '+pvC.qty.toLocaleString('es-AR')+' u. Revisá tu cotización.'):('Material aplicado: '+(matLabels[mat]||'')+'. Ahora elegí la medida y la cantidad.'));
 };
 // 4) sub-opción si corresponde (esperar a que se rendericen)
 if(sub){
@@ -2739,7 +2864,161 @@ waitFor(()=>true, finish, 6);
 }
 });
 });
-}</script>
+}</script><style id="pv-v3">
+/* v41: medida + tamaño real + precio en vivo */
+.pv-sz-block{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+.pv-sz-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.pv-sz-b{appearance:none;border:1.5px solid rgba(10,10,10,.1);background:#fff;border-radius:14px;padding:10px 4px 8px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:5px;cursor:pointer;font-family:var(--sans);transition:border-color .15s,box-shadow .15s,transform .15s;min-height:104px}
+.pv-sz-b:hover{border-color:rgba(10,10,10,.3)}
+.pv-sz-b.on{border-color:var(--green);box-shadow:0 0 0 3px rgba(0,255,136,.18)}
+.pv-sz-b:disabled{opacity:.35;cursor:not-allowed}
+.pv-sz-art{height:46px;display:flex;align-items:center;justify-content:center}
+.pv-sz-art svg{display:block}
+.pv-sz-cm{font-size:.95rem;font-weight:800;color:#0a0a0a;line-height:1}
+.pv-sz-nm{font-size:.64rem;font-weight:600;color:rgba(10,10,10,.5);line-height:1.1;text-align:center}
+.pv-sz-help{font-size:.76rem;color:rgba(10,10,10,.55);font-family:var(--sans);margin-top:-4px;line-height:1.4}
+.pv-sz-note{font-size:.72rem;color:rgba(10,10,10,.5);font-family:var(--sans);margin-top:-4px}
+.pv-q-row{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.pv-q-b{appearance:none;border:1.5px solid rgba(10,10,10,.1);background:#fff;border-radius:12px;padding:8px 2px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;font-family:var(--sans);transition:border-color .15s,box-shadow .15s}
+.pv-q-b:hover{border-color:rgba(10,10,10,.3)}
+.pv-q-b.on{border-color:var(--green);box-shadow:0 0 0 3px rgba(0,255,136,.18)}
+.pv-q-n{font-size:.88rem;font-weight:800;color:#0a0a0a}
+.pv-q-d{font-size:.64rem;font-weight:700;color:#0a8f55}
+.pv-q-d.base{color:rgba(10,10,10,.3)}
+.pv-buy{display:flex;flex-direction:column;gap:10px;position:sticky;bottom:0;z-index:5;background:#fff;padding-top:12px;margin-top:4px;box-shadow:0 -14px 14px -6px #fff}
+.pv-buy .pv-cta{position:static;margin:0}
+.pv-price{border:1.5px solid rgba(10,10,10,.08);background:#f7f8f8;border-radius:14px;padding:12px 14px;display:flex;align-items:flex-end;justify-content:space-between;gap:10px;font-family:var(--sans)}
+.pv-price-t{font-size:1.65rem;font-weight:800;letter-spacing:-.5px;color:#0a0a0a;line-height:1}
+.pv-price-s{font-size:.76rem;color:rgba(10,10,10,.55);margin-top:5px;font-weight:500}
+.pv-price-r{text-align:right;font-size:.72rem;color:rgba(10,10,10,.5);line-height:1.35}
+.pv-price-tag{display:inline-block;background:rgba(0,255,136,.18);color:#08764a;font-weight:800;border-radius:6px;padding:2px 7px;margin-bottom:3px;font-size:.72rem}
+#pv-real{position:absolute;left:16px;bottom:62px;z-index:4;background:rgba(236,236,239,.97);border:1px solid rgba(10,10,10,.1);border-radius:16px;box-shadow:0 8px 28px rgba(10,10,10,.14);padding:10px 12px 10px;font-family:var(--sans);width:max-content;max-width:calc(100% - 32px);box-sizing:border-box}
+#pv-real .pr-h{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:8px}
+#pv-real .pr-t{font-size:.66rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:rgba(10,10,10,.5)}
+#pv-real .pr-x{appearance:none;border:0;background:rgba(10,10,10,.06);width:20px;height:20px;border-radius:50%;cursor:pointer;font-size:12px;line-height:20px;color:rgba(10,10,10,.6);padding:0}
+#pv-real .pr-x:hover{background:rgba(10,10,10,.14)}
+#pv-real .pr-body{display:flex;align-items:flex-end;gap:14px;height:var(--pr-h,110px);transition:height .3s}
+#pv-real .pr-st{position:relative;flex:none}
+#pv-real .pr-st canvas{display:block;filter:drop-shadow(0 1px 3px rgba(10,10,10,.35));transition:width .35s cubic-bezier(.3,.8,.3,1),height .35s cubic-bezier(.3,.8,.3,1)}
+#pv-real .pr-obj{flex:none;transition:width .35s cubic-bezier(.3,.8,.3,1),height .35s cubic-bezier(.3,.8,.3,1);filter:drop-shadow(0 2px 4px rgba(10,10,10,.18))}
+#pv-real .pr-obj svg{display:block;width:100%;height:100%}
+#pv-real .pr-cap{display:flex;gap:14px;margin-top:7px;font-size:.68rem;color:rgba(10,10,10,.55);font-weight:600}
+#pv-real .pr-dim{position:relative;height:14px;margin-top:5px;transition:width .35s cubic-bezier(.3,.8,.3,1)}
+#pv-real .pr-dim::before{content:'';position:absolute;left:0;right:0;top:6px;height:1.5px;background:#0a0a0a}
+#pv-real .pr-dim::after{content:'';position:absolute;left:0;right:0;top:2px;height:9px;border-left:1.5px solid #0a0a0a;border-right:1.5px solid #0a0a0a}
+#pv-real .pr-dim b{position:absolute;left:50%;top:-1px;transform:translateX(-50%);background:#ececef;padding:0 5px;font-size:.72rem;font-weight:800;color:#0a0a0a;white-space:nowrap}
+#pv-real-open{position:absolute;left:16px;bottom:62px;z-index:4;display:none;appearance:none;border:1px solid rgba(10,10,10,.12);background:#fff;border-radius:999px;padding:7px 12px;font:700 .72rem var(--sans);color:#0a0a0a;cursor:pointer;box-shadow:0 4px 14px rgba(10,10,10,.12)}
+@media(max-width:999px){
+ #pv-real,#pv-real-open{top:12px;bottom:auto;left:12px}
+ .pv-sz-b{min-height:96px}
+ .pv-q-n{font-size:.82rem}
+ .pv-buy{padding-bottom:4px;gap:6px;padding-top:8px}
+ .pv-price{padding:8px 12px}
+ .pv-price-t{font-size:1.3rem}
+ .pv-price-s{margin-top:3px}
+}
+@media(min-width:1000px) and (max-height:800px){ .pv-sz-b{min-height:92px;padding:8px 2px 6px} .pv-sz-art{height:38px} }
+</style>
+<style id="pv-v4">
+.pv-cut-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.pv-cut-b{appearance:none;border:1.5px solid rgba(10,10,10,.1);background:#fff;border-radius:14px;padding:10px 4px 8px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;font-family:var(--sans);transition:border-color .15s,box-shadow .15s}
+.pv-cut-b:hover{border-color:rgba(10,10,10,.3)}
+.pv-cut-b.on{border-color:var(--green);box-shadow:0 0 0 3px rgba(0,255,136,.18)}
+.pv-cut-art{width:40px;height:40px;display:block}.pv-cut-art svg{width:100%;height:100%;display:block}
+.pv-cut-l{font-size:.68rem;font-weight:700;color:#0a0a0a;line-height:1.2;text-align:center}
+</style>
+<script id="pv-v3js">(function(){
+var OBJ={5:{w:4.3,h:4.3,vb:'1 1 62 62'},6:{w:6,h:6,vb:'1 1 62 62'},8:{w:8.56,h:5.4,vb:'2 12 60 40'},9:{w:12,h:12,vb:'1 1 62 62'}};
+var SZ=8, Q=null, CUT='forma';
+function objSvg(n,css){var raw=SIZE_USE[n][1];return raw.replace(/<svg [^>]*>/,'<svg viewBox="'+OBJ[n].vb+'" preserveAspectRatio="xMidYMid meet" style="'+(css||'')+'">');}
+function mk(){var m=pvMat; return ({blanco:'blancoPremium',blancoLaca:'blancoLaca',transparente:'transparentePremium',suncatcher:'suncatcher'})[m]||'viniloEspecial';}
+function szKey(n){return n+'x'+n;}
+function tramo(){return tramoFor('stickers','suelto',mk(),szKey(SZ));}
+function isSticker(){return (typeof pvMode==='undefined')||pvMode==='sticker';}
+window.pvChosen=function(){return {size:SZ,qty:Q,cut:CUT};};
+
+function build(){
+ var pn=document.querySelector('#preview-modal .pv-panel'), cta=document.querySelector('#preview-modal .pv-cta'), wrap=document.getElementById('pv-canvas-wrap');
+ if(!pn||!cta||!wrap||pn.querySelector('.pv-sz-block')) return;
+ var blk=document.createElement('div'); blk.className='pv-sz-block'; blk.id='pv-sz-block';
+ var h='<div class="pv-panel-label">Tamaño del sticker</div><div class="pv-sz-help">Medida aproximada, del lado más largo del sticker.</div><div class="pv-sz-row">';
+ [5,6,8,9].forEach(function(n){h+='<button type="button" class="pv-sz-b" data-sz="'+n+'"><span class="pv-sz-art" style="width:'+(n==5?34:n==6?38:n==8?50:56)+'px;height:'+(n==8?32:n==5?34:n==6?38:56)+'px">'+objSvg(n,'width:100%;height:100%;display:block')+'</span><span class="pv-sz-cm">'+n+' cm</span><span class="pv-sz-nm">'+SIZE_USE[n][0]+'</span></button>';});
+ h+='</div><div class="pv-sz-note" id="pv-sz-note"></div><div class="pv-panel-label" style="margin-top:6px">Tipo de corte</div><div class="pv-cut-row" id="pv-cut-row">'+MP_CUTS.map(function(c){return '<button type="button" class="pv-cut-b" data-cut="'+c.k+'"><span class="pv-cut-art">'+c.svg+'</span><span class="pv-cut-l">'+c.l+'</span></button>';}).join('')+'</div><div class="pv-panel-label" style="margin-top:6px">Cantidad</div><div class="pv-q-row" id="pv-q-row"></div>';
+ blk.innerHTML=h;
+ var ps=document.getElementById('pv-panel-sticker');
+ pn.insertBefore(blk, cta);
+ var buy=document.createElement('div'); buy.className='pv-buy'; buy.id='pv-buy';
+ buy.innerHTML='<div class="pv-price" id="pv-price"></div>';
+ pn.insertBefore(buy,cta); buy.appendChild(cta);
+ blk.addEventListener('click',function(e){var cb=e.target.closest('.pv-cut-b'); if(cb){CUT=cb.dataset.cut;if(typeof pvRender==='function')pvRender();sync();return;} var b=e.target.closest('.pv-sz-b'); if(b&&!b.disabled){SZ=+b.dataset.sz;Q=null;sync();}});
+ document.getElementById('pv-q-row').addEventListener('click',function(e){var b=e.target.closest('.pv-q-b'); if(b){Q=+b.dataset.q;sync();}});
+ sync();
+}
+
+function sync(){
+ var blk=document.getElementById('pv-sz-block'); if(!blk) return;
+ var on=isSticker();
+ var buy=document.getElementById('pv-buy'), pr=document.getElementById('pv-price');
+ blk.style.display=on?'':'none'; pr.style.display=on?'':'none';
+ var cta=document.querySelector('#preview-modal .pv-cta');
+ var prev=document.getElementById('pv-preview');
+ if(cta) cta.textContent=on?'Cotizar con esta configuración →':'Usar este material en el cotizador →';
+ if(!on) return;
+ var sun=pvMat==='suncatcher';
+ if(sun&&(SZ===5||SZ===6)){SZ=8;Q=null;}
+ blk.querySelectorAll('.pv-cut-b').forEach(function(b){b.classList.toggle('on',b.dataset.cut===CUT);});
+ blk.querySelectorAll('.pv-sz-b').forEach(function(b){var n=+b.dataset.sz; b.disabled=sun&&(n===5||n===6); b.classList.toggle('on',n===SZ);});
+ document.getElementById('pv-sz-note').textContent=sun?'El Suncatcher se hace en 8 y 9 cm.':'';
+ var tr=tramo(), qs=qtysFor(tr)||[];
+ if(!tr){return;}
+ if(Q==null||qs.indexOf(Q)<0) Q=qs[0];
+ var qh=''; qs.forEach(function(q){var d=descFor(q,tr); qh+='<button type="button" class="pv-q-b'+(q===Q?' on':'')+'" data-q="'+q+'"><span class="pv-q-n">'+q.toLocaleString('es-AR')+'</span><span class="pv-q-d'+(d>0?'':' base')+'">'+(d>0?'−'+d+'%':'−')+'</span></button>';});
+ document.getElementById('pv-q-row').innerHTML=qh;
+ // precio (sin tocar el estado del cotizador)
+ var p='';
+ try{
+  var may=esMayorista(Q,tr), res=precioUnitarioARS('stickers','suelto',mk(),szKey(SZ),Q), d=descFor(Q,tr);
+  if(may||!res||!res.uA){p='<div><div class="pv-price-t" style="font-size:1.1rem">Cantidad mayorista</div><div class="pv-price-s">Te armamos una cotización a medida</div></div>';}
+  else{p='<div><div class="pv-price-t">$'+FARS(res.uA*Q)+'</div><div class="pv-price-s">$'+FARS(res.uA)+' por sticker · '+Q.toLocaleString('es-AR')+' u</div></div><div class="pv-price-r">'+(d>0?'<span class="pv-price-tag">−'+d+'% por cantidad</span><br>':'')+'Precios sin IVA</div>';}
+ }catch(e){p='';}
+ pr.innerHTML=p;
+}
+var oImg=null,oMask=null,curImg,curMask,built=null;
+function derive(src,base,cut,isMask){
+ var bw=base.width||base.naturalWidth, bh=base.height||base.naturalHeight;
+ var ratio=Math.min(bw,bh)/Math.max(bw,bh);
+ var S=(cut==='circular'&&ratio<=0.85)?Math.ceil(Math.hypot(bw,bh)):Math.max(bw,bh);
+ var k=Math.min(1,2400/S); var cs=Math.round(S*k);
+ var c=document.createElement('canvas'); c.width=cs; c.height=cs; var x=c.getContext('2d');
+ x.imageSmoothingEnabled=true; x.imageSmoothingQuality='high';
+ var w=bw*k,h=bh*k,ox=(cs-w)/2,oy=(cs-h)/2;
+ if(!isMask){
+  x.beginPath();
+  if(cut==='circular') x.arc(cs/2,cs/2,cs/2,0,Math.PI*2);
+  else if(x.roundRect) x.roundRect(0,0,cs,cs,cs*0.07); else x.rect(0,0,cs,cs);
+  x.clip(); x.fillStyle='rgba(255,255,255,0.06)'; x.fillRect(0,0,cs,cs);
+ }
+ x.drawImage(src,ox,oy,w,h);
+ return c;
+}
+function ensureCut(){
+ if(typeof pvImg==='undefined'||!pvImg) return;
+ if(pvImg!==curImg){oImg=pvImg;built=null;}
+ if(window.pvImgMask!==curMask){oMask=window.pvImgMask||null;built=null;}
+ var eff=isSticker()?CUT:'forma';
+ if(built!==eff){
+  if(eff==='forma'){curImg=oImg;curMask=oMask;}
+  else{curImg=derive(oImg,oImg,eff,false);curMask=oMask?derive(oMask,oImg,eff,true):null;}
+  built=eff;
+ }
+ pvImg=curImg; window.pvImgMask=curMask;
+}
+var raf=0; function soon(){if(raf)return;raf=requestAnimationFrame(function(){raf=0;sync();});}
+['pvSelectMat','pvSetMode','pvRender'].forEach(function(n){var o=window[n]; if(typeof o!=='function')return; window[n]=function(){if(n==='pvRender')ensureCut(); var r=o.apply(this,arguments); soon(); return r;};});
+window.addEventListener('resize',soon);
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',build);else build();
+})();</script>
+
 <div id="pedido-modal" class="pedido-overlay" style="display:none;position:fixed;inset:0;z-index:4000;overflow-y:auto;"><div class="pedido-card" style="max-width:480px;margin:0 auto;min-height:100%;background:#fff;position:relative;"><div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--green),transparent);opacity:.7;z-index:2;"></div><div style="display:flex;align-items:center;justify-content:space-between;padding:26px 26px 0;"><div style="display:flex;align-items:center;gap:9px;"><span style="width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:pulse-dot 2s infinite;"></span><span style="font-family:var(--mono);font-size:.7rem;letter-spacing:2px;color:var(--green);font-weight:700;">FINALIZAR PEDIDO</span></div><button onclick="closePedidoModal()" style="background:transparent;border:1px solid var(--border2);border-radius:8px;width:30px;height:30px;color:rgba(10,10,10,.6);font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;" onmouseover="this.style.borderColor='rgba(255,80,80,.5)';this.style.color='#ff6b6b'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='rgba(10,10,10,.6)'">✕</button></div><div id="pm-body" style="padding:14px 26px 26px;"><h3 style="font-family:var(--sans);font-size:1.4rem;font-weight:800;letter-spacing:-.8px;color:#0a0a0a;margin:0 0 4px;">Casi listo 🔥</h3><p style="font-size:.82rem;color:rgba(10,10,10,.55);margin:0 0 16px;font-family:var(--sans);">Revisá tu pedido, subí tu diseño y dejanos tu mail. Te confirmamos a la brevedad.</p><div class="pm-cols"><div class="pm-col-left"><div style="margin-bottom:18px;"><div style="font-family:var(--mono);font-size:.62rem;letter-spacing:1.5px;color:rgba(10,10,10,.5);font-weight:700;margin-bottom:12px;">RESUMEN DEL PEDIDO</div><div id="pm-summary" style="display:flex;flex-direction:column;gap:10px;font-family:var(--sans);font-size:.85rem;"></div></div><div style="margin:0 0 14px;"><label id="pm-factura-row" onclick="toggleFactura()" style="display:flex;align-items:center;gap:12px;cursor:pointer;background:rgba(0,194,100,.04);border:1.5px solid var(--border2);border-radius:12px;padding:12px 16px;margin-bottom:14px;transition:all .2s;"><span id="pm-factura-box" style="width:20px;height:20px;border-radius:8px;border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;"><svg id="pm-factura-check" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><polyline points="20 6 9 17 4 12"/></svg></span><span style="font-size:.82rem;color:rgba(10,10,10,.85);font-family:var(--sans);font-weight:500;">Necesito factura A/B <span style="color:rgba(10,10,10,.45);font-weight:400;">(+21% IVA)</span></span></label><input type="checkbox" id="pm-factura" style="display:none;"></div><div id="pm-envio-block" style="margin-bottom:18px;"><label style="display:block;font-size:.78rem;font-weight:600;color:rgba(10,10,10,.85);margin-bottom:8px;font-family:var(--sans);">Seleccioná el envío *</label><div class="opt-cards" style="margin-top:0;"><button type="button" class="opt-card envio-card" id="pm-envio-andreani" onclick="pmSelectEnvio(&#39;andreani&#39;)"><div class="opt-card-title">Andreani</div><div class="opt-card-sub">Gratis en pedidos +$180.000</div></button><button type="button" class="opt-card envio-card" id="pm-envio-caba" onclick="pmSelectEnvio(&#39;caba&#39;)"><div class="opt-card-title">CABA Express</div><div class="opt-card-sub">+$19.000 · A domicilio</div></button></div></div></div><div class="pm-col-right"><label style="display:block;font-size:.78rem;font-weight:600;color:rgba(10,10,10,.85);margin-bottom:8px;font-family:var(--sans);">Link de tus diseños <span style="color:rgba(10,10,10,.4);font-weight:400;">(opcional)</span></label><input type="url" id="pm-link" placeholder="Pegá acá tu link de Drive, WeTransfer, Dropbox..." style="width:100%;box-sizing:border-box;background:#fff;border:1px solid var(--border2);border-radius:12px;padding:12px 14px;color:#0a0a0a;font-family:var(--sans);font-size:.9rem;outline:none;margin-bottom:10px;transition:border-color .2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border2)'"><p style="font-size:.72rem;color:rgba(10,10,10,.4);line-height:1.5;margin:0 0 18px;font-family:var(--sans);">Subí tus archivos a Google Drive, WeTransfer o Dropbox y pegá el link acá. Asegurate de que el enlace tenga permiso de acceso. También podés enviarlos luego por mail respondiendo nuestra confirmación.</p><label style="display:block;font-size:.78rem;font-weight:600;color:rgba(10,10,10,.85);margin-bottom:8px;font-family:var(--sans);">O subí tus archivos directo <span style="color:rgba(10,10,10,.4);font-weight:400;">(opcional · hasta 10 archivos, 25 MB c/u · seleccionalos todos juntos)</span></label><label id="pm-file-label" style="display:flex;align-items:center;gap:10px;cursor:pointer;background:#fff;border:1.5px dashed var(--border2);border-radius:12px;padding:12px 14px;margin-bottom:18px;transition:border-color .2s;" onmouseover="this.style.borderColor='var(--green)'" onmouseout="if(!document.getElementById('pm-file').files.length)this.style.borderColor='var(--border2)'"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(10,10,10,.4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg><span id="pm-file-name" style="font-size:.82rem;color:rgba(10,10,10,.4);font-family:var(--sans);">Elegir archivos (AI, PDF, PNG…)</span><input type="file" id="pm-file" accept=".ai,.pdf,.png,.svg,.zip" multiple style="display:none;" onchange="var f=this.files;var n=f.length===0?'Elegir archivos (AI, PDF, PNG…)':(f.length===1?f[0].name:f.length+' archivos seleccionados');document.getElementById('pm-file-name').textContent=n;document.getElementById('pm-file-name').style.color=f.length?'var(--green2)':'rgba(10,10,10,.4)';document.getElementById('pm-file-label').style.borderColor=f.length?'var(--green)':'var(--border2)';"></label><label style="display:block;font-size:.78rem;font-weight:600;color:rgba(10,10,10,.85);margin-bottom:8px;font-family:var(--sans);">Tu nombre *</label><input type="text" id="pm-nombre" placeholder="Nombre o empresa" style="width:100%;box-sizing:border-box;background:#fff;border:1px solid var(--border2);border-radius:12px;padding:12px 14px;color:#0a0a0a;font-family:var(--sans);font-size:.9rem;outline:none;margin-bottom:14px;transition:border-color .2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border2)'"><label style="display:block;font-size:.78rem;font-weight:600;color:rgba(10,10,10,.85);margin-bottom:8px;font-family:var(--sans);">Tu mail *</label><input type="email" id="pm-email" placeholder="tucorreo@ejemplo.com" style="width:100%;box-sizing:border-box;background:#fff;border:1px solid var(--border2);border-radius:12px;padding:12px 14px;color:#0a0a0a;font-family:var(--sans);font-size:.9rem;outline:none;margin-bottom:14px;transition:border-color .2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border2)'"><label style="display:block;font-size:.78rem;font-weight:600;color:rgba(10,10,10,.85);margin-bottom:8px;font-family:var(--sans);">Comentarios <span style="color:rgba(10,10,10,.4);font-weight:400;">(opcional)</span></label><textarea id="pm-notes" rows="2" placeholder="Algo que tengamos que saber sobre tu pedido..." style="width:100%;box-sizing:border-box;background:#fff;border:1px solid var(--border2);border-radius:12px;padding:12px 14px;color:#0a0a0a;font-family:var(--sans);font-size:.9rem;outline:none;margin-bottom:20px;resize:vertical;transition:border-color .2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border2)'"></textarea><button onclick="enviarPedido()" class="btn-primary" style="width:100%;justify-content:center;font-size:.95rem;border:none;cursor:pointer;box-sizing:border-box;">Enviar pedido →</button></div></div><div id="pm-summary-bottom" style="margin-top:18px;padding-top:16px;border-top:1px solid var(--border);font-family:var(--sans);font-size:.85rem;color:rgba(10,10,10,.7);display:flex;flex-direction:column;gap:8px;"></div><div id="pm-status" style="font-size:.8rem;text-align:center;margin-top:12px;font-family:var(--sans);"></div></div></div></div>
 <script>function openPedidoModal(){
 const get=(id)=>{const e=document.getElementById(id);return e?e.textContent.trim():'';};
@@ -2748,6 +3027,7 @@ const sum=document.getElementById('pm-summary');
 const rows=[];
 if(mat) rows.push(['Material',mat]);
 if(size) rows.push(['Medida',size]);
+if(typeof cotCutLabel==='function' && cotCutLabel()) rows.push(['Corte',cotCutLabel().replace(/^Corte /,'')]);
 if(qty) rows.push(['Cantidad',qty]);
 window._pmRowsHTML = rows.map(([k,v])=>
 `<div style="display:flex;justify-content:space-between;gap:12px;"><span style="color:rgba(10,10,10,.5);">${k}</span><span style="color:#0a0a0a;font-weight:600;text-align:right;">${v}</span></div>`
@@ -3155,6 +3435,7 @@ borde: ''
 };
 if(cot.cat==='merch'){ const _ts=tallesElegidos().filter(t=>cot.talles[t]>0); item.talles={}; _ts.forEach(t=>item.talles[t]=cot.talles[t]); item.size=_ts[0]; item.qtyNum=cot.qty; item.colores={}; _ts.forEach(t=>item.colores[t]={Negro:(cot.tc&&cot.tc[t]&&cot.tc[t].Negro)||0,Blanco:(cot.tc&&cot.tc[t]&&cot.tc[t].Blanco)||0}); item.medida=_ts.map(t=>{const c=item.colores[t]; return t+': '+COLORES_REMERA.filter(k=>c[k]>0).map(k=>k+' ×'+c[k]).join(' + ');}).join(' · '); }
 if(cot.cat==='merchp' && !acrilSizeLabel(cot.size,cot.materialKey)) item.medida='';
+if(typeof cotCutLabel==='function' && cotCutLabel()){ item.corte=cot.corte; item.medida=(item.medida?item.medida+' · ':'')+cotCutLabel(); }
 carrito.push(item);
 if(cot.cat==='merch') recalcRemerasCarrito();
 if(window.mpConv){ mpConv('carrito', subtotal||1.0); }
@@ -3954,8 +4235,19 @@ function mpcStepSize(material){
   };
   const esSuelto = mpcState.producto === 'sueltos';
   mpcTyping(()=>{
-    mpcMsg(esSuelto ? '¿Qué medida? (lado más largo del diseño)' : '¿Qué medida de plancha?');
-    mpcOpts(sizes.map(s=>({ label: esSuelto ? (SIZE_LABEL_SUELTO[s]||s+' cm') : s+' cm', action:()=>mpcStepQty(s) })));
+    mpcMsg(esSuelto ? '¿Qué medida?<br><span style="font-size:.75rem;opacity:.65;">Aproximada, del lado más largo del sticker.</span>' : '¿Qué medida de plancha?');
+    mpcOpts(sizes.map(s=>({ label: esSuelto ? (SIZE_LABEL_SUELTO[s]||s+' cm') : s+' cm', action:()=>(esSuelto ? mpcStepCut(s) : mpcStepQty(s)) })));
+  });
+}
+
+const MPC_CORTE_LBL = {cuadrado:'Corte cuadrado redondeado', circular:'Corte circular', forma:'Corte siguiendo la forma'};
+function mpcCorteTxt(){ return (mpcState.producto==='sueltos' && mpcState.corte) ? MPC_CORTE_LBL[mpcState.corte] : ''; }
+function mpcStepCut(size){
+  mpcState.size = size;
+  mpcPush('Corte', ()=>mpcStepCut(size)); mpcShowBack();
+  mpcTyping(()=>{
+    mpcMsg('¿Qué tipo de corte?<br><span style="font-size:.75rem;opacity:.65;">El precio es el mismo en los tres.</span>');
+    mpcOpts((window.MP_CUTS||[]).map(c=>({ label:c.l, action:()=>{ mpcState.corte=c.k; mpcStepQty(size); } })));
   });
 }
 
@@ -3991,7 +4283,7 @@ function mpcResultado(qty){
   const discTxtSP = disc > 0 ? ` <span style="color:var(--green2);font-size:.75rem;">(-${disc}% OFF)</span>` : '';
 
   mpcTyping(()=>{
-    mpcMsg(`${emoji} <strong>${matLabel}</strong><br>${size} cm · ${qty.toLocaleString('es-AR')} unidades`);
+    mpcMsg(`${emoji} <strong>${matLabel}</strong><br>${size} cm · ${qty.toLocaleString('es-AR')} unidades` + (mpcCorteTxt() ? `<br>${mpcCorteTxt()}` : ''));
     mpcTyping(()=>{
       mpcMsg(`<strong style="font-size:1.05rem;">$${uARS.toLocaleString('es-AR')} / u</strong>${discTxtSP}<br><span style="color:rgba(10,10,10,.6);font-size:.78rem;">Total: $${Math.round(total).toLocaleString('es-AR')}</span>`);
       mpcTyping(()=>{
@@ -4002,7 +4294,8 @@ function mpcResultado(qty){
         const cartItem = {
           cat: 'stickers',
           producto: mpcState.producto === 'sueltos' ? 'suelto' : 'plancha',
-          medida: size + ' cm',
+          medida: size + ' cm' + (mpcCorteTxt() ? ' · ' + mpcCorteTxt() : ''),
+          corte: (mpcState.producto==='sueltos' ? mpcState.corte : undefined),
           cantidad: qty.toLocaleString('es-AR'),
           material: matLabel,
           subtotal: '$' + Math.round(uARS * qty).toLocaleString('es-AR'),
@@ -4107,7 +4400,7 @@ function mpcMayorista(){
   const sz   = mpcState.size      || '';
   const qty  = mpcState.qty       || '';
   const matLabel = MPC.materiales[mat] || mat;
-  const detalle = [prod, matLabel, sz ? sz+' cm' : '', qty ? qty+' u' : ''].filter(Boolean).join(' · ') || 'consulta sin detalle';
+  const detalle = [prod, matLabel, sz ? sz+' cm' : '', mpcCorteTxt(), qty ? qty+' u' : ''].filter(Boolean).join(' · ') || 'consulta sin detalle';
 
   mpcTyping(()=>{
     mpcMsg('Para esa cantidad tenemos <strong>precios especiales por volumen</strong>. Dejanos tus datos y te enviamos una propuesta.');
