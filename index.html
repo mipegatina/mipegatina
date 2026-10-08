@@ -2504,7 +2504,7 @@ const th=document.getElementById('pv-border-thumb'); if(th) th.style.left='21px'
 pvRender();
 pvApplyGlow();
 if(typeof pvSunProjSync==='function') pvSunProjSync();
-if(typeof window.pvIntroAnimation==='function' && typeof pvImg!=='undefined' && pvImg){ setTimeout(()=>window.pvIntroAnimation(),80); }
+if(typeof window.pvIntroAnimation==='function' && typeof pvImg!=='undefined' && pvImg){ setTimeout(()=>window.pvIntroAnimation(500),30); }
 }
 function pvBuildMasks(W,H){return{};} function pvBuildMasks_old(W,H){
 const off=document.createElement('canvas');off.width=W;off.height=H;
@@ -3636,13 +3636,14 @@ const py=((t.clientY-r.top)/r.height-0.5)*1.8;
 setTilt(Math.max(-0.5,Math.min(0.5,px)),Math.max(-0.5,Math.min(0.5,py)));
 },{passive:false});
 // Animación de bienvenida: mueve el sticker solo, invitando a interactuar
-window.pvIntroAnimation=function(){
+window.pvIntroAnimation=function(d){
 if(!stage || stage.offsetParent===null) return;
 if(typeof pvImg==='undefined' || !pvImg) return;
 const start=performance.now();
-const dur=1900;
+const dur=(typeof d==='number'&&d>0)?d:1900; const id=(window._pvIntroId=(window._pvIntroId||0)+1);
 function frame(now){
 const t=(now-start)/dur;
+if(id!==window._pvIntroId) return;
 if(t>=1){ clearTilt(); return; }
 // vaivén amplio que decae: oscilaciones marcadas que se apagan
 const decay=1-t;
