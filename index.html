@@ -2989,7 +2989,7 @@ var oImg=null,oMask=null,curImg,curMask,built=null;
 function derive(src,base,cut,isMask){
  var bw=base.width||base.naturalWidth, bh=base.height||base.naturalHeight;
  var ratio=Math.min(bw,bh)/Math.max(bw,bh);
- var S=(cut==='circular'&&ratio<=0.85)?Math.ceil(Math.hypot(bw,bh)):Math.max(bw,bh);
+ var S=Math.max(bw,bh);
  var k=Math.min(1,2400/S); var cs=Math.round(S*k);
  var c=document.createElement('canvas'); c.width=cs; c.height=cs; var x=c.getContext('2d');
  x.imageSmoothingEnabled=true; x.imageSmoothingQuality='high';
@@ -4837,7 +4837,7 @@ function draw(){
   var shapeD=0;
   if(cutK==='circular'||cutK==='cuadrado'){
     shapeD=CH*0.8; var rr=logoInk.height/logoInk.width;
-    lw=shapeD*(cutK==='circular'?0.7:0.8); lh=lw*rr; if(lh>shapeD*0.7){ lh=shapeD*0.7; lw=lh/rr; }
+    lw=shapeD*0.8; lh=lw*rr; if(lh>shapeD*0.7){ lh=shapeD*0.7; lw=lh/rr; }
     lx=(CW-lw)/2; ly=(CH-lh)/2;
   }
   var tex=texFor(key);
