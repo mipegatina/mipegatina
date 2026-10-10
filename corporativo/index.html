@@ -495,23 +495,6 @@
     <div class="cta-final">
       <h2>¿Hablamos de tu empresa?</h2>
       <p>Si tu compañía u organización necesita producción recurrente con condiciones a medida, desarrollamos un portal exclusivo para tu equipo. Contanos qué necesitás.</p>
-      <form class="evt-form" id="evt-form" action="https://formspree.io/f/mykqgkbe" method="POST">
-        <input type="hidden" name="_origen" value="Corporativo — Consulta de empresa">
-        <input type="hidden" name="_subject" value="Nueva consulta corporativa">
-        <div class="evt-row">
-          <input type="text" name="nombre" required="" placeholder="Tu nombre y empresa">
-          <input type="email" name="email" required="" placeholder="Tu email">
-        </div>
-        <textarea name="mensaje" rows="3" required="" placeholder="Contanos sobre tu empresa: qué necesitás producir, volumen aproximado, condiciones..."></textarea>
-        <button type="submit" class="btn-white" id="evt-submit">Hablemos de tu empresa →</button>
-        <div class="evt-success" id="evt-success">
-          <div class="evt-check"></div>
-          <div class="evt-eyebrow">Consulta enviada</div>
-          <div class="evt-gracias" id="evt-gracias">¡Gracias!</div>
-          <p class="evt-msg">Recibimos tu consulta. Te respondemos a <strong id="evt-email-echo"></strong> a la brevedad con una propuesta para tu empresa.</p>
-          <button type="button" class="evt-again" id="evt-again">Enviar otra consulta</button>
-        </div>
-      </form>
     </div>
   </div>
 </section>
@@ -523,36 +506,6 @@
   </div>
 </footer>
 
-<script>
-  const evtForm = document.getElementById('evt-form');
-  if(evtForm){
-    evtForm.addEventListener('submit', async (e)=>{
-      e.preventDefault();
-      const btn = document.getElementById('evt-submit');
-      const nombre = evtForm.querySelector('[name="nombre"]').value.trim().split(' ')[0];
-      const email = evtForm.querySelector('[name="email"]').value.trim();
-      btn.textContent = 'Enviando...'; btn.disabled = true;
-      try{
-        const res = await fetch(evtForm.action, { method:'POST', body:new FormData(evtForm), headers:{'Accept':'application/json'} });
-        if(res.ok){
-          document.getElementById('evt-gracias').textContent = nombre ? ('¡Gracias, '+nombre+'!') : '¡Gracias!';
-          document.getElementById('evt-email-echo').textContent = email;
-          evtForm.querySelectorAll('input:not([type=hidden]),textarea,#evt-submit').forEach(el=>el.style.display='none');
-          document.getElementById('evt-success').classList.add('show');
-        } else { throw new Error(); }
-      } catch(err){
-        btn.textContent = 'Hubo un error — probá de nuevo';
-        btn.disabled = false;
-      }
-    });
-    document.getElementById('evt-again').addEventListener('click', ()=>{
-      evtForm.reset();
-      document.getElementById('evt-success').classList.remove('show');
-      evtForm.querySelectorAll('input:not([type=hidden]),textarea').forEach(el=>el.style.display='');
-      const b=document.getElementById('evt-submit'); b.style.display=''; b.textContent='Hablemos de tu empresa →'; b.disabled=false;
-    });
-  }
-</script>
 <script>
 /* ===== GALERÍA / CARRUSEL ===== */
 (function(){
