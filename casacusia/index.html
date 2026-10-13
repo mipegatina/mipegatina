@@ -399,7 +399,7 @@
       <div class="countdown-card">
         <div class="cd-label">Expo CASACUSIA</div>
         <h2>Pedidos cerrados</h2>
-        <p class="hero-sub" style="margin-bottom:0">Terminó el plazo con producción garantizada. Escribinos y vemos qué se puede hacer.</p>
+        <p class="hero-sub" style="margin-bottom:0">Ya no recibimos más pedidos para la Expo CASACUSIA. ¡Gracias a todos los expositores! Nos vemos el 17 de octubre.</p>
       <div class="cta-row"><a href="#contacto" class="btn btn-primary">Escribinos</a></div>
       </div>
     </div>
@@ -462,7 +462,7 @@
         </div>
         <div class="cart-actions">
           <a href="#cotizador" class="btn cart-add-more" id="cart-add-more">+ Agregar otro producto</a>
-          <a href="#" class="btn btn-primary" id="cart-send">Pedir esta cotización →</a>
+          <span class="btn btn-primary" id="cart-send" aria-disabled="true" style="opacity:.45;pointer-events:none;cursor:not-allowed">Pedidos cerrados</span>
         </div>
       </div>
     </div>
@@ -634,7 +634,7 @@ const IG_POSTS = [
     <div class="sec-head">
       <div class="sec-eyebrow">Contacto</div>
       <h2 class="sec-title">¿Tenés una duda?</h2>
-      <p class="sec-desc">Escribinos y te respondemos a la brevedad. Si ya sabés qué querés, armá tu cotización arriba y mandala directo.</p>
+      <p class="sec-desc">Escribinos y te respondemos a la brevedad.</p>
       <a href="mailto:mail@mipegatina.club" class="contact-mail">✉ mail@mipegatina.club</a>
     </div>
     <form class="contact-form" id="contact-form" action="https://formspree.io/f/mbgdlojz" method="POST">
@@ -1177,6 +1177,7 @@ function renderResumen(){
 }
 
 function openPedidoModal(){
+  if(typeof PEDIDOS_CERRADOS !== 'undefined' && PEDIDOS_CERRADOS) return;
   if(carrito.length === 0) return;
   renderResumen();
   $pmOverlay.classList.add('open');
@@ -1195,6 +1196,7 @@ $pmOverlay.addEventListener('click', (e)=>{ if(e.target === $pmOverlay) closePed
 if($pmForm){
   $pmForm.addEventListener('submit', async (e)=>{
     e.preventDefault();
+    if(typeof PEDIDOS_CERRADOS !== 'undefined' && PEDIDOS_CERRADOS) return;
     const btn = document.getElementById('pm-send');
     btn.textContent = 'Enviando...'; btn.disabled = true;
     let detalle = carrito.map((it,i)=>{
@@ -1240,7 +1242,8 @@ if($pmForm){
 <script>
   /* FECHA DE CIERRE DE PRODUCCIÓN — editar acá. null = sin cuenta regresiva · Expo: 17/10/2026
      Formato: '2026-12-15T00:00:00-03:00' */
-  const CIERRE = '2026-10-14T23:59:59-03:00';
+  const CIERRE = '2026-10-12T23:59:59-03:00'; // pedidos cerrados
+  const PEDIDOS_CERRADOS = true;
   const live = document.getElementById('live');
   const closed = document.getElementById('closed');
   const cdCard = document.getElementById('cd-card');
