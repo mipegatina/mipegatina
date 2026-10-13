@@ -1485,6 +1485,7 @@ return cot.producto === 'plancha' ? materialesPlancha : materialesSuelto;
 // getBreaks / getMinQty / getMaxQty reemplazados por TRAMOS (ver mas abajo)
 function acrilSizeLabel(sz, matKey){ const _mp=(typeof materialesMerchP!=='undefined')&&materialesMerchP[matKey]; if(_mp&&_mp.sizes[sz]) return _mp.sizes[sz].label; const _mm=(typeof materialesMerch!=='undefined')&&materialesMerch[matKey]; if(_mm&&_mm.sizes[sz]&&_mm.sizes[sz].label) return _mm.sizes[sz].label; if(_mm) return 'Talles '+sz; const p = sz.split('x').map(Number); const fmt = n => String(n).replace('.', ','); if(matKey==='premio') return p.map(fmt).join(' × ')+' cm'+(sz==='15x21'?' · con base':' · sin base'); if(matKey==='posavaso') return p.map(fmt).join(' × ')+' cm'; if(p[0]!==p[1]) return p.map(fmt).join(' × ')+' cm'; return fmt(Math.max(...p))+' cm'; }
 function onCatSelect(cat){
+cot.sinBlanco=false; cot.subOption=''; cot.subOptionLabel=''; if(typeof renderPrintMode==='function') renderPrintMode();
 document.querySelectorAll('.cat-card').forEach(c=>c.classList.remove('selected'));
 document.getElementById('cat-'+cat).classList.add('selected');
 { const _lt0=document.getElementById('lbl-size-title'); if(_lt0) _lt0.textContent='Medida'; const _ls0=document.getElementById('lbl-size-sub'); if(_ls0){ _ls0.textContent='Medida aproximada, del lado más largo del sticker.'; _ls0.style.display=''; } const _sp0=document.getElementById('size-pills'); if(_sp0) _sp0.innerHTML=''; }
@@ -1792,7 +1793,7 @@ if(step <= 1){ cot.producto=''; }
 if(step <= 2){ cot.materialKey=''; document.getElementById('mat-cards').innerHTML=''; const _lt=document.getElementById('laca-toggle'); if(_lt) _lt.style.display='none'; }
 if(step <= 3){ cot.size=''; document.getElementById('size-pills').innerHTML=''; const sp=document.getElementById('sub-options-panel'); if(sp) sp.style.display='none'; document.getElementById('sub-options-list').innerHTML=''; }
 if(step <= 4){ cot.qty=null; document.getElementById('qty-grid').innerHTML=''; }
-if(step <= 2){ cot.subOption=''; cot.subOptionLabel=''; }
+if(step <= 2){ cot.subOption=''; cot.subOptionLabel=''; cot.sinBlanco=false; if(typeof renderPrintMode==='function') renderPrintMode(); }
 const ra=document.getElementById('results-area');
 const wm=document.getElementById('wholesale-msg');
 const sb=document.getElementById('ship-banner');
@@ -1859,6 +1860,7 @@ document.querySelectorAll('#mat-cards .opt-card').forEach(b=>b.classList.remove(
 btn.classList.add('selected');
 resetFrom(3);
 cot.materialKey=val;
+cot.sinBlanco=false; if(val!=='viniloEspecial'){ cot.subOption=''; cot.subOptionLabel=''; } if(typeof renderPrintMode==='function') renderPrintMode();
 renderLacaToggle(val==='blancoPremium' && cot.cat==='stickers' && (cot.producto==='suelto'||cot.producto==='plancha'));
 // control de borde: solo para vinilo blanco en sticker SUELTO (no plancha)
 const bc=document.getElementById('cot-border-control');
@@ -2004,6 +2006,7 @@ document.querySelectorAll('.mat-suboption').forEach(b=>b.classList.remove('selec
 btn.classList.add('selected');
 cot.subOption=opt.id;
 cot.subOptionLabel=opt.label;
+cot.sinBlanco=false; if(typeof renderPrintMode==='function') renderPrintMode();
 populateSizePills(cot.materialKey);
 unlockStep(2);
 showPending();
@@ -2826,8 +2829,9 @@ const pat=document.createElement('canvas').getContext('2d').createPattern(tileC,
 try{ const hs=window.pvHoloShift||{x:0,y:0}; const _shf=(pvMat==='suncatcher')?0:(isGlitter?0.03:0.45); if(pat && pat.setTransform){ const mtx=(typeof DOMMatrix!=='undefined')?new DOMMatrix():null; if(mtx){ mtx.e=hs.x*tileC.width*_shf; mtx.f=hs.y*tileC.height*_shf; pat.setTransform(mtx); } } }catch(e){}
 const layer=paintShape(c=>{c.fillStyle=pat;c.fillRect(0,0,PW,PH);});
 const lc=layer.getContext('2d');
-lc.globalCompositeOperation='source-over';
+lc.globalCompositeOperation=(window.pvTrans&&pvMat==='holografico')?'multiply':'source-over';
 lc.drawImage(designC,0,0);
+lc.globalCompositeOperation='source-over';
 blit(vctx, layer); drawCutLine();
 }
 }
@@ -3023,6 +3027,7 @@ pvShowToast(pvC?('Cargamos '+(matLabels[mat]||'')+' · '+pvC.size+' cm · '+pvC.
 if(sub){
 waitFor(()=>{ let ok=false; document.querySelectorAll('.mat-suboption').forEach(b=>{ if(b.dataset.id===sub) ok=true; }); return ok; }, ()=>{
 document.querySelectorAll('.mat-suboption').forEach(b=>{ if(b.dataset.id===sub) b.click(); });
+if(window.pvTrans && mat==='holografico' && typeof cotSetPrint==='function') cotSetPrint(true);
 waitFor(()=>true, finish, 6);
 });
 } else {
@@ -3581,7 +3586,7 @@ openPedidoModal();
 }
 function resetCotizador(){
 // Reiniciar estado
-if(typeof cot!=='undefined'){ cot.talles={}; cot.tc={}; cot.producto=''; cot.materialKey=''; cot.size=''; cot.qty=null; cot.subOption=''; cot.subOptionLabel=''; cot.printType='standard'; cot.envioType=''; cot.borde=true; }
+if(typeof cot!=='undefined'){ cot.talles={}; cot.tc={}; cot.producto=''; cot.materialKey=''; cot.size=''; cot.qty=null; cot.subOption=''; cot.subOptionLabel=''; cot.sinBlanco=false; if(typeof renderPrintMode==='function') renderPrintMode(); cot.printType='standard'; cot.envioType=''; cot.borde=true; }
 // resetear el switch de borde (vuelve a Con borde) y ocultarlo
 const _bt=document.getElementById('cot-border-track'); if(_bt) _bt.style.background='var(--green)';
 const _bth=document.getElementById('cot-border-thumb'); if(_bth) _bth.style.left='23px';
@@ -4347,6 +4352,35 @@ nav a.nav-cta::before,nav a.nav-cta::after,nav a.nav-b2b::before{display:none!im
 .pv-mat-btn.selected .pv-sw::after{display:none!important}
 .pv-mat-btn.selected::after{content:'';position:absolute;top:10px;right:10px;width:8px;height:8px;background:#fff}
 .pv-mat-btn:hover:not(.selected){background:rgba(10,10,10,.05)}
+</style>
+<style id="ty21-css">
+@media(max-width:999px){
+.pv-mat-btn.selected{background:transparent!important;border-color:#0a0a0a!important;box-shadow:inset 0 0 0 1px #0a0a0a}
+.pv-mat-btn.selected .pv-lbl{color:#0a0a0a!important}
+.pv-mat-btn.selected .pv-desc{color:rgba(10,10,10,.6)!important}
+.pv-mat-btn.selected .pv-sw{border-color:rgba(10,10,10,.14)!important}
+.pv-mat-btn.selected::after{background:#0a0a0a!important;top:6px;right:6px}
+#preview-modal .pv-mat-btn{padding:6px 4px 9px!important;border-width:1px;border-radius:4px}
+#preview-modal .pv-mat-btn.selected .pv-sw{box-shadow:none!important;transform:none!important;filter:none!important;animation:none!important}
+.pm-card span{display:none!important}
+.pm-card{padding:11px 12px}
+.pm-card b{margin:0}
+}
+.pm-wrap{margin-top:18px}
+.pm-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pm-card{position:relative;text-align:left;background:#fff;border:1px solid rgba(10,10,10,.15);border-radius:4px;padding:12px 14px;cursor:pointer;font-family:var(--sans);transition:border-color .15s}
+.pm-card b{display:block;font-size:.86rem;font-weight:800;color:#0a0a0a;margin-bottom:4px;padding-right:14px}
+.pm-card span{display:block;font-size:.74rem;line-height:1.4;color:rgba(10,10,10,.6);font-weight:400}
+.pm-card.on{border-color:#0a0a0a;box-shadow:inset 0 0 0 1px #0a0a0a}
+.pm-card.on::after{content:'';position:absolute;top:10px;right:10px;width:8px;height:8px;background:#0a0a0a}
+@media(hover:hover){.pm-card:not(.on):hover{border-color:rgba(10,10,10,.4)}}
+.pm-note{font-size:.76rem;line-height:1.5;color:rgba(10,10,10,.6);margin:8px 0 0;font-family:var(--sans)}
+.pm-lbl{display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#0a0a0a;margin:0 0 10px}
+.pm-lbl::before{content:'';width:8px;height:8px;background:#0a0a0a}
+#cot-print-mode .pm-lbl{font-size:.62rem;letter-spacing:.16em;color:rgba(10,10,10,.5);font-weight:600;margin-bottom:12px}
+#cot-print-mode .pm-lbl::before{display:none}
+#cot-print-mode{margin-top:22px}
+@media(max-width:380px){.pm-grid{grid-template-columns:1fr}}
 </style>
 <style id="ty14-css">
 #cotizador .opt-pill.selected .ph-cm,#cotizador .opt-pill.selected .ph-cm b,#cotizador .opt-pill.selected span.ph-cm{color:#fff!important}
@@ -5464,5 +5498,50 @@ var _sbp=window.showBigPrice;
 if(typeof _sbp==='function'){ window.showBigPrice=showBigPrice=function(){ var r=_sbp.apply(this,arguments); try{ cotSampleUpdate(); }catch(e){} return r; }; }
 })();
 
+</script>
+<script id="pm-js">
+var PM_TXT={con:['Colores nítidos','Con base blanca. Los colores salen fieles y el holográfico se ve en el borde.','El diseño va sobre una base blanca: los colores salen fieles y el holográfico se ve en el borde.'],
+sin:['Efecto translúcido','Sin base blanca. El holográfico se ve a través del diseño y los blancos desaparecen.','Sin base blanca la tinta deja pasar el material: el holográfico se ve a través del diseño y los blancos desaparecen. Cuesta lo mismo.']};
+function pmHTML(sin,fn){
+return '<div class="pm-lbl">Cómo se imprime</div><div class="pm-grid"><button type="button" class="pm-card'+(sin?'':' on')+'" onclick="'+fn+'(false)"><b>'+PM_TXT.con[0]+'</b><span>'+PM_TXT.con[1]+'</span></button><button type="button" class="pm-card'+(sin?' on':'')+'" onclick="'+fn+'(true)"><b>'+PM_TXT.sin[0]+'</b><span>'+PM_TXT.sin[1]+'</span></button></div><p class="pm-note">'+(sin?PM_TXT.sin[2]:PM_TXT.con[2])+'</p>';
+}
+/* ---- preview ---- */
+window.pvTrans=false;
+function pvSetTrans(v){ window.pvTrans=!!v; pvPrintRender(); if(typeof pvRender==='function'&&typeof pvImg!=='undefined'&&pvImg){pvRender(); if(typeof pvApplyGlow==='function')pvApplyGlow();} }
+function pvPrintRender(){
+var box=document.getElementById('pv-print-mode'); if(!box) return;
+var hb=[].filter.call(document.querySelectorAll('#pv-panel-sticker .pv-mat-btn'),function(x){return /pvSelectMat\('holografico'/.test(x.getAttribute('onclick')||'');})[0];
+var swc=document.querySelector('#pv-panel-sticker .pv-swatches');
+var tgt=(window.innerWidth>=1000)?hb:swc;
+if(tgt&&tgt.nextSibling!==box&&tgt.parentNode) tgt.parentNode.insertBefore(box,tgt.nextSibling);
+var show=(typeof pvMat!=='undefined'&&pvMat==='holografico'&&(typeof pvMode==='undefined'||pvMode==='sticker'));
+box.style.display=show?'block':'none';
+if(show) box.innerHTML=pmHTML(window.pvTrans,'pvSetTrans');
+}
+(function(){
+var hb=[].filter.call(document.querySelectorAll('#pv-panel-sticker .pv-mat-btn'),function(x){return /pvSelectMat\('holografico'/.test(x.getAttribute('onclick')||'');})[0];
+if(hb&&!document.getElementById('pv-print-mode')){var d=document.createElement('div');d.id='pv-print-mode';d.className='pm-wrap';d.style.display='none';d.style.margin='2px 0 8px';hb.parentNode.insertBefore(d,hb.nextSibling);}
+var _sel=window.pvSelectMat;
+window.pvSelectMat=function(m,b){ if(m!=='holografico') window.pvTrans=false; _sel(m,b); pvPrintRender(); };
+var _mode=window.pvSetMode;
+if(typeof _mode==='function') window.pvSetMode=function(){ window.pvTrans=false; var r=_mode.apply(this,arguments); pvPrintRender(); return r; };
+})();
+/* ---- cotizador ---- */
+function cotSetPrint(sin){
+cot.sinBlanco=!!sin;
+var base=(typeof cotEC!=='undefined'&&cotEC.viniloEspecial&&cotEC.viniloEspecial.subOptions||[]).filter(function(o){return o.id==='holografico';})[0];
+var bl=base?base.label:'Holográfico';
+if(cot.subOption==='holografico') cot.subOptionLabel=bl+(sin?' · Sin base blanca':'');
+renderPrintMode();
+if(typeof showPending==='function') showPending();
+}
+function renderPrintMode(){
+var list=document.getElementById('sub-options-list'); if(!list) return;
+var box=document.getElementById('cot-print-mode');
+if(!box){box=document.createElement('div');box.id='cot-print-mode';box.className='pm-wrap';list.parentNode.insertBefore(box,list.nextSibling);}
+var show=(cot.cat==='stickers'&&cot.materialKey==='viniloEspecial'&&cot.subOption==='holografico');
+box.style.display=show?'block':'none';
+if(show) box.innerHTML=pmHTML(!!cot.sinBlanco,'cotSetPrint'); else box.innerHTML='';
+}
 </script>
 </body></html>
