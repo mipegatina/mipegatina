@@ -252,7 +252,8 @@ premio:{
 '10x10':{qtys:[1,5,10,25,50],desc:[[5,5],[10,10],[25,15]],top:50},
 '15x21':{qtys:[1,5,10,25,50],desc:[[5,5],[10,10],[25,15]],top:50}},
 posavaso:{'9.5x9.5':{qtys:[12,36,60,84],desc:[[36,5],[60,10],[84,15]]}},
-carteles:{'20x30':{qtys:[1,5],desc:[[5,5]]},'30x40':{qtys:[1,5],desc:[[5,5]]}}
+carteles:{'20x30':{qtys:[1,5],desc:[[5,5]]},'30x40':{qtys:[1,5],desc:[[5,5]]}},
+lapicera:{'unico':{qtys:[120,240,600,1200],desc:[[600,5],[1200,10]]}}
 };
 function descFor(qty,tr){
 let d=0; for(const [q,p] of tr.desc){ if(qty>=q) d=p; }
@@ -276,6 +277,10 @@ cartel6:{label:'Cartel acrílico 6 mm',sub:'Acrílico de 6 mm · impresión dire
 cartel10:{label:'Cartel acrílico 10 mm',sub:'Acrílico de 10 mm · impresión directa',mult:10/3}
 };
 const CARTEL_AREA = {'20x30':.06,'30x40':.12};
+// ---- MERCH (Oct 2026): solo lapiceras ----
+const MERCHP = {
+lapicera:{label:'Lapicera Eco',sub:'ABS + madera · impresión UV full color · mín. 120 u',usd:0.4234}
+};
 
 // ===== TABS =====
 const TABS = [
@@ -328,7 +333,16 @@ const TABS = [
   const aj=AJUSTE_LISTA*AJUSTE_ACRILICO, uc=CARTEL_USD_M2_3MM*CARTEL[m].mult*(1-d/100)*CARTEL_AREA[s]*aj;
   return round5up(uc*rate)+(x==='orificios'?round5up(CARTEL_KIT_USD*aj*rate):0);
  },
- note:()=>'Fondo blanco o transparente, y orientación vertical u horizontal: mismo precio. Con orificios se suma el kit de separadores y embellecedores (USD 11 por cartel), sin descuento.'}
+ note:()=>'Fondo blanco o transparente, y orientación vertical u horizontal: mismo precio. Con orificios se suma el kit de separadores y embellecedores (USD 11 por cartel), sin descuento.'},
+{id:'merch',label:'Merch',short:'Merch',unitWord:'lapicera',
+ matLabel:'Producto',
+ mats:()=>Object.keys(MERCHP).map(k=>({v:k,l:MERCHP[k].label,s:MERCHP[k].sub})),
+ sizes:()=>[{v:'unico',l:'Único'}],
+ hideSize:true,
+ tramo:(m)=>TRAMOS[m].unico,
+ area:()=>null,
+ unit(m,s,rate,d){ return round5up(MERCHP[m].usd*(1-d/100)*AJUSTE_LISTA*rate); },
+ note:()=>'Impresión UV full color. Mínimo 120 u.'}
 ];
 
 // ===== ESTADO =====
