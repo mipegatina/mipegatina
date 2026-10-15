@@ -5434,9 +5434,51 @@ function drawCartel(cv){
     o.beginPath(); o.arc(c[0],c[1],4.6,0,Math.PI*2); o.fillStyle=mg; o.fill(); }); }
   var wrap=document.getElementById('cot-sample-tilt'); if(wrap) wrap.style.transform='perspective(700px) rotateY('+(shift.x*14).toFixed(1)+'deg) rotateX('+(-shift.y*14).toFixed(1)+'deg)';
 }
+function isPremio(){ return (typeof cot!=='undefined' && cot.cat==='acrilicos' && cot.materialKey==='premio'); }
+var _qrM=null;
+function qrModules(){ if(_qrM) return _qrM; var N=25, m=[], s=20261001; function rnd(){ s=(s*1664525+1013904223)>>>0; return s/4294967296; }
+  for(var i=0;i<N;i++){ m.push([]); for(var j=0;j<N;j++) m[i].push(rnd()>0.52?1:0); }
+  function fin(r,c){ for(var i=-1;i<=7;i++) for(var j=-1;j<=7;j++){ var y=r+i,x=c+j; if(y<0||x<0||y>=N||x>=N) continue; var on=(i>=0&&i<=6&&j>=0&&j<=6)&&(i===0||i===6||j===0||j===6||(i>=2&&i<=4&&j>=2&&j<=4)); m[y][x]=on?1:0; } }
+  fin(0,0); fin(0,N-7); fin(N-7,0); for(var k=8;k<N-8;k++){ m[6][k]=k%2?0:1; m[k][6]=k%2?0:1; }
+  _qrM=m; return m; }
+function drawPremio(cv){
+  var W=CW*DPR,H=CH*DPR; if(cv.width!==W||cv.height!==H){ cv.width=W; cv.height=H; }
+  cv.style.aspectRatio='300/190';
+  var o=cv.getContext('2d'); o.setTransform(1,0,0,1,0,0); o.clearRect(0,0,W,H); o.setTransform(DPR,0,0,DPR,0,0);
+  var big=(cot.size==='15x21');
+  var pw=big?108:140, ph=big?150:140, baseH=big?15:0, ed=8;
+  var x=(CW-pw)/2-ed/2, y=(CH-ph-baseH)/2-ed/2+(big?-2:0);
+  // reflejo de fondo para que se note la transparencia
+  var cxm=x+pw/2, cym=y+ph/2; var d1=o.createRadialGradient(cxm-pw*0.6,cym-ph*0.2,2,cxm-pw*0.6,cym-ph*0.2,ph*0.8); d1.addColorStop(0,'rgba(120,150,185,.26)'); d1.addColorStop(1,'rgba(120,150,185,0)'); o.fillStyle=d1; o.fillRect(0,0,CW,CH);
+  var d2=o.createRadialGradient(cxm+pw*0.8,cym+ph*0.3,2,cxm+pw*0.8,cym+ph*0.3,ph*0.7); d2.addColorStop(0,'rgba(200,150,120,.18)'); d2.addColorStop(1,'rgba(200,150,120,0)'); o.fillStyle=d2; o.fillRect(0,0,CW,CH);
+  // base acrilica (15x21)
+  if(big){ var bx=x-8, bw=pw+ed+16, by=y+ph;
+    o.save(); o.shadowColor='rgba(0,0,0,.22)'; o.shadowBlur=14; o.shadowOffsetY=6; o.fillStyle='rgba(150,185,210,.55)'; o.fillRect(bx+ed,by+ed*0.6,bw,baseH); o.restore();
+    o.fillStyle='rgba(120,165,195,.6)'; o.fillRect(bx+bw,by+ed*0.6,ed,baseH); 
+    var bg=o.createLinearGradient(bx,by,bx,by+baseH); bg.addColorStop(0,'rgba(235,244,252,.75)'); bg.addColorStop(1,'rgba(190,212,232,.45)'); o.fillStyle=bg; o.fillRect(bx,by,bw,baseH);
+    o.strokeStyle='rgba(70,95,125,.4)'; o.lineWidth=1; o.strokeRect(bx+.5,by+.5,bw-1,baseH-1); }
+  // canto (espesor 10 mm)
+  if(!big){ o.save(); o.shadowColor='rgba(0,0,0,.22)'; o.shadowBlur=16; o.shadowOffsetY=6; o.fillStyle='rgba(150,185,210,.5)'; o.fillRect(x+ed,y+ed,pw,ph); o.restore(); }
+  o.fillStyle='rgba(120,165,195,.6)'; o.fillRect(x+pw,y+ed,ed,ph); o.fillRect(x+ed,y+ph,pw,ed);
+  // frente
+  var g=o.createLinearGradient(x,y,x+pw,y+ph); g.addColorStop(0,'rgba(235,244,252,.55)'); g.addColorStop(1,'rgba(190,212,232,.28)'); o.fillStyle=g; o.fillRect(x,y,pw,ph);
+  o.strokeStyle='rgba(255,255,255,.95)'; o.lineWidth=1.4; o.strokeRect(x+.7,y+.7,pw-1.4,ph-1.4);
+  o.strokeStyle='rgba(70,95,125,.35)'; o.lineWidth=1; o.strokeRect(x+.5,y+.5,pw-1,ph-1);
+  // logo (solo en el grande) y QR sobre panel blanco impreso
+  var qs=big?pw*0.66:pw*0.72, qx=x+(pw-qs)/2, qy=big?y+ph-qs-12:y+(ph-qs)/2;
+  if(big){ var lw=pw*0.62, lh=lw*logoInk.height/logoInk.width; if(lh>ph*0.2){ lh=ph*0.2; lw=lh*logoInk.width/logoInk.height; } o.drawImage(logoInk,x+(pw-lw)/2,y+10,lw,lh); }
+  var pad=3; o.fillStyle='#fff'; o.fillRect(qx-pad,qy-pad,qs+pad*2,qs+pad*2);
+  var m=qrModules(), N=m.length, cs=qs/N; o.fillStyle='#0a0a0a';
+  for(var i=0;i<N;i++) for(var j=0;j<N;j++) if(m[i][j]) o.fillRect(qx+j*cs,qy+i*cs,cs+.3,cs+.3);
+  // brillo que se mueve
+  o.save(); o.beginPath(); o.rect(x,y,pw,ph); o.clip(); var p=0.5+shift.x*0.9;
+  var gr=o.createLinearGradient(x+pw*(p-0.35),y,x+pw*(p+0.05),y+ph*0.8); gr.addColorStop(0,'rgba(255,255,255,0)'); gr.addColorStop(.5,'rgba(255,255,255,.55)'); gr.addColorStop(1,'rgba(255,255,255,0)'); o.fillStyle=gr; o.fillRect(x,y,pw,ph); o.restore();
+  var wrap=document.getElementById('cot-sample-tilt'); if(wrap) wrap.style.transform='perspective(700px) rotateY('+(shift.x*14).toFixed(1)+'deg) rotateX('+(-shift.y*14).toFixed(1)+'deg)';
+}
 function draw(){
   var cv=document.getElementById('cot-sample-canvas'); if(!cv||!logoInk) return;
   if(isCartel()){ drawCartel(cv); return; }
+  if(isPremio()){ drawPremio(cv); return; }
   var mk=mockKey(); if(mk){ drawMerch(cv,mk); return; }
   var ak=acrKind(); if(ak){ drawAcril(cv,ak); return; }
   cv.style.aspectRatio='300/190';
@@ -5524,7 +5566,7 @@ function leave(){ userUntil=performance.now()+400; }
 window.cotSampleUpdate=function(){
   var box=document.getElementById('cot-sample'); if(!box) return;
   var ra=document.getElementById('results-area');
-  var key=mockKey() || acrKind() || (isCartel()?'cartel':null) || ((typeof cot!=='undefined' && cot.cat==='stickers' && (cot.producto==='suelto'||cot.producto==='plancha')) ? effectKey() : null);
+  var key=mockKey() || acrKind() || (isCartel()?'cartel':null) || (isPremio()?'premio':null) || ((typeof cot!=='undefined' && cot.cat==='stickers' && (cot.producto==='suelto'||cot.producto==='plancha')) ? effectKey() : null);
   if(!key || !ra || ra.style.display==='none'){ box.style.display='none'; return; }
   box.style.display='flex';
   box.style.background=mockKey()?'#fff':'#f6f6f7';
@@ -5538,6 +5580,7 @@ window.cotSampleUpdate=function(){
   var cv=document.getElementById('cot-sample-canvas');
   if(cv && !cv._bound){ cv._bound=1; cv.addEventListener('pointermove',pointer); cv.addEventListener('pointerleave',leave); cv.addEventListener('touchmove',function(e){pointer(e);},{passive:true}); cv.addEventListener('touchend',leave); }
   if(isCartel()){ if(_t) _t.textContent='Así queda tu producto'; if(_h) _h.textContent='Imagen ilustrativa con el logo de Mi Pegatina. Con fondo se imprime a todo color; sin fondo el acrílico queda transparente. Pasá el mouse o deslizá el dedo para ver el brillo.'; }
+  if(isPremio()){ if(_t) _t.textContent='Así queda tu producto'; if(_h) _h.textContent='Imagen ilustrativa con QR de ejemplo. Tu QR y tu diseño se imprimen a todo color sobre acrílico macizo de 10 mm. Pasá el mouse o deslizá el dedo para ver el brillo.'; if(lbl) lbl.textContent=(cot.size==='15x21'?'Premio | QR con base acrílica':'Premio | QR de acrílico'); }
   draw(); if(!raf && !mockKey()) raf=requestAnimationFrame(loop);
 };
 var _sbp=window.showBigPrice;
