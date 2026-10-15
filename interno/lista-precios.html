@@ -252,9 +252,7 @@ premio:{
 '10x10':{qtys:[1,5,10,25,50],desc:[[5,5],[10,10],[25,15]],top:50},
 '15x21':{qtys:[1,5,10,25,50],desc:[[5,5],[10,10],[25,15]],top:50}},
 posavaso:{'9.5x9.5':{qtys:[12,36,60,84],desc:[[36,5],[60,10],[84,15]]}},
-libreta:{'unico':{qtys:[20,50,100,200],desc:[[100,5],[200,10]]}},
-lapicera:{'unico':{qtys:[100,250,500,1000],desc:[[500,5],[1000,10]]}},
-remera:{'unico':{qtys:[10,25,50,100],desc:[[25,5],[50,10],[100,15]]}}
+carteles:{'20x30':{qtys:[1,5],desc:[[5,5]]},'30x40':{qtys:[1,5],desc:[[5,5]]}}
 };
 function descFor(qty,tr){
 let d=0; for(const [q,p] of tr.desc){ if(qty>=q) d=p; }
@@ -268,13 +266,16 @@ llavero:{label:'Llavero',sub:'Incluye cadena metálica reforzada',base:300,fijo:
 iman:{label:'Imán',sub:'Imán en toda la superficie',base:300,fijo:0.11,sizes:{'5x5':{area:.0025},'6x6':{area:.0036}}},
 dije:{label:'Dije',sub:'Sin accesorio, solo acrílico',base:300,fijo:0,sizes:{'3x3':{area:.00108,aj3:true},'5x5':{area:.0025},'6x6':{area:.0036}}},
 posavaso:{label:'Posavaso',sub:'Espesor 2 mm · sin base antideslizante',base:0,fijo:0,sizes:{'9.5x9.5':{area:.009025,usd:1.75}}},
-premio:{label:'Premio | QR',sub:'Acrílico macizo 10 mm · 10×10 sin base, 15×21 con base acrílica',base:0,fijo:0,sizes:{'10x10':{area:.01,usd:22},'15x21':{area:.0315,usd:50}}}
+premio:{label:'Premio | QR',sub:'Acrílico macizo 10 mm · 10×10 sin base, 15×21 con base acrílica',base:0,fijo:0,sizes:{'10x10':{area:.01,usd:19.8},'15x21':{area:.0315,usd:50}}}
 };
-const MERCHP = {
-libreta:{label:'Libreta de bolsillo',sub:'Tapa dura · 90 × 140 mm · mín. 20 u',usd:4.1738},
-lapicera:{label:'Lapicera Eco',sub:'ABS + madera · área 5 × 0,7 cm · mín. 100 u',usd:0.4234}
+// ---- CARTELES ACRÍLICOS (Oct 2026): USD/m² en 3 mm, otros espesores proporcionales; kit de sujeción aparte (no lleva descuento) ----
+const CARTEL_USD_M2_3MM = 360, CARTEL_KIT_USD = 11;
+const CARTEL = {
+cartel3:{label:'Cartel acrílico 3 mm',sub:'Acrílico de 3 mm · impresión directa',mult:1},
+cartel6:{label:'Cartel acrílico 6 mm',sub:'Acrílico de 6 mm · impresión directa',mult:2},
+cartel10:{label:'Cartel acrílico 10 mm',sub:'Acrílico de 10 mm · impresión directa',mult:10/3}
 };
-const REMERA_USD = 21.17;
+const CARTEL_AREA = {'20x30':.06,'30x40':.12};
 
 // ===== TABS =====
 const TABS = [
@@ -316,24 +317,18 @@ const TABS = [
   return round5up(uU*rate);
  },
  note:(m,s)=>(s==='3x3'?'Los de 3 cm llevan un recargo propio (+40% sobre el acrílico). La cadena del llavero no lo lleva.':'')},
-{id:'remeras',label:'Remeras',short:'Remeras',unitWord:'remera',
- matLabel:'Producto',
- mats:()=>[{v:'remera',l:'Remera · 2 estampas',s:'Algodón · DTF full color · pecho + espalda'}],
- sizes:()=>[{v:'unico',l:'S · M · L · XL · XXL'}],
- sizeLabel:'Talles',
- tramo:()=>TRAMOS.remera.unico,
+{id:'carteles',label:'Carteles acrílicos',short:'Carteles',unitWord:'cartel',
+ matLabel:'Espesor',
+ mats:()=>Object.keys(CARTEL).map(k=>({v:k,l:CARTEL[k].label,s:CARTEL[k].sub})),
+ sizes:()=>Object.keys(CARTEL_AREA).map(s=>({v:s,l:s.replace('x',' × ')+' cm'})),
+ extra:{label:'Sujeción',def:'bifaz',opts:[{v:'bifaz',l:'Cinta Bifaz',sh:'Bifaz',s:'Sin cargo'},{v:'orificios',l:'Orificios con separadores y embellecedores',sh:'Con orificios',s:'Kit USD 11 por cartel · el descuento no aplica al kit'}]},
+ tramo:(m,s)=>TRAMOS.carteles[s],
  area:()=>null,
- unit(m,s,rate,d){ return round5up(REMERA_USD*(1-d/100)*AJUSTE_LISTA*rate); },
- note:()=>'Mismo precio en todos los talles. El descuento se calcula con el total de remeras del pedido. Mínimo 10 u.'},
-{id:'merch',label:'Merch personalizado',short:'Merch',unitWord:'unidad',
- matLabel:'Producto',
- mats:()=>Object.keys(MERCHP).map(k=>({v:k,l:MERCHP[k].label,s:MERCHP[k].sub})),
- sizes:()=>[{v:'unico',l:'Único'}],
- hideSize:true,
- tramo:(m)=>TRAMOS[m].unico,
- area:()=>null,
- unit(m,s,rate,d){ return round5up(MERCHP[m].usd*(1-d/100)*AJUSTE_LISTA*rate); },
- note:m=>m==='libreta'?'Impresión UV full color. Producto 90 × 140 mm · área de impresión máx. 70 × 120 mm.':'Impresión UV full color. Área de impresión 5 × 0,7 cm.'}
+ unit(m,s,rate,d,x){
+  const aj=AJUSTE_LISTA*AJUSTE_ACRILICO, uc=CARTEL_USD_M2_3MM*CARTEL[m].mult*(1-d/100)*CARTEL_AREA[s]*aj;
+  return round5up(uc*rate)+(x==='orificios'?round5up(CARTEL_KIT_USD*aj*rate):0);
+ },
+ note:()=>'Fondo blanco o transparente, y orientación vertical u horizontal: mismo precio. Con orificios se suma el kit de separadores y embellecedores (USD 11 por cartel), sin descuento.'}
 ];
 
 // ===== ESTADO =====
@@ -345,7 +340,7 @@ function rate(){ const v=parseFloat($('rate').value); return (isNaN(v)||v<=0)?CO
 function tab(){ return TABS.find(t=>t.id===tabId); }
 function initState(t){
  const m=t.mats()[0].v, s=t.sizes(m)[0].v, q=t.tramo(m,s).qtys[0];
- S[t.id]={m,s,q};
+ S[t.id]={m,s,q,x:t.extra?t.extra.def:null};
 }
 TABS.forEach(initState);
 
@@ -363,6 +358,10 @@ function buildFields(){
   h+=`<div class="field wide"><span class="lbl">${t.sizeLabel||'Medida'}</span><div class="opts" id="o-s">`+
    t.sizes(st.m).map(o=>`<button class="opt num${st.s===o.v?' on':''}" data-v="${o.v}" type="button">${o.l}</button>`).join('')+`</div></div>`;
  }
+ if(t.extra){
+  h+=`<div class="field wide"><span class="lbl">${t.extra.label}</span><div class="opts" id="o-x">`+
+   t.extra.opts.map(o=>`<button class="opt${st.x===o.v?' on':''}" data-v="${o.v}" type="button">${o.l}${o.s?`<span class="s">${o.s}</span>`:''}</button>`).join('')+`</div></div>`;
+ }
  const tr=t.tramo(st.m,st.s);
  h+=`<div class="field wide"><span class="lbl">Cantidad</span><div class="opts" id="o-q">`+
   tr.qtys.map(q=>{ const d=descFor(q,tr); return `<button class="opt q num${st.q===q?' on':''}" data-v="${q}" type="button"><b>${q.toLocaleString('es-AR')} u</b><i>${d>0?'−'+d+'%':'precio base'}</i></button>`; }).join('')+
@@ -379,6 +378,7 @@ function buildFields(){
   st.s=b.dataset.v; const q=t.tramo(st.m,st.s).qtys; if(!q.includes(st.q)) st.q=q[0];
   buildFields(); recalc();
  });
+ if($('o-x')) $('o-x').querySelectorAll('.opt').forEach(b=>b.onclick=()=>{ st.x=b.dataset.v; buildFields(); recalc(); });
  $('o-q').querySelectorAll('.opt').forEach(b=>b.onclick=()=>{ st.q=parseInt(b.dataset.v,10); buildFields(); recalc(); });
  $('qfree').oninput=function(){
   const n=parseInt(this.value,10); if(isNaN(n)||n<1) return;
@@ -390,7 +390,7 @@ function buildFields(){
 // ===== CÁLCULO =====
 function calc(t,st,q){
  const r=rate(), tr=t.tramo(st.m,st.s), d=descFor(q,tr);
- const base=t.unit(st.m,st.s,r,0), uA=d>0?t.unit(st.m,st.s,r,d):base;
+ const base=t.unit(st.m,st.s,r,0,st.x), uA=d>0?t.unit(st.m,st.s,r,d,st.x):base;
  return {r,d,base,uA,uU:uA/r,total:uA*q};
 }
 function recalc(){
@@ -399,7 +399,7 @@ function recalc(){
  const matL=t.mats().find(o=>o.v===st.m).l;
  const szL=t.hideSize?'':(t.sizes(st.m).find(o=>o.v===st.s)||{}).l;
  $('r-mat').textContent = matL;
- $('r-dims').textContent = szL || matL;
+ $('r-dims').textContent = (szL || matL)+((t.extra&&szL)?' · '+t.extra.opts.find(o=>o.v===st.x).sh:'');
  if(!szL) $('r-mat').textContent = t.label;
  $('r-qty').textContent = st.q.toLocaleString('es-AR')+(st.q===1?' unidad':' unidades')+(c.d>0?' · −'+c.d+'%':'');
  $('r-tl').textContent = ivaOn?'Total (con IVA)':'Total';
@@ -423,7 +423,7 @@ function recalc(){
 function renderCurve(t,st,iva){
  const svg=$('c-svg'), tip=$('c-tip'), tr=t.tramo(st.m,st.s);
  const matL=t.mats().find(o=>o.v===st.m).l, szL=t.hideSize?'':(' · '+(t.sizes(st.m).find(o=>o.v===st.s)||{}).l);
- $('c-title').textContent = matL+szL;
+ $('c-title').textContent = matL+szL+(t.extra?' · '+t.extra.opts.find(o=>o.v===st.x).sh:'');
  const pts=tr.qtys.map(q=>{ const c=calc(t,st,q); return {q,u:c.uA*iva,d:c.d}; });
  const cw=Math.round(svg.parentElement.clientWidth)||640, W=Math.max(280,cw), H=W<420?250:230;
  const pl=24,pr=24,pt=40,pb=48, iw=W-pl-pr, ih=H-pt-pb, n=pts.length;
