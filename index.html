@@ -2222,7 +2222,8 @@ function precioUnitarioARS(cat, producto, matKey, sz, qty){
 function calcPrice(sz, qty, qDesc){
   const r = precioUnitarioARS(cot.cat, cot.producto, cot.materialKey, sz, (qDesc!=null)?qDesc:qty);
   const uU = (r.uU != null) ? r.uU : r.uA/COTIZACION;
-  return { sD:0, qD:r.dPct, totD:r.dPct, uU, uA:r.uA, tA:r.uA*qty };
+  const _pk=(typeof window.packExtraARS==='function')?window.packExtraARS():0;
+  return { sD:0, qD:r.dPct, totD:r.dPct, uU, uA:r.uA+_pk, tA:(r.uA+_pk)*qty };
 }
 function whsEnviar(){
   const nombre = (document.getElementById('whs-nombre')?.value||'').trim();
@@ -3652,6 +3653,7 @@ if(cot.cat==='merch'){ const _ts=tallesElegidos().filter(t=>cot.talles[t]>0); it
 if(cot.cat==='merchp' && !acrilSizeLabel(cot.size,cot.materialKey)) item.medida='';
 if(cotEC[cot.materialKey] && cotEC[cot.materialKey].cartel){ if((item.medida||'').indexOf(cartelLabel())<0) item.medida=(item.medida?item.medida+' · ':'')+cartelLabel(); item.cartelSuj=cot.cartelSuj; item.cartelOri=cot.cartelOri; item.cartelFondo=cot.cartelFondo; }
 if(typeof cotCutLabel==='function' && cotCutLabel()){ item.corte=cot.corte; item.medida=(item.medida?item.medida+' · ':'')+cotCutLabel(); }
+if(cot.cat==='stickers' && cot.producto==='plancha' && cot.packaging){ item.packaging=cot.packaging; item.medida=(item.medida?item.medida+' · ':'')+'Packaging: '+({superior:'Bolsa + cartón superior',trasero:'Cartón trasero + bolsa'}[cot.packaging]||''); }
 carrito.push(item);
 if(cot.cat==='merch') recalcRemerasCarrito();
 if(window.mpConv){ mpConv('carrito', subtotal||1.0); }
@@ -5469,6 +5471,38 @@ function drawPremio(cv){
   var gr=o.createLinearGradient(x+pw*(p-0.35),y,x+pw*(p+0.05),y+ph*0.8); gr.addColorStop(0,'rgba(255,255,255,0)'); gr.addColorStop(.5,'rgba(255,255,255,.55)'); gr.addColorStop(1,'rgba(255,255,255,0)'); o.fillStyle=gr; o.fillRect(x,y,pw,ph); o.restore();
   var wrap=document.getElementById('cot-sample-tilt'); if(wrap) wrap.style.transform='perspective(700px) rotateY('+(shift.x*14).toFixed(1)+'deg) rotateX('+(-shift.y*14).toFixed(1)+'deg)';
 }
+function drawPackOverlay(o,s,kind){
+  o.save(); o.setTransform(DPR,0,0,DPR,0,0);
+  var kraft='#d9bd92', kE='#b8975f', glass='rgba(150,190,215,.22)', edge='rgba(70,95,125,.55)';
+  function rr(x,y,w,h,r){ o.beginPath(); if(o.roundRect) o.roundRect(x,y,w,h,r); else o.rect(x,y,w,h); }
+  var bx,by,bw,bh;
+  if(kind==='trasero'){
+    // carton rigido por detras de la plancha
+    var cx=s.x-7, cy=s.y-7, cw=s.w+14, ch=s.h+14;
+    o.globalCompositeOperation='destination-over';
+    o.save(); o.shadowColor='rgba(0,0,0,.22)'; o.shadowBlur=14; o.shadowOffsetY=5; o.fillStyle=kraft; rr(cx,cy,cw,ch,3); o.fill(); o.restore();
+    o.strokeStyle=kE; o.lineWidth=1; rr(cx+.5,cy+.5,cw-1,ch-1,3); o.stroke();
+    o.globalCompositeOperation='source-over';
+    bx=s.x-13; by=s.y-13; bw=s.w+26; bh=s.h+26;
+  } else {
+    // bolsa con cartón superior (header con agujero para colgar)
+    bx=s.x-9; bw=s.w+18; by=s.y-26; bh=s.h+26+9;
+    o.save(); o.fillStyle=kraft; rr(bx,by,bw,24,3); o.fill(); o.restore();
+    o.strokeStyle=kE; o.lineWidth=1; rr(bx+.5,by+.5,bw-1,23,3); o.stroke();
+    o.fillStyle='#f6f6f7'; rr(bx+bw/2-9,by+7,18,7,3.5); o.fill(); o.strokeStyle=kE; rr(bx+bw/2-9+.5,by+7.5,17,6,3); o.stroke();
+    o.strokeStyle='rgba(70,95,125,.4)'; o.setLineDash([3,3]); o.beginPath(); o.moveTo(bx+2,by+27); o.lineTo(bx+bw-2,by+27); o.stroke(); o.setLineDash([]);
+  }
+  // bolsa transparente
+  o.save(); o.shadowColor='rgba(0,0,0,.18)'; o.shadowBlur=12; o.shadowOffsetY=4;
+  var g=o.createLinearGradient(bx,by,bx+bw,by+bh); g.addColorStop(0,'rgba(235,244,252,.16)'); g.addColorStop(1,'rgba(160,195,220,.09)');
+  o.fillStyle=g; rr(bx,by,bw,bh,3); o.fill(); o.restore();
+  o.strokeStyle=edge; o.lineWidth=1.2; rr(bx+.5,by+.5,bw-1,bh-1,3); o.stroke();
+  if(kind==='trasero'){ o.strokeStyle='rgba(70,95,125,.4)'; o.setLineDash([3,3]); o.beginPath(); o.moveTo(bx+2,by+9); o.lineTo(bx+bw-2,by+9); o.stroke(); o.setLineDash([]); }
+  // brillo que se mueve sobre el plástico
+  o.beginPath(); rr(bx,by,bw,bh,3); o.clip(); var p=0.5+shift.x*0.9;
+  var gr=o.createLinearGradient(bx+bw*(p-0.3),by,bx+bw*(p+0.05),by+bh*0.8); gr.addColorStop(0,'rgba(255,255,255,0)'); gr.addColorStop(.5,'rgba(255,255,255,.5)'); gr.addColorStop(1,'rgba(255,255,255,0)'); o.fillStyle=gr; o.fillRect(bx,by,bw,bh);
+  o.restore();
+}
 function draw(){
   var cv=document.getElementById('cot-sample-canvas'); if(!cv||!logoInk) return;
   if(isCartel()){ drawCartel(cv); return; }
@@ -5494,7 +5528,8 @@ function draw(){
   if(plK){
     var G=({'10x7':[3,2,10,7],'10x15':[2,3,10,15],'15x21':[3,4,15,21]})[plK]||[2,3,10,15];
     var asp=G[2]/G[3], shh=CH-24, sww=shh*asp; if(sww>CW-24){ sww=CW-24; shh=sww/asp; }
-    sheet={x:(CW-sww)/2,y:(CH-shh)/2,w:sww,h:shh}; X=sheet.x; Y=sheet.y; SW=sheet.w; SH=sheet.h;
+    var _pk=(cot.packaging||''); if(_pk){ sww*=0.78; shh*=0.78; }
+    sheet={x:(CW-sww)/2,y:(CH-shh)/2+(_pk==='superior'?10:0),w:sww,h:shh}; X=sheet.x; Y=sheet.y; SW=sheet.w; SH=sheet.h;
     var mg=Math.min(sww,shh)*0.09, gp=Math.min(sww,shh)*0.06, cw2=(sww-2*mg-(G[0]-1)*gp)/G[0], ch2=(shh-2*mg-(G[1]-1)*gp)/G[1], rt=logoInk.height/logoInk.width;
     var lw2=cw2*0.92, lh2=lw2*rt; if(lh2>ch2*0.92){ lh2=ch2*0.92; lw2=lh2/rt; }
     var LAY=({'10x7':{W:10,c:2,r:2,S:[1,2,4,8]},'10x15':{W:10,c:2,r:3,S:[1,2,4,8,0,6]},'15x21':{W:15,c:2,r:4,S:[1,2,4,8,0,6,10,3]}})[plK]||{W:10,c:1,r:1,S:[1]};
@@ -5538,6 +5573,7 @@ function draw(){
   if(cells){ c.drawImage(plRing(W,H,cells),0,0); }
   var o=cv.getContext('2d'); o.setTransform(1,0,0,1,0,0); o.clearRect(0,0,W,H);
   o.save(); o.shadowColor='rgba(0,0,0,.25)'; o.shadowBlur=16*DPR; o.shadowOffsetY=6*DPR; o.drawImage(_mc,0,0); o.restore();
+  if(sheet && cot.packaging) drawPackOverlay(o,sheet,cot.packaging);
   var wrap=document.getElementById('cot-sample-tilt'); if(wrap) wrap.style.transform='perspective(700px) rotateY('+(shift.x*14).toFixed(1)+'deg) rotateX('+(-shift.y*14).toFixed(1)+'deg)';
 }
 function loop(ts){
@@ -5568,7 +5604,8 @@ window.cotSampleUpdate=function(){
   var _ak=acrKind(); if(_ak&&_t) _t.textContent='Así queda tu producto';
   var _h=document.getElementById('cot-sample-hint'); if(_h) _h.textContent=mockKey()?'Imagen ilustrativa con el logo de Mi Pegatina. Tu diseño se imprime a todo color en esta zona.':'Imagen ilustrativa con el logo de Mi Pegatina. Pasá el mouse o deslizá el dedo para ver el efecto.';
   var _hh=document.getElementById('cot-sample-hint'); if(_ak&&_hh){ _hh.textContent={llavero:'Imagen ilustrativa con el logo de Mi Pegatina (se muestra sin cadenita). Pasá el mouse o deslizá el dedo para ver el brillo.',dije:'Imagen ilustrativa con el logo de Mi Pegatina. Pasá el mouse o deslizá el dedo para ver el brillo.',iman:'Imagen ilustrativa con el logo de Mi Pegatina, con perímetro blanco.',posavaso:'Imagen ilustrativa con el logo de Mi Pegatina, con margen transparente.'}[_ak]; }
-  if(typeof cot!=='undefined'&&cot.cat==='stickers'&&cot.producto==='plancha'&&_h) _h.textContent='Ilustración de ejemplo. Los diseños que van adentro, su tamaño y su cantidad los elegís vos. Pasá el mouse o deslizá el dedo para ver el efecto.';
+  if(typeof cot!=='undefined'&&cot.cat==='stickers'&&cot.producto==='plancha'&&_h&&cot.packaging) _h.textContent={superior:'Ilustración de ejemplo con packaging: bolsa transparente y cartón en la parte superior para colgar o exhibir. Los diseños y su cantidad los elegís vos.',trasero:'Ilustración de ejemplo con packaging: plancha sobre cartón rígido y sellada en bolsa transparente. Los diseños y su cantidad los elegís vos.'}[cot.packaging];
+  else if(typeof cot!=='undefined'&&cot.cat==='stickers'&&cot.producto==='plancha'&&_h) _h.textContent='Ilustración de ejemplo. Los diseños que van adentro, su tamaño y su cantidad los elegís vos. Pasá el mouse o deslizá el dedo para ver el efecto.';
   var lbl=document.getElementById('cot-sample-label');
   if(lbl){ var nm=(typeof cotEC!=='undefined'&&cotEC[cot.materialKey])?cotEC[cot.materialKey].label:''; if(cot.materialKey==='viniloEspecial'&&cot.subOptionLabel) nm=nm+' · '+cot.subOptionLabel; lbl.textContent=nm; if(_ak) lbl.textContent={llavero:'Llavero de acrílico',dije:'Dije de acrílico',iman:'Imán de acrílico',posavaso:'Posavasos de acrílico'}[_ak]; }
   var cv=document.getElementById('cot-sample-canvas');
@@ -5687,4 +5724,70 @@ function setCartelSuj(v){ cot.cartelSuj=v; renderCartelOpts(); if(cot.qty) showP
   var _rc=resetCotizador; resetCotizador=window.resetCotizador=function(){ var r=_rc.apply(this,arguments); renderCartelOpts(); return r; };
 })();
 </script>
-</body></html>
+<style id="pack-css">
+#cot-packaging .pk-grid{display:grid;grid-template-columns:1fr;gap:10px;margin-top:10px}
+#cot-packaging .pk-card{display:flex;align-items:center;gap:14px;text-align:left;padding:12px 14px;border-radius:4px;cursor:pointer;font-family:var(--sans);color:#0a0a0a;border:1px solid rgba(10,10,10,.16)!important;background:#fff!important;position:relative}
+#cot-packaging .pk-card:hover{border-color:rgba(10,10,10,.5)!important}
+#cot-packaging .pk-art{flex:0 0 112px;width:112px;height:84px;border-radius:4px;background:radial-gradient(closest-side at 50% 45%,rgba(77,150,255,.16),rgba(77,150,255,0));display:flex;align-items:center;justify-content:center}
+#cot-packaging .pk-art svg{width:100%;height:100%;display:block}
+#cot-packaging .pk-t{font-size:.92rem;font-weight:700;line-height:1.25}
+#cot-packaging .pk-s{font-size:.74rem;color:rgba(10,10,10,.55);line-height:1.4;margin-top:3px}
+#cot-packaging .pk-p{font-family:var(--mono);font-size:.72rem;font-weight:700;margin-top:6px;color:rgba(10,10,10,.7)}
+#cot-packaging .pk-card.selected{background:#0a0a0a!important;border-color:#0a0a0a!important;color:#fff}
+#cot-packaging .pk-card.selected .pk-s{color:rgba(255,255,255,.62)}
+#cot-packaging .pk-card.selected .pk-p{color:#fff}
+#cot-packaging .pk-card.selected .pk-art{background:radial-gradient(closest-side at 50% 45%,rgba(255,255,255,.22),rgba(255,255,255,0))}
+@media(max-width:420px){#cot-packaging .pk-art{flex-basis:92px;width:92px;height:70px}}
+</style>
+<script id="pack-js">
+(function(){
+var OPTS=[
+ {id:'',t:'Sin packaging',s:'La plancha va suelta, protegida para el envío.',p:'Sin costo',art:'none'},
+ {id:'superior',t:'Bolsa + cartón superior',s:'Plancha en bolsa transparente, con cartón en la parte de arriba para colgar o exhibir.',p:'',art:'superior',k:'superior'},
+ {id:'trasero',t:'Cartón trasero + bolsa',s:'Plancha apoyada sobre un cartón rígido y sellada en bolsa transparente. Llega plana y prolija.',p:'',art:'trasero',k:'trasero'}
+];
+var LBL={superior:'Bolsa + cartón superior',trasero:'Cartón trasero + bolsa'};
+// Oct 2026: extra FIJO por plancha en pesos (cartón de hoja A3 a $1.800 + $250 de bolsa y mano de obra). No lleva descuento por cantidad.
+window.PACK_ARS={'10x15':{superior:475,trasero:700},'15x21':{superior:550,trasero:1150}};
+window.packExtraARS=function(){ if(typeof cot==='undefined'||cot.cat!=='stickers'||cot.producto!=='plancha'||!cot.packaging) return 0; var t=window.PACK_ARS[cot.size]; return (t&&t[cot.packaging])||0; };
+function fmt(n){ return '$'+Math.round(n).toLocaleString('es-AR'); }
+function sheet(x,y,w,h){ var s='<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="2.5" fill="#fff" stroke="#0a0a0a" stroke-opacity=".35"/>';
+ var cols=3, rows=3, gx=5, gy=5, pad=6, cw=(w-pad*2-gx*(cols-1))/cols, ch=(h-pad*2-gy*(rows-1))/rows, C=['#e11d48','#2563eb','#16a34a','#f59e0b','#7c3aed','#0891b2','#db2777','#65a30d','#ea580c'], k=0;
+ for(var r=0;r<rows;r++) for(var c=0;c<cols;c++){ s+='<rect x="'+(x+pad+c*(cw+gx)).toFixed(1)+'" y="'+(y+pad+r*(ch+gy)).toFixed(1)+'" width="'+cw.toFixed(1)+'" height="'+ch.toFixed(1)+'" rx="3" fill="'+C[k++%C.length]+'" fill-opacity=".85"/>'; } return s; }
+function art(kind,on){
+ var ink=on?'#fff':'#0a0a0a', glass=on?'rgba(255,255,255,.18)':'rgba(120,165,195,.22)', edge=on?'rgba(255,255,255,.75)':'rgba(70,95,125,.55)', card=on?'#e8d3b0':'#d9bd92', cardE=on?'#c9ac80':'#b8975f';
+ var g='<svg viewBox="0 0 112 84" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">';
+ if(kind==='none'){ g+=sheet(28,12,56,60); }
+ if(kind==='superior'){
+   // bolsa transparente + cartón arriba con agujero para colgar
+   g+=sheet(28,24,56,52);
+   g+='<rect x="22" y="6" width="68" height="72" rx="3" fill="'+glass+'" stroke="'+edge+'" stroke-width="1.2"/>';
+   g+='<rect x="22" y="6" width="68" height="20" rx="3" fill="'+card+'" stroke="'+cardE+'" stroke-width="1"/>';
+   g+='<rect x="49" y="10" width="14" height="6" rx="3" fill="#f6f6f7" stroke="'+cardE+'"/>';
+   g+='<path d="M24 28 L88 28" stroke="'+edge+'" stroke-dasharray="3 3" stroke-width="1"/>';
+   g+='<path d="M30 70 L50 34" stroke="#fff" stroke-opacity=".6" stroke-width="3" stroke-linecap="round"/>';
+ }
+ if(kind==='trasero'){
+   // carton trasero asomando, plancha encima, bolsa que cubre todo
+   g+='<rect x="26" y="10" width="64" height="68" rx="2.5" fill="'+card+'" stroke="'+cardE+'" stroke-width="1"/>';
+   g+=sheet(30,16,52,56);
+   g+='<rect x="20" y="6" width="72" height="76" rx="3" fill="'+glass+'" stroke="'+edge+'" stroke-width="1.2"/>';
+   g+='<path d="M22 14 L90 14" stroke="'+edge+'" stroke-dasharray="3 3" stroke-width="1"/>';
+   g+='<path d="M28 74 L48 38" stroke="#fff" stroke-opacity=".6" stroke-width="3" stroke-linecap="round"/>';
+ }
+ return g+'</svg>'; }
+function html(){ var sel=window._cotPack||''; return '<div class="step-header"><div class="step-num" id="stepnum-pack">6</div><div style="display:flex;flex-direction:column;gap:2px;"><div class="sec-label" style="margin-bottom:0;">Packaging <span style="font-weight:500;opacity:.55;text-transform:none;letter-spacing:0">· opcional</span></div><div style="font-family:var(--sans);font-size:.72rem;color:rgba(10,10,10,.45);line-height:1.3;">Cómo te entregamos cada plancha.</div></div></div><div class="pk-grid">'+OPTS.map(function(o){ var on=(sel===o.id); var pr=(o.k&&window.PACK_ARS[(typeof cot!=='undefined'&&cot.size)||'']||{})[o.k]; var ptxt=o.k?(pr?('+'+fmt(pr)+' por plancha'):''):o.p; return '<button type="button" class="pk-card'+(on?' selected':'')+'" onclick="cotSetPack(\''+o.id+'\')"><span class="pk-art">'+art(o.art,on)+'</span><span><div class="pk-t">'+o.t+'</div><div class="pk-s">'+o.s+'</div><div class="pk-p">'+ptxt+'</div></span></button>'; }).join('')+'</div>'; }
+window.cotSetPack=function(v){ window._cotPack=v; if(typeof cot!=='undefined') cot.packaging=v; render(); pill(); try{ if(cot.materialKey&&cot.size&&cot.qty) showBigPrice(); }catch(e){} try{ cotSampleUpdate(); }catch(e){} };
+function pill(){ var ctx=document.querySelector('.res-context'); if(!ctx) return; var p=document.getElementById('r-pack'); if(!p){ p=document.createElement('div'); p.id='r-pack'; p.className='res-size-pill'; ctx.appendChild(p); } var v=window._cotPack||''; p.style.display=(v&&isPlancha())?'':'none'; var _x=window.packExtraARS(); p.innerHTML='Packaging — <strong>'+(LBL[v]||'')+'</strong>'+(_x?' (+'+fmt(_x)+' c/u)':''); }
+function isPlancha(){ return typeof cot!=='undefined' && cot.cat==='stickers' && cot.producto==='plancha'; }
+function render(){ var box=document.getElementById('cot-packaging'); if(box) box.innerHTML=html(); }
+function ensure(){ var st=document.getElementById('step4-block'); if(!st) return null; var box=document.getElementById('cot-packaging'); if(!box){ box=document.createElement('div'); box.id='cot-packaging'; box.className='cot-block step-block'; box.style.display='none'; st.parentNode.insertBefore(box,st.nextSibling); render(); } return box; }
+var _lastSz='';
+function tick(){ var box=ensure(); if(!box) return; var ok=isPlancha() && !!window.PACK_ARS[cot.size||'']; var show=ok;
+  if(!ok && window._cotPack){ window._cotPack=''; cot.packaging=''; render(); try{ if(cot.materialKey&&cot.size&&cot.qty) showBigPrice(); }catch(e){} }
+  if(ok && _lastSz!==cot.size){ _lastSz=cot.size; render(); }
+  var want=show?'block':'none'; if(box.style.display!==want) box.style.display=want; pill(); }
+setInterval(tick,300); document.addEventListener('DOMContentLoaded',tick);
+})();
+</script>
+<style id="pill-weight">.res-badge,.res-size-pill,.res-badge strong,.res-size-pill strong{font-weight:400!important}</style></body></html>
