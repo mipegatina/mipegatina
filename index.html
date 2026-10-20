@@ -1729,7 +1729,7 @@ if(mainLabel){ mainLabel.textContent = 'Total del pedido'; }
 const unitLabel = document.getElementById('r-unit-label');
 if(unitLabel) unitLabel.textContent = cot.cat==='merch' ? 'por remera' : cot.cat==='merchp' ? ('por '+((cotEC[cot.materialKey]&&cotEC[cot.materialKey].unit)||'unidad')) : cot.cat==='acrilicos' ? ('por '+(cotEC[cot.materialKey]?cotEC[cot.materialKey].label.toLowerCase():'unidad')) : (cot.producto === 'plancha' ? 'por plancha de sticker' : 'por sticker');
 S('r-totalARS', '$'+FARS(finalTotal));
-S('r-sub', cot.qty.toLocaleString('es-AR')+' '+((cot.cat==='acrilicos' || cot.cat==='merch' || cot.cat==='merchp') ? 'unidades' : 'stickers')+(isFast ? ' · Fast Print' : '')+(_isMerch && _enCarrito ? ' · '+_qDesc+' remeras en total' : ''));
+S('r-sub', cot.qty.toLocaleString('es-AR')+' '+((cot.cat==='acrilicos' || cot.cat==='merch' || cot.cat==='merchp') ? 'unidades' : (cot.producto==='plancha' ? (cot.qty===1?'plancha':'planchas') : 'stickers'))+(isFast ? ' · Fast Print' : '')+(_isMerch && _enCarrito ? ' · '+_qDesc+' remeras en total' : ''));
 let shipBanner = document.getElementById('ship-banner');
 if(shipBanner) shipBanner.style.display='none';
 let fpNote = document.getElementById('fp-note');
@@ -1775,6 +1775,8 @@ clearTimeout(showBigPrice._st);
 showBigPrice._st=setTimeout(()=>{
 const ra=document.getElementById('results-area');
 if(!ra) return;
+const _pb=document.getElementById('cot-packaging');
+if(_pb && _pb.style.display!=='none' && !window._cotPack && !window._packSeen){ window._packSeen=true; _pb.scrollIntoView({behavior:'smooth',block:'center'}); return; }
 const anchor=document.querySelector('.cot-main .res-context')||ra;
 const rect=anchor.getBoundingClientRect();
 const raRect=ra.getBoundingClientRect();
@@ -5538,7 +5540,7 @@ function draw(){
   }
   var tex=texFor(key);
   if(key==='blanco'||key==='laca'){ c.fillStyle='#fff'; c.fillRect(X,Y,SW,SH); }
-  else if(key==='transparente'){ var s=10; for(var yy=Y;yy<Y+SH;yy+=s){ for(var xx=X;xx<X+SW;xx+=s){ c.fillStyle=(((xx-X)/s+(yy-Y)/s)%2===0)?'#ecedee':'#fafafa'; c.fillRect(xx,yy,s,s); } } }
+  else if(key==='transparente'){ var s=10; for(var iy=0;iy*s<SH;iy++){ for(var ix=0;ix*s<SW;ix++){ c.fillStyle=((ix+iy)%2===0)?'#ecedee':'#fafafa'; c.fillRect(X+ix*s,Y+iy*s,Math.min(s,SW-ix*s),Math.min(s,SH-iy*s)); } } }
   else if(tex){
     var sc=tex.glitter?0.7:(tex.sun?1.1:0.5); var tw=Math.max(8,Math.round(tex.im.width*sc)), th=Math.max(8,Math.round(tex.im.height*sc));
     var tc=document.createElement('canvas'); tc.width=tw; tc.height=th; var tx=tc.getContext('2d'); tx.drawImage(tex.im,0,0,tw,th);
@@ -5747,8 +5749,9 @@ var OPTS=[
  {id:'trasero',t:'Cartón trasero + bolsa',s:'Plancha apoyada sobre un cartón rígido y sellada en bolsa transparente. Llega plana y prolija.',p:'',art:'trasero',k:'trasero'}
 ];
 var LBL={superior:'Bolsa + cartón superior',trasero:'Cartón trasero + bolsa'};
-// Oct 2026: extra FIJO por plancha en pesos (cartón de hoja A3 a $1.800 + $250 de bolsa y mano de obra). No lleva descuento por cantidad.
-window.PACK_ARS={'10x15':{superior:475,trasero:700},'15x21':{superior:550,trasero:1150}};
+// Oct 2026: extra FIJO por plancha, cargado en USD (cartón de hoja A3 a $1.800 + $250 de bolsa y mano de obra, a dólar $1.605) para que siga al dólar. No lleva descuento por cantidad ni AJUSTE_LISTA.
+window.PACK_USD={'10x15':{superior:0.2960,trasero:0.4361},'15x21':{superior:0.3427,trasero:0.7165}};
+window.PACK_ARS=(function(){ var o={}; Object.keys(window.PACK_USD).forEach(function(k){ o[k]={}; Object.keys(window.PACK_USD[k]).forEach(function(v){ o[k][v]=Math.round(window.PACK_USD[k][v]*COTIZACION/5)*5; }); }); return o; })();
 window.packExtraARS=function(){ if(typeof cot==='undefined'||cot.cat!=='stickers'||cot.producto!=='plancha'||!cot.packaging) return 0; var t=window.PACK_ARS[cot.size]; return (t&&t[cot.packaging])||0; };
 function fmt(n){ return '$'+Math.round(n).toLocaleString('es-AR'); }
 function sheet(x,y,w,h){ var s='<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="2.5" fill="#fff" stroke="#0a0a0a" stroke-opacity=".35"/>';
@@ -5784,6 +5787,7 @@ function render(){ var box=document.getElementById('cot-packaging'); if(box) box
 function ensure(){ var st=document.getElementById('step4-block'); if(!st) return null; var box=document.getElementById('cot-packaging'); if(!box){ box=document.createElement('div'); box.id='cot-packaging'; box.className='cot-block step-block'; box.style.display='none'; st.parentNode.insertBefore(box,st.nextSibling); render(); } return box; }
 var _lastSz='';
 function tick(){ var box=ensure(); if(!box) return; var ok=isPlancha() && !!window.PACK_ARS[cot.size||'']; var show=ok;
+  if(!ok){ window._packSeen=false; }
   if(!ok && window._cotPack){ window._cotPack=''; cot.packaging=''; render(); try{ if(cot.materialKey&&cot.size&&cot.qty) showBigPrice(); }catch(e){} }
   if(ok && _lastSz!==cot.size){ _lastSz=cot.size; render(); }
   var want=show?'block':'none'; if(box.style.display!==want) box.style.display=want; pill(); }
