@@ -278,7 +278,7 @@ cartel10:{label:'Cartel acrílico 10 mm',sub:'Acrílico de 10 mm · impresión d
 };
 const CARTEL_AREA = {'20x30':.06,'30x40':.12};
 // ---- PACKAGING PLANCHAS (Oct 2026): extra FIJO en pesos por plancha = cartón (hoja A3 a $1.800 / piezas por hoja) + $250 de bolsa y mano de obra. No lleva descuento por cantidad. La 10x7 no tiene packaging.
-const PACK_PL = {'10x15':{superior:475,trasero:700},'15x21':{superior:550,trasero:1150}};
+const PACK_PL = {'10x15':{superior:0.2960,trasero:0.4361},'15x21':{superior:0.3427,trasero:0.7165}}; // USD por plancha (equivale a 475/700/550/1150 ARS a dólar 1605)
 // ---- MERCH (Oct 2026): solo lapiceras ----
 const MERCHP = {
 lapicera:{label:'Lapicera Eco',sub:'ABS + madera · impresión UV full color · mín. 120 u',usd:0.4234}
@@ -311,8 +311,8 @@ const TABS = [
  area:(m,s)=>(DIM_PLANCHA[s][0]/100)*(DIM_PLANCHA[s][1]/100),
  extra:{label:'Packaging',def:'ninguno',opts:[{v:'ninguno',l:'Sin packaging',sh:'',s:'Sin cargo'},{v:'superior',l:'Bolsa + cartón superior',sh:'Bolsa + cartón superior',s:'Cartón 10×10 (en 10×15) o 15×10 (en 15×21) · extra fijo por plancha, sin descuento'},{v:'trasero',l:'Cartón trasero + bolsa',sh:'Cartón trasero + bolsa',s:'Cartón 13×19 (en 10×15) o 18×25 (en 15×21) · extra fijo por plancha, sin descuento'}]},
  extraOk:s=>!!PACK_PL[s],
- pk(s,x){ return (PACK_PL[s]&&PACK_PL[s][x])||0; },
- unit(m,s,rate,d,x){ const b=round5up(M2_PLANCHA[s][m]*AJUSTE_LISTA*this.area(m,s)*rate); return round5up(b*(1-d/100))+this.pk(s,x); },
+ pk(s,x,rate){ return Math.round(((PACK_PL[s]&&PACK_PL[s][x])||0)*(rate||COTIZACION_DEFAULT)/5)*5; },
+ unit(m,s,rate,d,x){ const b=round5up(M2_PLANCHA[s][m]*AJUSTE_LISTA*this.area(m,s)*rate); return round5up(b*(1-d/100))+this.pk(s,x,rate); },
  note:(m,s)=>(s==='10x7'?'La 10 × 7 no tiene opción de packaging. ':'')+(m==='especial'?'Holográfico, Holo Gold, Glitter y Glitter Transparente cuestan lo mismo.':(m==='blancoLaca'?'La laca sectorizada se agrega sobre el vinilo blanco y se cotiza al valor del Vinilo Especial.':''))},
 {id:'acrilicos',label:'Acrílicos',short:'Acrílicos',unitWord:'unidad',
  matLabel:'Producto',
@@ -412,7 +412,7 @@ function buildFields(){
 function calc(t,st,q){
  const r=rate(), tr=t.tramo(st.m,st.s), d=descFor(q,tr);
  const base=t.unit(st.m,st.s,r,0,st.x), uA=d>0?t.unit(st.m,st.s,r,d,st.x):base;
- const ex=t.pk?t.pk(st.s,st.x):0;
+ const ex=t.pk?t.pk(st.s,st.x,r):0;
  return {r,d,base,uA,uU:uA/r,total:uA*q,ex};
 }
 function recalc(){
