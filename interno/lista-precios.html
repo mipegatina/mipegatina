@@ -277,6 +277,8 @@ cartel6:{label:'Cartel acrílico 6 mm',sub:'Acrílico de 6 mm · impresión dire
 cartel10:{label:'Cartel acrílico 10 mm',sub:'Acrílico de 10 mm · impresión directa',mult:10/3}
 };
 const CARTEL_AREA = {'20x30':.06,'30x40':.12};
+// ---- PACKAGING PLANCHAS (Oct 2026): extra FIJO en pesos por plancha = cartón (hoja A3 a $1.800 / piezas por hoja) + $250 de bolsa y mano de obra. No lleva descuento por cantidad. La 10x7 no tiene packaging.
+const PACK_PL = {'10x15':{superior:475,trasero:700},'15x21':{superior:550,trasero:1150}};
 // ---- MERCH (Oct 2026): solo lapiceras ----
 const MERCHP = {
 lapicera:{label:'Lapicera Eco',sub:'ABS + madera · impresión UV full color · mín. 120 u',usd:0.4234}
@@ -307,8 +309,11 @@ const TABS = [
  sizes:m=>Object.keys(DIM_PLANCHA).map(s=>({v:s,l:DIM_PLANCHA[s][0]+' × '+DIM_PLANCHA[s][1]+' cm'})),
  tramo:(m,s)=>TRAMOS.plancha[s],
  area:(m,s)=>(DIM_PLANCHA[s][0]/100)*(DIM_PLANCHA[s][1]/100),
- unit(m,s,rate,d){ const b=round5up(M2_PLANCHA[s][m]*AJUSTE_LISTA*this.area(m,s)*rate); return round5up(b*(1-d/100)); },
- note:m=>m==='especial'?'Holográfico, Holo Gold, Glitter y Glitter Transparente cuestan lo mismo.':(m==='blancoLaca'?'La laca sectorizada se agrega sobre el vinilo blanco y se cotiza al valor del Vinilo Especial.':'')},
+ extra:{label:'Packaging',def:'ninguno',opts:[{v:'ninguno',l:'Sin packaging',sh:'',s:'Sin cargo'},{v:'superior',l:'Bolsa + cartón superior',sh:'Bolsa + cartón superior',s:'Cartón 10×10 (en 10×15) o 15×10 (en 15×21) · extra fijo por plancha, sin descuento'},{v:'trasero',l:'Cartón trasero + bolsa',sh:'Cartón trasero + bolsa',s:'Cartón 13×19 (en 10×15) o 18×25 (en 15×21) · extra fijo por plancha, sin descuento'}]},
+ extraOk:s=>!!PACK_PL[s],
+ pk(s,x){ return (PACK_PL[s]&&PACK_PL[s][x])||0; },
+ unit(m,s,rate,d,x){ const b=round5up(M2_PLANCHA[s][m]*AJUSTE_LISTA*this.area(m,s)*rate); return round5up(b*(1-d/100))+this.pk(s,x); },
+ note:(m,s)=>(s==='10x7'?'La 10 × 7 no tiene opción de packaging. ':'')+(m==='especial'?'Holográfico, Holo Gold, Glitter y Glitter Transparente cuestan lo mismo.':(m==='blancoLaca'?'La laca sectorizada se agrega sobre el vinilo blanco y se cotiza al valor del Vinilo Especial.':''))},
 {id:'acrilicos',label:'Acrílicos',short:'Acrílicos',unitWord:'unidad',
  matLabel:'Producto',
  mats:()=>Object.keys(ACRIL).map(k=>({v:k,l:ACRIL[k].label,s:ACRIL[k].sub})),
@@ -352,6 +357,8 @@ const $ = id => document.getElementById(id);
 const money = n => '$'+Math.round(n).toLocaleString('es-AR');
 function rate(){ const v=parseFloat($('rate').value); return (isNaN(v)||v<=0)?COTIZACION_DEFAULT:v; }
 function tab(){ return TABS.find(t=>t.id===tabId); }
+const hasEx=(t,st)=>!!t.extra&&(!t.extraOk||t.extraOk(st.s));
+const exSh=(t,st)=>{ if(!hasEx(t,st)) return ''; const o=t.extra.opts.find(o=>o.v===st.x); return (o&&o.sh)?' · '+o.sh:''; };
 function initState(t){
  const m=t.mats()[0].v, s=t.sizes(m)[0].v, q=t.tramo(m,s).qtys[0];
  S[t.id]={m,s,q,x:t.extra?t.extra.def:null};
@@ -372,7 +379,7 @@ function buildFields(){
   h+=`<div class="field wide"><span class="lbl">${t.sizeLabel||'Medida'}</span><div class="opts" id="o-s">`+
    t.sizes(st.m).map(o=>`<button class="opt num${st.s===o.v?' on':''}" data-v="${o.v}" type="button">${o.l}</button>`).join('')+`</div></div>`;
  }
- if(t.extra){
+ if(hasEx(t,st)){
   h+=`<div class="field wide"><span class="lbl">${t.extra.label}</span><div class="opts" id="o-x">`+
    t.extra.opts.map(o=>`<button class="opt${st.x===o.v?' on':''}" data-v="${o.v}" type="button">${o.l}${o.s?`<span class="s">${o.s}</span>`:''}</button>`).join('')+`</div></div>`;
  }
@@ -405,7 +412,8 @@ function buildFields(){
 function calc(t,st,q){
  const r=rate(), tr=t.tramo(st.m,st.s), d=descFor(q,tr);
  const base=t.unit(st.m,st.s,r,0,st.x), uA=d>0?t.unit(st.m,st.s,r,d,st.x):base;
- return {r,d,base,uA,uU:uA/r,total:uA*q};
+ const ex=t.pk?t.pk(st.s,st.x):0;
+ return {r,d,base,uA,uU:uA/r,total:uA*q,ex};
 }
 function recalc(){
  const t=tab(), st=S[t.id], iva=ivaOn?1.21:1;
@@ -413,7 +421,7 @@ function recalc(){
  const matL=t.mats().find(o=>o.v===st.m).l;
  const szL=t.hideSize?'':(t.sizes(st.m).find(o=>o.v===st.s)||{}).l;
  $('r-mat').textContent = matL;
- $('r-dims').textContent = (szL || matL)+((t.extra&&szL)?' · '+t.extra.opts.find(o=>o.v===st.x).sh:'');
+ $('r-dims').textContent = (szL || matL)+(szL?exSh(t,st):'');
  if(!szL) $('r-mat').textContent = t.label;
  $('r-qty').textContent = st.q.toLocaleString('es-AR')+(st.q===1?' unidad':' unidades')+(c.d>0?' · −'+c.d+'%':'');
  $('r-tl').textContent = ivaOn?'Total (con IVA)':'Total';
@@ -426,7 +434,7 @@ function recalc(){
   `<div class="rc hero-c"><div class="k">Por ${t.unitWord}</div><div class="strike num" style="display:${showS?'block':'none'}">${showS?money(c.base*iva):''}</div><div class="v num">${money(c.uA*iva)}</div></div>`,
   `<div class="rc"><div class="k">Por ${t.unitWord} USD</div><div class="v num">${us(c.uU*iva)}</div></div>`,
   `<div class="rc"><div class="k">Total pedido</div><div class="v num">${money(c.total*iva)}</div></div>`,
-  area!=null?`<div class="rc"><div class="k">USD / m²</div><div class="v num">USD ${(c.uU*iva/area).toFixed(1)}</div></div>`
+  area!=null?`<div class="rc"><div class="k">USD / m²</div><div class="v num">USD ${((c.uA-c.ex)/c.r*iva/area).toFixed(1)}</div></div>`
            :`<div class="rc"><div class="k">Descuento</div><div class="v num">${c.d}%</div></div>`
  ];
  $('cards').innerHTML=cards.join('');
@@ -437,7 +445,7 @@ function recalc(){
 function renderCurve(t,st,iva){
  const svg=$('c-svg'), tip=$('c-tip'), tr=t.tramo(st.m,st.s);
  const matL=t.mats().find(o=>o.v===st.m).l, szL=t.hideSize?'':(' · '+(t.sizes(st.m).find(o=>o.v===st.s)||{}).l);
- $('c-title').textContent = matL+szL+(t.extra?' · '+t.extra.opts.find(o=>o.v===st.x).sh:'');
+ $('c-title').textContent = matL+szL+exSh(t,st);
  const pts=tr.qtys.map(q=>{ const c=calc(t,st,q); return {q,u:c.uA*iva,d:c.d}; });
  const cw=Math.round(svg.parentElement.clientWidth)||640, W=Math.max(280,cw), H=W<420?250:230;
  const pl=24,pr=24,pt=40,pb=48, iw=W-pl-pr, ih=H-pt-pb, n=pts.length;
