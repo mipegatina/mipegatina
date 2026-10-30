@@ -171,9 +171,9 @@ y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
 <div class="rate">
 <div class="rate-l">
 <div class="lbl">Tipo de cambio</div>
-<div class="rate-s">BNA vendedor $1.535 (11/09/2026) + 4,5% · Editá el dólar y todo se recalcula</div>
+<div class="rate-s">BNA vendedor $1.560 (30/10/2026) + 4,5% · Editá el dólar y todo se recalcula</div>
 </div>
-<div class="rate-in"><span>ARS $</span><input type="number" id="rate" class="num" value="1605" min="0" step="5" inputmode="numeric" aria-label="Cotización del dólar"><span>/ USD</span></div>
+<div class="rate-in"><span>ARS $</span><input type="number" id="rate" class="num" value="1630" min="0" step="5" inputmode="numeric" aria-label="Cotización del dólar"><span>/ USD</span></div>
 </div>
 
 <nav class="tabs" id="tabs" aria-label="Productos"></nav>
@@ -201,9 +201,10 @@ y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
 
 <script>
 // ===== CONFIGURACIÓN (misma que el cotizador de la web) =====
-const BNA_VENDEDOR = 1535;           // BNA vendedor al 11/09/2026
+const BNA_VENDEDOR = 1560;           // BNA vendedor al 30/10/2026
 const MARGEN_DOLAR = 0.045;          // +4,5% sobre BNA
-const COTIZACION_DEFAULT = Math.round(BNA_VENDEDOR*(1+MARGEN_DOLAR)/5)*5; // 1605
+const COTIZACION_DEFAULT = Math.round(BNA_VENDEDOR*(1+MARGEN_DOLAR)/5)*5; // 1630
+const PACK_COTIZACION = 1605;        // packaging de planchas congelado a dólar $1.605 (no sigue el dólar)
 const AJUSTE_LISTA = 1.03;           // todos los valores en USD
 const AJUSTE_ACRILICO = 1.05;        // solo acrílicos, encima de AJUSTE_LISTA
 const AJUSTE_3CM = 1.4;              // acrílicos de 3 cm (llavero y dije): +40% sobre el acrílico
@@ -253,7 +254,7 @@ premio:{
 '15x21':{qtys:[1,5,10,25,50],desc:[[5,5],[10,10],[25,15]],top:50}},
 posavaso:{'9.5x9.5':{qtys:[12,36,60,84],desc:[[36,5],[60,10],[84,15]]}},
 carteles:{'20x30':{qtys:[1,5],desc:[[5,5]]},'30x40':{qtys:[1,5],desc:[[5,5]]}},
-lapicera:{'unico':{qtys:[120,240,600,1200],desc:[[600,5],[1200,10]]}}
+libreta:{'unico':{qtys:[20,50,100,200],desc:[[100,5],[200,10]]}}, lapicera:{'unico':{qtys:[120,240,600,1200],desc:[[600,5],[1200,10]]}}
 };
 function descFor(qty,tr){
 let d=0; for(const [q,p] of tr.desc){ if(qty>=q) d=p; }
@@ -278,9 +279,10 @@ cartel10:{label:'Cartel acrílico 10 mm',sub:'Acrílico de 10 mm · impresión d
 };
 const CARTEL_AREA = {'20x30':.06,'30x40':.12};
 // ---- PACKAGING PLANCHAS (Oct 2026): extra FIJO en pesos por plancha = cartón (hoja A3 a $1.800 / piezas por hoja) + $250 de bolsa y mano de obra. No lleva descuento por cantidad. La 10x7 no tiene packaging.
-const PACK_PL = {'10x15':{superior:0.2960,trasero:0.4361},'15x21':{superior:0.3427,trasero:0.7165}}; // USD por plancha (equivale a 475/700/550/1150 ARS a dólar 1605)
-// ---- MERCH (Oct 2026): solo lapiceras ----
+const PACK_PL = {'10x15':{superior:0.2960,trasero:0.4361},'15x21':{superior:0.3427,trasero:0.7165}}; // USD por plancha (congelado a dólar 1605 = 475/700/550/1150 ARS)
+// ---- MERCH (Oct 2026): lapiceras y libretas ----
 const MERCHP = {
+libreta:{label:'Libreta de bolsillo',sub:'Tapa dura, hojas lisas · 90 × 140 mm · impresión UV full color · mín. 20 u',usd:4.1738},
 lapicera:{label:'Lapicera Eco',sub:'ABS + madera · impresión UV full color · mín. 120 u',usd:0.4234}
 };
 
@@ -311,7 +313,7 @@ const TABS = [
  area:(m,s)=>(DIM_PLANCHA[s][0]/100)*(DIM_PLANCHA[s][1]/100),
  extra:{label:'Packaging',def:'ninguno',opts:[{v:'ninguno',l:'Sin packaging',sh:'',s:'Sin cargo'},{v:'superior',l:'Bolsa + cartón superior',sh:'Bolsa + cartón superior',s:'Cartón 10×10 (en 10×15) o 15×10 (en 15×21) · extra fijo por plancha, sin descuento'},{v:'trasero',l:'Cartón trasero + bolsa',sh:'Cartón trasero + bolsa',s:'Cartón 13×19 (en 10×15) o 18×25 (en 15×21) · extra fijo por plancha, sin descuento'}]},
  extraOk:s=>!!PACK_PL[s],
- pk(s,x,rate){ return Math.round(((PACK_PL[s]&&PACK_PL[s][x])||0)*(rate||COTIZACION_DEFAULT)/5)*5; },
+ pk(s,x,rate){ return Math.round(((PACK_PL[s]&&PACK_PL[s][x])||0)*PACK_COTIZACION/5)*5; },
  unit(m,s,rate,d,x){ const b=round5up(M2_PLANCHA[s][m]*AJUSTE_LISTA*this.area(m,s)*rate); return round5up(b*(1-d/100))+this.pk(s,x,rate); },
  note:(m,s)=>(s==='10x7'?'La 10 × 7 no tiene opción de packaging. ':'')+(m==='especial'?'Holográfico, Holo Gold, Glitter y Glitter Transparente cuestan lo mismo.':(m==='blancoLaca'?'La laca sectorizada se agrega sobre el vinilo blanco y se cotiza al valor del Vinilo Especial.':''))},
 {id:'acrilicos',label:'Acrílicos',short:'Acrílicos',unitWord:'unidad',
@@ -339,7 +341,7 @@ const TABS = [
   return round5up(uc*rate)+(x==='orificios'?round5up(CARTEL_KIT_USD*aj*rate):0);
  },
  note:()=>'Fondo blanco o transparente, y orientación vertical u horizontal: mismo precio. Con orificios se suma el kit de separadores y embellecedores (USD 11 por cartel), sin descuento.'},
-{id:'merch',label:'Merch',short:'Merch',unitWord:'lapicera',
+{id:'merch',label:'Merch',short:'Merch',unitWord:'unidad',
  matLabel:'Producto',
  mats:()=>Object.keys(MERCHP).map(k=>({v:k,l:MERCHP[k].label,s:MERCHP[k].sub})),
  sizes:()=>[{v:'unico',l:'Único'}],
@@ -347,7 +349,7 @@ const TABS = [
  tramo:(m)=>TRAMOS[m].unico,
  area:()=>null,
  unit(m,s,rate,d){ return round5up(MERCHP[m].usd*(1-d/100)*AJUSTE_LISTA*rate); },
- note:()=>'Impresión UV full color. Mínimo 120 u.'}
+ note:()=>'Impresión UV full color. Mínimo: libreta 20 u, lapicera 120 u.'}
 ];
 
 // ===== ESTADO =====
