@@ -204,6 +204,7 @@ y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
 const BNA_VENDEDOR = 1560;           // BNA vendedor al 30/10/2026
 const MARGEN_DOLAR = 0.045;          // +4,5% sobre BNA
 const COTIZACION_DEFAULT = Math.round(BNA_VENDEDOR*(1+MARGEN_DOLAR)/5)*5; // 1630
+const PACK_DISPONIBLE = false;       // Oct 2026: packaging de planchas sin precios definidos -> oculto. Poner true cuando estén definidos.
 const PACK_COTIZACION = 1605;        // packaging de planchas congelado a dólar $1.605 (no sigue el dólar)
 const AJUSTE_LISTA = 1.03;           // todos los valores en USD
 const AJUSTE_ACRILICO = 1.05;        // solo acrílicos, encima de AJUSTE_LISTA
@@ -312,7 +313,7 @@ const TABS = [
  tramo:(m,s)=>TRAMOS.plancha[s],
  area:(m,s)=>(DIM_PLANCHA[s][0]/100)*(DIM_PLANCHA[s][1]/100),
  extra:{label:'Packaging',def:'ninguno',opts:[{v:'ninguno',l:'Sin packaging',sh:'',s:'Sin cargo'},{v:'superior',l:'Bolsa + cartón superior',sh:'Bolsa + cartón superior',s:'Cartón 10×10 (en 10×15) o 15×10 (en 15×21) · extra fijo por plancha, sin descuento'},{v:'trasero',l:'Cartón trasero + bolsa',sh:'Cartón trasero + bolsa',s:'Cartón 13×19 (en 10×15) o 18×25 (en 15×21) · extra fijo por plancha, sin descuento'}]},
- extraOk:s=>!!PACK_PL[s],
+ extraOk:s=>PACK_DISPONIBLE&&!!PACK_PL[s],
  pk(s,x,rate){ return Math.round(((PACK_PL[s]&&PACK_PL[s][x])||0)*PACK_COTIZACION/5)*5; },
  unit(m,s,rate,d,x){ const b=round5up(M2_PLANCHA[s][m]*AJUSTE_LISTA*this.area(m,s)*rate); return round5up(b*(1-d/100))+this.pk(s,x,rate); },
  note:(m,s)=>(s==='10x7'?'La 10 × 7 no tiene opción de packaging. ':'')+(m==='especial'?'Holográfico, Holo Gold, Glitter y Glitter Transparente cuestan lo mismo.':(m==='blancoLaca'?'La laca sectorizada se agrega sobre el vinilo blanco y se cotiza al valor del Vinilo Especial.':''))},
