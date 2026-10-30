@@ -1227,9 +1227,11 @@ else { pvShowToast && pvShowToast('No pudimos enviar. Probá de nuevo o escribin
 // ===== DÓLAR =====
 // Cotización Mi Pegatina = BNA vendedor + MARGEN_DOLAR, redondeado a $5.
 // Solo se actualiza cuando se mueve el dólar: cambiar BNA_VENDEDOR con el valor del día.
-const BNA_VENDEDOR = 1535;   // BNA vendedor al 11/09/2026
+const BNA_VENDEDOR = 1560;   // BNA vendedor al 30/10/2026
 const MARGEN_DOLAR = 0.045;  // +4,5% sobre BNA
-const COTIZACION = Math.round(BNA_VENDEDOR * (1 + MARGEN_DOLAR) / 5) * 5; // = 1605
+const COTIZACION = Math.round(BNA_VENDEDOR * (1 + MARGEN_DOLAR) / 5) * 5; // = 1630
+// Packaging de planchas: congelado a dólar $1.605 (no sigue la cotización). Para volver a atarlo al dólar, usar COTIZACION en lugar de PACK_COTIZACION.
+const PACK_COTIZACION = 1605;
 // ===== AJUSTE DE LISTA (USD) =====
 // Aumentos por inflación en pesos, sin tocar el dólar. Multiplica TODOS los valores en USD
 // (M2_STICKER, M2_PLANCHA, acrílicos, accesorios, Premio y Posavaso). Cotizador y MIPI lo toman de acá.
@@ -5767,7 +5769,7 @@ var OPTS=[
 var LBL={superior:'Bolsa + cartón superior',trasero:'Cartón trasero + bolsa'};
 // Oct 2026: extra FIJO por plancha, cargado en USD (cartón de hoja A3 a $1.800 + $250 de bolsa y mano de obra, a dólar $1.605) para que siga al dólar. No lleva descuento por cantidad ni AJUSTE_LISTA.
 window.PACK_USD={'10x15':{superior:0.2960,trasero:0.4361},'15x21':{superior:0.3427,trasero:0.7165}};
-window.PACK_ARS=(function(){ var o={}; Object.keys(window.PACK_USD).forEach(function(k){ o[k]={}; Object.keys(window.PACK_USD[k]).forEach(function(v){ o[k][v]=Math.round(window.PACK_USD[k][v]*COTIZACION/5)*5; }); }); return o; })();
+window.PACK_ARS=(function(){ var o={}; Object.keys(window.PACK_USD).forEach(function(k){ o[k]={}; Object.keys(window.PACK_USD[k]).forEach(function(v){ o[k][v]=Math.round(window.PACK_USD[k][v]*PACK_COTIZACION/5)*5; }); }); return o; })();
 window.packExtraARS=function(){ if(typeof cot==='undefined'||cot.cat!=='stickers'||cot.producto!=='plancha'||!cot.packaging) return 0; var t=window.PACK_ARS[cot.size]; return (t&&t[cot.packaging])||0; };
 function fmt(n){ return '$'+Math.round(n).toLocaleString('es-AR'); }
 function sheet(x,y,w,h){ var s='<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="2.5" fill="#fff" stroke="#0a0a0a" stroke-opacity=".35"/>';
