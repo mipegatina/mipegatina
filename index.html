@@ -1275,15 +1275,15 @@ sizes:{ "8x8":{area:.0064},"9x9":{area:.0081} }
 const CARTEL_USD_M2_3MM = 360, CARTEL_KIT_USD = 11;
 const materialesAcrilico = {
 llavero: {
-label:"Llavero", sub:"Incluye cadena metálica reforzada", baseUsdM2:300, fijoUSD:0.143,
+label:"Llavero", sub:"Incluye cadena metálica reforzada · Perímetro de acrílico transparente alrededor del diseño", baseUsdM2:300, fijoUSD:0.143,
 sizes:{ "3x3":{area:.00108,ajuste:AJUSTE_3CM},"5x5":{area:.0025},"6x6":{area:.0036} }
 },
 iman: {
-label:"Imán", sub:"Imán en toda la superficie", baseUsdM2:300, fijoUSD:0.11,
+label:"Imán", sub:"Imán en toda la superficie · Se imprime a fondo completo: blanco, de color o imagen, sin borde transparente", baseUsdM2:300, fijoUSD:0.11,
 sizes:{ "5x5":{area:.0025},"6x6":{area:.0036} }
 },
 dije: {
-label:"Dije", sub:"Sin accesorio, solo acrílico", baseUsdM2:300, fijoUSD:0,
+label:"Dije", sub:"Sin accesorio, solo acrílico · Perímetro de acrílico transparente alrededor del diseño", baseUsdM2:300, fijoUSD:0,
 sizes:{ "3x3":{area:.00108,ajuste:AJUSTE_3CM},"5x5":{area:.0025},"6x6":{area:.0036} }
 },
 posavaso: {
@@ -2016,7 +2016,7 @@ btn.onclick=()=>{
 document.querySelectorAll('.mat-suboption').forEach(b=>b.classList.remove('selected'));
 btn.classList.add('selected');
 cot.subOption=opt.id;
-cot.subOptionLabel=opt.label;
+cot.subOptionLabel=opt.label+((opt.id==='holografico')?' · Con base blanca':'');
 cot.sinBlanco=false; if(typeof renderPrintMode==='function') renderPrintMode();
 populateSizePills(cot.materialKey);
 unlockStep(2);
@@ -2440,7 +2440,7 @@ Cambiar diseño
     </div>
     <div id="pv-orificio-note" style="display:flex;align-items:flex-start;gap:8px;padding:10px 12px;background:var(--bg3);border-radius:4px;">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(10,10,10,.35)" stroke-width="2" stroke-linecap="round" style="flex-shrink:0;margin-top:1px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-      <span style="font-family:var(--sans);font-size:.73rem;color:rgba(10,10,10,.45);line-height:1.5;">El orificio se define en taller según el producto final.</span>
+      <span id="pv-orificio-txt" style="font-family:var(--sans);font-size:.73rem;color:rgba(10,10,10,.45);line-height:1.5;">El acrílico queda con un perímetro transparente alrededor del diseño. El orificio se define en taller según el producto final.</span>
     </div>
   </div>
   <div id="pv-panel-sticker"><div><div class="pv-panel-label">Vinilo de tu Sticker</div><div class="pv-swatches"><button onclick="pvSelectMat('blanco',this)" class="pv-mat-btn selected"><div class="pv-sw" style="background:#fff;"></div><span class="pv-tx"><span class="pv-lbl">Blanco</span><span class="pv-desc">Fondo blanco opaco, colores vibrantes</span></span></button><button onclick="pvSelectMat('blancoLaca',this)" class="pv-mat-btn"><div class="pv-sw" style="background:linear-gradient(135deg,#fff 40%,#e8e8e8 50%,#fff 60%);"></div><span class="pv-tx"><span class="pv-lbl">Blanco + Laca</span><span class="pv-desc">Brillo localizado donde elijas</span></span></button><button onclick="pvSelectMat('transparente',this)" class="pv-mat-btn"><div class="pv-sw" style="background:repeating-conic-gradient(#aaa 0% 25%,#fff 0% 50%) 0 0/12px 12px;"></div><span class="pv-tx"><span class="pv-lbl">Transparente</span><span class="pv-desc">Muestra el color del soporte</span></span></button><button onclick="pvSelectMat('holografico',this)" class="pv-mat-btn"><div class="pv-sw pv-sw-holografico"></div><span class="pv-tx"><span class="pv-lbl">Holográfico</span><span class="pv-desc">Efecto arcoíris que cambia con la luz</span></span></button><button onclick="pvSelectMat('holografico-gold',this)" class="pv-mat-btn"><div class="pv-sw pv-sw-holografico-gold"></div><span class="pv-tx"><span class="pv-lbl">Holo Gold</span><span class="pv-desc">Holográfico en tono dorado</span></span></button><button onclick="pvSelectMat('glitter',this)" class="pv-mat-btn"><div class="pv-sw pv-sw-glitter"></div><span class="pv-tx"><span class="pv-lbl">Glitter</span><span class="pv-desc">Destellos de brillo en toda la superficie</span></span></button><button onclick="pvSelectMat('glitterTrans',this)" class="pv-mat-btn"><div class="pv-sw pv-sw-glitterTrans"></div><span class="pv-tx"><span class="pv-lbl">Glitter Transp.</span><span class="pv-desc">Glitter sobre base transparente</span></span></button><button onclick="pvSelectMat('suncatcher',this)" class="pv-mat-btn"><div class="pv-sw pv-sw-suncatcher"></div><span class="pv-tx"><span class="pv-lbl">Suncatcher</span><span class="pv-desc">Refleja y proyecta destellos de luz</span></span></button></div></div><div id="pv-laca-controls" style="display:none;margin:4px 0 12px;"><div style="background:linear-gradient(90deg,rgba(10,10,10,.06),rgba(10,10,10,.01) 80%);border:1px solid rgba(10,10,10,.2);border-radius:4px;padding:13px 15px;"><div style="font-family:var(--mono);font-size:.58rem;letter-spacing:1.3px;color:rgba(10,10,10,.45);font-weight:700;margin-bottom:8px;">CÓMO FUNCIONA LA LACA</div><div style="font-family:var(--sans);font-size:.78rem;color:rgba(10,10,10,.7);line-height:1.5;margin-bottom:12px;">Necesitás <strong>2 archivos</strong>:<br>1) Tu <strong>diseño a color</strong> (el que ya subiste arriba).<br>2) Una <strong>máscara PNG</strong> con fondo transparente, donde lo que esté <strong>relleno/sólido marca dónde va la laca brillante</strong>. El resto queda mate.</div><label id="pv-laca-mask-label" style="display:inline-flex;align-items:center;gap:7px;width:100%;justify-content:center;background:#0a0a0a;color:#fff;border-radius:4px;padding:11px;font-family:var(--sans);font-size:.82rem;font-weight:700;cursor:pointer;box-sizing:border-box;">Subir máscara de laca (PNG)<input type="file" accept="image/png,image/*" style="display:none;" onchange="pvLoadMask(this)"></label><div id="pv-laca-mask-status" style="display:none;align-items:center;justify-content:space-between;gap:8px;margin-top:9px;"><span style="font-family:var(--mono);font-size:.68rem;color:var(--green);font-weight:700;display:flex;align-items:center;gap:6px;"><span style="width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:none;"></span>Máscara cargada</span><button id="pv-laca-mask-clear" onclick="pvLacaClearMask()" style="display:none;background:#fff;border:1px solid var(--border2);border-radius:4px;padding:5px 11px;font-family:var(--mono);font-size:.66rem;font-weight:700;color:rgba(10,10,10,.6);cursor:pointer;">Quitar</button></div><div style="font-family:var(--sans);font-size:.7rem;color:rgba(10,10,10,.45);margin-top:9px;line-height:1.4;">El brillo del preview es ilustrativo. La laca real se produce según tu máscara.</div></div></div><div id="pv-border-control" style="display:none;align-items:center;justify-content:space-between;gap:12px;margin:2px 0 12px;padding:11px 14px;background:#fff;border:1px solid var(--border2);border-radius:4px;"><div style="display:flex;flex-direction:column;gap:2px;"><span style="font-family:var(--sans);font-size:.85rem;font-weight:700;color:#0a0a0a;">Borde blanco</span><span style="font-family:var(--sans);font-size:.72rem;color:rgba(10,10,10,.5);">Margen blanco alrededor del diseño</span></div><div onclick="pvToggleBorder(pvBorderSize===0)" style="position:relative;width:44px;height:24px;flex-shrink:0;cursor:pointer;"><div id="pv-border-track" style="position:absolute;inset:0;background:var(--green);border-radius:4px;transition:background .2s;"></div><div id="pv-border-thumb" style="position:absolute;top:3px;left:21px;width:18px;height:18px;background:#fff;border-radius:50%;box-shadow:none;transition:left .2s;"></div></div></div></div></div></div><!-- /pv-panel-sticker -->
@@ -2515,16 +2515,17 @@ window.pvSetMode=function(mode,btn){
   if(pa) pa.style.display=mode==='acrilico'?'':'none';
   if(mode==='acrilico'){ pvMat='blanco'; pvBorderSize=1; }
   var note=document.getElementById('pv-orificio-note');
-  if(note) note.style.display=(mode==='acrilico'&&pvAcrilProd!=='iman')?'flex':'none';
+  if(note){ note.style.display=(mode==='acrilico')?'flex':'none'; if(window.pvAcrilNote) window.pvAcrilNote(pvAcrilProd); }
   if(pvImg) pvRender();
 };
 
+window.pvAcrilNote=function(p){ var t=document.getElementById('pv-orificio-txt'); if(!t) return; t.textContent=(p==='iman')?'El imán cubre toda la superficie: el diseño se imprime con fondo blanco, de color o imagen completa (sin borde transparente).':'El acrílico queda con un perímetro transparente alrededor del diseño. El orificio se define en taller según el producto final.'; };
 window.pvSelectAcril=function(prod,btn){
   pvAcrilProd=prod;
   document.querySelectorAll('.pv-acril-btn').forEach(b=>b.classList.remove('sel'));
   btn.classList.add('sel');
   var note=document.getElementById('pv-orificio-note');
-  if(note) note.style.display=prod==='iman'?'none':'flex';
+  if(note){ note.style.display='flex'; if(window.pvAcrilNote) window.pvAcrilNote(prod); }
   if(pvImg) pvRender();
 };
 const PV_PX=[0,13];
@@ -4795,20 +4796,33 @@ function mpcInit(){
 
 // ===== SUELTOS Y PLANCHAS =====
 function mpcStepMaterial(producto){
-  mpcState.producto = producto;
+  mpcState.producto = producto; mpcState.base = null;
   mpcPush('Material', ()=>mpcStepMaterial(producto)); mpcShowBack();
   mpcTyping(()=>{
     mpcMsg('¿Qué material?');
     mpcOpts([
       {label:'Vinilo Blanco Premium', action:()=>mpcStepSize('blancoPremium')},
       {label:'Vinilo Transparente', action:()=>mpcStepSize('transparentePremium')},
-      {label:'Vinilo Especial / Holográfico', action:()=>mpcStepSize('viniloEspecial')},
+      {label:'Vinilo Especial / Holográfico', action:()=>mpcStepBase()},
       // Suncatcher: solo sticker suelto
       ...(producto==='sueltos' ? [{label:'Suncatcher Adhesivo', action:()=>mpcStepSize('suncatcher')}] : []),
     ]);
   });
 }
 
+// Holográfico: con o sin base blanca (mismo precio). Se pregunta siempre para que el pedido llegue claro.
+function mpcBaseTxt(){ return (mpcState.material==='viniloEspecial' && mpcState.base) ? (mpcState.base==='sin' ? 'Sin base blanca' : 'Con base blanca') : ''; }
+function mpcStepBase(){
+  mpcPush('Base', ()=>mpcStepBase()); mpcShowBack();
+  mpcTyping(()=>{
+    mpcMsg('El <strong>holográfico</strong> se puede imprimir <strong>con o sin base blanca</strong> y cuesta lo mismo. ¿Cómo lo querés?<br><span style="color:rgba(10,10,10,.6);font-size:.78rem;">Con base blanca los colores salen fieles y el holo se ve en el borde. Sin base blanca el holo se ve a través del diseño y los blancos desaparecen.</span>');
+    mpcOpts([
+      {label:'Con base blanca', action:()=>{ mpcState.base='con'; mpcStepSize('viniloEspecial'); }},
+      {label:'Sin base blanca', action:()=>{ mpcState.base='sin'; mpcStepSize('viniloEspecial'); }},
+      {label:'Otro especial (glitter, gold)', action:()=>{ mpcState.base=null; mpcStepSize('viniloEspecial'); }},
+    ]);
+  });
+}
 function mpcStepSize(material){
   mpcState.material = material;
   mpcPush('Medida', ()=>mpcStepSize(material)); mpcShowBack();
@@ -4866,7 +4880,7 @@ function mpcResultado(qty){
   const discTxtSP = disc > 0 ? ` <span style="color:var(--green2);font-size:.75rem;">(-${disc}% OFF)</span>` : '';
 
   mpcTyping(()=>{
-    mpcMsg(`${emoji} <strong>${matLabel}</strong><br>${size} cm · ${qty.toLocaleString('es-AR')} unidades` + (mpcCorteTxt() ? `<br>${mpcCorteTxt()}` : ''));
+    mpcMsg(`${emoji} <strong>${matLabel}</strong>` + (mpcBaseTxt() ? ` · ${mpcBaseTxt()}` : '') + `<br>${size} cm · ${qty.toLocaleString('es-AR')} unidades` + (mpcCorteTxt() ? `<br>${mpcCorteTxt()}` : ''));
     mpcTyping(()=>{
       mpcMsg(`<strong style="font-size:1.05rem;">$${uARS.toLocaleString('es-AR')} / u</strong>${discTxtSP}<br><span style="color:rgba(10,10,10,.6);font-size:.78rem;">Total: $${Math.round(total).toLocaleString('es-AR')}</span>`);
       mpcTyping(()=>{
@@ -4881,6 +4895,7 @@ function mpcResultado(qty){
           corte: (mpcState.producto==='sueltos' ? mpcState.corte : undefined),
           cantidad: qty.toLocaleString('es-AR'),
           material: matLabel,
+          subOpcion: (mpcBaseTxt() ? 'Holográfico · ' + mpcBaseTxt() : undefined),
           subtotal: '$' + Math.round(uARS * qty).toLocaleString('es-AR'),
           total: '$' + Math.round(uARS * qty).toLocaleString('es-AR'),
           unitario: '$' + uARS.toLocaleString('es-AR'),
@@ -4915,7 +4930,7 @@ function mpcStepAcrilSize(prod){
   const sizes = Object.keys(MPC.precios.acrilicos[prod]);
   const SIZE_LABEL_AC = {'3x3':'3 cm','5x5':'5 cm','6x6':'6 cm','9.5x9.5':'9,5 × 9,5 cm','10x10':'10 × 10 cm · sin base','15x21':'15 × 21 cm · con base'};
   mpcTyping(()=>{
-    mpcMsg(prod==='premio' ? '¿Qué medida?<br><span style="font-size:.75rem;opacity:.65;">10 mm de espesor · Acrílico macizo 100% virgen, pulido a máquina · 100% brilloso</span>' : prod==='posavaso' ? '¿Qué medida?<br><span style="font-size:.75rem;opacity:.65;">Espesor de 2 mm · sin base antideslizante</span>' : '¿Qué medida? (lado más largo del diseño)');
+    mpcMsg(prod==='premio' ? '¿Qué medida?<br><span style="font-size:.75rem;opacity:.65;">10 mm de espesor · Acrílico macizo 100% virgen, pulido a máquina · 100% brilloso</span>' : prod==='posavaso' ? '¿Qué medida?<br><span style="font-size:.75rem;opacity:.65;">Espesor de 2 mm · sin base antideslizante</span>' : prod==='iman' ? '¿Qué medida? (lado más largo del diseño)<br><span style="font-size:.75rem;opacity:.65;">El imán cubre toda la superficie: el diseño se imprime con fondo blanco, de color o imagen completa (sin borde transparente).</span>' : '¿Qué medida? (lado más largo del diseño)<br><span style="font-size:.75rem;opacity:.65;">El acrílico queda con un perímetro transparente alrededor del diseño.</span>');
     mpcOpts(sizes.map(s=>({ label: (SIZE_LABEL_AC[s]||s+' cm'), action:()=>mpcStepAcrilQty(s) })));
   });
 }
@@ -4983,7 +4998,7 @@ function mpcMayorista(){
   const sz   = mpcState.size      || '';
   const qty  = mpcState.qty       || '';
   const matLabel = MPC.materiales[mat] || mat;
-  const detalle = [prod, matLabel, sz ? sz+' cm' : '', mpcCorteTxt(), qty ? qty+' u' : ''].filter(Boolean).join(' · ') || 'consulta sin detalle';
+  const detalle = [prod, matLabel, mpcBaseTxt(), sz ? sz+' cm' : '', mpcCorteTxt(), qty ? qty+' u' : ''].filter(Boolean).join(' · ') || 'consulta sin detalle';
 
   mpcTyping(()=>{
     mpcMsg('Para esa cantidad tenemos <strong>precios especiales por volumen</strong>. Dejanos tus datos y te enviamos una propuesta.');
@@ -5623,7 +5638,7 @@ window.cotSampleUpdate=function(){
   var _t=document.getElementById('cot-sample-title'); if(_t) _t.textContent=mockKey()?'Así queda tu producto':'Muestra con tu material';
   var _ak=acrKind(); if(_ak&&_t) _t.textContent='Así queda tu producto';
   var _h=document.getElementById('cot-sample-hint'); if(_h) _h.textContent=mockKey()?'Imagen ilustrativa con el logo de Mi Pegatina. Tu diseño se imprime a todo color en esta zona.':'Imagen ilustrativa con el logo de Mi Pegatina. Pasá el mouse o deslizá el dedo para ver el efecto.';
-  var _hh=document.getElementById('cot-sample-hint'); if(_ak&&_hh){ _hh.textContent={llavero:'Imagen ilustrativa con el logo de Mi Pegatina (se muestra sin cadenita). Pasá el mouse o deslizá el dedo para ver el brillo.',dije:'Imagen ilustrativa con el logo de Mi Pegatina. Pasá el mouse o deslizá el dedo para ver el brillo.',iman:'Imagen ilustrativa con el logo de Mi Pegatina, con perímetro blanco.',posavaso:'Imagen ilustrativa con el logo de Mi Pegatina, con margen transparente.'}[_ak]; }
+  var _hh=document.getElementById('cot-sample-hint'); if(_ak&&_hh){ _hh.textContent={llavero:'Imagen ilustrativa con el logo de Mi Pegatina (se muestra sin cadenita), con perímetro de acrílico transparente. Pasá el mouse o deslizá el dedo para ver el brillo.',dije:'Imagen ilustrativa con el logo de Mi Pegatina, con perímetro de acrílico transparente. Pasá el mouse o deslizá el dedo para ver el brillo.',iman:'Imagen ilustrativa con el logo de Mi Pegatina, impreso sobre fondo blanco (el imán cubre toda la superficie, sin borde transparente).',posavaso:'Imagen ilustrativa con el logo de Mi Pegatina, con margen transparente.'}[_ak]; }
   if(typeof cot!=='undefined'&&cot.cat==='stickers'&&cot.producto==='plancha'&&_h&&cot.packaging) _h.textContent={superior:'Ilustración de ejemplo con packaging: bolsa transparente y cartón en la parte superior para colgar o exhibir. Los diseños y su cantidad los elegís vos.',trasero:'Ilustración de ejemplo con packaging: plancha sobre cartón rígido y sellada en bolsa transparente. Los diseños y su cantidad los elegís vos.'}[cot.packaging];
   else if(typeof cot!=='undefined'&&cot.cat==='stickers'&&cot.producto==='plancha'&&_h) _h.textContent='Ilustración de ejemplo. Los diseños que van adentro, su tamaño y su cantidad los elegís vos. Pasá el mouse o deslizá el dedo para ver el efecto.';
   var lbl=document.getElementById('cot-sample-label');
@@ -5674,7 +5689,7 @@ function cotSetPrint(sin){
 cot.sinBlanco=!!sin;
 var base=(typeof cotEC!=='undefined'&&cotEC.viniloEspecial&&cotEC.viniloEspecial.subOptions||[]).filter(function(o){return o.id==='holografico';})[0];
 var bl=base?base.label:'Holográfico';
-if(cot.subOption==='holografico') cot.subOptionLabel=bl+(sin?' · Sin base blanca':'');
+if(cot.subOption==='holografico') cot.subOptionLabel=bl+(sin?' · Sin base blanca':' · Con base blanca');
 renderPrintMode();
 if(typeof showPending==='function') showPending();
 }
