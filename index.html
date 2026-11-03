@@ -3674,7 +3674,7 @@ if(cot.cat==='merch'){ const _ts=tallesElegidos().filter(t=>cot.talles[t]>0); it
 if(cot.cat==='merchp' && !acrilSizeLabel(cot.size,cot.materialKey)) item.medida='';
 if(cotEC[cot.materialKey] && cotEC[cot.materialKey].cartel){ if((item.medida||'').indexOf(cartelLabel())<0) item.medida=(item.medida?item.medida+' · ':'')+cartelLabel(); item.cartelSuj=cot.cartelSuj; item.cartelOri=cot.cartelOri; item.cartelFondo=cot.cartelFondo; }
 if(typeof cotCutLabel==='function' && cotCutLabel()){ item.corte=cot.corte; item.medida=(item.medida?item.medida+' · ':'')+cotCutLabel(); }
-if(cot.cat==='stickers' && cot.producto==='plancha' && cot.packaging){ item.packaging=cot.packaging; item.medida=(item.medida?item.medida+' · ':'')+'Packaging: '+({superior:'Bolsa + cartón superior',trasero:'Cartón trasero + bolsa'}[cot.packaging]||''); }
+if(cot.cat==='stickers' && cot.producto==='plancha' && cot.packaging){ item.packaging=cot.packaging; item.medida=(item.medida?item.medida+' · ':'')+'Packaging: '+({superior:'Bolsa + cartón superior'}[cot.packaging]||''); }
 carrito.push(item);
 if(cot.cat==='merch') recalcRemerasCarrito();
 if(window.mpConv){ mpConv('carrito', subtotal||1.0); }
@@ -5639,7 +5639,7 @@ window.cotSampleUpdate=function(){
   var _ak=acrKind(); if(_ak&&_t) _t.textContent='Así queda tu producto';
   var _h=document.getElementById('cot-sample-hint'); if(_h) _h.textContent=mockKey()?'Imagen ilustrativa con el logo de Mi Pegatina. Tu diseño se imprime a todo color en esta zona.':'Imagen ilustrativa con el logo de Mi Pegatina. Pasá el mouse o deslizá el dedo para ver el efecto.';
   var _hh=document.getElementById('cot-sample-hint'); if(_ak&&_hh){ _hh.textContent={llavero:'Imagen ilustrativa con el logo de Mi Pegatina (se muestra sin cadenita), con perímetro de acrílico transparente. Pasá el mouse o deslizá el dedo para ver el brillo.',dije:'Imagen ilustrativa con el logo de Mi Pegatina, con perímetro de acrílico transparente. Pasá el mouse o deslizá el dedo para ver el brillo.',iman:'Imagen ilustrativa con el logo de Mi Pegatina, impreso sobre fondo blanco (el imán cubre toda la superficie, sin borde transparente).',posavaso:'Imagen ilustrativa con el logo de Mi Pegatina, con margen transparente.'}[_ak]; }
-  if(typeof cot!=='undefined'&&cot.cat==='stickers'&&cot.producto==='plancha'&&_h&&cot.packaging) _h.textContent={superior:'Ilustración de ejemplo con packaging: bolsa transparente y cartón en la parte superior para colgar o exhibir. Los diseños y su cantidad los elegís vos.',trasero:'Ilustración de ejemplo con packaging: plancha sobre cartón rígido y sellada en bolsa transparente. Los diseños y su cantidad los elegís vos.'}[cot.packaging];
+  if(typeof cot!=='undefined'&&cot.cat==='stickers'&&cot.producto==='plancha'&&_h&&cot.packaging) _h.textContent={superior:'Ilustración de ejemplo con packaging: bolsa transparente y cartón en la parte superior para colgar o exhibir. Los diseños y su cantidad los elegís vos.'}[cot.packaging];
   else if(typeof cot!=='undefined'&&cot.cat==='stickers'&&cot.producto==='plancha'&&_h) _h.textContent='Ilustración de ejemplo. Los diseños que van adentro, su tamaño y su cantidad los elegís vos. Pasá el mouse o deslizá el dedo para ver el efecto.';
   var lbl=document.getElementById('cot-sample-label');
   if(lbl){ var nm=(typeof cotEC!=='undefined'&&cotEC[cot.materialKey])?cotEC[cot.materialKey].label:''; if(cot.materialKey==='viniloEspecial'&&cot.subOptionLabel) nm=nm+' · '+cot.subOptionLabel; lbl.textContent=nm; if(_ak) lbl.textContent={llavero:'Llavero de acrílico',dije:'Dije de acrílico',iman:'Imán de acrílico',posavaso:'Posavasos de acrílico'}[_ak]; }
@@ -5781,12 +5781,11 @@ function setCartelSuj(v){ cot.cartelSuj=v; renderCartelOpts(); if(cot.qty) showP
 var PACK_DISPONIBLE=false; // Oct 2026: precios aún sin definir -> opciones con packaging visibles pero no seleccionables. Poner true cuando estén definidos.
 var OPTS=[
  {id:'',t:'Sin packaging',s:'La plancha va suelta, protegida para el envío.',p:'Sin costo',art:'none'},
- {id:'superior',t:'Bolsa + cartón superior',s:'Plancha en bolsa transparente, con cartón en la parte de arriba para colgar o exhibir.',p:'',art:'superior',k:'superior'},
- {id:'trasero',t:'Cartón trasero + bolsa',s:'Plancha apoyada sobre un cartón rígido y sellada en bolsa transparente. Llega plana y prolija.',p:'',art:'trasero',k:'trasero'}
+ {id:'superior',t:'Bolsa + cartón superior',s:'Plancha en bolsa transparente, con cartón en la parte de arriba para colgar o exhibir.',p:'',art:'superior',k:'superior'}
 ];
-var LBL={superior:'Bolsa + cartón superior',trasero:'Cartón trasero + bolsa'};
+var LBL={superior:'Bolsa + cartón superior'};
 // Oct 2026: extra FIJO por plancha, cargado en USD (cartón de hoja A3 a $1.800 + $250 de bolsa y mano de obra, a dólar $1.605) para que siga al dólar. No lleva descuento por cantidad ni AJUSTE_LISTA.
-window.PACK_USD={'10x15':{superior:0.2960,trasero:0.4361},'15x21':{superior:0.3427,trasero:0.7165}};
+window.PACK_USD={'10x15':{superior:0.2664},'15x21':{superior:0.3084}};
 window.PACK_ARS=(function(){ var o={}; Object.keys(window.PACK_USD).forEach(function(k){ o[k]={}; Object.keys(window.PACK_USD[k]).forEach(function(v){ o[k][v]=Math.round(window.PACK_USD[k][v]*PACK_COTIZACION/5)*5; }); }); return o; })();
 window.packExtraARS=function(){ if(!PACK_DISPONIBLE||typeof cot==='undefined'||cot.cat!=='stickers'||cot.producto!=='plancha'||!cot.packaging) return 0; var t=window.PACK_ARS[cot.size]; return (t&&t[cot.packaging])||0; };
 function fmt(n){ return '$'+Math.round(n).toLocaleString('es-AR'); }
