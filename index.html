@@ -1230,8 +1230,6 @@ else { pvShowToast && pvShowToast('No pudimos enviar. Probá de nuevo o escribin
 const BNA_VENDEDOR = 1560;   // BNA vendedor al 30/10/2026
 const MARGEN_DOLAR = 0.045;  // +4,5% sobre BNA
 const COTIZACION = Math.round(BNA_VENDEDOR * (1 + MARGEN_DOLAR) / 5) * 5; // = 1630
-// Packaging de planchas: congelado a dólar $1.605 (no sigue la cotización). Para volver a atarlo al dólar, usar COTIZACION en lugar de PACK_COTIZACION.
-const PACK_COTIZACION = 1605;
 // ===== AJUSTE DE LISTA (USD) =====
 // Aumentos por inflación en pesos, sin tocar el dólar. Multiplica TODOS los valores en USD
 // (M2_STICKER, M2_PLANCHA, acrílicos, accesorios, Premio y Posavaso). Cotizador y MIPI lo toman de acá.
@@ -5778,15 +5776,15 @@ function setCartelSuj(v){ cot.cartelSuj=v; renderCartelOpts(); if(cot.qty) showP
 </style>
 <script id="pack-js">
 (function(){
-var PACK_DISPONIBLE=false; // Oct 2026: precios aún sin definir -> opciones con packaging visibles pero no seleccionables. Poner true cuando estén definidos.
+var PACK_DISPONIBLE=true; // Nov 2026: precios definidos (extra fijo por plancha en USD, sigue el dólar COTIZACION). Poner false para volver a 'próximamente'.
 var OPTS=[
  {id:'',t:'Sin packaging',s:'La plancha va suelta, protegida para el envío.',p:'Sin costo',art:'none'},
  {id:'superior',t:'Bolsa + cartón superior',s:'Plancha en bolsa transparente, con cartón en la parte de arriba para colgar o exhibir.',p:'',art:'superior',k:'superior'}
 ];
 var LBL={superior:'Bolsa + cartón superior'};
-// Oct 2026: extra FIJO por plancha, cargado en USD (cartón de hoja A3 a $1.800 + $250 de bolsa y mano de obra, a dólar $1.605) para que siga al dólar. No lleva descuento por cantidad ni AJUSTE_LISTA.
+// Oct 2026: extra FIJO por plancha, cargado en USD (cartón de hoja A3 a $1.800 + $250 de bolsa y mano de obra, a dólar $1.605, menos 10% en nov 2026) para que siga al dólar del cotizador. No lleva descuento por cantidad ni AJUSTE_LISTA.
 window.PACK_USD={'10x15':{superior:0.2664},'15x21':{superior:0.3084}};
-window.PACK_ARS=(function(){ var o={}; Object.keys(window.PACK_USD).forEach(function(k){ o[k]={}; Object.keys(window.PACK_USD[k]).forEach(function(v){ o[k][v]=Math.round(window.PACK_USD[k][v]*PACK_COTIZACION/5)*5; }); }); return o; })();
+window.PACK_ARS=(function(){ var o={}; Object.keys(window.PACK_USD).forEach(function(k){ o[k]={}; Object.keys(window.PACK_USD[k]).forEach(function(v){ o[k][v]=Math.round(window.PACK_USD[k][v]*COTIZACION/5)*5; }); }); return o; })();
 window.packExtraARS=function(){ if(!PACK_DISPONIBLE||typeof cot==='undefined'||cot.cat!=='stickers'||cot.producto!=='plancha'||!cot.packaging) return 0; var t=window.PACK_ARS[cot.size]; return (t&&t[cot.packaging])||0; };
 function fmt(n){ return '$'+Math.round(n).toLocaleString('es-AR'); }
 function sheet(x,y,w,h){ var s='<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="2.5" fill="#fff" stroke="#0a0a0a" stroke-opacity=".35"/>';
