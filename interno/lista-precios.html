@@ -280,7 +280,7 @@ cartel10:{label:'Cartel acrílico 10 mm',sub:'Acrílico de 10 mm · impresión d
 };
 const CARTEL_AREA = {'20x30':.06,'30x40':.12};
 // ---- PACKAGING PLANCHAS (Oct 2026): extra FIJO en pesos por plancha = cartón (hoja A3 a $1.800 / piezas por hoja) + $250 de bolsa y mano de obra. No lleva descuento por cantidad. La 10x7 no tiene packaging.
-const PACK_PL = {'10x15':{superior:0.2960,trasero:0.4361},'15x21':{superior:0.3427,trasero:0.7165}}; // USD por plancha (congelado a dólar 1605 = 475/700/550/1150 ARS)
+const PACK_PL = {'10x15':{superior:0.2664},'15x21':{superior:0.3084}}; // USD por plancha (congelado a dólar 1605 = 430/495 ARS)
 // ---- MERCH (Oct 2026): lapiceras y libretas ----
 const MERCHP = {
 libreta:{label:'Libreta de bolsillo',sub:'Tapa dura, hojas lisas · 90 × 140 mm · impresión UV full color · mín. 20 u',usd:4.1738},
@@ -312,7 +312,7 @@ const TABS = [
  sizes:m=>Object.keys(DIM_PLANCHA).map(s=>({v:s,l:DIM_PLANCHA[s][0]+' × '+DIM_PLANCHA[s][1]+' cm'})),
  tramo:(m,s)=>TRAMOS.plancha[s],
  area:(m,s)=>(DIM_PLANCHA[s][0]/100)*(DIM_PLANCHA[s][1]/100),
- extra:{label:'Packaging',def:'ninguno',opts:[{v:'ninguno',l:'Sin packaging',sh:'',s:'Sin cargo'},{v:'superior',l:'Bolsa + cartón superior',sh:'Bolsa + cartón superior',s:'Cartón 10×10 (en 10×15) o 15×10 (en 15×21) · extra fijo por plancha, sin descuento'},{v:'trasero',l:'Cartón trasero + bolsa',sh:'Cartón trasero + bolsa',s:'Cartón 13×19 (en 10×15) o 18×25 (en 15×21) · extra fijo por plancha, sin descuento'}]},
+ extra:{label:'Packaging',def:'ninguno',opts:[{v:'ninguno',l:'Sin packaging',sh:'',s:'Sin cargo'},{v:'superior',l:'Bolsa + cartón superior',sh:'Bolsa + cartón superior',s:'Cartón 10×10 (en 10×15) o 15×10 (en 15×21) · extra fijo por plancha, sin descuento'}]},
  extraOk:s=>PACK_DISPONIBLE&&!!PACK_PL[s],
  pk(s,x,rate){ return Math.round(((PACK_PL[s]&&PACK_PL[s][x])||0)*PACK_COTIZACION/5)*5; },
  unit(m,s,rate,d,x){ const b=round5up(M2_PLANCHA[s][m]*AJUSTE_LISTA*this.area(m,s)*rate); return round5up(b*(1-d/100))+this.pk(s,x,rate); },
