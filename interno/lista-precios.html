@@ -204,8 +204,7 @@ y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
 const BNA_VENDEDOR = 1560;           // BNA vendedor al 30/10/2026
 const MARGEN_DOLAR = 0.045;          // +4,5% sobre BNA
 const COTIZACION_DEFAULT = Math.round(BNA_VENDEDOR*(1+MARGEN_DOLAR)/5)*5; // 1630
-const PACK_DISPONIBLE = false;       // Oct 2026: packaging de planchas sin precios definidos -> oculto. Poner true cuando estén definidos.
-const PACK_COTIZACION = 1605;        // packaging de planchas congelado a dólar $1.605 (no sigue el dólar)
+const PACK_DISPONIBLE = true;       // Nov 2026: packaging de planchas habilitado. Poner false para ocultarlo.
 const AJUSTE_LISTA = 1.03;           // todos los valores en USD
 const AJUSTE_ACRILICO = 1.05;        // solo acrílicos, encima de AJUSTE_LISTA
 const AJUSTE_3CM = 1.4;              // acrílicos de 3 cm (llavero y dije): +40% sobre el acrílico
@@ -280,7 +279,7 @@ cartel10:{label:'Cartel acrílico 10 mm',sub:'Acrílico de 10 mm · impresión d
 };
 const CARTEL_AREA = {'20x30':.06,'30x40':.12};
 // ---- PACKAGING PLANCHAS (Oct 2026): extra FIJO en pesos por plancha = cartón (hoja A3 a $1.800 / piezas por hoja) + $250 de bolsa y mano de obra. No lleva descuento por cantidad. La 10x7 no tiene packaging.
-const PACK_PL = {'10x15':{superior:0.2664},'15x21':{superior:0.3084}}; // USD por plancha (congelado a dólar 1605 = 430/495 ARS)
+const PACK_PL = {'10x15':{superior:0.2664},'15x21':{superior:0.3084}}; // USD por plancha (sigue el dólar de la lista; a $1.630 = 435/505 ARS)
 // ---- MERCH (Oct 2026): lapiceras y libretas ----
 const MERCHP = {
 libreta:{label:'Libreta de bolsillo',sub:'Tapa dura, hojas lisas · 90 × 140 mm · impresión UV full color · mín. 20 u',usd:4.1738},
@@ -314,7 +313,7 @@ const TABS = [
  area:(m,s)=>(DIM_PLANCHA[s][0]/100)*(DIM_PLANCHA[s][1]/100),
  extra:{label:'Packaging',def:'ninguno',opts:[{v:'ninguno',l:'Sin packaging',sh:'',s:'Sin cargo'},{v:'superior',l:'Bolsa + cartón superior',sh:'Bolsa + cartón superior',s:'Cartón 10×10 (en 10×15) o 15×10 (en 15×21) · extra fijo por plancha, sin descuento'}]},
  extraOk:s=>PACK_DISPONIBLE&&!!PACK_PL[s],
- pk(s,x,rate){ return Math.round(((PACK_PL[s]&&PACK_PL[s][x])||0)*PACK_COTIZACION/5)*5; },
+ pk(s,x,rate){ return Math.round(((PACK_PL[s]&&PACK_PL[s][x])||0)*(rate||COTIZACION_DEFAULT)/5)*5; },
  unit(m,s,rate,d,x){ const b=round5up(M2_PLANCHA[s][m]*AJUSTE_LISTA*this.area(m,s)*rate); return round5up(b*(1-d/100))+this.pk(s,x,rate); },
  note:(m,s)=>(s==='10x7'?'La 10 × 7 no tiene opción de packaging. ':'')+(m==='especial'?'Holográfico, Holo Gold, Glitter y Glitter Transparente cuestan lo mismo.':(m==='blancoLaca'?'La laca sectorizada se agrega sobre el vinilo blanco y se cotiza al valor del Vinilo Especial.':''))},
 {id:'acrilicos',label:'Acrílicos',short:'Acrílicos',unitWord:'unidad',
