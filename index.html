@@ -1183,6 +1183,8 @@ window.addEventListener('hashchange', openFaqFromHash);
 window.addEventListener('load', openFaqFromHash);
 const FORMSPREE_ID = 'mykqgkbe'; // Formspree endpoint: https://formspree.io/f/mykqgkbe
 function pvFormspreeURL(){ return 'https://formspree.io/f/'+FORMSPREE_ID; }
+// Mail de confirmación al cliente (función de Netlify). Se llama solo si Formspree contestó OK; si falla, no pasa nada.
+function mpMailConfirm(tipo,nombre,email,detalle,total){ try{ fetch('/.netlify/functions/confirmacion',{method:'POST',keepalive:true,headers:{'Content-Type':'application/json'},body:JSON.stringify({tipo:tipo,nombre:String(nombre||''),email:String(email||'').trim(),detalle:String(detalle||''),total:String(total||'')})}).catch(function(){}); }catch(e){} }
 function resetB2BForm(){
 const form=document.getElementById('b2b-form');
 if(form && window._b2bFormOriginal){
@@ -1202,7 +1204,7 @@ fetch(pvFormspreeURL(),{
 method:'POST', headers:{'Accept':'application/json','Content-Type':'application/json'},
 body:JSON.stringify({_subject:'Consulta mayorista de '+(nombre||'cliente'), _replyto:email, tipo:'B2B / Mayorista', nombre:nombre, email:email, mensaje:mensaje, gclid:(window.mpGetGclid?mpGetGclid():''), origen:(window.mpAdOrigin?mpAdOrigin():'')})
 }).then(r=>{
-if(r.ok){
+if(r.ok){ mpMailConfirm('consulta',nombre,email,mensaje,'');
 if(window.mpConv){ mpConv('consulta'); }
 const form=document.getElementById('b2b-form');
 if(form){
@@ -2260,7 +2262,7 @@ function whsEnviar(){
       origen: (window.mpAdOrigin?mpAdOrigin():'')
     })
   }).then(r=>{
-    if(r.ok){
+    if(r.ok){ mpMailConfirm('consulta',nombre,email,(mensaje ? 'A medida: '+mensaje : 'Mayorista: '+detalle),'');
       if(window.mpConv){ mpConv('consulta'); }
             var primerNombreW=(document.getElementById('whs-nombre').value||'').split(' ')[0]||'';
       var emailW=document.getElementById('whs-email').value||'';
@@ -2300,7 +2302,7 @@ function cfEnviar(){
     body:JSON.stringify({_subject:'Consulta de '+nombre+' (contacto web)',_replyto:email,nombre:nombre,email:email,mensaje:msg||'Sin mensaje',gclid:(window.mpGetGclid?mpGetGclid():''),origen:(window.mpAdOrigin?mpAdOrigin():'')})
   }).then(function(r){
     var st=document.getElementById('cf-status');
-    if(r.ok){
+    if(r.ok){ mpMailConfirm('consulta',nombre,email,msg,'');
       if(window.mpConv){ mpConv('consulta'); }
             var primerNombre=nombre.split(' ')[0]||'';
       document.getElementById('contacto-form-wrap').innerHTML=
@@ -3572,7 +3574,7 @@ fetch('https://formspree.io/f/'+FORMSPREE_ID,{
 method:'POST', headers:{'Accept':'application/json'},
 body: fd
 }).then(r=>{
-if(!r.ok) throw new Error('bad');
+if(!r.ok) throw new Error('bad'); mpMailConfirm('pedido',nombre,email,resumen+NL+NL+_totalesBloque,money(_totalFinal)+(factura?' (con factura)':''));
   if(window.mpConv){ mpConv('pedido', _totalFinal, {'transaction_id':'MP-'+Date.now()}); }
 const body=document.getElementById('pm-body');
 if(body){
@@ -3588,8 +3590,7 @@ body.innerHTML =
 +'<div style="background:linear-gradient(90deg,rgba(10,10,10,.06),rgba(10,10,10,.01) 80%);border:1px solid rgba(10,10,10,.2);border-radius:16px;padding:16px 18px;text-align:left;max-width:340px;margin:0 auto 24px;">'
 +'<div style="font-family:var(--mono);font-size:.58rem;letter-spacing:1.5px;color:rgba(10,10,10,.45);font-weight:700;margin-bottom:10px;">QUÉ SIGUE AHORA</div>'
 +'<div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:9px;"><span style="color:var(--green);font-weight:800;flex-shrink:0;">1.</span><span style="font-size:.82rem;color:rgba(10,10,10,.7);line-height:1.4;">Revisá tu casilla (y el spam) — te llegará nuestra confirmación.</span></div>'
-+'<div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:9px;"><span style="color:var(--green);font-weight:800;flex-shrink:0;">2.</span><span style="font-size:.82rem;color:rgba(10,10,10,.7);line-height:1.4;">Si no enviaste tus diseños, respondé ese mail con el link.</span></div>'
-+'<div style="display:flex;gap:10px;align-items:flex-start;"><span style="color:var(--green);font-weight:800;flex-shrink:0;">3.</span><span style="font-size:.82rem;color:rgba(10,10,10,.7);line-height:1.4;">Coordinamos pago, producción y envío. ¡Listo!</span></div>'
++'<div style="display:flex;gap:10px;align-items:flex-start;"><span style="color:var(--green);font-weight:800;flex-shrink:0;">2.</span><span style="font-size:.82rem;color:rgba(10,10,10,.7);line-height:1.4;">Coordinamos pago, producción y envío. ¡Listo!</span></div>'
 +'</div>'
 +'<button onclick="closePedidoModal()" class="btn-primary" style="width:100%;max-width:340px;justify-content:center;border:none;cursor:pointer;font-size:.95rem;">Cerrar</button>'
 +'</div>';
@@ -5046,7 +5047,7 @@ window.mpcEnviarMayorista = function(detalle){
   }).then(r=>{
     const form = document.getElementById('mpc-mayorista-form');
     if(form) form.remove();
-    if(r.ok){
+    if(r.ok){ mpMailConfirm('consulta',nombre,email,'Consulta mayorista: '+detalle,'');
       if(window.mpConv){ mpConv('consulta'); }
       mpcMsg('✅ ¡Listo! Te contactamos a <strong>'+email+'</strong> con una propuesta en menos de 24 hs.');
     } else {
@@ -5167,7 +5168,7 @@ window.mpcEnviarContacto = function(){
   }).then(r=>{
     const form = document.getElementById('mpc-contacto-form');
     if(form) form.remove();
-    if(r.ok){
+    if(r.ok){ mpMailConfirm('consulta',nombre,email,msg,'');
       if(window.mpConv){ mpConv('consulta'); }
       mpcMsg('✅ ¡Mensaje recibido! Te respondemos a <strong>'+email+'</strong> a la brevedad.');
     } else {
