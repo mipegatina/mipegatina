@@ -188,7 +188,7 @@ gtag('config','AW-18358544445');
             "name": "Carteles acrílicos personalizados",
             "description": "Carteles de acrílico de 3, 6 y 10 mm impresos a todo color, en 20×30 y 30×40 cm, vertical u horizontal, con o sin fondo. Sujeción con cinta bifaz u orificios con separadores y embellecedores.",
             "brand": { "@type": "Brand", "name": "Mi Pegatina®" },
-            "offers": { "@type": "AggregateOffer", "lowPrice": "35620", "highPrice": "269055", "priceCurrency": "ARS", "offerCount": "12", "availability": "https://schema.org/InStock", "url": "https://mipegatina.club/#cotizador", "shippingDetails":{"@type":"OfferShippingDetails","shippingRate":{"@type":"MonetaryAmount","currency":"ARS","value":"0"},"shippingDestination":{"@type":"DefinedRegion","addressCountry":"AR"},"deliveryTime":{"@type":"ShippingDeliveryTime","businessDays":{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"]},"cutoffTime":"12:00:00-03:00","handlingTime":{"@type":"QuantitativeValue","minValue":1,"maxValue":2,"unitCode":"DAY"},"transitTime":{"@type":"QuantitativeValue","minValue":2,"maxValue":5,"unitCode":"DAY"}}}, "hasMerchantReturnPolicy":{"@type":"MerchantReturnPolicy","applicableCountry":"AR","returnPolicyCategory":"https://schema.org/MerchantReturnNotPermitted"}, "seller": { "@type": "Organization", "name": "Mi Pegatina®" } }
+            "offers": { "@type": "AggregateOffer", "lowPrice": "41125", "highPrice": "293555", "priceCurrency": "ARS", "offerCount": "12", "availability": "https://schema.org/InStock", "url": "https://mipegatina.club/#cotizador", "shippingDetails":{"@type":"OfferShippingDetails","shippingRate":{"@type":"MonetaryAmount","currency":"ARS","value":"0"},"shippingDestination":{"@type":"DefinedRegion","addressCountry":"AR"},"deliveryTime":{"@type":"ShippingDeliveryTime","businessDays":{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"]},"cutoffTime":"12:00:00-03:00","handlingTime":{"@type":"QuantitativeValue","minValue":1,"maxValue":2,"unitCode":"DAY"},"transitTime":{"@type":"QuantitativeValue","minValue":2,"maxValue":5,"unitCode":"DAY"}}}, "hasMerchantReturnPolicy":{"@type":"MerchantReturnPolicy","applicableCountry":"AR","returnPolicyCategory":"https://schema.org/MerchantReturnNotPermitted"}, "seller": { "@type": "Organization", "name": "Mi Pegatina®" } }
           }
         }
       ]
@@ -737,7 +737,7 @@ gtag('config','AW-18358544445');
 #cotizador #mat-cards{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))!important;gap:12px!important}@media(min-width:700px){#cotizador #mat-cards:has(>:nth-child(4)){grid-template-columns:repeat(2,1fr)!important}}
 #cotizador #prod-cards .opt-card,#cotizador #mat-cards .opt-card{width:100%!important}
 #cotizador .cat-cards{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))!important;gap:16px!important;max-width:none!important}
-#cotizador #size-pills,#cotizador #qty-grid{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))!important}
+#cotizador #size-pills,#cotizador #qty-grid{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))!important}#cotizador #qty-grid.qty8{grid-template-columns:repeat(4,1fr)!important}@media(max-width:600px){#cotizador #qty-grid.qty8{grid-template-columns:repeat(2,1fr)!important}}
 #cotizador .mat-suboptions{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(160px,1fr))!important;gap:8px!important}
 #cotizador .cot-main{width:100%!important;position:static!important;margin-top:8px;background:#fff!important;border:1px solid var(--border)!important;border-radius:4px;padding:26px 32px!important;box-shadow:none}
 #cotizador .res-price-area{flex-direction:row!important;gap:1px!important}
@@ -1242,6 +1242,13 @@ const AJUSTE_LISTA = 1.03;
 const AJUSTE_ACRILICO = 1.05;
 // Oct 2026: acrilicos de 3 cm (llavero y dije) +40% sobre el acrilico; la cadena del llavero queda fija. 1.4 = +40%
 const AJUSTE_3CM = 1.4;
+// Nov 2026: base del acrílico de llavero, imán y dije +20% (solo la parte de m² del acrílico; la cadena y el imán fijos NO suben ni llevan descuento).
+// Factor propio: AJUSTE_ACRILICO (posavaso y Premio | QR) no se toca. El recargo de 3 cm (AJUSTE_3CM) se aplica encima.
+const AJUSTE_BASE_ACRIL = 1.20;
+// Nov 2026: carteles acrílicos +8% parejo en todos los espesores y medidas (el kit de separadores no cambia).
+const AJUSTE_CARTEL = 1.08;
+// Nov 2026: posavaso y Premio | QR +8% parejo (factor propio; AJUSTE_ACRILICO no se toca)
+const AJUSTE_POSAVASO_PREMIO = 1.08;
 const materialesSuelto = {
 blancoPremium: {
 label:"Vinilo Blanco Premium",
@@ -1272,18 +1279,18 @@ label:"Suncatcher Adhesivo",
 sizes:{ "8x8":{area:.0064},"9x9":{area:.0081} }
 }
 };
-const CARTEL_USD_M2_3MM = 360, CARTEL_KIT_USD = 11;
+const CARTEL_USD_M2_3MM = 360*AJUSTE_CARTEL, CARTEL_KIT_USD = 11;
 const materialesAcrilico = {
 llavero: {
-label:"Llavero", sub:"Incluye cadena metálica reforzada · Perímetro de acrílico transparente alrededor del diseño", baseUsdM2:300, fijoUSD:0.143,
+label:"Llavero", sub:"Incluye cadena metálica reforzada · Perímetro de acrílico transparente alrededor del diseño", baseUsdM2:300*AJUSTE_BASE_ACRIL, fijoUSD:0.143,
 sizes:{ "3x3":{area:.00108,ajuste:AJUSTE_3CM},"5x5":{area:.0025},"6x6":{area:.0036} }
 },
 iman: {
-label:"Imán", sub:"Imán en toda la superficie · Se imprime a fondo completo: blanco, de color o imagen, sin borde transparente", baseUsdM2:300, fijoUSD:0.11,
+label:"Imán", sub:"Imán en toda la superficie · Se imprime a fondo completo: blanco, de color o imagen, sin borde transparente", baseUsdM2:300*AJUSTE_BASE_ACRIL, fijoUSD:0.11,
 sizes:{ "5x5":{area:.0025},"6x6":{area:.0036} }
 },
 dije: {
-label:"Dije", sub:"Sin accesorio, solo acrílico · Perímetro de acrílico transparente alrededor del diseño", baseUsdM2:300, fijoUSD:0,
+label:"Dije", sub:"Sin accesorio, solo acrílico · Perímetro de acrílico transparente alrededor del diseño", baseUsdM2:300*AJUSTE_BASE_ACRIL, fijoUSD:0,
 sizes:{ "3x3":{area:.00108,ajuste:AJUSTE_3CM},"5x5":{area:.0025},"6x6":{area:.0036} }
 },
 posavaso: {
@@ -1586,6 +1593,7 @@ unlockAcril(1); showPending();
 function populateAcrilQty(){
 const g=document.getElementById('qty-grid'); g.innerHTML='';
 const tr=tramoActual();
+g.classList.toggle('qty8', cot.cat!=='merch' && qtysFor(tr).length===8);
 if(cot.cat==='merch'){ renderTablaCantidades(); return; }
 g.style.gridTemplateColumns='';
 qtysFor(tr).forEach(qty=>{
@@ -1685,7 +1693,7 @@ if(ra) ra.style.display='none';
 updateBadges();
 }
 const DISENOS_SUELTO={100:2,200:4,250:5,500:10,600:12,1200:24,1500:30,3000:30,6000:40};
-const DISENOS_ACRIL={30:4,60:5,100:7,200:12,300:17,600:32};
+const DISENOS_ACRIL={30:4,60:5,100:7,150:10,250:15,400:15,600:15,1000:15}; // Nov 2026: tope de 15 diseños desde 250 u
 const DISENOS_POSAVASO={12:2,36:4,60:6,84:8};
 const DISENOS_PLANCHA={100:4,200:4,250:5,500:10,1000:20,2000:40,60:4,150:5,300:6,600:12};
 function showBigPrice(){
@@ -2027,7 +2035,7 @@ container.appendChild(btn);
 }
 function populateQtyPills(){
 const g=document.getElementById('qty-grid');
-if(!g) return;
+if(!g) return; g.classList.remove('qty8');
 g.innerHTML='';
 g.style.gridTemplateColumns='';
 const tr=tramoActual();
@@ -2065,18 +2073,18 @@ const TRAMOS = {
   },
   acrilico: {
     llavero: {
-      '3x3': { qtys:[100,200,300,600], desc:[{q:200,d:5},{q:300,d:10}], mayorista:600 },
-      '5x5': { qtys:[30,60,200,600], desc:[{q:60,d:5},{q:200,d:10}], mayorista:600 },
-      '6x6': { qtys:[30,60,200,600], desc:[{q:60,d:5},{q:200,d:10}], mayorista:600 },
+      '3x3': { qtys:[100,150,250,400,600,1000], desc:[{q:150,d:5},{q:250,d:10},{q:400,d:15},{q:600,d:20}], mayorista:1000 },
+      '5x5': { qtys:[30,60,100,150,250,400,600,1000], desc:[{q:60,d:5},{q:100,d:10},{q:150,d:15},{q:250,d:20},{q:400,d:25},{q:600,d:30}], mayorista:1000 },
+      '6x6': { qtys:[30,60,100,150,250,400,600,1000], desc:[{q:60,d:5},{q:100,d:10},{q:150,d:15},{q:250,d:20},{q:400,d:25},{q:600,d:30}], mayorista:1000 },
     },
     iman: {
-      '5x5': { qtys:[30,60,200,600], desc:[{q:60,d:5},{q:200,d:10}], mayorista:600 },
-      '6x6': { qtys:[30,60,200,600], desc:[{q:60,d:5},{q:200,d:10}], mayorista:600 },
+      '5x5': { qtys:[30,60,100,150,250,400,600,1000], desc:[{q:60,d:5},{q:100,d:10},{q:150,d:15},{q:250,d:20},{q:400,d:25},{q:600,d:30}], mayorista:1000 },
+      '6x6': { qtys:[30,60,100,150,250,400,600,1000], desc:[{q:60,d:5},{q:100,d:10},{q:150,d:15},{q:250,d:20},{q:400,d:25},{q:600,d:30}], mayorista:1000 },
     },
     dije: {
-      '3x3': { qtys:[100,200,300,600], desc:[{q:200,d:5},{q:300,d:10}], mayorista:600 },
-      '5x5': { qtys:[30,60,200,600], desc:[{q:60,d:5},{q:200,d:10}], mayorista:600 },
-      '6x6': { qtys:[30,60,200,600], desc:[{q:60,d:5},{q:200,d:10}], mayorista:600 },
+      '3x3': { qtys:[100,150,250,400,600,1000], desc:[{q:150,d:5},{q:250,d:10},{q:400,d:15},{q:600,d:20}], mayorista:1000 },
+      '5x5': { qtys:[30,60,100,150,250,400,600,1000], desc:[{q:60,d:5},{q:100,d:10},{q:150,d:15},{q:250,d:20},{q:400,d:25},{q:600,d:30}], mayorista:1000 },
+      '6x6': { qtys:[30,60,100,150,250,400,600,1000], desc:[{q:60,d:5},{q:100,d:10},{q:150,d:15},{q:250,d:20},{q:400,d:25},{q:600,d:30}], mayorista:1000 },
     },
     premio: {
       '10x10': { qtys:[1,5,10,25,50], desc:[{q:5,d:5},{q:10,d:10},{q:25,d:15}], mayorista:50 },
@@ -2204,7 +2212,7 @@ function precioUnitarioARS(cat, producto, matKey, sz, qty){
         const uAcril = m.baseUsdM2*(1-d)*sd.area*sd.ajuste*aj;
         return { uA: round5up(uAcril*COTIZACION) + (fijo ? round5up(fijo*aj*COTIZACION) : 0), dPct, uU: uAcril + fijo*aj };
       }
-      const uU = ((sd.priceUSD != null) ? sd.priceUSD*(1-d) : m.baseUsdM2*(1-d)*sd.area + fijo) * AJUSTE_LISTA * AJUSTE_ACRILICO;
+      const uU = ((sd.priceUSD != null) ? sd.priceUSD*(1-d) : m.baseUsdM2*(1-d)*sd.area + fijo) * AJUSTE_LISTA * AJUSTE_ACRILICO * ((matKey==='posavaso'||matKey==='premio') ? AJUSTE_POSAVASO_PREMIO : 1);
       return { uA: round5up(uU*COTIZACION), dPct, uU };
     }
   }
