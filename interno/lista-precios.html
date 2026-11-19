@@ -208,6 +208,9 @@ const PACK_DISPONIBLE = true;       // Nov 2026: packaging de planchas habilitad
 const AJUSTE_LISTA = 1.03;           // todos los valores en USD
 const AJUSTE_ACRILICO = 1.05;        // solo acrílicos, encima de AJUSTE_LISTA
 const AJUSTE_3CM = 1.4;              // acrílicos de 3 cm (llavero y dije): +40% sobre el acrílico
+const AJUSTE_BASE_ACRIL = 1.20;      // Nov 2026: base del acrílico de llavero, imán y dije +20% (solo m²; cadena e imán fijos no suben). AJUSTE_ACRILICO (posavaso/premio) no se toca
+const AJUSTE_CARTEL = 1.08;          // Nov 2026: carteles acrílicos +8% parejo (el kit no cambia)
+const AJUSTE_POSAVASO_PREMIO = 1.08; // Nov 2026: posavaso y Premio | QR +8% parejo (AJUSTE_ACRILICO no se toca)
 const RECARGO_SUNCATCHER = 1.15;     // Suncatcher = Vinilo Especial +15%
 function round5up(n){ return Math.ceil(Math.round(n*100)/100/5)*5; }
 
@@ -239,16 +242,16 @@ plancha:{
 '10x15':{qtys:[100,250,500,1000],desc:[[250,5],[500,10]],top:1000},
 '15x21':{qtys:[60,150,300,600],desc:[[150,5],[300,10]],top:600}},
 llavero:{
-'3x3':{qtys:[100,200,300,600],desc:[[200,5],[300,10]],top:600},
-'5x5':{qtys:[30,60,200,600],desc:[[60,5],[200,10]],top:600},
-'6x6':{qtys:[30,60,200,600],desc:[[60,5],[200,10]],top:600}},
+'3x3':{qtys:[100,150,250,400,600,1000],desc:[[150,5],[250,10],[400,15],[600,20]],top:1000},
+'5x5':{qtys:[30,60,100,150,250,400,600,1000],desc:[[60,5],[100,10],[150,15],[250,20],[400,25],[600,30]],top:1000},
+'6x6':{qtys:[30,60,100,150,250,400,600,1000],desc:[[60,5],[100,10],[150,15],[250,20],[400,25],[600,30]],top:1000}},
 iman:{
-'5x5':{qtys:[30,60,200,600],desc:[[60,5],[200,10]],top:600},
-'6x6':{qtys:[30,60,200,600],desc:[[60,5],[200,10]],top:600}},
+'5x5':{qtys:[30,60,100,150,250,400,600,1000],desc:[[60,5],[100,10],[150,15],[250,20],[400,25],[600,30]],top:1000},
+'6x6':{qtys:[30,60,100,150,250,400,600,1000],desc:[[60,5],[100,10],[150,15],[250,20],[400,25],[600,30]],top:1000}},
 dije:{
-'3x3':{qtys:[100,200,300,600],desc:[[200,5],[300,10]],top:600},
-'5x5':{qtys:[30,60,200,600],desc:[[60,5],[200,10]],top:600},
-'6x6':{qtys:[30,60,200,600],desc:[[60,5],[200,10]],top:600}},
+'3x3':{qtys:[100,150,250,400,600,1000],desc:[[150,5],[250,10],[400,15],[600,20]],top:1000},
+'5x5':{qtys:[30,60,100,150,250,400,600,1000],desc:[[60,5],[100,10],[150,15],[250,20],[400,25],[600,30]],top:1000},
+'6x6':{qtys:[30,60,100,150,250,400,600,1000],desc:[[60,5],[100,10],[150,15],[250,20],[400,25],[600,30]],top:1000}},
 premio:{
 '10x10':{qtys:[1,5,10,25,50],desc:[[5,5],[10,10],[25,15]],top:50},
 '15x21':{qtys:[1,5,10,25,50],desc:[[5,5],[10,10],[25,15]],top:50}},
@@ -264,14 +267,14 @@ return d;
 
 // ---- ACRÍLICOS / MERCH ----
 const ACRIL = {
-llavero:{label:'Llavero',sub:'Incluye cadena metálica reforzada',base:300,fijo:0.143,sizes:{'3x3':{area:.00108,aj3:true},'5x5':{area:.0025},'6x6':{area:.0036}}},
-iman:{label:'Imán',sub:'Imán en toda la superficie',base:300,fijo:0.11,sizes:{'5x5':{area:.0025},'6x6':{area:.0036}}},
-dije:{label:'Dije',sub:'Sin accesorio, solo acrílico',base:300,fijo:0,sizes:{'3x3':{area:.00108,aj3:true},'5x5':{area:.0025},'6x6':{area:.0036}}},
+llavero:{label:'Llavero',sub:'Incluye cadena metálica reforzada',base:300*AJUSTE_BASE_ACRIL,fijo:0.143,sizes:{'3x3':{area:.00108,aj3:true},'5x5':{area:.0025},'6x6':{area:.0036}}},
+iman:{label:'Imán',sub:'Imán en toda la superficie',base:300*AJUSTE_BASE_ACRIL,fijo:0.11,sizes:{'5x5':{area:.0025},'6x6':{area:.0036}}},
+dije:{label:'Dije',sub:'Sin accesorio, solo acrílico',base:300*AJUSTE_BASE_ACRIL,fijo:0,sizes:{'3x3':{area:.00108,aj3:true},'5x5':{area:.0025},'6x6':{area:.0036}}},
 posavaso:{label:'Posavaso',sub:'Espesor 2 mm · sin base antideslizante',base:0,fijo:0,sizes:{'9.5x9.5':{area:.009025,usd:1.75}}},
 premio:{label:'Premio | QR',sub:'Acrílico macizo 10 mm · 10×10 sin base, 15×21 con base acrílica',base:0,fijo:0,sizes:{'10x10':{area:.01,usd:19.8},'15x21':{area:.0315,usd:50}}}
 };
 // ---- CARTELES ACRÍLICOS (Oct 2026): USD/m² en 3 mm, otros espesores proporcionales; kit de sujeción aparte (no lleva descuento) ----
-const CARTEL_USD_M2_3MM = 360, CARTEL_KIT_USD = 11;
+const CARTEL_USD_M2_3MM = 360*AJUSTE_CARTEL, CARTEL_KIT_USD = 11;
 const CARTEL = {
 cartel3:{label:'Cartel acrílico 3 mm',sub:'Acrílico de 3 mm · impresión directa',mult:1},
 cartel6:{label:'Cartel acrílico 6 mm',sub:'Acrílico de 6 mm · impresión directa',mult:2},
@@ -325,7 +328,7 @@ const TABS = [
  unit(m,s,rate,d){
   const p=ACRIL[m], sd=p.sizes[s], dd=d/100, aj=AJUSTE_LISTA*AJUSTE_ACRILICO;
   if(sd.aj3) return round5up(p.base*(1-dd)*sd.area*AJUSTE_3CM*aj*rate)+(p.fijo?round5up(p.fijo*aj*rate):0);
-  const uU=((sd.usd!=null)?sd.usd*(1-dd):p.base*(1-dd)*sd.area+p.fijo)*aj;
+  const uU=((sd.usd!=null)?sd.usd*(1-dd):p.base*(1-dd)*sd.area+p.fijo)*aj*((m==='posavaso'||m==='premio')?AJUSTE_POSAVASO_PREMIO:1);
   return round5up(uU*rate);
  },
  note:(m,s)=>(s==='3x3'?'Los de 3 cm llevan un recargo propio (+40% sobre el acrílico). La cadena del llavero no lo lleva.':'')},
