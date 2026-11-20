@@ -106,7 +106,7 @@ td.q{font-weight:800}
 
 <div class="top"><div class="top-row">
   <div class="brand"><img src="/img/img-01.png" alt="Mi Pegatina"><span>Lista de precios</span></div>
-  <span class="badge">OCTUBRE 2026</span>
+  <span class="badge">NOVIEMBRE 2026</span>
 </div></div>
 
 <div class="wrap">
@@ -134,11 +134,11 @@ td.q{font-weight:800}
     <div><h4>Plazo y precios</h4><ul>
       <li>Producción: <b>5 días hábiles</b> desde que se aprueba el diseño y se acredita el pago.</li>
       <li>Todos los precios son por unidad y <b>sin IVA</b>. Si necesitás factura A o B se suma el 21%.</li>
-      <li>Lista vigente: Octubre 2026.</li>
+      <li>Lista vigente: Noviembre 2026.</li>
     </ul></div>
     <div><h4>Mínimos por producto</h4><ul>
-      <li>Stickers sueltos: 200 u en 5 y 6 cm · 100 u en 8 y 9 cm.</li>
-      <li>Planchas: 200 u (10×7) · 100 u (10×15) · 60 u (15×21).</li>
+      <li>Stickers sueltos: 100 u en 5 y 6 cm · 50 u en 8 y 9 cm.</li>
+      <li>Planchas: 200 u (10×7) · 50 u (10×15) · 30 u (15×21).</li>
       <li>Llaveros, imanes y dijes: 30 u en 5 y 6 cm · 100 u en 3 cm.</li>
       <li>Posavasos: 12 u · Premios QR: desde 1 u.</li>
     </ul></div>
@@ -162,12 +162,14 @@ td.q{font-weight:800}
    Cuando cambie el dólar o haya un ajuste, actualizar ACÁ LAS MISMAS constantes que en la lista interna.
    (El dólar y los valores por m² NO se muestran en la página.)
    ============================================================================ */
-var BNA_VENDEDOR = 1535;     // BNA vendedor al 11/09/2026
+var BNA_VENDEDOR = 1560;     // BNA vendedor al 30/10/2026
 var MARGEN_DOLAR = 0.045;    // +4,5%
 var COT = Math.round(BNA_VENDEDOR * (1 + MARGEN_DOLAR) / 5) * 5;
 var AJUSTE_LISTA = 1.03;     // Sep 2026 +3%
 var AJUSTE_ACRILICO = 1.05;  // Sep 2026 +5% solo acrílicos
 var AJUSTE_3CM = 1.4;        // Oct 2026: acrílicos de 3 cm +40% (la cadena del llavero queda fija)
+var AJUSTE_BASE_ACRIL = 1.20;  // Nov 2026: base del acrílico de llavero, imán y dije +20% (solo el m²)
+var AJUSTE_POSAVASO_PREMIO = 1.08; // Nov 2026: posavaso y Premio | QR +8%
 var RECARGO_SUNCATCHER = 1.15;
 var MAIL = 'mail@mipegatina.club';
 
@@ -182,13 +184,14 @@ var M2_STICKER = {
   especial:      { '5x5':57.75, '6x6':57.75, '8x8':53.5, '9x9':53.5 }
 };
 M2_STICKER.suncatcher = { '8x8': 53.5*RECARGO_SUNCATCHER, '9x9': 53.5*RECARGO_SUNCATCHER };
-var QTY_SUELTO = {'5x5':[200,500,1200,3000,6000],'6x6':[200,500,1200,3000,6000],'8x8':[100,250,600,1500,3000],'9x9':[100,250,600,1500,3000]};
-function discSuelto(q, sz){
-  var chico = (sz==='5x5'||sz==='6x6'), d = 0;
-  if(q >= (chico?3000:1500)) d = .15; else if(q >= (chico?1200:600)) d = .10; else if(q >= (chico?500:250)) d = .05;
-  if(q >= (chico?6000:3000)) d += .05;
-  return Math.round(d*100)/100;
-}
+var QTY_SUELTO = {'5x5':[100,200,400,800,1500,3000],'6x6':[100,200,400,800,1500,3000],'8x8':[50,100,200,400,750,1500],'9x9':[50,100,200,400,750,1500]};
+var DESC_SUELTO = {'5x5':[[400,5],[800,10],[1500,15]],'6x6':[[400,5],[800,10],[1500,15]],'8x8':[[200,5],[400,10],[750,15]],'9x9':[[200,5],[400,10],[750,15]]};
+var TOP_SUELTO = {'5x5':3000,'6x6':3000,'8x8':1500,'9x9':1500};
+// Nov 2026: escalon de entrada (1er escalon) = precio del 2do escalon x factor por material. El porcentaje que se muestra es el ahorro contra la entrada, redondeado hacia abajo a multiplos de 5.
+var ENTRY_SUELTO = {'5x5':{blancoPremium:1.3235,transparente:1.2972,especial:1.3061},'6x6':{blancoPremium:1.3061,transparente:1.3148,especial:1.0571},'8x8':{blancoPremium:1.2898,transparente:1.1973,especial:1.0956},'9x9':{blancoPremium:1.3068,transparente:1.3092,especial:1.1164}};
+function descReal(tbl, top, q){ var d=0; tbl.forEach(function(t){ if(q>=t[0]) d=t[1]; }); if(q>=top) d+=5; return d/100; }
+function entryF(tbl, k, q, qtys){ if(q>=qtys[1]) return 1; var f=tbl[k]!=null?tbl[k]:tbl.especial; return f; }
+function pctEntrada(unit, k, q, qtys){ if(q<=qtys[0]) return 0; var E=unit(k,qtys[0]), P=unit(k,q); return P<E ? Math.floor(((E-P)/E*100)/5)*5 : 0; }
 var COL_VINILO = {
   blancoPremium: { label:'Blanco Premium' },
   transparente:  { label:'Transparente Premium' },
@@ -203,18 +206,15 @@ var M2_PLANCHA = {
   '15x21': { blancoPremium:32.1, transparente:35.31, especial:53.5 }
 };
 var DIM_PL = { '10x7':[10,7], '10x15':[10,15], '15x21':[15,21] };
-var QTY_PLANCHA = {'10x7':[200,500,1000,2000],'10x15':[100,250,500,1000],'15x21':[60,150,300,600]};
-function discPlancha(q, sz){
-  var t2={'10x7':1000,'10x15':500,'15x21':300}, t1={'10x7':500,'10x15':250,'15x21':150}, tope={'10x7':2000,'10x15':1000,'15x21':600};
-  var d = 0;
-  if(q >= t2[sz]) d = .10; else if(q >= t1[sz]) d = .05;
-  if(q >= tope[sz]) d += .05;
-  return Math.round(d*100)/100;
-}
+var QTY_PLANCHA = {'10x7':[200,500,1000,2000],'10x15':[50,100,250,500,1000],'15x21':[30,60,150,300,600]};
+var DESC_PLANCHA = {'10x7':[[500,5],[1000,10]],'10x15':[[250,5],[500,10]],'15x21':[[150,5],[300,10]]};
+var TOP_PLANCHA = {'10x7':2000,'10x15':1000,'15x21':600};
+var ENTRY_PLANCHA = {'10x15':{blancoPremium:1.2962,transparente:1.2303,especial:1.0962},'15x21':{blancoPremium:1.3,transparente:1.2326,especial:1.1007}}; // 10x7 sin escalon de entrada
+function discPlancha(q, sz){ return descReal(DESC_PLANCHA[sz], TOP_PLANCHA[sz], q); }
 
 /* ---------- datos: acrílicos ---------- */
-var BR3  = [{q:100,d:0},{q:200,d:5},{q:300,d:10},{q:600,d:15}];
-var BR56 = [{q:30,d:0},{q:60,d:5},{q:200,d:10},{q:600,d:15}];
+var BR3  = [{q:100,d:0},{q:150,d:5},{q:250,d:10},{q:400,d:15},{q:600,d:20},{q:1000,d:25}];
+var BR56 = [{q:30,d:0},{q:60,d:5},{q:100,d:10},{q:150,d:15},{q:250,d:20},{q:400,d:25},{q:600,d:30},{q:1000,d:35}];
 var BRPOS = [{q:12,d:0},{q:36,d:5},{q:60,d:10},{q:84,d:15}];
 var BRPRE = [{q:1,d:0},{q:5,d:5},{q:10,d:10},{q:25,d:15},{q:50,d:20}];
 var AC = {
@@ -222,13 +222,14 @@ var AC = {
   iman:     { label:'Imán', sub:'en toda la superficie', base:300, fijo:.11, area:{'5x5':.0025,'6x6':.0036} },
   dije:     { label:'Dije', sub:'sin accesorio', base:300, fijo:0, area:{'3x3':.00108,'5x5':.0025,'6x6':.0036} },
   posavaso: { label:'Posavaso', sub:'', fixedUSD:{'9.5x9.5':1.75} },
-  premio:   { label:'Premio | QR', sub:'', fixedUSD:{'10x10':22,'15x21':50} }
+  premio:   { label:'Premio | QR', sub:'', fixedUSD:{'10x10':19.8,'15x21':50} }
 };
 function unitAc(prod, sz, d){
   var p = AC[prod], aj = AJUSTE_LISTA * AJUSTE_ACRILICO, f = d/100;
-  if(p.fixedUSD) return r5(p.fixedUSD[sz] * (1-f) * aj * COT);
-  if(sz === '3x3') return r5(p.base * (1-f) * p.area[sz] * AJUSTE_3CM * aj * COT) + (p.fijo ? r5(p.fijo * aj * COT) : 0);
-  return r5((p.base * (1-f) * p.area[sz] + p.fijo) * aj * COT);
+  if(p.fixedUSD) return r5(p.fixedUSD[sz] * (1-f) * aj * AJUSTE_POSAVASO_PREMIO * COT);
+  var base = p.base * AJUSTE_BASE_ACRIL;
+  if(sz === '3x3') return r5(base * (1-f) * p.area[sz] * AJUSTE_3CM * aj * COT) + (p.fijo ? r5(p.fijo * aj * COT) : 0);
+  return r5((base * (1-f) * p.area[sz] + p.fijo) * aj * COT);
 }
 
 /* ---------- catálogo por pestaña ---------- */
@@ -250,8 +251,9 @@ var TABS = {
         var cols = ['blancoPremium','transparente','especial'].concat(M2_STICKER.suncatcher[sz] ? ['suncatcher'] : []);
         var cm = sz.split('x')[0];
         return { id:sz, label:cm + ' cm', sub:'lado más largo', cols:cols.map(function(k){ return { k:k, label:COL_VINILO[k].label }; }),
-          qtys:QTY_SUELTO[sz], disc:function(q){ return discSuelto(q,sz)*100; },
-          unit:function(k,q){ var area=(+cm/100)*(+cm/100); var base=r5(M2_STICKER[k][sz]*AJUSTE_LISTA*area*COT); var d=discSuelto(q,sz); return d>0 ? r5(base*(1-d)) : base; },
+          qtys:QTY_SUELTO[sz], disc:function(q){ return 0; },
+          unit:function(k,q){ var area=(+cm/100)*(+cm/100); var base=r5(M2_STICKER[k][sz]*AJUSTE_LISTA*area*COT); var d=descReal(DESC_SUELTO[sz],TOP_SUELTO[sz],q); return r5(base*entryF(ENTRY_SUELTO[sz],k,q,QTY_SUELTO[sz])*(1-d)); },
+          pct:function(k,q){ return pctEntrada(this.unit,k,q,QTY_SUELTO[sz]); },
           title:function(k){ return 'Sticker suelto · ' + COL_VINILO[k].label; } };
       });
     })()
@@ -268,7 +270,8 @@ var TABS = {
     groups:['10x7','10x15','15x21'].map(function(sz){
       return { id:sz, label:sz.replace('x',' × ') + ' cm', sub:'plancha', cols:['blancoPremium','transparente','especial'].map(function(k){ return { k:k, label:COL_VINILO[k].label }; }),
         qtys:QTY_PLANCHA[sz], disc:function(q){ return discPlancha(q,sz)*100; },
-        unit:function(k,q){ var d=DIM_PL[sz]; var base=r5(M2_PLANCHA[sz][k]*AJUSTE_LISTA*(d[0]/100)*(d[1]/100)*COT); var dd=discPlancha(q,sz); return dd>0 ? r5(base*(1-dd)) : base; },
+        unit:function(k,q){ var d=DIM_PL[sz]; var base=r5(M2_PLANCHA[sz][k]*AJUSTE_LISTA*(d[0]/100)*(d[1]/100)*COT); var dd=discPlancha(q,sz); var ef=ENTRY_PLANCHA[sz]?entryF(ENTRY_PLANCHA[sz],k,q,QTY_PLANCHA[sz]):1; return r5(base*ef*(1-dd)); },
+        pct:ENTRY_PLANCHA[sz]?function(k,q){ return pctEntrada(this.unit,k,q,QTY_PLANCHA[sz]); }:null,
         title:function(k){ return 'Plancha de stickers · ' + COL_VINILO[k].label; } };
     })
   },
@@ -340,11 +343,11 @@ function render(tab){
   $('gp-' + tab).innerHTML = T.groups.map(function(x,i){
     return '<button class="pill' + (i===st.g?' on':'') + '" data-i="' + i + '">' + x.label + (x.sub ? ' <span style="color:var(--gray3);font-weight:500;font-size:.78rem">· ' + x.sub + '</span>' : '') + '</button>'; }).join('');
   $('gp-' + tab).querySelectorAll('button').forEach(function(b){ b.onclick = function(){ st.g = +b.dataset.i; st.c = 0; st.q = T.groups[st.g].qtys[0]; render(tab); }; });
-  $('th-' + tab).innerHTML = '<tr><th>Cantidad</th><th>Ahorro</th>' + g.cols.map(function(c){ return '<th>' + c.label + '</th>'; }).join('') + '</tr>';
+  $('th-' + tab).innerHTML = '<tr><th>Cantidad</th>' + (g.pct ? '' : '<th>Ahorro</th>') + g.cols.map(function(c){ return '<th>' + c.label + '</th>'; }).join('') + '</tr>';
   $('tb-' + tab).innerHTML = g.qtys.map(function(q){
     var d = g.disc(q);
-    return '<tr data-q="' + q + '"><td class="q">' + q.toLocaleString('es-AR') + '</td><td>' + (d>0 ? '<span class="save">−' + d + '%</span>' : '<span class="none">—</span>') + '</td>' +
-      g.cols.map(function(c){ return '<td>' + money(g.unit(c.k,q)) + '</td>'; }).join('') + '</tr>'; }).join('');
+    return '<tr data-q="' + q + '"><td class="q">' + q.toLocaleString('es-AR') + '</td>' + (g.pct ? '' : '<td>' + (d>0 ? '<span class="save">−' + d + '%</span>' : '<span class="none">—</span>') + '</td>') +
+      g.cols.map(function(c){ var p = g.pct ? g.pct(c.k,q) : 0; return '<td>' + money(g.unit(c.k,q)) + (p>0 ? ' <span class="save">−' + p + '%</span>' : '') + '</td>'; }).join('') + '</tr>'; }).join('');
   $('tb-' + tab).querySelectorAll('tr').forEach(function(tr){ tr.onclick = function(){ st.q = +tr.dataset.q; $('qi-' + tab).value = st.q; renderCalc(tab); markRow(tab); }; });
   $('cp-' + tab).innerHTML = g.cols.map(function(c,i){ return '<button class="pill' + (i===st.c?' on':'') + '" data-i="' + i + '">' + c.label + '</button>'; }).join('');
   $('cp-' + tab).querySelectorAll('button').forEach(function(b){ b.onclick = function(){ st.c = +b.dataset.i; render(tab); }; });
@@ -364,7 +367,7 @@ function renderCalc(tab){
     out.innerHTML = '<div><small>Precio por unidad</small><div class="warn">El mínimo para este producto es de ' + min.toLocaleString('es-AR') + ' unidades.</div></div><a class="btn off">Pedir este presupuesto</a>';
     return;
   }
-  var u = g.unit(c.k, q), d = g.disc(q);
+  var u = g.unit(c.k, q), d = g.pct ? g.pct(c.k, q) : g.disc(q);
   out.innerHTML =
     '<div><small>Precio por unidad · sin IVA</small><div class="u">' + money(u) + (d>0 ? ' <span class="save">−' + d + '%</span>' : '') + '</div></div>' +
     '<div><small>Total · sin IVA</small><div class="t">' + money(u*q) + '</div></div>' +
