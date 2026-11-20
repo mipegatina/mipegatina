@@ -599,15 +599,17 @@
 /* ===== COTIZADOR RED BULL ===== */
 // ===== COTIZACIÓN DEL DÓLAR =====
 // Solo se actualiza cuando se mueve el dólar: cambiar BNA_VENDEDOR con el valor del día.
-const BNA_VENDEDOR = 1535;   // BNA vendedor al 11/09/2026
+const BNA_VENDEDOR = 1560;   // BNA vendedor al 30/10/2026
 const MARGEN_DOLAR = 0.045;  // +4,5% sobre BNA
-const COT = Math.round(BNA_VENDEDOR * (1 + MARGEN_DOLAR) / 5) * 5; // = 1605
+const COT = Math.round(BNA_VENDEDOR * (1 + MARGEN_DOLAR) / 5) * 5; // = 1630
 // ===== AJUSTE DE LISTA (USD) =====
 // Aumentos por inflación en pesos, sin tocar el dólar. Multiplica TODOS los valores en USD.
 // Acumulativo: Sep 2026 +3% = 1.03. Si el próximo es +2% → 1.03 * 1.02
 const AJUSTE_LISTA = 1.03;
 // +5% extra solo para acrílicos (en este portal: llaveros e imanes). Va encima de AJUSTE_LISTA.
 const AJUSTE_ACRILICO = 1.05;
+// Nov 2026: base del acrílico de llaveros e imanes +20% (solo el m², no el accesorio fijo)
+const AJUSTE_BASE_ACRIL = 1.20;
 // Recargo del portal Red Bull sobre el precio de lista, + IVA
 const RECARGO = 0.20, IVA = 0.21;
 // Redondea a centavos antes de subir a múltiplo de 5: evita que 160.00000000000003 salte a 165
@@ -633,19 +635,28 @@ const M2_PLANCHA = {
 };
 const AREA_STICKER = { "5x5":0.0025, "6x6":0.0036, "8x8":0.0064, "9x9":0.0081 };
 const AREA_PLANCHA = { "10x15":0.015, "15x21":0.0315 };
-// Descuentos por cantidad (misma escala que el cotizador de Mi Pegatina; sin tramo de consulta mayorista)
-function discSuelto(qty, sz){
-  const chico = (sz==="5x5"||sz==="6x6");
-  const t3 = chico?3000:1500, t2 = chico?1200:600, t1 = chico?500:250;
-  if(qty>=t3) return 0.15; if(qty>=t2) return 0.10; if(qty>=t1) return 0.05; return 0;
-}
-function discPlancha(qty){ if(qty>=500) return 0.10; if(qty>=250) return 0.05; return 0; }
-function discAcril(qty){ if(qty>=200) return 10; if(qty>=60) return 5; return 0; } // en %
+// Escala de cantidades (misma que el cotizador de Mi Pegatina, Nov 2026). Acá NO existe el último tramo (consulta mayorista):
+// el desplegable termina en el escalón anterior. 'entry' = escalón de entrada: precio del 2do escalón x factor por material.
+const TR = {
+  suelto: {
+    "5x5": { qtys:[100,200,400,800,1500], desc:[[400,5],[800,10],[1500,15]], entry:{ blancoPremium:1.3235, transparente:1.2972, especial:1.3061 } },
+    "6x6": { qtys:[100,200,400,800,1500], desc:[[400,5],[800,10],[1500,15]], entry:{ blancoPremium:1.3061, transparente:1.3148, especial:1.0571 } },
+    "8x8": { qtys:[50,100,200,400,750],   desc:[[200,5],[400,10],[750,15]],  entry:{ blancoPremium:1.2898, transparente:1.1973, especial:1.0956 } },
+    "9x9": { qtys:[50,100,200,400,750],   desc:[[200,5],[400,10],[750,15]],  entry:{ blancoPremium:1.3068, transparente:1.3092, especial:1.1164 } }
+  },
+  plancha: {
+    "10x15": { qtys:[50,100,250,500], desc:[[250,5],[500,10]], entry:{ blancoPremium:1.2962, transparente:1.2303, especial:1.0962 } },
+    "15x21": { qtys:[30,60,150,300],  desc:[[150,5],[300,10]], entry:{ blancoPremium:1.3, transparente:1.2326, especial:1.1007 } }
+  },
+  acril: { qtys:[30,60,100,150,250,400,600], desc:[[60,5],[100,10],[150,15],[250,20],[400,25],[600,30]] }
+};
+function descReal(tr, qty){ var d=0; tr.desc.forEach(function(t){ if(qty>=t[0]) d=t[1]; }); return d/100; }
+function entryF(tr, col, qty){ if(!tr.entry || qty>=tr.qtys[1]) return 1; return tr.entry[col]!=null ? tr.entry[col] : tr.entry.especial; }
 
 const PRODUCTOS = {
   stickers: {
     label: "Stickers sueltos",
-    packsPorMedida: { "5x5":[200,500,1200,3000], "6x6":[200,500,1200,3000], "8x8":[100,250,600,1500], "9x9":[100,250,600,1500] },
+    packsPorMedida: { "5x5":TR.suelto["5x5"].qtys, "6x6":TR.suelto["6x6"].qtys, "8x8":TR.suelto["8x8"].qtys, "9x9":TR.suelto["9x9"].qtys },
     materiales: {
       "Vinilo Blanco Premium": 1,
       "Blanco Premium con Laca": 1,
@@ -659,13 +670,13 @@ const PRODUCTOS = {
       // Misma fórmula que el cotizador público (mismo round5up corregido, mismo AJUSTE_LISTA)
       const areaCalc = (parseFloat(sz)/100)*(parseFloat(sz)/100);
       const uBase = round5up(M2_STICKER[col][sz] * AJUSTE_LISTA * areaCalc * COT);
-      const d = discSuelto(qty, sz);
-      return d>0 ? round5up(uBase*(1-d)) : uBase;
+      const tr = TR.suelto[sz], d = descReal(tr, qty);
+      return round5up(uBase * entryF(tr, col, qty) * (1-d));
     }
   },
   plancha: {
     label: "Plancha de stickers",
-    packsPorMedida: { "10x15":[100,250,500], "15x21":[100,250,500] },
+    packsPorMedida: { "10x15":TR.plancha["10x15"].qtys, "15x21":TR.plancha["15x21"].qtys },
     materiales: {
       "Vinilo Blanco Premium": 1,
       "Blanco Premium con Laca": 1,
@@ -677,31 +688,31 @@ const PRODUCTOS = {
     unit(mat, sz, qty){
       const col = MAT_COL[mat];
       const uBase = round5up(M2_PLANCHA[sz][col] * AJUSTE_LISTA * AREA_PLANCHA[sz] * COT);
-      const d = discPlancha(qty, sz);
-      return d>0 ? round5up(uBase*(1-d)) : uBase;
+      const tr = TR.plancha[sz], d = descReal(tr, qty);
+      return round5up(uBase * entryF(tr, col, qty) * (1-d));
     }
   },
   llaveros: {
     label: "Llaveros",
-    packsPorMedida: { "5x5":[30,60,200], "6x6":[30,60,200] },
+    packsPorMedida: { "5x5":TR.acril.qtys, "6x6":TR.acril.qtys },
     materiales: { "Acrílico impreso": 300 },
     fijo: 0.143,
     sizes: { "5x5":0.0025, "6x6":0.0036 },
     unit(mat, sz, qty){
-      const disc = discAcril(qty);
-      const uU = 300 * (1-disc/100) * this.sizes[sz] + this.fijo;
+      const disc = descReal(TR.acril, qty) * 100;
+      const uU = 300 * AJUSTE_BASE_ACRIL * (1-disc/100) * this.sizes[sz] + this.fijo;
       return round5up(uU * AJUSTE_LISTA * AJUSTE_ACRILICO * COT);
     }
   },
   imanes: {
     label: "Imanes",
-    packsPorMedida: { "5x5":[30,60,200], "6x6":[30,60,200] },
+    packsPorMedida: { "5x5":TR.acril.qtys, "6x6":TR.acril.qtys },
     materiales: { "Acrílico impreso": 300 },
     fijo: 0.11,
     sizes: { "5x5":0.0025, "6x6":0.0036 },
     unit(mat, sz, qty){
-      const disc = discAcril(qty);
-      const uU = 300 * (1-disc/100) * this.sizes[sz] + this.fijo;
+      const disc = descReal(TR.acril, qty) * 100;
+      const uU = 300 * AJUSTE_BASE_ACRIL * (1-disc/100) * this.sizes[sz] + this.fijo;
       return round5up(uU * AJUSTE_LISTA * AJUSTE_ACRILICO * COT);
     }
   }
